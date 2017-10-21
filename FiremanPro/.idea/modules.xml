@@ -3,10 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FiremanPro.iml" filepath="$PROJECT_DIR$/FiremanPro.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/FiremanPro.iml" filepath="$PROJECT_DIR$/FiremanPro.iml" />
       <module fileurl="file://$PROJECT_DIR$/FiremanPro.iml" filepath="$PROJECT_DIR$/FiremanPro.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+=======
+>>>>>>> parent of 823ad88... Početna aktivnost dodana (za pretragu kuća)
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
