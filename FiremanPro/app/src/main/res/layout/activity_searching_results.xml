@@ -8,11 +8,13 @@
     tools:context="com.project.air.firemanpro.SearchingResultsActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/searching_results"
         android:layout_width="384dp"
         android:layout_height="511dp"
+        android:orientation="vertical"
         android:padding="25dp"
-        android:id="@+id/searching_results">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_results"

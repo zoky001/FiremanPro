@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         FlowManager.init(new FlowConfig.Builder(this).build());
 
         Button search = (Button) findViewById(R.id.buttonSearching);
+
         search.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
