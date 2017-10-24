@@ -34,6 +34,54 @@ public class House_photo_gallery extends BaseModel{
     @ForeignKey(tableClass = House.class)
     House house;
 
+    public int getId_house_photo_gallery() {
+        return id_house_photo_gallery;
+    }
+
+    public void setId_house_photo_gallery(int id_house_photo_gallery) {
+        this.id_house_photo_gallery = id_house_photo_gallery;
+    }
+
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
+    }
+
+    public String getImage_name() {
+        return image_name;
+    }
+
+    public void setImage_name(String image_name) {
+        this.image_name = image_name;
+    }
+
+    public String getImage_location() {
+        return image_location;
+    }
+
+    public void setImage_location(String image_location) {
+        this.image_location = image_location;
+    }
 
 
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
+
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
 }
