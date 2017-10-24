@@ -27,7 +27,8 @@ public class Reports extends BaseModel{
     @Column int houseID; //foreign key to places
     @Column String description;
 
-    @Column Date date;
+    @Column
+    java.util.Date date;
     @Column String send_email;
 
 
@@ -35,8 +36,10 @@ public class Reports extends BaseModel{
 
 
 
-    @Column Date updated_at;
-    @Column Date created_at;
+    @Column
+    java.util.Date updated_at;
+    @Column
+    java.util.Date created_at;
 
     @Column
     @ForeignKey(tableClass = House.class)

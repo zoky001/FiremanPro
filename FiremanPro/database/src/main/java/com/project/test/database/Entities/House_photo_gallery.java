@@ -25,8 +25,10 @@ public class House_photo_gallery extends BaseModel{
     @Column String image_location;
 
 
-    @Column Date updated_at;
-    @Column Date created_at;
+    @Column
+    java.util.Date updated_at;
+    @Column
+    java.util.Date created_at;
 
     @Column
     @ForeignKey(tableClass = House.class)

@@ -30,8 +30,10 @@ public class Hydrants extends BaseModel{
 
     @Column String hydrant_image;
 
-    @Column Date updated_at;
-    @Column Date created_at;
+    @Column
+    java.util.Date updated_at;
+    @Column
+    java.util.Date created_at;
 
     @Column
     @ForeignKey(tableClass = Places.class)
