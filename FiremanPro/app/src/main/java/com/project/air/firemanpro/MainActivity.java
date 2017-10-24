@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.project.test.database.Entities.House;
-import com.project.test.database.Entities.House_Table;
+//import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Places;
-import com.project.test.database.Entities.Places_Table;
+//import com.project.test.database.Entities.Places_Table;
 import com.project.test.database.helper.MockData;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -25,7 +27,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    //public EditText text = (EditText) findViewById(R.id.editTextInput);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +39,26 @@ public class MainActivity extends AppCompatActivity {
         FlowManager.init(new FlowConfig.Builder(this).build());
 
 // data for test
-        if (SQLite.select().from(House.class).queryList().isEmpty()){
-          //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));
+        if (SQLite.select().from(House.class).queryList().isEmpty()) {
+            //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));
             System.out.println("Nema zapisa u houses: ");
 
             MockData.writeAll(); //write all entries in database
         }
 
+            Button search = (Button) findViewById(R.id.buttonSearching);
 
-        Button search = (Button) findViewById(R.id.buttonSearching);
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
+                    view.getContext().startActivity(Intent);
+                }
+            });
 
-        search.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
-                view.getContext().startActivity(Intent);
-            }
-        });
 
-        }
+
+    }
 
 
         //TEST button,, don't remove!! Kizo

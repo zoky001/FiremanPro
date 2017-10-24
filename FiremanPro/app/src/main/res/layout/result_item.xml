@@ -9,7 +9,7 @@
     android:layout_marginBottom="5dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="@color/cardview_light_background" >
+    android:foreground="?android:selectableItemBackground">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -35,20 +35,20 @@
 
 
             <TextView
-                android:id="@+id/tv_info"
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                tools:text="Varaždin, Petra Preradovića 28A" />
-
-            <TextView
                 android:id="@+id/tv_name"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewEnd"
                 tools:text="Ivo Ivić" />
+
+            <TextView
+                android:id="@+id/tv_info"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                tools:text="Varaždin, Petra Preradovića 28A" />
 
         </LinearLayout>
 
