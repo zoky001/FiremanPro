@@ -110,6 +110,10 @@ public class House extends BaseModel{
         return place_id;
     }
 
+    public int getId_house() {
+        return id_house;
+    }
+
     public String getPlaceName(){
 
 
@@ -126,6 +130,10 @@ System.out.println("rezultat upita: "+ places2.size());
     public void setName_owner(String name_owner) {
 
         this.name_owner = name_owner;
+    }
+
+    public String getHouse_image() {
+        return house_image;
     }
 
     public java.util.Date getCreated_at() {

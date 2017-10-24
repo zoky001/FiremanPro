@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
 // data for test
         if (SQLite.select().from(House.class).queryList().isEmpty()){
-            SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));
+          //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));
             System.out.println("Nema zapisa u houses: ");
 
             MockData.writeAll(); //write all entries in database
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         //print all entries from table "House"
         for(int i = 0; i < discounts.size(); i++){
             listItems[i] = discounts.get(i).getName_owner();
+            System.out.println("IDKuće"+ i +" je: " + discounts.get(i).getId_house());
             System.out.println("Vlasnik "+ i +" kuće je: " + listItems[i]);
             System.out.println("Selo id"+ i + " : " + discounts.get(i).getPlace_id());
             System.out.println("Selo "+ i + " : " + discounts.get(i).getPlaceName());
@@ -92,5 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         // ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
         //   mListView.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.test_profil)
+    public void buttonProfilClicked(View view){
+        Intent Intent = new Intent(view.getContext(), ProfilActivity.class);
+        view.getContext().startActivity(Intent);
+
     }
 }
