@@ -50,6 +50,13 @@
                 android:layout_marginBottom="5dp"
                 tools:text="Varaždin, Petra Preradovića 28A" />
 
+            <TextView
+                android:id="@+id/tv_ID"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
         </LinearLayout>
 
         <ImageView
