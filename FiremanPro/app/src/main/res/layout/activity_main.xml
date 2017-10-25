@@ -15,35 +15,17 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        android:text="Pretraži po:"
-        android:textAlignment="center"
-        android:textSize="36dp"
         android:fontFamily="sans-serif"
+        android:text="Pretraga"
+        android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
+        android:textSize="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.244">
-    </TextView>
-
-    <EditText
-        android:id="@+id/editTextInput"
-        android:layout_width="340dp"
-        android:layout_height="56dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="(unesite ime, prezime ili adresu) ..."
-        android:background="@color/colorInput"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423"
-        app:layout_constraintHorizontal_bias="0.513"></EditText>
+        app:layout_constraintVertical_bias="0.27"></TextView>
 
     <Button
         android:id="@+id/buttonSearching"
@@ -83,6 +65,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.09"
         app:layout_constraintHorizontal_bias="0.618" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dropDownWidth="400dp"
+        android:hint="Upiši ime, prezime ili adresu osobe/kućanstva"
+        android:text=""
+        tools:layout_editor_absoluteX="6dp"
+        tools:layout_editor_absoluteY="205dp" />
 
 
 </android.support.constraint.ConstraintLayout>
