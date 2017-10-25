@@ -132,6 +132,118 @@ System.out.println("rezultat upita: "+ places2.size());
         this.name_owner = name_owner;
     }
 
+    public String getSurname_owner() {
+        return surname_owner;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getNumber_of_tenants() {
+        return number_of_tenants;
+    }
+
+    public int getNumber_of_floors() {
+        return number_of_floors;
+    }
+
+    public String getList_of_floors() {
+        return list_of_floors;
+    }
+
+    public int getNumber_of_children() {
+        return number_of_children;
+    }
+
+    public String getYear_children() {
+        return year_children;
+    }
+
+    public int getNumber_of_adults() {
+        return number_of_adults;
+    }
+
+    public String getYears_adults() {
+        return years_adults;
+    }
+
+    public int getNumber_of_powerless_and_elders() {
+        return number_of_powerless_and_elders;
+    }
+
+    public String getYears_powerless_elders() {
+        return years_powerless_elders;
+    }
+
+    public boolean isDisability_person() {
+        return disability_person;
+    }
+
+    public String getPower_supply() {
+        return power_supply;
+    }
+
+    public boolean isGas_connection() {
+        return gas_connection;
+    }
+
+    public String getType_of_heating() {
+        return type_of_heating;
+    }
+
+    public boolean isGas_bottle() {
+        return gas_bottle;
+    }
+
+    public int getNumber_of_gas_bottle() {
+        return number_of_gas_bottle;
+    }
+
+    public String getType_of_roof() {
+        return type_of_roof;
+    }
+
+    public int getHydrant_distance() {
+        return hydrant_distance;
+    }
+
+    public boolean isHigh_risk_object() {
+        return high_risk_object;
+    }
+
+    public String getHRO_type_of_roof() {
+        return HRO_type_of_roof;
+    }
+
+    public boolean isHRO_power_supply() {
+        return HRO_power_supply;
+    }
+
+    public String getHRO_content() {
+        return HRO_content;
+    }
+
+    public boolean isHRO_animals() {
+        return HRO_animals;
+    }
+
+    public long getLongitude() {
+        return longitude;
+    }
+
+    public long getLatitude() {
+        return latitude;
+    }
+
+    public java.util.Date getUpdated_at() {
+        return updated_at;
+    }
+
+    public Places getPlace() {
+        return place;
+    }
+
     public String getHouse_image() {
         return house_image;
     }
