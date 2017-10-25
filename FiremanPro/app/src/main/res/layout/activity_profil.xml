@@ -1,148 +1,366 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
 <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
    >
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="200dp"
 
-        android:orientation="horizontal"
-        android:weightSum="1"
-
-        >
-
-
-        <ImageView
-            android:id="@+id/imageViewProfilHouse"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher">
-
-        </ImageView>
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="200dp"
-        android:background="@color/colorTable"
-        android:orientation="vertical"
-        android:weightSum="1"
-
-        >
-
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- 2 columns -->
-            <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dip"
-            android:paddingStart="100dip">
-
-                <TextView
-                    android:id="@+id/textViewNameOwnerlbl"
-                    android:layout_marginEnd="25dip"
-                    android:text="@string/ime_lbl"
-                    android:textAlignment="textEnd"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="25sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/textViewNameOwner"
-                    android:text="Mladen"
-                    android:textAlignment="textStart"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-        </TableRow>
-
-            <!-- just draw a red line -->
-            <View
-                android:layout_height="2dip"
-                android:background="#FF0000" />
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="15dip"
-                android:paddingStart="100dip">
-
-                <TextView
-                    android:id="@+id/textViewPlacelbl"
-                    android:layout_marginEnd="25dip"
-                    android:text="@string/mjesto_lbl"
-                    android:textAlignment="textEnd"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="25sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/textViewPlace"
-                    android:text="Mladen"
-                    android:textAlignment="textStart"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-            </TableRow>
-
-            <!-- just draw a red line -->
-            <View
-                android:layout_height="2dip"
-                android:background="#FF0000" />
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="15dip"
-                android:paddingStart="100dip">
-
-                <TextView
-                    android:id="@+id/textViewaddresslbl"
-                    android:layout_marginEnd="25dip"
-                    android:text="@string/adresa_lbl"
-                    android:textAlignment="textEnd"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="25sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/textView1Address"
-                    android:inputType="textMultiLine"
-                    android:text="Mladen"
-                    android:textAlignment="textStart"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-            </TableRow>
-
-            <!-- just draw a red line -->
-            <View
-                android:layout_height="2dip"
-                android:background="#FF0000" />
-
-
-        </TableLayout>
-    </LinearLayout>
-
-
-    <Button
-        android:layout_width="100dp"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarProfil"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="promjeni" />
+        android:background="@color/colorTitleBackground"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="@color/colorTitleText" />
+
+    <TabHost
+        android:id="@+id/tabhostProfil"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="368dp"
+                        android:layout_height="200dp"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+
+                        >
+
+
+                        <ImageView
+                            android:id="@+id/imageViewProfilHouse"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@mipmap/ic_launcher">
+
+                        </ImageView>
+                    </LinearLayout>
+
+
+
+
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <!-- 2 columns -->
+                            <TableRow
+                                android:id="@+id/tableRow1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dip"
+                                android:paddingStart="80dip">
+
+                                <TextView
+                                    android:id="@+id/textViewNameOwnerlbl"
+                                    android:layout_marginEnd="25dip"
+                                    android:text="@string/ime_lbl"
+                                    android:textAlignment="textEnd"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold|italic" />
+
+                                <TextView
+                                    android:id="@+id/textViewNameOwner"
+                                    android:text="Mladen"
+                                    android:textAlignment="textStart"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                            </TableRow>
+
+                            <!-- just draw a red line -->
+                            <View
+                                android:layout_height="2dip"
+                                android:background="#FF0000" />
+
+                            <!-- just draw a red line -->
+
+                            <TableRow
+                                android:id="@+id/tableRow2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dip"
+                                android:paddingStart="80dip">
+
+                                <TextView
+                                    android:id="@+id/textViewPlacelbl"
+                                    android:layout_marginEnd="25dip"
+                                    android:text="@string/mjesto_lbl"
+                                    android:textAlignment="textEnd"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold|italic" />
+
+                                <TextView
+                                    android:id="@+id/textViewPlace"
+                                    android:text="Mladen"
+                                    android:textAlignment="textStart"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+                            </TableRow>
+
+                            <View
+                                android:layout_height="2dip"
+                                android:background="#FF0000" />
+                            <TableRow
+                                android:id="@+id/tableRow3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dip"
+                                android:paddingStart="80dip">
+
+
+
+                                <TextView
+                                    android:id="@+id/textViewaddresslbl"
+                                    android:layout_marginEnd="25dip"
+                                    android:text="@string/adresa_lbl"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold|italic"
+                                    />
+
+
+
+                                <EditText
+                                    android:id="@+id/textView1Address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:ems="7"
+                                    android:textSize="25sp"
+                                    android:inputType="textMultiLine"
+                                    android:focusable="false"
+                                    android:clickable="false"
+
+
+                                    />
+
+
+                            </TableRow>
+
+                            <!-- just draw a red line -->
+                            <View
+                                android:layout_height="2dip"
+                                android:background="#FF0000" />
+                            <TableRow
+                                android:id="@+id/tableRow4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dip"
+                                android:paddingStart="80dip">
+
+
+
+                                <TextView
+                                    android:id="@+id/textViewTellbl"
+                                    android:layout_marginEnd="25dip"
+                                    android:text="@string/telefon"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold|italic"
+                                    />
+                                <TextView
+                                    android:id="@+id/textViewTel"
+                                    android:text="Mladen"
+                                    android:textAlignment="textStart"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+
+
+
+                            </TableRow>
+
+                            <!-- just draw a red line -->
+                            <View
+                                android:layout_height="2dip"
+                                android:background="#FF0000" />
+                            <TableRow
+                                android:id="@+id/tableRow5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dip"
+                                android:paddingStart="80dip">
+
+
+
+                                <TextView
+                                    android:id="@+id/textViewMobbl"
+                                    android:layout_marginEnd="25dip"
+                                    android:text="@string/mobitel"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold|italic"
+                                    />
+                                <TextView
+                                    android:id="@+id/textViewMobitel"
+                                    android:text="Mladen"
+                                    android:textAlignment="textStart"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+
+
+
+                            </TableRow>
+
+                            <!-- just draw a red line -->
+                            <View
+                                android:layout_height="2dip"
+                                android:background="#FF0000" />
+
+
+                        </TableLayout>
+
+                    <LinearLayout
+                        android:layout_width="368dp"
+                        android:layout_height="200dp"
+
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginTop="20dp"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                        <ImageView
+                            android:id="@+id/imageViewTESTmap"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/test_map">
+
+                        </ImageView>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="368dp"
+                        android:layout_height="200dp"
+
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginTop="20dp"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                        <ImageView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/gnd_1">
+
+                        </ImageView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="368dp"
+                        android:layout_height="200dp"
+
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginTop="20dp"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                        <ImageView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/gnd_2">
+
+                        </ImageView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="368dp"
+                        android:layout_height="200dp"
+
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginTop="20dp"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                        <ImageView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/gnd_3">
+
+                        </ImageView>
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+
+
 </LinearLayout>
 </ScrollView>

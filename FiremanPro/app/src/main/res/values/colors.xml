@@ -6,4 +6,7 @@
     <color name="colorInput">#f4efef</color>
     <color name="colorButton">#efb145</color>
     <color name="colorTable">#adeefc</color>
+    <color name="colorTitleBackground">#c1000d</color>
+    <color name="colorTitleText">#ffffff</color>
+
 </resources>

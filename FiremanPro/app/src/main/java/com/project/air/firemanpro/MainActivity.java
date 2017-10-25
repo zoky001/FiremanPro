@@ -113,8 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.test_profil)
     public void buttonProfilClicked(View view){
-        Intent Intent = new Intent(view.getContext(), ProfilActivity.class);
+       /* Intent Intent = new Intent(view.getContext(), ProfilActivity.class);
         view.getContext().startActivity(Intent);
+*/
+        Intent intent = new Intent(getBaseContext(), ProfilActivity.class);
+        intent.putExtra("EXTRA_SESSION_ID", "01"); // umjesto 01 prosljediš ID kuće
+        startActivity(intent);
 
     }
 }
