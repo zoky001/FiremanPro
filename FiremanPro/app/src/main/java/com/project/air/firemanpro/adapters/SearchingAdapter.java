@@ -19,26 +19,24 @@ import java.util.List;
 
 public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> {
     List<House> houseItem;
-    Context context;
 
-    public SearchingAdapter(List<House> houseItem, Context context) {
-        super();
+    public SearchingAdapter(List<House> houseItem) {
         this.houseItem = houseItem;
-        this.context = context;
     }
 
     @Override
-    public SearchingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View houseView = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.result_item, parent, false);
-        SearchingViewHolder vh = new SearchingViewHolder(houseView);
-        return vh;
+    public SearchingViewHolder onCreateViewHolder(ViewGroup vg, int i) {
+        View houseView = LayoutInflater.from(vg.getContext()).inflate(R.layout.result_item, vg, false);
+
+        return new SearchingViewHolder(houseView);
     }
 
     @Override
     public void onBindViewHolder(SearchingViewHolder holder, int position) {
-        holder.name.setText(houseItem.get(position).getName_owner());
-        holder.adressInfo.setText(houseItem.get(position).getPlaceName());
-        //holder.housePicture.setImageURI(houseItem.get(position).getHouse_image());
+        House h = houseItem.get(position);
+        holder.name.setText(h.getName_owner());
+        holder.adressInfo.setText(h.getPlaceName());
+        //holder.housePicture.setImageURI(h.getHouse_image());
     }
 
     @Override
