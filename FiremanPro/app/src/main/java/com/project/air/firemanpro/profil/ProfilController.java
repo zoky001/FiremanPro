@@ -13,6 +13,7 @@ import java.util.List;
 public class ProfilController {
 
 
+
     public static House getHouse (int idHouse){
        List<House> house = SQLite.select().from(House.class).where(House_Table.id_house.is(idHouse)).queryList();
 
@@ -20,6 +21,7 @@ public class ProfilController {
         return house.get(0);
 
     }
+
     public static House getFirstHouse (){
         List<House> house = SQLite.select().from(House.class).queryList();
 
@@ -27,4 +29,13 @@ public class ProfilController {
         return house.get(0);
 
     }
+
+   public static List<House> getAllHouseRecords(){
+
+
+       List<House> house = SQLite.select().from(House.class).queryList();
+
+
+       return house;
+   }
 }
