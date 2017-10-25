@@ -73,8 +73,12 @@
         android:dropDownWidth="400dp"
         android:hint="Upiši ime, prezime ili adresu osobe/kućanstva"
         android:text=""
-        tools:layout_editor_absoluteX="6dp"
-        tools:layout_editor_absoluteY="205dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.50"
+        app:layout_constraintHorizontal_bias="0.618"/>
 
 
 </android.support.constraint.ConstraintLayout>

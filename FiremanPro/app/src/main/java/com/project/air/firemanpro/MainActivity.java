@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    //Test list used by autocompleteTextVie adapter
+    private static final String[] Ime = new String[] {"Josip","Jana","Igor","Ivan","Domagoj"};
+    @BindView(R.id.autoCompleteTextView)AutoCompleteTextView autoCompleteTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
                     view.getContext().startActivity(Intent);
                 }
             });
+
+        //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Ime);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
+
+
+
+
 
 
 
