@@ -65,8 +65,15 @@ public class ProfilActivity extends AppCompatActivity {
         tabhoost3.setIndicator("Tlocrt");
         tabHost.addTab(tabhoost3);
 
-        house = ProfilController.getFirstHouse();
+        int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
+       if (a != -1){
 
+           house = ProfilController.getHouse(a);
+
+       }
+        else {
+           house = ProfilController.getFirstHouse();
+       }
         Toolbar t = (Toolbar) findViewById(R.id.toolbarProfil);
         setSupportActionBar(t);
         getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar

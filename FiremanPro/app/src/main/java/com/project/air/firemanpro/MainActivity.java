@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         view.getContext().startActivity(Intent);
 */
         Intent intent = new Intent(getBaseContext(), ProfilActivity.class);
-        intent.putExtra("EXTRA_SESSION_ID", "01"); // umjesto 01 prosljediš ID kuće
+        intent.putExtra("EXTRA_SESSION_ID", "-1"); // umjesto 01 prosljediš ID kuće
         startActivity(intent);
 
     }
