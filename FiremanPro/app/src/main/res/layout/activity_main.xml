@@ -7,78 +7,100 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="370dp"
+            android:layout_height="192dp"
+            android:src="@mipmap/ic_logo"
+            tools:layout_editor_absoluteX="7dp"
+            tools:layout_editor_absoluteY="46dp">
+        </ImageView>
+
     <TextView
         android:id="@+id/textViewSearch"
-        android:layout_width="207dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginLeft="0dp"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif"
-        android:text="Pretraga"
-        android:textAlignment="center"
+        android:text="Pretraži :"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="36dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.27"></TextView>
+        app:layout_constraintVertical_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.096"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+    </TextView>
 
     <Button
         android:id="@+id/buttonSearching"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
+        android:layout_width ="205dp"
         android:clickable="true"
-        android:text="PRETRAŽI"
+        android:text="Pretraži"
         android:background="@color/colorButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.733">
+        app:layout_constraintVertical_bias="0.685"
+        app:layout_constraintHorizontal_bias="0.503"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
     </Button>
 
     <Button
         android:id="@+id/test_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="126dp"
+        android:layout_height="48dp"
         android:text="test_button"
-        tools:layout_editor_absoluteX="23dp"
-        tools:layout_editor_absoluteY="42dp" />
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="378dp" />
+
 
     <Button
         android:id="@+id/test_profil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="48dp"
         android:text="House Profil"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09"
-        app:layout_constraintHorizontal_bias="0.618" />
+        app:layout_constraintVertical_bias="0.92"
+        android:layout_marginLeft="130dp"
+        android:layout_marginStart="130dp" />
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:dropDownWidth="400dp"
         android:hint="Upiši ime, prezime ili adresu osobe/kućanstva"
-        android:text=""
+        android:textSize="15dp"
+        android:fontFamily="sans-serif"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.50"
-        app:layout_constraintHorizontal_bias="0.618"/>
+        app:layout_constraintVertical_bias="0.601"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
 
 </android.support.constraint.ConstraintLayout>
