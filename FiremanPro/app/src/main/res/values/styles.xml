@@ -1,8 +1,8 @@
 <resources>
 
     <style name="FiremanProTheme" parent="FiremanProTheme.Base"></style>
-    <style name="FiremanProTheme.Base"
-        parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="FiremanProTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,5 +10,14 @@
         <item name="editTextColor">@color/colorInput</item>
         <item name="colorButtonNormal">@color/colorButton</item>
     </style>
+
+    <style name="FiremanProTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="FiremanProTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="FiremanProTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -1,18 +1,14 @@
 package com.project.air.firemanpro.holders;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.project.air.firemanpro.ProfilActivity;
 import com.project.air.firemanpro.R;
-import com.project.test.database.Entities.House;
+import com.project.air.firemanpro.profil.ProfilNewActivity;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -42,9 +38,11 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
     @OnClick
     public void clikcOnItem(){
 
-        Intent intent = new Intent(itemView.getContext(), ProfilActivity.class);
+        Intent intent = new Intent(itemView.getContext(), ProfilNewActivity.class);
         intent.putExtra("EXTRA_SESSION_ID", ID.getText()); // umjesto 01 prosljediš ID kuće
         itemView.getContext().startActivity(intent);
+
+
 
 
     }
