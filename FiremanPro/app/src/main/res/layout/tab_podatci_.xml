@@ -2,80 +2,749 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-<LinearLayout
-    android:id="@+id/tab3"
+
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<LinearLayout
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:paddingBottom="80dp"
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
+    >
+         <TableLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OVDJE na ovaj .XML dolaze podatci,, zanemari ove slike,, pod tlocrt nema niš jer treba modul narpaviti " />
+             >
+            <TableRow
+         android:paddingTop="4dp"
+         android:paddingBottom="4dp"
+         >
+         <TextView
+             android:id="@+id/data_house_owner_lbl"
+             android:text="Vlasnik:"
+             android:textAlignment="textStart"
+             android:textAppearance="?android:attr/textAppearanceLarge"
+             android:textColor="@color/text"
+             android:textSize="20dp"
+             android:paddingLeft="8dp"
+             />
 
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="200dp"
+         <TextView
+             android:id="@+id/data_house_owner"
+             android:text="Ime prezime"
+             android:textAlignment="textStart"
+             android:textAppearance="?android:attr/textAppearanceLarge"
+             android:textStyle="bold|italic"
+             android:textSize="20dp"
+             android:paddingLeft="8dp"
+             />
+            </TableRow>
+            <TableRow
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
 
-        android:layout_marginBottom="35dp"
-        android:layout_marginTop="20dp"
-
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-
-        <ImageView
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/gnd_1">
-
-        </ImageView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="200dp"
-
-        android:layout_marginBottom="35dp"
-        android:layout_marginTop="20dp"
-
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-
-        <ImageView
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/gnd_2">
-
-        </ImageView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="200dp"
-
-        android:layout_marginBottom="35dp"
-        android:layout_marginTop="20dp"
-
-        android:orientation="horizontal"
-        android:weightSum="1">
+                >
 
 
-        <ImageView
+                <TextView
+                    android:id="@+id/data_house_idplace_lbl"
+                    android:text="Mjesto:"
+                    android:textAlignment="textStart"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/text"
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
+                    />
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/gnd_3">
+                <TextView
+                    android:id="@+id/data_house_idplace"
+                    android:text="Mjesto stanovanja"
+                    android:textAlignment="textStart"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold|italic"
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
+                    />
 
-        </ImageView>
-    </LinearLayout>
+
+            </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_adress_lbl"
+                     android:text="Adresa:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_adress"
+                     android:text="neka adresa"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_teenants_lbl"
+                     android:text="Broj stanara:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_teenants"
+                     android:text="45"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_floors_lbl"
+                     android:text="Broj katova:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_floors"
+                     android:text="3"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_nmb_children_lbl"
+                     android:text="Broj djece:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_nmb_children"
+                     android:text="4"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_yrs_children_lbl"
+                     android:text="Starost djece:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_yrs_children"
+                     android:text="4 , 5 ,6 , 7"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_nmb_adults_lbl"
+                     android:text="Broj odraslih:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_nmb_adults"
+                     android:text="3"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_yrs_adults_lbl"
+                     android:text="Starost odraslih:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_yrs_adults"
+                     android:text="33 , 44 ,102"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+
+
+                 <TextView
+                     android:id="@+id/data_house_nmb_elders_lbl"
+                     android:text="Broj starih:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_nmb_elders"
+                     android:text="1"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_yrs_elders_lbl"
+                     android:text="Starost starijih:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_yrs_elders"
+                     android:text="150"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_disability_lbl"
+                     android:text="Nemoćne osobe:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_disability"
+                     android:text="DA"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_power_supply_lbl"
+                     android:text="Priključak struje:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_power_supply"
+                     android:text="DA"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_gas_connection_lbl"
+                     android:text="Priključak plina:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_gas_connection"
+                     android:text="DA"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_type_of_heating_lbl"
+                     android:text="Način grijanja:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_type_of_heating"
+                     android:text="Drvo"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_gas_bottle_lbl"
+                     android:text="Plinska boca:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_gas_bottle"
+                     android:text="Ne"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_number_of_gas_bottle_lbl"
+                     android:text="Broj plinskih boca:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_number_of_gas_bottle"
+                     android:text="2"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_type_of_roof_lbl"
+                     android:text="Tip krova:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_type_of_roof"
+                     android:text="Drveni"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_hydrant_distance_lbl"
+                     android:text="Udaljenost hidranta:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_hydrant_distance"
+                     android:text="50 m"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_high_risk_object_lbl"
+                     android:text="Rizični objekt:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_high_risk_object"
+                     android:text="Da"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_HRO_type_of_roof_lbl"
+                     android:text="HRO krov:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_HRO_type_of_roof"
+                     android:text="nekaj"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_HRO_power_supply_lbl"
+                     android:text="HRO struja:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_HRO_power_supply"
+                     android:text="nekaj"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_HRO_content_lbl"
+                     android:text="HRO sadržaj:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_HRO_content"
+                     android:text="nekaj"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_HRO_animals_lbl"
+                     android:text="Životinje:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_HRO_animals"
+                     android:text="Pas,mačka itd"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_longitude_lbl"
+                     android:text="Geografska dužina:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_longitude"
+                     android:text="47° 55' W"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_latitude_lbl"
+                     android:text="Geografska širina:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_latitude"
+                     android:text="47° 55' W"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+
+                 >
+                 <TextView
+                     android:id="@+id/data_house_telNumber_lbl"
+                     android:text="Telefon:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+
+                 <TextView
+                     android:id="@+id/data_house_telNumber"
+                     android:text="042111487"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+             <TableRow
+                 android:paddingTop="4dp"
+                 android:paddingBottom="4dp"
+                 >
+                 <TextView
+                     android:id="@+id/data_house_mobNumber_lbl"
+                     android:text="Mobitel:"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textColor="@color/text"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+                 <TextView
+                     android:id="@+id/data_house_mobNumber"
+                     android:text="099874547"
+                     android:textAlignment="textStart"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold|italic"
+                     android:textSize="20dp"
+                     android:paddingLeft="8dp"
+                     />
+             </TableRow>
+
+
+
+         </TableLayout>
 
 
 
