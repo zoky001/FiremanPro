@@ -25,8 +25,11 @@
                 android:id="@+id/imageViewProfilHouse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_launcher">
+                android:scaleType="fitXY"
+
+                android:src="@mipmap/ic_launcher"
+                android:layout_margin="8dp"
+                android:paddingRight="8dp">
 
             </ImageView>
         </LinearLayout>
@@ -42,26 +45,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"
-                android:paddingStart="8dp">
+                >
 
                 <TextView
                     android:id="@+id/textViewNameOwnerlbl"
                     android:text="@string/ime_lbl"
-                    android:paddingLeft="16dp"
+                    android:paddingLeft="8dp"
                     android:textAlignment="textStart"
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"                                    android:textColor="@color/text"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     />
 
-                <EditText
+                <TextView
                     android:id="@+id/textViewNameOwner"
                     android:text="Mladen"
                     android:paddingRight="16dp"
                     android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold|italic"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     />
             </TableRow>
 
@@ -86,17 +89,18 @@
                     android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/text"
-                    android:textSize="25dp"
-                    android:paddingLeft="16dp"
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
                     />
 
-                <EditText
+                <TextView
                     android:id="@+id/textViewPlace"
                     android:text="Mladen"
                     android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold|italic"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
+                    android:drawableBottom="@android:color/black"
                     />
 
             </TableRow>
@@ -123,19 +127,19 @@
                     android:text="@string/adresa_lbl"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/text"
-                    android:textSize="25dp"
-                    android:paddingLeft="16dp"
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
                     />
 
 
 
-                <EditText
+                <TextView
                     android:id="@+id/textView1Address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:ems="7"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:inputType="textMultiLine"
                     android:focusable="false"
                     android:clickable="false"
@@ -170,15 +174,15 @@
                     android:text="@string/telefon"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/text"
-                    android:textSize="25dp"
-                    android:paddingLeft="16dp"
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
                     />
-                <EditText
+                <TextView
                     android:id="@+id/textViewTel"
                     android:text="Mladen"
                     android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:textStyle="bold|italic"
                     />
             </TableRow>
@@ -206,16 +210,16 @@
                     android:text="@string/mobitel"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/text"
-                    android:textSize="25dp"
-                    android:paddingLeft="16dp"
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
                     />
 
-                <EditText
+                <TextView
                     android:id="@+id/textViewMobitel"
                     android:text="Mladen"
                     android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:textStyle="bold|italic"/>
             </TableRow>
 
