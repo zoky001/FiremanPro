@@ -75,6 +75,8 @@ public class MockData {
                 (long)49.1512,
                 (long)16.1654,
                 "house1",
+                "042725091",
+                "0995982910",
                 date,
                 date);
         house.save();
@@ -109,6 +111,8 @@ public class MockData {
                 (long)49.1512,
                 (long)16.1654,
                 "house1",
+                "042725091",
+                "0995982910",
                 date,
                 date);
         house1.save();
@@ -144,6 +148,8 @@ public class MockData {
                 (long)49.1512,
                 (long)16.1654,
                 "house1",
+                "042725091",
+                "0995982910",
                 date,
                 date);
 

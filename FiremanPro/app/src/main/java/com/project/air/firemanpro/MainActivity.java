@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
 //import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Places;
@@ -19,7 +18,6 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.sql.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -113,8 +111,21 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.test_profil)
     public void buttonProfilClicked(View view){
-        Intent Intent = new Intent(view.getContext(), ProfilActivity.class);
-        view.getContext().startActivity(Intent);
+
+
+        Intent intent = new Intent(view.getContext(), ProfilNewActivity.class);
+        intent.putExtra("EXTRA_SESSION_ID", "-1"); // umjesto 01 prosljediš ID kuće OVDJE: -1
+
+
+        startActivity(intent);
+
+
+
+       /* Intent intent = new Intent(getBaseContext(), ProfilActivity.class);
+        intent.putExtra("EXTRA_SESSION_ID", "1"); // umjesto 01 prosljediš ID kuće
+        startActivity(intent);*/
 
     }
+
+
 }

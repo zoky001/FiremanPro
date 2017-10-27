@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">FiremanPro</string>
-    <string name="ime_lbl">Ime:</string>
+    <string name="ime_lbl">Vlasnik:</string>
     <string name="mjesto_lbl">Mjesto:</string>
     <string name="adresa_lbl">Adresa:</string>
+    <string name="telefon">Telefon:</string>
+    <string name="mobitel">Mobitel:</string>
+    <string name="title_activity_profil_new">ProfilNewActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

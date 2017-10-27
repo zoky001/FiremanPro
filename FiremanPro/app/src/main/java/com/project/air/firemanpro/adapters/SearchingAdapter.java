@@ -36,6 +36,7 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         House h = houseItem.get(position);
         holder.name.setText(h.getName_owner());
         holder.adressInfo.setText(h.getPlaceName());
+        holder.ID.setText(String.valueOf(h.getId_house()));
         //holder.housePicture.setImageURI(h.getHouse_image());
     }
 

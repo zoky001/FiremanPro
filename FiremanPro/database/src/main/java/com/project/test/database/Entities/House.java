@@ -51,7 +51,8 @@ public class House extends BaseModel{
     @Column long longitude;
     @Column long latitude;
     @Column String house_image;
-
+    @Column String telNumber;
+    @Column String mobNumber;
     @Column java.util.Date updated_at;
     @Column java.util.Date created_at;
 
@@ -67,7 +68,8 @@ public class House extends BaseModel{
         this.place_id = place_id;
     }
 
-    public House(String name_owner, String surname_owner, int IDplace, String address, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, boolean gas_bottle, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, long longitude, long latitude, String house_image, java.util.Date updated_at, java.util.Date created_at) {
+    public House(String name_owner, String surname_owner, int IDplace, String address, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, boolean gas_bottle, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, long longitude, long latitude, String house_image, String telNumber
+            ,String mobNumber, java.util.Date updated_at, java.util.Date created_at) {
 
         this.name_owner = name_owner;
         this.surname_owner = surname_owner;
@@ -98,8 +100,18 @@ public class House extends BaseModel{
         this.longitude = longitude;
         this.latitude = latitude;
         this.house_image = house_image;
+        this.telNumber = telNumber;
+        this.mobNumber = mobNumber;
         this.updated_at = updated_at;
         this.created_at = created_at;
+    }
+
+    public String getTelNumber() {
+        return telNumber;
+    }
+
+    public String getMobNumber() {
+        return mobNumber;
     }
 
     public String getName_owner() {
