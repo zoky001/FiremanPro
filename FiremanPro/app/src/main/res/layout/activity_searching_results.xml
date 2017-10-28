@@ -75,9 +75,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_results"
                     android:layout_width="match_parent"
-                    android:layout_height="235dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0.34">
+                    android:layout_height="396dp"
+                    android:layout_marginTop="20dp">
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
