@@ -32,7 +32,7 @@
              />
 
          <TextView
-             android:id="@+id/data_house_owner"
+             android:id="@+id/txtHouseOwner"
              android:text="Ime prezime"
              android:textAlignment="textStart"
              android:textAppearance="?android:attr/textAppearanceLarge"
@@ -59,7 +59,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/data_house_idplace"
+                    android:id="@+id/txtHousePlace"
                     android:text="Mjesto stanovanja"
                     android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -87,7 +87,7 @@
                      />
 
                  <TextView
-                     android:id="@+id/data_house_adress"
+                     android:id="@+id/txtHouseAddress"
                      android:text="neka adresa"
                      android:textAlignment="textStart"
                      android:textAppearance="?android:attr/textAppearanceLarge"
@@ -116,7 +116,7 @@
                      />
 
                  <TextView
-                     android:id="@+id/data_house_teenants"
+                     android:id="@+id/txtHouseTeenants"
                      android:text="45"
                      android:textAlignment="textStart"
                      android:textAppearance="?android:attr/textAppearanceLarge"
@@ -145,7 +145,7 @@
                      />
 
                  <TextView
-                     android:id="@+id/data_house_floors"
+                     android:id="@+id/txtHouseFloors"
                      android:text="3"
                      android:textAlignment="textStart"
                      android:textAppearance="?android:attr/textAppearanceLarge"
