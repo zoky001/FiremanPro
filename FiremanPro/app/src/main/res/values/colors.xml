@@ -6,11 +6,14 @@
     <color name="colorPrimaryLightDark">#505050</color>
     <color name="colorAccent">#131313</color>
     <color name="colorInput">#f4efef</color>
+    <color name="glavna">#c1000d</color>
     <color name="colorButton">#c1000d</color>
+    <color name="pozadina">#ffffff</color>
     <color name="colorTable">#adeefc</color>
     <color name="colorTitleBackground">#c1000d</color>
     <color name="colorTitleText">#ffffff</color>
     <color name="text">#000000</color>
+    <color name="gumbPromijena">#A52A2A</color>
 
 
 

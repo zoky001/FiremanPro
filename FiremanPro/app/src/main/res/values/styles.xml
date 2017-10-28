@@ -20,4 +20,9 @@
 
     <style name="FiremanProTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="gumbFensi" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/gumbPromijena</item>
+        <item name="colorButtonNormal">@color/glavna</item>
+    </style>
+
 </resources>

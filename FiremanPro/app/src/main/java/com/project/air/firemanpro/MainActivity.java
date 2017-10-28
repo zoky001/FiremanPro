@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Test list used by autocompleteTextVie adapter
     private static final String[] Ime = new String[] {"Josip","Jana","Igor","Ivan","Domagoj"};
-    @BindView(R.id.autoCompleteTextView)AutoCompleteTextView autoCompleteTextView;
+    @BindView(R.id.autoCompleteTextView)
+    AutoCompleteTextView autoCompleteTextView;
 
 
     @Override
