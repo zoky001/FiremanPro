@@ -28,6 +28,9 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
     public SearchingViewHolder(View v) {
         super(v);
+
+        System.out.println("SearchingViewHolder: ");
+
         adressInfo = (TextView) v.findViewById(R.id.tv_info);
         name = (TextView) v.findViewById(R.id.tv_name);
         housePicture = (ImageView) v.findViewById(R.id.imageResult1);
@@ -38,6 +41,7 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
     @OnClick
     public void clikcOnItem(){
 
+        System.out.println("clikcOnItem()r: ");
         Intent intent = new Intent(itemView.getContext(), ProfilNewActivity.class);
         intent.putExtra("EXTRA_SESSION_ID", ID.getText()); // umjesto 01 prosljediš ID kuće
         itemView.getContext().startActivity(intent);

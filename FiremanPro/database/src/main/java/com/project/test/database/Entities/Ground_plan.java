@@ -1,5 +1,7 @@
 package com.project.test.database.Entities;
 
+import android.content.Context;
+
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
@@ -21,14 +23,10 @@ public class Ground_plan extends BaseModel{
     int id_ground_plan;
 
     @Column int houseID; //foreign key to places
-    @Column String address;
-    @Column String type_of_hydrant;
+    @Column String imgName;
+    @Column String imgAdress;
 
 
-    @Column long longitude;
-    @Column long latitude;
-
-    @Column String hydrant_image;
 
     @Column
     java.util.Date updated_at;
@@ -51,51 +49,26 @@ public class Ground_plan extends BaseModel{
         return houseID;
     }
 
+    public Ground_plan() {
+
+    }
+
+    public Ground_plan(int houseID, String imgName, String imgAdress, java.util.Date updated_at, java.util.Date created_at) {
+        this.houseID = houseID;
+        this.imgName = imgName;
+        this.imgAdress = imgAdress;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+    }
+
     public void setHouseID(int houseID) {
         this.houseID = houseID;
     }
 
-    public String getAddress() {
-        return address;
+
+    public String getImgAdress() {
+        return imgAdress;
     }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getType_of_hydrant() {
-        return type_of_hydrant;
-    }
-
-    public void setType_of_hydrant(String type_of_hydrant) {
-        this.type_of_hydrant = type_of_hydrant;
-    }
-
-    public long getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(long longitude) {
-        this.longitude = longitude;
-    }
-
-    public long getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(long latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getHydrant_image() {
-        return hydrant_image;
-    }
-
-    public void setHydrant_image(String hydrant_image) {
-        this.hydrant_image = hydrant_image;
-    }
-
-
 
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
@@ -113,5 +86,12 @@ public class Ground_plan extends BaseModel{
 
     public void setHouse(House house) {
         this.house = house;
+    }
+
+    public int getImageResourceIDbyContext (Context contextItem) {
+
+        int imageresource = contextItem.getResources().getIdentifier("@drawable/"+getImgAdress(), "drawable", contextItem.getPackageName());
+
+        return imageresource;
     }
 }

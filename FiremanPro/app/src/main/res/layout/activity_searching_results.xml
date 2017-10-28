@@ -2,8 +2,8 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,7 +11,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/colorPrimary"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
+
         android:orientation="vertical">
 
     <!-- android:layout_width="fill_parent"
@@ -26,7 +27,8 @@
         android:id="@+id/toolbarProfil"
         android:layout_width="match_parent"
         android:layout_margin="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:background="@color/colorTitleBackground"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -36,34 +38,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="456dp"
+        android:layout_marginBottom="0dp"
         android:orientation="vertical">
 
     <TabWidget
         android:id="@android:id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="0"/>
 
             <LinearLayout
                 android:id="@+id/searching_results"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="1dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 android:paddingRight="8dp"
                 android:paddingLeft="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                android:weightSum="1"
-                app:layout_constraintHorizontal_bias="1.0">
+                >
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
                     android:id="@+id/rezultatPretrazivanjaText"
                     android:text="Rezultati pretraživanja"
                     android:textAlignment="center"
@@ -71,21 +70,36 @@
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
+                <LinearLayout
+                    android:id="@+id/searching_ispis"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    >
+
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_results"
                     android:layout_width="match_parent"
-                    android:layout_height="235dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0.34">
-
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    >
                 </android.support.v7.widget.RecyclerView>
+
+
             </LinearLayout>
+
+                </LinearLayout>
 
 
        </LinearLayout>
     </LinearLayout>
-    </ScrollView>
+</ScrollView>
 
 
 

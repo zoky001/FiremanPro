@@ -3,6 +3,7 @@ package com.project.air.firemanpro;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -37,9 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
+        //set title (owner name )on toolbar
+        //getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar
+        //toolbar
 
         FlowManager.init(new FlowConfig.Builder(this).build());
-
+MockData.deleteAll();
 // data for test
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
             //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));

@@ -22,12 +22,14 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
 
     public SearchingAdapter(List<House> houseItem) {
         this.houseItem = houseItem;
+
+        System.out.println("SEarchConstrAdapter - Construktor: ");
     }
 
     @Override
     public SearchingViewHolder onCreateViewHolder(ViewGroup vg, int i) {
         View houseView = LayoutInflater.from(vg.getContext()).inflate(R.layout.result_item, vg, false);
-
+        System.out.println("SearchingViewHolder onCreateViewHolder: ");
         return new SearchingViewHolder(houseView);
     }
 
@@ -37,7 +39,10 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.name.setText(h.getName_owner());
         holder.adressInfo.setText(h.getPlaceName());
         holder.ID.setText(String.valueOf(h.getId_house()));
-        //holder.housePicture.setImageURI(h.getHouse_image());
+
+        holder.housePicture.setImageResource(h.getProfilImageResourceIDbyContext(holder.housePicture.getContext()));
+
+        System.out.println("onBindViewHolder: ");
     }
 
     @Override

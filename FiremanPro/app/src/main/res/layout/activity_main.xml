@@ -7,100 +7,102 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
+ <LinearLayout
+     android:layout_width="368dp"
+     android:layout_height="495dp"
+     android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="370dp"
-            android:layout_height="192dp"
-            android:src="@mipmap/ic_logo"
-            tools:layout_editor_absoluteX="7dp"
-            tools:layout_editor_absoluteY="46dp">
-        </ImageView>
+     <android.support.v7.widget.Toolbar
+         android:id="@+id/toolbarMain"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/colorTitleBackground"
+         android:minHeight="?attr/actionBarSize"
+         android:theme="?attr/actionBarTheme" />
 
-    <TextView
-        android:id="@+id/textViewSearch"
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="sans-serif"
-        android:text="Pretraži :"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.508"
-        app:layout_constraintHorizontal_bias="0.096"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
-    </TextView>
+     <ImageView
+        android:id="@+id/logo"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:src="@mipmap/ic_logo" />
 
-    <Button
-        android:id="@+id/buttonSearching"
-        android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_width ="205dp"
-        android:clickable="true"
-        android:text="Pretraži"
-        android:background="@color/colorButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.685"
-        app:layout_constraintHorizontal_bias="0.503"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="16dp"
+         android:orientation="vertical"
+         >
 
-    </Button>
+         <TextView
+             android:id="@+id/textViewSearch"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+             android:textSize="15dp"
+             android:fontFamily="sans-serif"
+             android:text="Pretraži :"
+             android:textColor="@color/colorPrimaryDark" />
 
-    <Button
-        android:id="@+id/test_button"
-        android:layout_width="126dp"
-        android:layout_height="48dp"
-        android:text="test_button"
-        tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="378dp" />
+         <AutoCompleteTextView
+             android:id="@+id/autoCompleteTextView"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+             android:gravity="center_vertical"
+             android:textSize="15dp"
+             android:fontFamily="sans-serif"
+             android:dropDownWidth="match_parent"
+             android:hint="Upiši ime, prezime ili adresu osobe/kućanstva"
+             />
 
 
-    <Button
-        android:id="@+id/test_profil"
-        android:layout_width="125dp"
-        android:layout_height="48dp"
-        android:text="House Profil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92"
-        android:layout_marginLeft="130dp"
-        android:layout_marginStart="130dp" />
+         <Button
+             android:id="@+id/buttonSearching"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+             android:clickable="true"
+             android:text="Pretraži"
+             android:background="@color/colorButton"
+             />
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:dropDownWidth="400dp"
-        android:hint="Upiši ime, prezime ili adresu osobe/kućanstva"
-        android:textSize="15dp"
-        android:fontFamily="sans-serif"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+     </LinearLayout>
+
+     <Button
+         android:id="@+id/test_button"
+         android:layout_width="match_parent"
+         android:layout_height="4dp"
+         android:text="test_button"
+         tools:layout_editor_absoluteX="129dp"
+         tools:layout_editor_absoluteY="378dp" />
+
+
+     <Button
+         android:id="@+id/test_profil"
+         android:layout_width="match_parent"
+         android:layout_height="4dp"
+         android:text="House Profil" />
+
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="2"/>
+
+
+
+    </LinearLayout>
+
+
+
+
 
 
 </android.support.constraint.ConstraintLayout>

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kizo.ground_plan.Tab.TabTlocrt;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 
@@ -173,7 +174,7 @@ public class ProfilNewActivity extends AppCompatActivity {
                     return tab2;
                 case 2:
 
-                    TabPodatci tab3= new TabPodatci();
+                    TabTlocrt tab3= new TabTlocrt();
                     tab3.setArguments(bundle);
 
                     return tab3;

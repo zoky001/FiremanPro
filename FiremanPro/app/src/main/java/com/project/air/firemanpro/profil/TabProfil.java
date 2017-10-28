@@ -1,5 +1,6 @@
 package com.project.air.firemanpro.profil;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -63,10 +64,12 @@ public class TabProfil extends Fragment {
 
 
 //ID image-resourcee
- int imageresource = getResources().getIdentifier("@drawable/"+house.getHouse_image(), "drawable", getActivity().getPackageName());
+// int imageresource = getResources().getIdentifier("@drawable/"+house.getHouse_image(), "drawable", getActivity().getPackageName());
 
+        System.out.println("LOKACIJAAA ACTT: "+getActivity().getPackageName());
 //set profil image
-profil.setImageResource(imageresource);
+
+profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
 
 
 
