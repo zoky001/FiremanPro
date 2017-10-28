@@ -1,6 +1,12 @@
 package com.project.test.database.Entities;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
+
 import com.project.test.database.MainDatabase;
+import com.project.test.database.R;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -8,8 +14,12 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.List;
+
+import static android.app.PendingIntent.getActivity;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -262,5 +272,12 @@ System.out.println("rezultat upita: "+ places2.size());
 
     public java.util.Date getCreated_at() {
         return created_at;
+    }
+
+    public int getProfilImageResourceIDbyContext (Context contextItem) {
+
+        int imageresource = contextItem.getResources().getIdentifier("@drawable/"+getHouse_image(), "drawable", contextItem.getPackageName());
+
+        return imageresource;
     }
 }
