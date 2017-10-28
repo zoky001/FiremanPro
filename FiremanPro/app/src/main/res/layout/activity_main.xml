@@ -12,7 +12,15 @@
      android:layout_height="495dp"
      android:orientation="vertical">
 
-    <ImageView
+     <android.support.v7.widget.Toolbar
+         android:id="@+id/toolbarMain"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/colorTitleBackground"
+         android:minHeight="?attr/actionBarSize"
+         android:theme="?attr/actionBarTheme" />
+
+     <ImageView
         android:id="@+id/logo"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="100dp"

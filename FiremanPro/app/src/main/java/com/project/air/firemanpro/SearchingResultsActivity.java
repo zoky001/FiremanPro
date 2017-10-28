@@ -6,7 +6,9 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,6 +33,15 @@ public class SearchingResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_searching_results);
 
         ButterKnife.bind(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProfil);
+        setSupportActionBar(toolbar);
+        //set title (owner name )on toolbar
+        //getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        } //toolbar
+
 
         final List<House> houses = ProfilController.getAllHouseRecords();
 
@@ -43,6 +54,13 @@ public class SearchingResultsActivity extends AppCompatActivity {
         rv.setLayoutManager(llm);
 
         rv.setAdapter(new SearchingAdapter(houses));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 
 
