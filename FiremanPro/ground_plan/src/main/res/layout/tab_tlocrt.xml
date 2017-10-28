@@ -7,41 +7,8 @@
     android:layout_height="match_parent">
 
 
-<LinearLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:paddingBottom="80dp"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_height="match_parent"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:paddingBottom="80dp">
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="TEXT na ground planu" />
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:paddingBottom="80dp">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_GND_plan"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
-            >
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
-</LinearLayout>
-
-
-
-
-    </ScrollView>
+        android:layout_height="wrap_content" />
+</ScrollView>

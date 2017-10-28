@@ -10,7 +10,6 @@ import com.kizo.ground_plan.Tab.holders.GroundPlanViewHolder;
 import com.project.test.database.Entities.Ground_plan;
 
 
-import com.project.test.database.Entities.House;
 
 import java.util.List;
 
@@ -29,8 +28,9 @@ public class Ground_plan_adapter extends RecyclerView.Adapter<GroundPlanViewHold
 
     @Override
     public GroundPlanViewHolder onCreateViewHolder(ViewGroup vg, int i) {
+        System.out.println("on createHolder GND");
         View tabTlocertView = LayoutInflater.from(vg.getContext()).inflate(R.layout.tlocrt_item, vg, false);
-System.out.println("on createHolder GND");
+        System.out.println("on createHolder GND");
         return new GroundPlanViewHolder(tabTlocertView);
     }
 

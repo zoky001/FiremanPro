@@ -87,6 +87,9 @@ public class MockData {
                 date);
         house.save();
 
+        Ground_plan g5 = new Ground_plan(house.getId_house(),"Prvi kat","gnd_2",date,date);
+        g5.save();
+
         House house1 = new House(
                 "Marinko",
                 "Kokot",
@@ -116,7 +119,7 @@ public class MockData {
                 FALSE,
                 (long)49.1512,
                 (long)16.1654,
-                "house1",
+                "house2",
                 "042725091",
                 "0995982910",
                 date,
@@ -161,13 +164,57 @@ public class MockData {
                 FALSE,
                 (long)49.1512,
                 (long)16.1654,
-                "house1",
+                "house3",
                 "042725091",
                 "0995982910",
                 date,
                 date);
 
         house2.save(); // <-- available from BaseModel super class
+        Ground_plan g4 = new Ground_plan(house2.getId_house(),"Prvi kat","gnd_1",date,date);
+        g4.save();
+        House house3 = new House(
+                "Ana",
+                "Banana",
+                place.getId_place(),
+                "Varaždinska 35 42208 Cestica",
+                2,
+                2,
+                "prvi kat, drugi kat",
+                0,
+                "",
+                5,
+                "1995,1975,1978,1985",
+                0,
+                "",
+                FALSE,
+                "Nadzemni priključak",
+                FALSE,
+                "DRVA",
+                TRUE,
+                1,
+                "Limeni pokrov",
+                30,
+                TRUE,
+                "Crijep",
+                TRUE,
+                "Sijeno",
+                FALSE,
+                (long)49.1512,
+                (long)16.1654,
+                "house4",
+                "042725091",
+                "0995982910",
+                date,
+                date);
+        house3.save();
+
+        Ground_plan g6 = new Ground_plan(house3.getId_house(),"Prvi kat","gnd_1",date,date);
+        g6.save();
+
+        Ground_plan g7 = new Ground_plan(house3.getId_house(),"Drugi kat","gnd_2",date,date);
+        g7.save();
+
 
 
     }

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kizo.ground_plan.R;
@@ -28,7 +29,9 @@ public class TabTlocrt extends Fragment {
 
     House house;
 
-
+ListView lst;
+    String[] fruitname = {"Mango", "Banana", "Eatermelon"};
+    Integer [] imgId = {};
 
 
     @Override
@@ -57,14 +60,16 @@ public class TabTlocrt extends Fragment {
 
         System.out.println("BROJ SLIKA:  "+gndPlans.size());
 
-      RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_GND_plan);
-
+      lst = (ListView) rootView.findViewById(R.id.listView);
+        CustomListView customListView = new CustomListView(getActivity(),fruitname,imgId,gndPlans);
+        lst.setAdapter(customListView);
+/*
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(llm);
 
-        rv.setAdapter(new Ground_plan_adapter(gndPlans));
+        rv.setAdapter(new Ground_plan_adapter(gndPlans));*/
 
         return rootView;
     }

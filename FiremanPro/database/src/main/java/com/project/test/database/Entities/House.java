@@ -284,9 +284,9 @@ System.out.println("rezultat upita: "+ places2.size());
     public List<Ground_plan> getAllHouseGroundPlans(){
 
 
-        List<Ground_plan> gnd = SQLite.select().from(Ground_plan.class).queryList();
+        List<Ground_plan> gnd = SQLite.select().from(Ground_plan.class).where(Ground_plan_Table.houseID.is(getId_house())).queryList();
 
-//.where(Ground_plan_Table.houseID.is(getId_house()))
+//
         return gnd;
     }
 }
