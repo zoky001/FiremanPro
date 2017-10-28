@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         FlowManager.init(new FlowConfig.Builder(this).build());
-
+MockData.deleteAll();
 // data for test
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
             //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));

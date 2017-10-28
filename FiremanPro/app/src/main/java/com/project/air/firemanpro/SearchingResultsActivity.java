@@ -33,7 +33,10 @@ public class SearchingResultsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         final List<House> houses = ProfilController.getAllHouseRecords();
+
+
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv_results);
+
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);

@@ -90,7 +90,10 @@
                     android:layout_weight="30"
                     >
                 </android.support.v7.widget.RecyclerView>
+
+
             </LinearLayout>
+
                 </LinearLayout>
 
 

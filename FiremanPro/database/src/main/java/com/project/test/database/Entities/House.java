@@ -280,4 +280,13 @@ System.out.println("rezultat upita: "+ places2.size());
 
         return imageresource;
     }
+
+    public List<Ground_plan> getAllHouseGroundPlans(){
+
+
+        List<Ground_plan> gnd = SQLite.select().from(Ground_plan.class).queryList();
+
+//.where(Ground_plan_Table.houseID.is(getId_house()))
+        return gnd;
+    }
 }

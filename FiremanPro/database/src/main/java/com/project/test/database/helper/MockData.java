@@ -1,5 +1,6 @@
 package com.project.test.database.helper;
 
+import com.project.test.database.Entities.Ground_plan;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Places;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -22,7 +23,12 @@ public class MockData {
     public static void  deleteAll(){
         final List<House> house = SQLite.select().from(House.class).queryList();
         final List<Places> places = SQLite.select().from(Places.class).queryList();
+        final List<Ground_plan> gndPlan = SQLite.select().from(Ground_plan.class).queryList();
+        for(int i = 0; i < gndPlan.size(); i++){
 
+            gndPlan.get(i).delete();
+            //delete all item in table House
+        }
         for(int i = 0; i < house.size(); i++){
 
             house.get(i).delete();
@@ -117,6 +123,14 @@ public class MockData {
                 date);
         house1.save();
 
+        Ground_plan g1 = new Ground_plan(house1.getId_house(),"Prvi kat","gnd_1",date,date);
+        g1.save();
+
+        Ground_plan g2 = new Ground_plan(house1.getId_house(),"Drugi kat","gnd_2",date,date);
+        g2.save();
+
+        Ground_plan g3 = new Ground_plan(house1.getId_house(),"Treci kat","gnd_3",date,date);
+        g3.save();
 
         House house2 = new House(
                 "Jadranko",
