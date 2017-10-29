@@ -64,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
         List<String> autocompleteListOfStrings = new ArrayList<String>();
         List<House> allHouses = HouseController.getAllHouseRecords();
         for (int i = 0;i < allHouses.size();i++){
-            autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
-            autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
-            autocompleteListOfStrings.add(allHouses.get(i).getAddress());
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
+            }
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getSurname_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
+            }
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getAddress())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getAddress());
+            }
 
         }
         //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
