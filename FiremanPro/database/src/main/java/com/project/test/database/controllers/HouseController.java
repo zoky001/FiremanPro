@@ -38,4 +38,9 @@ public class HouseController {
 
        return house;
    }
+    public static List<House> serachByNameAndSurnameQuery(String text){
+
+        List<House> house = SQLite.select().from(House.class).where(House_Table.name_owner.like("%"+text+"%")).or(House_Table.surname_owner.like("%"+text+"%")).or(House_Table.address.like("%"+text+"%")).queryList();
+        return house;
+    }
 }
