@@ -76,6 +76,7 @@
                      android:textSize="16sp"
                      android:fontFamily="Roboto"
                      android:dropDownWidth="match_parent"
+
                      android:hint="@string/pretrazivanje"
                      style="@style/gumbFensi"
                      />

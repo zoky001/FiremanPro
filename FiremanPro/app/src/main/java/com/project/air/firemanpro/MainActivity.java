@@ -5,11 +5,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
@@ -28,6 +32,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
+import butterknife.OnTextChanged;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +63,23 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Nema zapisa u houses: ");
 
             MockData.writeAll(); //write all entries in database
+
+
+            autoCompleteTextView.setSingleLine();
+            autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)){
+                        Intent Intent = new Intent(MainActivity.this, SearchingResultsActivity.class);
+                        Intent.putExtra("valueFromAutoCompleteTextView",autoCompleteTextView.getText().toString());
+                        startActivity(Intent);
+                    }
+                    return false;
+                }
+            });
+
+
+
         }
 
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
@@ -153,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
 
 }
