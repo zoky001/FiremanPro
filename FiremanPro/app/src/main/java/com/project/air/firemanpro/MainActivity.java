@@ -14,11 +14,13 @@ import com.project.test.database.Entities.House;
 //import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Places;
 //import com.project.test.database.Entities.Places_Table;
+import com.project.test.database.controllers.HouseController;
 import com.project.test.database.helper.MockData;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,7 +30,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     //Test list used by autocompleteTextVie adapter
-    private static final String[] Ime = new String[] {"Josip","Jana","Igor","Ivan","Domagoj"};
+
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
 
@@ -46,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         //toolbar
 
         FlowManager.init(new FlowConfig.Builder(this).build());
-MockData.deleteAll();
-// data for test
+        MockData.deleteAll();
+        // data for test
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
             //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));
             System.out.println("Nema zapisa u houses: ");
@@ -65,23 +67,28 @@ MockData.deleteAll();
                 }
             });
 
+
+        //Saving items in list needed for autoComplete control
+        List<String> autocompleteListOfStrings = new ArrayList<String>();
+        List<House> allHouses = HouseController.getAllHouseRecords();
+        for (int i = 0;i < allHouses.size();i++){
+            autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
+            autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
+            autocompleteListOfStrings.add(allHouses.get(i).getAddress());
+
+        }
         //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Ime);
+        final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, autoCompleteStrings);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(1);
 
-
-
-
-
-
-
-    }
+        }
 
 
         //TEST button,, don't remove!! Kizo
-    @OnClick(R.id.test_button)
-    public void buttonClicked(){
+        @OnClick(R.id.test_button)
+        public void buttonClicked(){
         System.out.println("Pritisak TEST gumba: ");
 
         final List<House> discounts = SQLite.select().from(House.class).queryList();
@@ -121,16 +128,12 @@ MockData.deleteAll();
 
 
         Intent intent = new Intent(view.getContext(), ProfilNewActivity.class);
-        intent.putExtra("EXTRA_SESSION_ID", "-1"); // umjesto 01 prosljediš ID kuće OVDJE: -1
+        intent.putExtra("EXTRA_SESSION_ID", "-1");
 
 
         startActivity(intent);
 
 
-
-       /* Intent intent = new Intent(getBaseContext(), ProfilActivity.class);
-        intent.putExtra("EXTRA_SESSION_ID", "1"); // umjesto 01 prosljediš ID kuće
-        startActivity(intent);*/
 
     }
 
