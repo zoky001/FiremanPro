@@ -23,6 +23,10 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
     public ImageView housePicture;
     public TextView ID;
 
+    public TextView surname;
+
+    public  TextView address;
+
 
     View mItemView;
 
@@ -31,10 +35,15 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
         System.out.println("SearchingViewHolder: ");
 
+        address = (TextView)v.findViewById(R.id.tv_grad);
+
         adressInfo = (TextView) v.findViewById(R.id.tv_info);
+        surname = (TextView) v.findViewById(R.id.tv_surName);
+
         name = (TextView) v.findViewById(R.id.tv_name);
         housePicture = (ImageView) v.findViewById(R.id.imageResult1);
         ID = (TextView) v.findViewById(R.id.tv_ID);
+
         mItemView = itemView;
         ButterKnife.bind(this, itemView);
     }
