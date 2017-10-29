@@ -57,15 +57,7 @@ public class MainActivity extends AppCompatActivity {
             MockData.writeAll(); //write all entries in database
         }
 
-            Button search = (Button) findViewById(R.id.buttonSearching);
 
-            search.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
-                    view.getContext().startActivity(Intent);
-                }
-            });
 
 
         //Saving items in list needed for autoComplete control
@@ -85,6 +77,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+    @OnClick(R.id.buttonSearching)
+    public void buttonSearchingClicked(View view){
+
+        Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
+        Intent.putExtra("valueFromAutoCompleteTextView",autoCompleteTextView.getText().toString());
+        startActivity(Intent);
+
+    }
 
         //TEST button,, don't remove!! Kizo
         @OnClick(R.id.test_button)

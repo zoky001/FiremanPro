@@ -17,6 +17,7 @@ import com.project.air.firemanpro.adapters.SearchingAdapter;
 import com.project.air.firemanpro.profil.ProfilController;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Places;
+import com.project.test.database.controllers.HouseController;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
@@ -43,7 +44,22 @@ public class SearchingResultsActivity extends AppCompatActivity {
         } //toolbar
 
 
-        final List<House> houses = ProfilController.getAllHouseRecords();
+
+        //Retrieving string that user has entered in autoCompleteTextView bar
+        String retrievedAutoCompleteTextString;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                retrievedAutoCompleteTextString= null;
+            } else {
+                retrievedAutoCompleteTextString= extras.getString("valueFromAutoCompleteTextView");
+            }
+        } else {
+            retrievedAutoCompleteTextString= (String) savedInstanceState.getSerializable("valueFromAutoCompleteTextView");
+        }
+
+        //Getting List of Houses
+        final List<House> houses = HouseController.serachByNameAndSurnameQuery(retrievedAutoCompleteTextString);
 
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv_results);
