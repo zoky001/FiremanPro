@@ -1,6 +1,7 @@
 package com.project.air.firemanpro;
 
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
             MockData.writeAll(); //write all entries in database
         }
 
-
+        TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
+        inputLayout.setError("First name is required"); // show error
+        inputLayout.setError(null); // hide error
 
 
         //Saving items in list needed for autoComplete control
