@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
             if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner())) {
                 autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
             }
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getPlaceName() + ":" + allHouses.get(i).getAddress())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getPlaceName() + ":" + allHouses.get(i).getAddress());
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getPlaceName() + ": " + allHouses.get(i).getAddress())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getPlaceName() + ": " + allHouses.get(i).getAddress());
             }
         }
         //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item

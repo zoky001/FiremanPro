@@ -61,8 +61,8 @@ public class HouseController {
                 }
             }
         }
-        if (text.contains(":")) {
-            List<String> splitedStrings = Arrays.asList(text.split(":"));
+        if (text.contains(": ")) {
+            List<String> splitedStrings = Arrays.asList(text.split(": "));
 
             List<House> house1 = SQLite.select().from(House.class).where(House_Table.place_id.is(GetPlaceID(splitedStrings.get(0)))).and(House_Table.address.is(splitedStrings.get(1))).queryList();
             for (int i = 0; i < house1.size(); i++) {
