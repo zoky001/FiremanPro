@@ -1,5 +1,6 @@
 package com.kizo.ground_plan.Tab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.project.test.database.Entities.Ground_plan;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,8 +34,8 @@ public class TabTlocrt extends Fragment {
 
 ListView lst;
     String[] fruitname = {"Mango", "Banana", "Eatermelon"};
-    Integer [] imgId = {};
-
+    Integer [] imgId;
+    public static ArrayList<Integer> thumbnail = new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,11 +61,28 @@ ListView lst;
 
       final List<Ground_plan> gndPlans = house.getAllHouseGroundPlans();
 
+        System.out.println("SIZE RESOURCE GND:  "+ house.getListGroundPlansIDResource(getContext()).size());
+int i = 0;
+        for (String str:house.getListGroundPlansIDResource(getContext())
+             ) {
+          thumbnail.add(Integer.parseInt(str));
+
+        }
+
+
         System.out.println("BROJ SLIKA:  "+gndPlans.size());
 
       lst = (ListView) rootView.findViewById(R.id.listView);
         CustomListView customListView = new CustomListView(getActivity(),fruitname,imgId,gndPlans);
         lst.setAdapter(customListView);
+        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), FullScreenActivity.class);
+                intent.putExtra("id", position);
+                startActivity(intent);
+            }
+        });
+
 /*
         rv.setHasFixedSize(true);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
 import com.project.test.database.MainDatabase;
 import com.project.test.database.R;
@@ -17,7 +18,11 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import java.io.File;
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -289,4 +294,28 @@ System.out.println("rezultat upita: "+ places2.size());
 //
         return gnd;
     }
+
+
+    public ArrayList<String> getListGroundPlansIDResource(Context contextItem){
+
+
+        List<Ground_plan> gnd = SQLite.select().from(Ground_plan.class).where(Ground_plan_Table.houseID.is(getId_house())).queryList();
+
+        ArrayList<String> image_list = new ArrayList<>();
+
+        String imageR;
+        for (Ground_plan g:gnd
+             ) {
+
+            imageR = String.valueOf(
+            contextItem.getResources().getIdentifier("@drawable/"+g.getImgAdress(), "drawable", contextItem.getPackageName()));
+image_list.add(imageR);
+        }
+
+        return image_list;
+//
+
+    }
+
+
 }

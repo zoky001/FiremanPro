@@ -27,6 +27,7 @@ public class CustomListView extends ArrayAdapter<String> {
     private Integer [] images;
     private Activity context;
     private List<Ground_plan> plans;
+
     public CustomListView(Activity context, String[] fruitname, Integer[] images, List<Ground_plan> plans) {
         super(context, R.layout.tlocrt_item, fruitname);
 
