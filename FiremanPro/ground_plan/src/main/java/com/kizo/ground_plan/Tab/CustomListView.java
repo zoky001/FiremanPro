@@ -55,7 +55,7 @@ public class CustomListView extends ArrayAdapter<String> {
         }
         if (position < plans.size())
         viewHolder.ivm.setImageResource(plans.get(position).getImageResourceIDbyContext(viewHolder.ivm.getContext()));
-
+//viewHolder.tvw1.setText("SLika 1");
         return r;
     }
     class ViewHolder{
@@ -63,6 +63,8 @@ public class CustomListView extends ArrayAdapter<String> {
         ImageView ivm;
         ViewHolder(View v){
            ivm = (ImageView) v.findViewById(R.id.imageViewGroundListItem);
+            //tvw1 = (TextView) v.findViewById(R.id.imageViewGroundListItemTitle);
+
         }
     }
 }

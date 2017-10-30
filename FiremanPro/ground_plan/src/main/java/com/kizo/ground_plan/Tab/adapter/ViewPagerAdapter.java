@@ -15,7 +15,7 @@ import com.kizo.ground_plan.Tab.utils.TouchImageView;
 
 import java.util.ArrayList;
 
-/** * Created by komal yogi */
+
 public class ViewPagerAdapter extends PagerAdapter {
 
     ArrayList<ImageBean> image_list = new ArrayList<>();

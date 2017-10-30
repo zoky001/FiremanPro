@@ -61,8 +61,8 @@ ListView lst;
 
       final List<Ground_plan> gndPlans = house.getAllHouseGroundPlans();
 
-        System.out.println("SIZE RESOURCE GND:  "+ house.getListGroundPlansIDResource(getContext()).size());
-int i = 0;
+       // System.out.println("SIZE RESOURCE GND:  "+ house.getListGroundPlansIDResource(getContext()).size());
+thumbnail.clear();
         for (String str:house.getListGroundPlansIDResource(getContext())
              ) {
           thumbnail.add(Integer.parseInt(str));

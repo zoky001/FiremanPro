@@ -24,7 +24,7 @@ public class FullScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen);
 
-       // close=(ImageView)findViewById(R.id.closeIB);
+       //close=(ImageView)findViewById(R.id.closeIB);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         Intent intent = getIntent();
         int position = intent.getIntExtra("id", 1);
@@ -36,8 +36,8 @@ public class FullScreenActivity extends AppCompatActivity {
 
 
         }
-        System.out.println("STARTFULL SCREEN ACTIVITI size: ["+image_list.size()+"]: pozition = "+position);
-
+     //   System.out.println("STARTFULL SCREEN ACTIVITI size: ["+image_list.size()+"]: pozition = "+position);
+//System.out.println("THUMBNAIL SIZE: "+TabTlocrt.thumbnail.size());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(image_list, getBaseContext());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(position);
