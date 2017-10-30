@@ -25,7 +25,7 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
     public TextView surname;
 
-    public  TextView address;
+    public TextView address;
 
 
     View mItemView;
@@ -35,7 +35,7 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
         System.out.println("SearchingViewHolder: ");
 
-        address = (TextView)v.findViewById(R.id.tv_grad);
+        address = (TextView) v.findViewById(R.id.tv_grad);
 
         adressInfo = (TextView) v.findViewById(R.id.tv_info);
         surname = (TextView) v.findViewById(R.id.tv_surName);
@@ -47,15 +47,14 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
         mItemView = itemView;
         ButterKnife.bind(this, itemView);
     }
+
     @OnClick
-    public void clikcOnItem(){
+    public void clikcOnItem() {
 
         System.out.println("clikcOnItem()r: ");
         Intent intent = new Intent(itemView.getContext(), ProfilNewActivity.class);
         intent.putExtra("EXTRA_SESSION_ID", ID.getText()); // umjesto 01 prosljediš ID kuće
         itemView.getContext().startActivity(intent);
-
-
 
 
     }

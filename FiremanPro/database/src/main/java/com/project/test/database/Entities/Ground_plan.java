@@ -16,16 +16,18 @@ import java.sql.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Ground_plan extends BaseModel{
+public class Ground_plan extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int id_ground_plan;
 
-    @Column int houseID; //foreign key to places
-    @Column String imgName;
-    @Column String imgAdress;
-
+    @Column
+    int houseID; //foreign key to places
+    @Column
+    String imgName;
+    @Column
+    String imgAdress;
 
 
     @Column
@@ -75,7 +77,6 @@ public class Ground_plan extends BaseModel{
     }
 
 
-
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
@@ -88,9 +89,9 @@ public class Ground_plan extends BaseModel{
         this.house = house;
     }
 
-    public int getImageResourceIDbyContext (Context contextItem) {
+    public int getImageResourceIDbyContext(Context contextItem) {
 
-        int imageresource = contextItem.getResources().getIdentifier("@drawable/"+getImgAdress(), "drawable", contextItem.getPackageName());
+        int imageresource = contextItem.getResources().getIdentifier("@drawable/" + getImgAdress(), "drawable", contextItem.getPackageName());
 
         return imageresource;
     }

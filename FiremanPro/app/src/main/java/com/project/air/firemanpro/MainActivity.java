@@ -69,15 +69,14 @@ public class MainActivity extends AppCompatActivity {
             autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if ((event.getAction() == KeyEvent.ACTION_DOWN)&&(keyCode == KeyEvent.KEYCODE_ENTER)){
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                         Intent Intent = new Intent(MainActivity.this, SearchingResultsActivity.class);
-                        Intent.putExtra("valueFromAutoCompleteTextView",autoCompleteTextView.getText().toString());
+                        Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
                         startActivity(Intent);
                     }
                     return false;
                 }
             });
-
 
 
         }
@@ -90,18 +89,19 @@ public class MainActivity extends AppCompatActivity {
         //Saving items in list needed for autoComplete control
         List<String> autocompleteListOfStrings = new ArrayList<String>();
         List<House> allHouses = HouseController.getAllHouseRecords();
-        for (int i = 0;i < allHouses.size();i++){
+        for (int i = 0; i < allHouses.size(); i++) {
             if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner())) {
                 autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
             }
             if (!autocompleteListOfStrings.contains(allHouses.get(i).getSurname_owner())) {
                 autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
             }
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getAddress())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getAddress());
+
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
             }
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner()+" "+allHouses.get(i).getSurname_owner())){
-                autocompleteListOfStrings.add(allHouses.get(i).getName_owner()+" "+allHouses.get(i).getSurname_owner());
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getPlaceName() + ":" + allHouses.get(i).getAddress())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getPlaceName() + ":" + allHouses.get(i).getAddress());
             }
         }
         //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
@@ -111,24 +111,21 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.setThreshold(1);
 
 
-
-        }
-
-
+    }
 
 
     @OnClick(R.id.buttonSearching)
-    public void buttonSearchingClicked(View view){
+    public void buttonSearchingClicked(View view) {
 
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
-        Intent.putExtra("valueFromAutoCompleteTextView",autoCompleteTextView.getText().toString());
+        Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
         startActivity(Intent);
 
     }
 
-        //TEST button,, don't remove!! Kizo
-        @OnClick(R.id.test_button)
-        public void buttonClicked(){
+    //TEST button,, don't remove!! Kizo
+    @OnClick(R.id.test_button)
+    public void buttonClicked() {
         System.out.println("Pritisak TEST gumba: ");
 
         final List<House> discounts = SQLite.select().from(House.class).queryList();
@@ -139,23 +136,23 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Prije for petlje: ");
 
         //print all entries from table "House"
-        for(int i = 0; i < discounts.size(); i++){
+        for (int i = 0; i < discounts.size(); i++) {
             listItems[i] = discounts.get(i).getName_owner();
-            System.out.println("IDKuće"+ i +" je: " + discounts.get(i).getId_house());
-            System.out.println("Vlasnik "+ i +" kuće je: " + listItems[i]);
-            System.out.println("Selo id"+ i + " : " + discounts.get(i).getPlace_id());
-            System.out.println("Selo "+ i + " : " + discounts.get(i).getPlaceName());
-          System.out.println("Datum: " + discounts.get(i).getCreated_at());
+            System.out.println("IDKuće" + i + " je: " + discounts.get(i).getId_house());
+            System.out.println("Vlasnik " + i + " kuće je: " + listItems[i]);
+            System.out.println("Selo id" + i + " : " + discounts.get(i).getPlace_id());
+            System.out.println("Selo " + i + " : " + discounts.get(i).getPlaceName());
+            System.out.println("Datum: " + discounts.get(i).getCreated_at());
 
-     //  discounts.get(i).delete();
+            //  discounts.get(i).delete();
         }
 
         //print all entries from table "Places"
-        for (int i = 0; i < places.size();i++){
-            System.out.println("Selo id "+ i + " je:" + places.get(i).getId_place());
-            System.out.println("Selo "+ i + " je:" + places.get(i).getName());
+        for (int i = 0; i < places.size(); i++) {
+            System.out.println("Selo id " + i + " je:" + places.get(i).getId_place());
+            System.out.println("Selo " + i + " je:" + places.get(i).getName());
 
-      //  places.get(i).delete();
+            //  places.get(i).delete();
 
         }
 
@@ -164,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.test_profil)
-    public void buttonProfilClicked(View view){
+    public void buttonProfilClicked(View view) {
 
 
         Intent intent = new Intent(view.getContext(), ProfilNewActivity.class);
@@ -174,11 +171,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
 
-
     }
-
-
-
 
 
 }

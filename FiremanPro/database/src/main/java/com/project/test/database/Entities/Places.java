@@ -14,13 +14,14 @@ import java.sql.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Places extends BaseModel{
+public class Places extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int id_place;
 
-  @Column String name;
+    @Column
+    String name;
 
     @Column
     java.util.Date updated_at;

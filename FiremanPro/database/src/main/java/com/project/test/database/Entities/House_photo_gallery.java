@@ -14,15 +14,18 @@ import java.sql.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class House_photo_gallery extends BaseModel{
+public class House_photo_gallery extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int id_house_photo_gallery;
 
-    @Column int houseID; //foreign key to places
-    @Column String image_name;
-    @Column String image_location;
+    @Column
+    int houseID; //foreign key to places
+    @Column
+    String image_name;
+    @Column
+    String image_location;
 
 
     @Column
@@ -65,7 +68,6 @@ public class House_photo_gallery extends BaseModel{
     public void setImage_location(String image_location) {
         this.image_location = image_location;
     }
-
 
 
     public void setUpdated_at(Date updated_at) {

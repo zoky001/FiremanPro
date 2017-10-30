@@ -18,22 +18,21 @@ import java.sql.Time;
  */
 
 @Table(database = MainDatabase.class)
-public class Reports extends BaseModel{
+public class Reports extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int id_report;
 
-    @Column int houseID; //foreign key to places
-    @Column String description;
+    @Column
+    int houseID; //foreign key to places
+    @Column
+    String description;
 
     @Column
     java.util.Date date;
-    @Column String send_email;
-
-
-
-
+    @Column
+    String send_email;
 
 
     @Column
@@ -70,7 +69,6 @@ public class Reports extends BaseModel{
     }
 
 
-
     public void setDate(Date date) {
         this.date = date;
     }
@@ -84,11 +82,9 @@ public class Reports extends BaseModel{
     }
 
 
-
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
-
 
 
     public void setCreated_at(Date created_at) {

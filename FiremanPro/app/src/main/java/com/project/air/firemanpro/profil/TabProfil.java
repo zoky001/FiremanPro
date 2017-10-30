@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-
 /**
  * Created by Zoran on 27.10.2017..
  */
@@ -41,8 +40,8 @@ public class TabProfil extends Fragment {
     TextView txtMobitel;
 
 
-
     House house;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,14 +50,13 @@ public class TabProfil extends Fragment {
 
 
         String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: "+s);
+        System.out.println("SESSION FRAGMENT_idkuce: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
-        if (a != -1){
+        if (a != -1) {
 
             house = ProfilController.getHouse(a);
 
-        }
-        else {
+        } else {
             house = ProfilController.getFirstHouse();
         }
 
@@ -66,16 +64,14 @@ public class TabProfil extends Fragment {
 //ID image-resourcee
 // int imageresource = getResources().getIdentifier("@drawable/"+house.getHouse_image(), "drawable", getActivity().getPackageName());
 
-        System.out.println("LOKACIJAAA ACTT: "+getActivity().getPackageName());
+        System.out.println("LOKACIJAAA ACTT: " + getActivity().getPackageName());
 //set profil image
 
-profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
-
-
+        profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
 
 
         //set owner data
-        txtNameSurname.setText( house.getSurname_owner()+" "+house.getName_owner());
+        txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
 
         txtPlace.setText(house.getPlaceName());
         txtAdress.setText(house.getAddress());

@@ -52,29 +52,25 @@ public class ProfilNewActivity extends AppCompatActivity {
 
 
         int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
-        if (a != -1){
+        if (a != -1) {
 
             house = ProfilController.getHouse(a);
 
-        }
-        else if (a == -1) {
+        } else if (a == -1) {
             house = ProfilController.getFirstHouse();
-        }
-        else  {
+        } else {
             house = ProfilController.getFirstHouse();
         }
 
 //add tab items with title..
 
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //set title (owner name )on toolbar
-        getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar
-        if (getSupportActionBar() != null){
+        getSupportActionBar().setTitle(house.getSurname_owner() + " " + house.getName_owner() + " - " + house.getPlaceName()); //set title on toolbar
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         } //toolbar
@@ -153,11 +149,11 @@ public class ProfilNewActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
 
-            String IDHouse= ""+house.getId_house();
+            String IDHouse = "" + house.getId_house();
 
-            bundle.putString("IDkuce",IDHouse);
+            bundle.putString("IDkuce", IDHouse);
 
-            switch (position){
+            switch (position) {
                 case 0:
                     TabProfil tab1 = new TabProfil();
 
@@ -167,14 +163,14 @@ public class ProfilNewActivity extends AppCompatActivity {
                     return tab1;
 
                 case 1:
-                    TabPodatci tab2= new TabPodatci();
+                    TabPodatci tab2 = new TabPodatci();
 
 
                     tab2.setArguments(bundle);
                     return tab2;
                 case 2:
 
-                    TabTlocrt tab3= new TabTlocrt();
+                    TabTlocrt tab3 = new TabTlocrt();
                     tab3.setArguments(bundle);
 
                     return tab3;

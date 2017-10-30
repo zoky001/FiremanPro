@@ -96,11 +96,11 @@ public class TabPodatci extends Fragment {
     TextView txtHouseTEl;
 
 
-
     @BindView(R.id.data_house_mobNumber)
     TextView txtHouseMOB;
 
     House house;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,34 +110,33 @@ public class TabPodatci extends Fragment {
         ButterKnife.bind(this, rootView);
 
         String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: "+s);
+        System.out.println("SESSION FRAGMENT_idkuce: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
-        if (a != -1){
+        if (a != -1) {
 
             house = ProfilController.getHouse(a);
 
-        }
-        else {
+        } else {
             house = ProfilController.getFirstHouse();
         }
 
         //set contetn of table
-        txtHouseOwner.setText(house.getSurname_owner()+" "+house.getName_owner());
+        txtHouseOwner.setText(house.getSurname_owner() + " " + house.getName_owner());
 
         txtHousePlace.setText(house.getPlaceName());
 
         txtHouseAddress.setText(house.getAddress());
 
-      txtHouseTeenants.setText(String.valueOf(house.getNumber_of_tenants()));
+        txtHouseTeenants.setText(String.valueOf(house.getNumber_of_tenants()));
 
         txtHouseFloors.setText(house.getList_of_floors());
 
 
-      txtHouseNumChild.setText(String.valueOf(house.getNumber_of_children()));
+        txtHouseNumChild.setText(String.valueOf(house.getNumber_of_children()));
 
-       txtHouseYearsChild.setText(house.getYear_children());
+        txtHouseYearsChild.setText(house.getYear_children());
 
-       txtHouseNumAdults.setText(String.valueOf(house.getNumber_of_adults()));
+        txtHouseNumAdults.setText(String.valueOf(house.getNumber_of_adults()));
 
         txtHouseYearsAdults.setText(house.getYears_adults());
 
@@ -145,37 +144,37 @@ public class TabPodatci extends Fragment {
 
         txtHouseYearsElders.setText(house.getYears_powerless_elders());
 
-        txtHouseDisability.setText(house.isDisability_person()?"DA":"NE");
+        txtHouseDisability.setText(house.isDisability_person() ? "DA" : "NE");
 
-        txtHousePowerSupply.setText(house.isHRO_power_supply()?"DA":"NE");
+        txtHousePowerSupply.setText(house.isHRO_power_supply() ? "DA" : "NE");
 
-        txtHouseGasConnection.setText(house.isGas_connection()?"DA":"NE");
+        txtHouseGasConnection.setText(house.isGas_connection() ? "DA" : "NE");
 
         txtHouseTypeHeating.setText(house.getType_of_heating());
 
-       txtHouseGasBottle.setText(house.isGas_bottle()?"DA":"NE");
+        txtHouseGasBottle.setText(house.isGas_bottle() ? "DA" : "NE");
 
-       txtHouseNumGasBottle.setText(String.valueOf(house.getNumber_of_gas_bottle()));
+        txtHouseNumGasBottle.setText(String.valueOf(house.getNumber_of_gas_bottle()));
 
         txtHouseTypeRoof.setText(house.getType_of_roof());
 
-       txtHouseHydrantDistance.setText(String.valueOf(house.getHydrant_distance()));
+        txtHouseHydrantDistance.setText(String.valueOf(house.getHydrant_distance()));
 
-        txtHouseHRO.setText(house.isHigh_risk_object()?"DA":"NE");
+        txtHouseHRO.setText(house.isHigh_risk_object() ? "DA" : "NE");
 
         txtHouseHROroof.setText(house.getHRO_type_of_roof());
 
-        txtHouseHROpowerSupply.setText(house.isHRO_power_supply()?"DA":"NE");
+        txtHouseHROpowerSupply.setText(house.isHRO_power_supply() ? "DA" : "NE");
 
-       txtHouseHROContent.setText(house.getHRO_content());
+        txtHouseHROContent.setText(house.getHRO_content());
 
-        txtHouseHROAnimals.setText(house.isHRO_animals()?"DA":"NE");
+        txtHouseHROAnimals.setText(house.isHRO_animals() ? "DA" : "NE");
 
         txtHouseTEl.setText(house.getTelNumber());
 
-       txtHouseMOB.setText(house.getMobNumber());
+        txtHouseMOB.setText(house.getMobNumber());
 
 
-return rootView;
+        return rootView;
     }
 }

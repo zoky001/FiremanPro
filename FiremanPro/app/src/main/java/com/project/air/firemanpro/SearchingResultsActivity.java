@@ -38,24 +38,23 @@ public class SearchingResultsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //set title (owner name )on toolbar
         //getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         } //toolbar
-
 
 
         //Retrieving string that user has entered in autoCompleteTextView bar
         String retrievedAutoCompleteTextString;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                retrievedAutoCompleteTextString= null;
+            if (extras == null) {
+                retrievedAutoCompleteTextString = null;
             } else {
-                retrievedAutoCompleteTextString= extras.getString("valueFromAutoCompleteTextView");
+                retrievedAutoCompleteTextString = extras.getString("valueFromAutoCompleteTextView");
             }
         } else {
-            retrievedAutoCompleteTextString= (String) savedInstanceState.getSerializable("valueFromAutoCompleteTextView");
+            retrievedAutoCompleteTextString = (String) savedInstanceState.getSerializable("valueFromAutoCompleteTextView");
         }
 
         //Getting List of Houses

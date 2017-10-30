@@ -14,21 +14,27 @@ import java.sql.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Hydrants extends BaseModel{
+public class Hydrants extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int id_hydrant;
 
-    @Column int placeID; //foreign key to places
-    @Column String address;
-    @Column String type_of_hydrant;
+    @Column
+    int placeID; //foreign key to places
+    @Column
+    String address;
+    @Column
+    String type_of_hydrant;
 
 
-    @Column long longitude;
-    @Column long latitude;
+    @Column
+    long longitude;
+    @Column
+    long latitude;
 
-    @Column String hydrant_image;
+    @Column
+    String hydrant_image;
 
     @Column
     java.util.Date updated_at;
@@ -96,11 +102,9 @@ public class Hydrants extends BaseModel{
     }
 
 
-
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
-
 
 
     public void setCreated_at(Date created_at) {
