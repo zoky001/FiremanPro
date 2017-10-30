@@ -173,6 +173,7 @@ public class MockData {
         house2.save(); // <-- available from BaseModel super class
         Ground_plan g4 = new Ground_plan(house2.getId_house(),"Prvi kat","gnd_1",date,date);
         g4.save();
+
         House house3 = new House(
                 "Ana",
                 "Banana",

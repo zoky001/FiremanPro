@@ -7,17 +7,7 @@
 
     android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/background_dark"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:id="@+id/imageViewGroundListItemTitle"
-            />
+
 
         <ImageView
             android:id="@+id/imageViewGroundListItem"
