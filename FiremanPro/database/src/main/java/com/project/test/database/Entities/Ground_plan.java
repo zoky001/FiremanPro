@@ -76,6 +76,9 @@ public class Ground_plan extends BaseModel {
         this.updated_at = updated_at;
     }
 
+    public String getImgName() {
+        return imgName;
+    }
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;

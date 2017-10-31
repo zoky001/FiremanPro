@@ -17,6 +17,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.io.File;
 import java.io.InputStream;
+import java.sql.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -84,7 +85,7 @@ public class House extends BaseModel{
     }
 
     public House(String name_owner, String surname_owner, int IDplace, String address, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, boolean gas_bottle, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, long longitude, long latitude, String house_image, String telNumber
-            ,String mobNumber, java.util.Date updated_at, java.util.Date created_at) {
+            , String mobNumber, ArrayList<String> gndPlans, java.util.Date updated_at, java.util.Date created_at) {
 
         this.name_owner = name_owner;
         this.surname_owner = surname_owner;
@@ -119,8 +120,22 @@ public class House extends BaseModel{
         this.mobNumber = mobNumber;
         this.updated_at = updated_at;
         this.created_at = created_at;
+
+
     }
 
+    public void saveGndPlans (List<String> plans){
+
+        java.util.Date date = new java.util.Date(System.currentTimeMillis());
+        Ground_plan g6;
+        for (String name: plans
+             ) {
+            g6 = new Ground_plan(this.id_house,name,name,date,date);
+            g6.save();
+        }
+
+
+    }
     public String getTelNumber() {
         return telNumber;
     }

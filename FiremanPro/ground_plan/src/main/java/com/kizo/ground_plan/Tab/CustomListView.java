@@ -30,7 +30,7 @@ public class CustomListView extends ArrayAdapter<String> {
 
     public CustomListView(Activity context, String[] fruitname, Integer[] images, List<Ground_plan> plans) {
         super(context, R.layout.tlocrt_item, fruitname);
-
+//plans.clear();
         this.context = context;
         this.fruitname = fruitname;
         this.images = images;

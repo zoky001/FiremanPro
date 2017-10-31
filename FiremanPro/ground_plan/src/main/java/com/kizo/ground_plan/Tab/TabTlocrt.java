@@ -2,6 +2,7 @@ package com.kizo.ground_plan.Tab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +60,8 @@ ListView lst;
             house = HouseController.getFirstHouse();
         }
 
-      final List<Ground_plan> gndPlans = house.getAllHouseGroundPlans();
+
+      final List<Ground_plan> gndPlans= house.getAllHouseGroundPlans();
 
        // System.out.println("SIZE RESOURCE GND:  "+ house.getListGroundPlansIDResource(getContext()).size());
 thumbnail.clear();
@@ -73,6 +75,7 @@ thumbnail.clear();
         System.out.println("BROJ SLIKA:  "+gndPlans.size());
 
       lst = (ListView) rootView.findViewById(R.id.listView);
+        System.out.println("BROJ GND PLANOVA JE: "+ gndPlans.size());
         CustomListView customListView = new CustomListView(getActivity(),fruitname,imgId,gndPlans);
         lst.setAdapter(customListView);
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,5 +95,12 @@ thumbnail.clear();
         rv.setAdapter(new Ground_plan_adapter(gndPlans));*/
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
     }
 }

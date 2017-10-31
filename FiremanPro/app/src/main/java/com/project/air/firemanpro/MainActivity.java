@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        MockData.printAll();
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
         inputLayout.setError("First name is required"); // show error
         inputLayout.setError(null); // hide error
