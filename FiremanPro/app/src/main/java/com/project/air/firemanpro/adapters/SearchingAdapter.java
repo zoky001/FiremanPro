@@ -37,11 +37,11 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
     public void onBindViewHolder(SearchingViewHolder holder, int position) {
         House h = houseItem.get(position);
         holder.name.setText(h.getName_owner());
-        holder.adressInfo.setText(h.getAddress());
+        holder.address.setText(h.getAddress());
         holder.ID.setText(String.valueOf(h.getId_house()));
 
         holder.surname.setText(h.getSurname_owner());
-        holder.address.setText(h.getPlaceName());
+        holder.grad.setText(h.getPlaceName());
 
         holder.housePicture.setImageResource(h.getProfilImageResourceIDbyContext(holder.housePicture.getContext()));
 

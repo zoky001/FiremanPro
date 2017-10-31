@@ -158,15 +158,14 @@ public class House extends BaseModel{
 
     public String getPlaceName(){
 
-
         List<Places> places2 = SQLite.select()
                 .from(Places.class)
                 .where(Places_Table.id_place.is(getPlace_id()))
-
                 .queryList();
-System.out.println("rezultat upita: "+ places2.size());
 
-        return places2.get(0).getName();
+        System.out.println("rezultat upita: "+ places2.size());
+
+        return places2.get(0).name.toString();
     }
 
     public void setName_owner(String name_owner) {

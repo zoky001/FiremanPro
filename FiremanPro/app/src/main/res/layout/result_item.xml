@@ -4,105 +4,93 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:id="@+id/cv"
     android:layout_marginBottom="5dp"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:selectableItemBackground">
+    android:focusable="true">
+
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        >
 
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
-            android:weightSum="5"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.745"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.444"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="5dp"
+            android:orientation="horizontal"
             >
 
+            <ImageView
+                android:id="@+id/imageResult1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:foregroundGravity="center"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
+
                 <TextView
                     android:id="@+id/tv_name"
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginBottom="5dp"
-                    tools:text="Ivo " />
+                    tools:text="Ivo "/>
+
+                <Space
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                />
 
                 <TextView
                     android:id="@+id/tv_surName"
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginBottom="5dp"
                     tools:text="Ivić" />
             </LinearLayout>
 
+
             <TextView
-                android:id="@+id/tv_info"
+                android:id="@+id/tv_adresa"
                 style="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 tools:text="Petra Preradovića 28A" />
+
 
             <TextView
                 android:id="@+id/tv_grad"
                 style="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 tools:text=" Varaždin " />
+
 
             <TextView
                 android:id="@+id/tv_ID"
                 style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="Varaždin" />
-
-
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="34dp"
-            android:layout_height="0dp"
-            android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/imageResult1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:scaleType="fitXY"
-            app:srcCompat="@mipmap/ic_launcher_round"
-
-            />
-        </LinearLayout>
-
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

@@ -22,7 +22,7 @@
 
     <style name="gumbFensi" >
         <item name="colorControlHighlight"> @color/gumbPromijena </item>
-        <item name="android:textColor"> @color/text </item>
+        <item name="android:textColor"> @color/colorButton </item>
         <item name="android:layout_marginTop"> 8dp </item>
         <item name="android:layout_marginBottom"> 8dp </item>
         <item name="android:fontFamily"> Roboto </item>

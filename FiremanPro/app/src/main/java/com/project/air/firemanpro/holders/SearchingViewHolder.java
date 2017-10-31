@@ -18,7 +18,7 @@ import butterknife.OnClick;
 
 public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView adressInfo;
+    public TextView grad;
     public TextView name;
     public ImageView housePicture;
     public TextView ID;
@@ -35,11 +35,10 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
         System.out.println("SearchingViewHolder: ");
 
-        address = (TextView) v.findViewById(R.id.tv_grad);
+        grad = (TextView) v.findViewById(R.id.tv_grad);
+        address = (TextView) v.findViewById(R.id.tv_adresa);
 
-        adressInfo = (TextView) v.findViewById(R.id.tv_info);
         surname = (TextView) v.findViewById(R.id.tv_surName);
-
         name = (TextView) v.findViewById(R.id.tv_name);
         housePicture = (ImageView) v.findViewById(R.id.imageResult1);
         ID = (TextView) v.findViewById(R.id.tv_ID);
