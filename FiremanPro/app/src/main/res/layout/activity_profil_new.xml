@@ -20,11 +20,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorTitleBackground"
+           android:background="@color/colorTitleBackground"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/FiremanProTheme.PopupOverlay"
-            app:titleTextColor="@color/colorTitleText"
-            >
+            app:titleTextColor="@color/text"
+
+        >
 
         </android.support.v7.widget.Toolbar>
 
