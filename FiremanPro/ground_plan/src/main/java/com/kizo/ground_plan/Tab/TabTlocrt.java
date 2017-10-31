@@ -2,19 +2,14 @@ package com.kizo.ground_plan.Tab;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.kizo.ground_plan.R;
-import com.kizo.ground_plan.Tab.adapter.Ground_plan_adapter;
 import com.project.test.database.Entities.Ground_plan;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
@@ -22,7 +17,6 @@ import com.project.test.database.controllers.HouseController;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
