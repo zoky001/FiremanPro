@@ -1,6 +1,7 @@
 package com.project.air.firemanpro.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,7 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.surname.setText(h.getSurname_owner());
         holder.grad.setText(h.getPlaceName());
 
-        holder.housePicture.setImageBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()));
+        holder.housePicture.setImageBitmap(Bitmap.createScaledBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()), 270, 200, false));
 
         System.out.println("onBindViewHolder: ");
     }

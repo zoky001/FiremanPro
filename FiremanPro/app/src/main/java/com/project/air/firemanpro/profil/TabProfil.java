@@ -1,5 +1,6 @@
 package com.project.air.firemanpro.profil;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -68,7 +69,7 @@ public class TabProfil extends Fragment {
 //set profil image
 
  //       profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
-profil.setImageBitmap(house.getProfilImageBitmapbyContext(profil.getContext()));
+profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()),400, 300, false));
 
         //set owner data
         txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
