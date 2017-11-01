@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -111,8 +112,36 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(1);
 
+        TextWatcher watcher = new TextWatcher() {
+            TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 2) {
+                    if (!autoCompleteTextView.isPopupShowing()) {
+
+                        inputLayout.setError("No results found!"); // show error
+                        //
+                    }
+                    else {
+                        inputLayout.setError(null); // hide error
+                    }
+                }
+            }
+        };
+        autoCompleteTextView.addTextChangedListener(watcher);
 
     }
+
 
 
     @OnClick(R.id.buttonSearching)
