@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -88,22 +89,18 @@ public class MainActivity extends AppCompatActivity {
         MockData.printAll();
 
 
-
-
         File mydir = this.getApplicationContext().getDir("ProfilImages", Context.MODE_PRIVATE);
         File lister = mydir.getAbsoluteFile();
         System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
 
         //check if image exist in folder "ProfilImages"
-        if (lister.list().length < 1){
+        if (lister.list().length < 1) {
             //save images from resource to directory in device
             SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
             SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
         }
 
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
-        inputLayout.setError("First name is required"); // show error
-        inputLayout.setError(null); // hide error
 
 
         //Saving items in list needed for autoComplete control
@@ -131,8 +128,27 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.setThreshold(1);
 
 
+        //Delayed method for inputLayout set error method after item is selected from autoCompleteTextView
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                autoCompleteTextView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
+                        inputLayout.setError(null); // hide error
+
+
+                    }
+                }, 70);
+            }
+        });
+
+
+        //Text watcher to autoCompleteTextView listener for changing text
         TextWatcher watcher = new TextWatcher() {
             TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -145,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0) {
+                if (s.length() > 0) {
 
                     autoCompleteTextView.postDelayed(new Runnable() {
                         @Override
@@ -154,13 +170,12 @@ public class MainActivity extends AppCompatActivity {
 
                                 inputLayout.setError("No results found!"); // show error
                                 //
-                            }
-                            else {
+                            } else {
                                 inputLayout.setError(null); // hide error
                             }
 
                         }
-                    },100);
+                    }, 50);
 
 
                 }
@@ -169,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.addTextChangedListener(watcher);
 
     }
-
 
 
     @OnClick(R.id.buttonSearching)
