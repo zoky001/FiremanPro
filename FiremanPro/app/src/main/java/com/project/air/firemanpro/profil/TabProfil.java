@@ -67,8 +67,8 @@ public class TabProfil extends Fragment {
         System.out.println("LOKACIJAAA ACTT: " + getActivity().getPackageName());
 //set profil image
 
-        profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
-
+ //       profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
+profil.setImageBitmap(house.getProfilImageBitmapbyContext(profil.getContext()));
 
         //set owner data
         txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());

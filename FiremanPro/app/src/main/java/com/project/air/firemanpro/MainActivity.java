@@ -1,5 +1,6 @@
 package com.project.air.firemanpro;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +24,12 @@ import com.project.test.database.Entities.Places;
 //import com.project.test.database.Entities.Places_Table;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.helper.MockData;
+import com.project.test.database.imageSaver.SaveResourceImage;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +86,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         MockData.printAll();
+
+
+
+
+        File mydir = this.getApplicationContext().getDir("ProfilImages", Context.MODE_PRIVATE);
+        File lister = mydir.getAbsoluteFile();
+        System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
+
+        //check if image exist in folder "ProfilImages"
+        if (lister.list().length < 1){
+            //save images from resource to directory in device
+            SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
+            SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
+        }
+
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
         inputLayout.setError("First name is required"); // show error
         inputLayout.setError(null); // hide error

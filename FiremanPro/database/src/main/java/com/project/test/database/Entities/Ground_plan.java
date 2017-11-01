@@ -1,8 +1,10 @@
 package com.project.test.database.Entities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.project.test.database.MainDatabase;
+import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -97,5 +99,15 @@ public class Ground_plan extends BaseModel {
         int imageresource = contextItem.getResources().getIdentifier("@drawable/" + getImgAdress(), "drawable", contextItem.getPackageName());
 
         return imageresource;
+    }
+
+    public Bitmap getImageBitmapbyContext (Context contextItem) {
+
+        Bitmap bitmap = new ImageSaver(contextItem).
+                setFileName(getImgAdress()+".png").
+                setDirectoryName("GroundPlanImages").
+                load();
+
+        return bitmap;
     }
 }

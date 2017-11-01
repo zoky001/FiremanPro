@@ -2,12 +2,14 @@ package com.project.test.database.Entities;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import com.project.test.database.MainDatabase;
 import com.project.test.database.R;
+import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -299,6 +301,18 @@ public class House extends BaseModel{
 
         return imageresource;
     }
+
+    public Bitmap getProfilImageBitmapbyContext (Context contextItem) {
+
+        Bitmap bitmap = new ImageSaver(contextItem).
+                setFileName(getHouse_image()+".png").
+                setDirectoryName("ProfilImages").
+                load();
+
+        return bitmap;
+    }
+
+
 
     public List<Ground_plan> getAllHouseGroundPlans(){
 
