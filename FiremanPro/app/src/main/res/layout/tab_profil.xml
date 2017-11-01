@@ -3,40 +3,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
         android:id="@+id/tab1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp"
+        >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="200dp"
-
             android:orientation="vertical"
-
-
             >
-
 
             <ImageView
                 android:id="@+id/imageViewProfilHouse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-
                 android:src="@mipmap/ic_launcher"
-                android:layout_margin="8dp"
-                android:paddingRight="8dp">
+                android:layout_margin="16dp" />
+                // android:paddingRight="8dp"
 
-            </ImageView>
         </LinearLayout>
 
 
         <TableLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <!-- 2 columns -->
@@ -44,27 +41,20 @@
                 android:id="@+id/tableRow1"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"
                 >
 
                 <TextView
                     android:id="@+id/textViewNameOwnerlbl"
                     android:text="@string/ime_lbl"
-                    android:paddingLeft="8dp"
-                    android:textAlignment="textStart"
                     xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"                                    android:textColor="@color/text"
-                    android:textSize="20sp"
+                    style="@style/text"
                     />
 
                 <TextView
                     android:id="@+id/textViewNameOwner"
                     android:text="Mladen"
-                    android:paddingRight="16dp"
-                    android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textStyle="bold|italic"
-                    android:textSize="20dp"
+                    style="@style/textPodaci"
                     />
             </TableRow>
 
@@ -81,26 +71,20 @@
                 android:id="@+id/tableRow2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
+                >
 
                 <TextView
                     android:id="@+id/textViewPlacelbl"
                     android:text="@string/mjesto_lbl"
-                    android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/text"
-                    android:textSize="20dp"
-                    android:paddingLeft="8dp"
+                    style="@style/text"
                     />
 
                 <TextView
                     android:id="@+id/textViewPlace"
                     android:text="Mladen"
-                    android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textStyle="bold|italic"
-                    android:textSize="20dp"
-                    android:drawableBottom="@android:color/black"
+                    style="@style/textPodaci"
                     />
 
             </TableRow>
@@ -118,34 +102,20 @@
                 android:id="@+id/tableRow3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
-
+                >
 
                 <TextView
                     android:id="@+id/textViewaddresslbl"
-                    android:layout_marginEnd="25dip"
                     android:text="@string/adresa_lbl"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/text"
-                    android:textSize="20dp"
-                    android:paddingLeft="8dp"
+                    style="@style/text"
                     />
-
-
-
                 <TextView
                     android:id="@+id/textView1Address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:ems="7"
-                    android:textSize="20dp"
-                    android:inputType="textMultiLine"
-                    android:focusable="false"
-                    android:clickable="false"
-                    android:textStyle="bold|italic"
-
-
+                    style="@style/textPodaci"
+                    android:layout_width="0dp"
+                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                     />
 
 
@@ -164,26 +134,20 @@
                 android:id="@+id/tableRow4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
-
-
+                >
 
                 <TextView
                     android:id="@+id/textViewTellbl"
-                    android:layout_marginEnd="25dip"
                     android:text="@string/telefon"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/text"
-                    android:textSize="20dp"
-                    android:paddingLeft="8dp"
+                    style="@style/text"
                     />
+
                 <TextView
                     android:id="@+id/textViewTel"
                     android:text="Mladen"
-                    android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="20dp"
-                    android:textStyle="bold|italic"
+                    style="@style/textPodaci"
                     />
             </TableRow>
 
@@ -200,27 +164,23 @@
                 android:id="@+id/tableRow5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
-
-
+                >
 
                 <TextView
                     android:id="@+id/textViewMobbl"
-                    android:layout_marginEnd="25dip"
                     android:text="@string/mobitel"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/text"
-                    android:textSize="20dp"
-                    android:paddingLeft="8dp"
+                    style="@style/text"
+                    android:layout_marginBottom="0dp"
                     />
 
                 <TextView
                     android:id="@+id/textViewMobitel"
                     android:text="Mladen"
-                    android:textAlignment="textStart"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="20dp"
-                    android:textStyle="bold|italic"/>
+                    style="@style/textPodaci"
+                    android:layout_marginBottom="0dp"
+                    />
             </TableRow>
 
             <!-- just draw a red line
@@ -235,28 +195,23 @@
         </TableLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="400dp"
-
-            android:layout_marginBottom="35dp"
-            android:layout_marginTop="20dp"
-
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="50dp"
             android:orientation="horizontal"
-            android:weightSum="1"
-
-            >
-
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+           >
 
             <ImageView
                 android:id="@+id/imageViewTESTmap"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="40dp"
-                android:layout_weight="1"
-                android:src="@drawable/test_map">
-
-            </ImageView>
+                android:src="@drawable/test_map"
+                />
         </LinearLayout>
+
+
 
 
     </LinearLayout>

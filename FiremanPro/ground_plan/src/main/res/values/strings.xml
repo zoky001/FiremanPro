@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ground_plan</string>
+    <style name="prviPlan"> 1. plan </style>
 </resources>

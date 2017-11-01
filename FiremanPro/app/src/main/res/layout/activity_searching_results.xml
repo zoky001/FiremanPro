@@ -12,8 +12,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        >
 
     <!-- android:layout_width="fill_parent"
      android:layout_height="fill_parent"
@@ -33,26 +34,22 @@
         android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/colorMain" />
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="456dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:orientation="vertical">
 
-    <TabWidget
+        <TabWidget
         android:id="@android:id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0"/>
+        android:layout_height="1dp"
+            />
 
             <LinearLayout
                 android:id="@+id/searching_results"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="1dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 android:paddingRight="8dp"
@@ -62,41 +59,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:id="@+id/rezultatPretrazivanjaText"
                     android:text="Rezultati pretraživanja"
+                    style="@style/textPodaci"
                     android:textAlignment="center"
-                    android:textColor="@color/text"
-                    android:textSize="20dp"
-                    android:textStyle="bold|italic"
-                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     />
-
-                <LinearLayout
-                    android:id="@+id/searching_ispis"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="40"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    >
-
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_results"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="130"
+                    android:layout_height="550dp"
                     >
+
                 </android.support.v7.widget.RecyclerView>
-
-
             </LinearLayout>
-            </LinearLayout>
-    </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
 </ScrollView>
 
 

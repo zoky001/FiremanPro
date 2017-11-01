@@ -17,10 +17,10 @@ import butterknife.ButterKnife;
  * Created by Zoran on 27.10.2017..
  */
 
-public class TabPodatci extends Fragment {
+public class TabPodaci extends Fragment {
 
-    @BindView(R.id.txtHouseOwner)
-    TextView txtHouseOwner;
+    @BindView(R.id.txtHouseOwnerName)
+    TextView txtHouseOwnerName;
 
     @BindView(R.id.txtHousePlace)
     TextView txtHousePlace;
@@ -33,7 +33,6 @@ public class TabPodatci extends Fragment {
 
     @BindView(R.id.txtHouseFloors)
     TextView txtHouseFloors;
-
 
     @BindView(R.id.data_house_nmb_children)
     TextView txtHouseNumChild;
@@ -105,8 +104,8 @@ public class TabPodatci extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        System.out.println("Tabpodatci");
-        View rootView = inflater.inflate(R.layout.tab_podatci_, container, false);
+        System.out.println("Tabpodaci");
+        View rootView = inflater.inflate(R.layout.tab_podaci_, container, false);
         ButterKnife.bind(this, rootView);
 
         String s = getArguments().getString("IDkuce");
@@ -121,7 +120,7 @@ public class TabPodatci extends Fragment {
         }
 
         //set contetn of table
-        txtHouseOwner.setText(house.getSurname_owner() + " " + house.getName_owner());
+        txtHouseOwnerName.setText(house.getSurname_owner() + " " + house.getName_owner());
 
         txtHousePlace.setText(house.getPlaceName());
 
