@@ -70,6 +70,7 @@
                      android:dropDownWidth="match_parent"
                      android:hint="@string/pretrazivanje"
                      android:textColor="@color/text"
+
                      />
 
 

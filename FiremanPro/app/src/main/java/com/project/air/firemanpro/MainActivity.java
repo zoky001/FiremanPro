@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(1);
 
+
         TextWatcher watcher = new TextWatcher() {
             TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
             @Override
@@ -144,15 +145,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 2) {
-                    if (!autoCompleteTextView.isPopupShowing()) {
+                if(s.length() > 0) {
 
-                        inputLayout.setError("No results found!"); // show error
-                        //
-                    }
-                    else {
-                        inputLayout.setError(null); // hide error
-                    }
+                    autoCompleteTextView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!autoCompleteTextView.isPopupShowing()) {
+
+                                inputLayout.setError("No results found!"); // show error
+                                //
+                            }
+                            else {
+                                inputLayout.setError(null); // hide error
+                            }
+
+                        }
+                    },100);
+
+
                 }
             }
         };
