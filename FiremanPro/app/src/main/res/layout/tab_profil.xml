@@ -114,7 +114,7 @@
                     android:id="@+id/textView1Address"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     style="@style/textPodaci"
-                    android:layout_width="0dp"
+                    android:layout_width="3dp"
                     android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                     />
 

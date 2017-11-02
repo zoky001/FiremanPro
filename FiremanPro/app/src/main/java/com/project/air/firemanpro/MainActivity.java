@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             if (!autoCompleteTextView.isPopupShowing()) {
 
-                                inputLayout.setError("No results found!"); // show error
+                                inputLayout.setError("Ne postoji podatak s željenim upisom!"); // show error
                                 //
                             } else {
                                 inputLayout.setError(null); // hide error
