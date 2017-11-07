@@ -12,6 +12,7 @@ import com.project.test.database.R;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -41,8 +42,6 @@ public class House extends BaseModel{
     int id_house;
     @Column String name_owner;
     @Column String surname_owner;
-    @Column int place_id; //foreign key to places
-    @Column String address;
     @Column int number_of_tenants;
     @Column int number_of_floors;
     @Column String list_of_floors;
@@ -56,7 +55,7 @@ public class House extends BaseModel{
     @Column String power_supply; //type of connection
     @Column boolean gas_connection;
     @Column String type_of_heating;
-    @Column boolean gas_bottle;
+
     @Column int number_of_gas_bottle;
     @Column String type_of_roof;
     @Column int hydrant_distance;
@@ -65,34 +64,55 @@ public class House extends BaseModel{
     @Column boolean HRO_power_supply;
     @Column String HRO_content;
     @Column boolean HRO_animals;
-
-    @Column long longitude;
-    @Column long latitude;
-    @Column String house_image;
     @Column String telNumber;
     @Column String mobNumber;
     @Column java.util.Date updated_at;
     @Column java.util.Date created_at;
+//do ovdje sve valja
+
+    //novo
+
+    // photos
+    List<House_photos> photos;
+
+    //address
+    @ForeignKey(saveForeignKeyModel = true)
+    Address address;
 
 
-    @Column
-    @ForeignKey(tableClass = Places.class)
-    Places place;
+
+    @OneToMany(methods = OneToMany.Method.ALL, variableName = "photos")
+    public List<House_photos> oneToManyPhotos() {
+        if (photos == null) {
+            photos= SQLite.select()
+                    .from(House_photos.class)
+                    .where(House_photos_Table.house_id.eq(id_house))
+                    .queryList();
+        }
+        return photos;
+    }
+
+    Override
+    public boolean save() {
+        boolean res = super.save();
+        if (photos != null) {
+            for (House_photos s : photos) {
+                s.setHouse(this);
+                s.save();
+            }
+        }
+        return res;
+    }
+
+
+
 
     public House() {
     }
 
-    public void setPlace_id(int place_id) {
-        this.place_id = place_id;
-    }
-
-    public House(String name_owner, String surname_owner, int IDplace, String address, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, boolean gas_bottle, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, long longitude, long latitude, String house_image, String telNumber
-            , String mobNumber, ArrayList<String> gndPlans, java.util.Date updated_at, java.util.Date created_at) {
-
+    public House(String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber, java.util.Date updated_at, java.util.Date created_at, Address address) {
         this.name_owner = name_owner;
         this.surname_owner = surname_owner;
-        this.place_id = IDplace;
-        this.address = address;
         this.number_of_tenants = number_of_tenants;
         this.number_of_floors = number_of_floors;
         this.list_of_floors = list_of_floors;
@@ -106,7 +126,6 @@ public class House extends BaseModel{
         this.power_supply = power_supply;
         this.gas_connection = gas_connection;
         this.type_of_heating = type_of_heating;
-        this.gas_bottle = gas_bottle;
         this.number_of_gas_bottle = number_of_gas_bottle;
         this.type_of_roof = type_of_roof;
         this.hydrant_distance = hydrant_distance;
@@ -115,15 +134,12 @@ public class House extends BaseModel{
         this.HRO_power_supply = HRO_power_supply;
         this.HRO_content = HRO_content;
         this.HRO_animals = HRO_animals;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.house_image = house_image;
         this.telNumber = telNumber;
         this.mobNumber = mobNumber;
         this.updated_at = updated_at;
         this.created_at = created_at;
 
-
+        this.address = address;
     }
 
     public void saveGndPlans (List<String> plans){

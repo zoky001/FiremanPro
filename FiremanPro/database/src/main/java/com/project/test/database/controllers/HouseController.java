@@ -1,7 +1,9 @@
 package com.project.test.database.controllers;
 
+import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_Table;
+import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Places;
 import com.project.test.database.Entities.Places_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -14,7 +16,53 @@ import java.util.List;
  */
 
 public class HouseController {
+    java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+House_photosController house_photosController = new House_photosController();
+    public HouseController() {
+    }
 
+    public void AddNewHouse (String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber, java.util.Date updated_at, java.util.Date created_at, List<House_photos> photos, Address address){
+
+        House house = new House(name_owner,
+                surname_owner,
+                number_of_tenants,
+                number_of_floors,
+                list_of_floors,
+                number_of_children,
+                year_children,
+                number_of_adults,
+                years_adults,
+                number_of_powerless_and_elders,
+                years_powerless_elders,
+                disability_person,
+                power_supply,
+                gas_connection,
+                type_of_heating,
+                number_of_gas_bottle,
+                type_of_roof,
+                hydrant_distance,
+                high_risk_object,
+                HRO_type_of_roof,
+                HRO_power_supply,
+                HRO_content,
+                HRO_animals,
+                telNumber,
+                mobNumber,
+                CurrentDate,
+                CurrentDate,
+                address);
+        house.save();
+
+
+    }
+
+    public void AddProfilPicToHouse(String pic, House house){
+    house_photosController.addNewProfilPhotoToHouse(pic,pic,house);
+}
+
+public void AddGroundPlanPicToHouse(String pic, House house){
+    house_photosController.addNewGrouondPlanPhotoToHouse(pic,pic,house);
+}
 
     public static House getHouse(int idHouse) {
         List<House> house = SQLite.select().from(House.class).where(House_Table.id_house.is(idHouse)).queryList();
