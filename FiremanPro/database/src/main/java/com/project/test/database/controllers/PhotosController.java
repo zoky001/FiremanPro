@@ -1,5 +1,7 @@
 package com.project.test.database.controllers;
 
+import android.content.Context;
+
 import com.project.test.database.Entities.House;
 
 import com.project.test.database.Entities.House_photos;
@@ -32,6 +34,30 @@ public class PhotosController {
 
     return photo;
 }
+
+    public int getPhotoResourceIDbyContext (Context contextItem, Photos photo) {
+
+        int imageresource = contextItem.getResources().getIdentifier("@drawable/"+photo.getFileName(), "drawable", contextItem.getPackageName());
+
+        return imageresource;
+    }
+
+    public List<Photos> GetAllRecordsFromTable(){
+
+        return SQLite.select().from(Photos.class).queryList();
+
+
+    }
+    public void DeleteAllRecordsInTable(){
+
+        final List<Photos> gndPlan = GetAllRecordsFromTable();
+        for(int i = 0; i < gndPlan.size(); i++){
+
+            gndPlan.get(i).delete();
+            //delete all item in table House
+        }
+
+    }
 
 
 }

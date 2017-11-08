@@ -86,13 +86,13 @@ public class House extends BaseModel{
         if (photos == null) {
             photos= SQLite.select()
                     .from(House_photos.class)
-                    .where(House_photos_Table.house_id.eq(id_house))
+                    .where(House_photos_Table.house_id_house.eq(id_house))
                     .queryList();
         }
         return photos;
     }
 
-    Override
+    @Override
     public boolean save() {
         boolean res = super.save();
         if (photos != null) {
@@ -142,6 +142,27 @@ public class House extends BaseModel{
         this.address = address;
     }
 
+    public Photos getProfilPhotos() {
+
+        return SQLite.select()
+                    .from(House_photos.class)
+                    .where(House_photos_Table.house_id_house.eq(id_house))
+                .and(House_photos_Table.photoType_ID.eq(100)) //id of profil
+                    .querySingle().getPhoto();
+
+
+    }
+    public List<House_photos> getGroundPlanPhotos() {
+
+        return SQLite.select()
+                .from(House_photos.class)
+                .where(House_photos_Table.house_id_house.eq(id_house))
+                .and(House_photos_Table.photoType_ID.eq(101)) //id of groundType
+                .queryList();
+
+
+    }
+
     public void saveGndPlans (List<String> plans){
 
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
@@ -166,24 +187,15 @@ public class House extends BaseModel{
         return name_owner;
     }
 
-    public int getPlace_id() {
-        return place_id;
-    }
+
 
     public int getId_house() {
         return id_house;
     }
 
     public String getPlaceName(){
+return getAddress().getPlace().getName();
 
-        List<Places> places2 = SQLite.select()
-                .from(Places.class)
-                .where(Places_Table.id_place.is(getPlace_id()))
-                .queryList();
-
-        System.out.println("rezultat upita: "+ places2.size());
-
-        return places2.get(0).name.toString();
     }
 
     public void setName_owner(String name_owner) {
@@ -195,9 +207,7 @@ public class House extends BaseModel{
         return surname_owner;
     }
 
-    public String getAddress() {
-        return address;
-    }
+
 
     public int getNumber_of_tenants() {
         return number_of_tenants;
@@ -251,9 +261,7 @@ public class House extends BaseModel{
         return type_of_heating;
     }
 
-    public boolean isGas_bottle() {
-        return gas_bottle;
-    }
+
 
     public int getNumber_of_gas_bottle() {
         return number_of_gas_bottle;
@@ -287,72 +295,57 @@ public class House extends BaseModel{
         return HRO_animals;
     }
 
-    public long getLongitude() {
-        return longitude;
-    }
 
-    public long getLatitude() {
-        return latitude;
-    }
 
     public java.util.Date getUpdated_at() {
         return updated_at;
     }
 
-    public Places getPlace() {
-        return place;
-    }
-
-    public String getHouse_image() {
-        return house_image;
-    }
 
     public java.util.Date getCreated_at() {
         return created_at;
     }
 
     public int getProfilImageResourceIDbyContext (Context contextItem) {
-
+/*
         int imageresource = contextItem.getResources().getIdentifier("@drawable/"+getHouse_image(), "drawable", contextItem.getPackageName());
-
-        return imageresource;
+*/
+        return 0;
     }
 
     public Bitmap getProfilImageBitmapbyContext (Context contextItem) {
 
         Bitmap bitmap = new ImageSaver(contextItem).
-                setFileName(getHouse_image()+".png").
-                setDirectoryName("ProfilImages").
+                setFileName(getProfilPhotos().getFileName()+".png").
+                setDirectoryName("Images").
                 load();
 
+
+
+
         return bitmap;
+
+
     }
 
 
 
-    public List<Ground_plan> getAllHouseGroundPlans(){
 
-
-        List<Ground_plan> gnd = SQLite.select().from(Ground_plan.class).where(Ground_plan_Table.houseID.is(getId_house())).queryList();
-
-//
-        return gnd;
-    }
 
 
     public ArrayList<String> getListGroundPlansIDResource(Context contextItem){
 
 
-        List<Ground_plan> gnd = SQLite.select().from(Ground_plan.class).where(Ground_plan_Table.houseID.is(getId_house())).queryList();
+        List<House_photos> gnd = getGroundPlanPhotos();
 
         ArrayList<String> image_list = new ArrayList<>();
 
         String imageR;
-        for (Ground_plan g:gnd
+        for (House_photos g:gnd
              ) {
 
             imageR = String.valueOf(
-            contextItem.getResources().getIdentifier("@drawable/"+g.getImgAdress(), "drawable", contextItem.getPackageName()));
+            contextItem.getResources().getIdentifier("@drawable/"+g.getPhoto().getFileName(), "drawable", contextItem.getPackageName()));
 image_list.add(imageR);
         }
 
@@ -362,4 +355,18 @@ image_list.add(imageR);
     }
 
 
+    public String getHouse_image() {
+        return "test";
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+    public String getAddressStreet(){
+        return getAddress().getStreetName() + " " + getAddress().getStreetNumber();
+    }
+
+    public boolean isGas_bottle() {
+        return true;
+    }
 }

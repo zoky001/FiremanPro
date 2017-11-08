@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 
 import com.project.test.database.Entities.Ground_plan;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.Photos;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.PhotosController;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
@@ -17,50 +19,34 @@ import java.util.List;
 
 public class SaveResourceImage {
 
+    private  PhotosController photosController= new PhotosController();
+
    private List<House> houses;
-    private  List<Ground_plan> plans;
+    private  List<Photos> photos;
     private Context context;
 
     public SaveResourceImage(Context context) {
-        this.houses = HouseController.getAllHouseRecords();
-        this.plans = SQLite.select().from(Ground_plan.class).queryList();
+        this.photos = photosController.GetAllRecordsFromTable();
 
         this.context=context;
     }
 
     public void SaveImageFromResourceToInternalStorage(){
-        SaveAllProfilImageToInternalStorage();
-        SaveAllGroundPlanImageToInternalStorage();
+        SaveAllImageToInternalStorage();
 
     }
 
-    public void SaveAllProfilImageToInternalStorage(){
-        for (House h:houses
+    public void SaveAllImageToInternalStorage(){
+        for (Photos h:photos
                 ) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), h.getProfilImageResourceIDbyContext(context));
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), photosController.getPhotoResourceIDbyContext(context,h));
 
             new ImageSaver(context).
-                    setFileName(h.getHouse_image()+".png").
-                    setDirectoryName("ProfilImages").
+                    setFileName(h.getFileName()+".png").
+                    setDirectoryName("Images").
                     save(bitmap);
 
         }
-
-
     }
 
-    public void SaveAllGroundPlanImageToInternalStorage(){
-        for (Ground_plan gnd:plans
-                ) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), gnd.getImageResourceIDbyContext(context));
-
-            new ImageSaver(context).
-                    setFileName(gnd.getImgAdress()+".png").
-                    setDirectoryName("GroundPlanImages").
-                    save(bitmap);
-
-        }
-
-
-    }
 }

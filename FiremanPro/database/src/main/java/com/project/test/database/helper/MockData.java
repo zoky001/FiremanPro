@@ -1,8 +1,21 @@
 package com.project.test.database.helper;
 
+import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.Ground_plan;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.House_photos;
+import com.project.test.database.Entities.PhotoType;
+import com.project.test.database.Entities.Photos;
+import com.project.test.database.Entities.Place;
 import com.project.test.database.Entities.Places;
+import com.project.test.database.Entities.Post;
+import com.project.test.database.controllers.AddressController;
+import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.House_photosController;
+import com.project.test.database.controllers.PhotoTypeController;
+import com.project.test.database.controllers.PhotosController;
+import com.project.test.database.controllers.PlaceController;
+import com.project.test.database.controllers.PostController;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.sql.Date;
@@ -21,27 +34,41 @@ import static java.lang.Boolean.TRUE;
 
 public class MockData {
 
-    public static void  deleteAll(){
-        final List<House> house = SQLite.select().from(House.class).queryList();
+    AddressController addressController = new AddressController();
+    House_photosController house_photosController = new House_photosController();
+    HouseController houseController = new HouseController();
+    PhotosController photosController = new PhotosController();
+    PhotoTypeController photoTypeController = new PhotoTypeController();
+    PlaceController placeController = new PlaceController();
+    PostController postController = new PostController();
+
+    public  void  deleteAll(){
+
+        addressController.DeleteAllRecordsInTable();
+        house_photosController.DeleteAllRecordsInTable();
+        houseController.DeleteAllRecordsInTable();
+        photosController.DeleteAllRecordsInTable();
+        photoTypeController.DeleteAllRecordsInTable();
+        postController.DeleteAllRecordsInTable();
+        placeController.DeleteAllRecordsInTable();
+
+
         final List<Places> places = SQLite.select().from(Places.class).queryList();
         final List<Ground_plan> gndPlan = SQLite.select().from(Ground_plan.class).queryList();
+
         for(int i = 0; i < gndPlan.size(); i++){
 
             gndPlan.get(i).delete();
             //delete all item in table House
         }
-        for(int i = 0; i < house.size(); i++){
 
-            house.get(i).delete();
-            //delete all item in table House
-        }
         for (int i = 0; i < places.size();i++){
 
             places.get(i).delete();
 //delete all item in table Places
         }
     }
-    public static void writeAll(){
+    public void writeAll(){
 
         deleteAll();
         //delete all
@@ -49,146 +76,162 @@ public class MockData {
 
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
 
-        Places radovec_polje = new Places("Radovec Polje",date ,date);
-        radovec_polje.save();
-
-        Places cestica = new Places("Cestica",date ,date);
-        cestica.save();
-
-        Places krizovljan_radovecki = new Places("Križovljan Radovečki",date ,date);
-        krizovljan_radovecki.save();
-
-        Places radovec = new Places("Radovec",date ,date);
-        radovec.save();
+        Post cesticaPost = postController.addNewPost(42208,"Cestica");
+        Place radovec = placeController.addNewPlace("Radovec",cesticaPost);
+        Place radovec_polje = placeController.addNewPlace("Radovec Polje", cesticaPost);
+        Place cestica = placeController.addNewPlace("Cestica",cesticaPost);
+        Place krizovljan_radovecki = placeController.addNewPlace("Križovljan Radovečki",cesticaPost);
 
 
 
 
-        ArrayList<String> gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_1");
-        House house = new House(
-                "Ana",
-                "Cegles",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 1 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
+
+
+
+Address nova = addressController.addNewAddress("Ulica Antuna Mihanovića","1",krizovljan_radovecki,(long)46.368682,(long)16.127483);
+House house = houseController.AddNewHouse(
+        "ana",
+        "Antolić",
+        5,
+        3,
+        "prvi kat, drugi kat",
+        2,
+        "1998,2000",
+        2,
+        "1966,1970",
+        0,
+        "",
+        FALSE,
+        "Nadzemni",
+        TRUE,
+        "plin",
+        2,
+        "Lim",
+        20,
+        FALSE,
+        "nema",
+        FALSE,
+        "ništa",
+        FALSE,
+        "042725091",
+        "0995982910",
+        nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_1",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_1",house);
+
+        //second house
+        nova = addressController.addNewAddress("Ulica Antuna Mihanovića","3",krizovljan_radovecki,(long)46.368447,(long)16.127473);
+        house = houseController.AddNewHouse("Marinki",
+                "kokot",
                 5,
-                "1995,1975,1978,1985",
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
                 0,
                 "",
                 FALSE,
-                "Nadzemni priključak",
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
                 FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
+                "nema",
                 FALSE,
-                (long)46.368682,
-                (long)16.127483,
-                "profil_krizovljan_radovecki_antuna_mihanovica_1",
+                "ništa",
+                FALSE,
                 "042725091",
                 "0995982910",
-                gnd,
-                date,
-                date);
+                nova);
 
-        house.save();
-        house.saveGndPlans(gnd);
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_3",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_3",house);
 
+        //second house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+                "5",
+                krizovljan_radovecki,
+                (long)46.368343,
+                (long)16.127398);
 
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_3");
-        House house1 = new House(
-                "Marinko",
-                "Kokot",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 3 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.368447,
-                (long)16.127473,
-                "profil_krizovljan_radovecki_antuna_mihanovica_3",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house1.save();
-        house1.saveGndPlans(gnd);
-
-
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_5");
-        House house2 = new House(
+        house = houseController.AddNewHouse(
                 "Jadranko",
                 "Kokot",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 5 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
                 5,
-                "1995,1975,1978,1985",
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
                 0,
                 "",
                 FALSE,
-                "Nadzemni priključak",
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
                 FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
+                "nema",
                 FALSE,
-                (long)46.368343,
-                (long)16.127398,
-                "profil_krizovljan_radovecki_antuna_mihanovica_5",
+                "ništa",
+                FALSE,
                 "042725091",
                 "0995982910",
-                gnd,
-                date,
-                date);
+                nova);
 
-        house2.save(); // <-- available from BaseModel super class
-        house2.saveGndPlans(gnd);
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_5",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);
 
+        //second house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovica",
+                "23A",
+                radovec,
+                (long)46.363101,
+                (long)16.130054
+        );
 
+        house = houseController.AddNewHouse(
+                "Goran",
+                "Darabuš",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_radovec_ulica_antuna_mihanovica_23a",house);
+        houseController.AddGroundPlanPicToHouse("gnd_radovec_ulica_antuna_mihanovica_23a",house);
+
+        /*
         gnd = new ArrayList<String>();
         gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_7");
         House house3 = new House(
@@ -429,45 +472,7 @@ public class MockData {
         house8.save();
         house8.saveGndPlans(gnd);
 
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_radovec_ulica_antuna_mihanovica_23a");
-        House house9 = new House(
-                "Goran",
-                "Darabuš",
-                radovec.getId_place(),
-                "Ulica Antuna Mihanovica 23A 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.363101,
-                (long)16.130054,
-                "profil_radovec_ulica_antuna_mihanovica_23a",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house9.save();
-        house9.saveGndPlans(gnd);
+
 
         gnd = new ArrayList<String>();
         gnd.add("gnd_cestica_ulica_ljudevita_gaja_26");
@@ -547,60 +552,133 @@ public class MockData {
                 date,
                 date);
         house11.save();
-        house11.saveGndPlans(gnd);
+        house11.saveGndPlans(gnd);*/
     }
 
-    public static void  printAll(){
-        final List<House> house = SQLite.select().from(House.class).queryList();
-        final List<Places> places = SQLite.select().from(Places.class).queryList();
-        final List<Ground_plan> gndPlan = SQLite.select().from(Ground_plan.class).queryList();
-
-        System.out.print(" HOUSE ID " +
-                " IMAGE NAME " +
-                " IMAGE ADRESS " + "\n");
-        for(int i = 0; i < gndPlan.size(); i++){
-
-
-            System.out.print("-----------------------------------------------" + "\n");
-
-            System.out.print(gndPlan.get(i).getHouseID()+" | " +
-                    gndPlan.get(i).getImgName()+" | " +
-                    gndPlan.get(i).getImgAdress()+" | " + "\n");
+    public  void  printAll(){
+        final List<House> house = houseController.GetAllRecordsFromTable();
+        final List<Photos> photos = photosController.GetAllRecordsFromTable();
+        final List<Address> address = addressController.GetAllRecordsFromTable();
+        final List<PhotoType> photoTypes = photoTypeController.GetAllRecordsFromTable();
+        final List<House_photos> house_photoses = house_photosController.GetAllRecordsFromTable();
+        final List<Post> posts = postController.GetAllRecordsFromTable();
+        final List<Place> places =placeController.GetAllRecordsFromTable();
 
 
-        }
 
-        System.out.print(" HOUSE ID " +
-                " OWNER NAME " +
-                " OWNER SURNAME" +
-                " PLACE " +
-                " PROFIL " +
-                " ADDRESS" + "\n");
-
+        System.out.println(" HOUSE ID " +
+                " OWNER " +
+                " street " +
+                " num"  +
+                " selo"  +
+                " pošta"  +
+                " broj"  +
+                " profil " +
+                " gnd " +
+                "\n");
         for(int i = 0; i < house.size(); i++){
-
 
 
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.print(house.get(i).getId_house()+" | " +
                     house.get(i).getName_owner()+" | " +
-                    house.get(i).getSurname_owner()+" | " +
-                    house.get(i).getPlaceName()+" | " +
-                    house.get(i).getHouse_image()+" | " +
-                    house.get(i).getAddress()+" | " + "\n");
+                    house.get(i).getAddress().getStreetName() + " | " +
+                    house.get(i).getAddress().getStreetNumber()+ " | " +
+                    house.get(i).getAddress().getPlace().getName()+ " | " +
+                    house.get(i).getAddress().getPlace().getPost().getName()+ " | " +
+                    house.get(i).getAddress().getPlace().getPost().getPostal_code()+ " | " +
+                    house.get(i).getProfilPhotos().getImageName()+ " | " +
+                    house.get(i).getGroundPlanPhotos().get(0).getPhoto().getImageName()+ " | " +
+
+                    "\n");
+
+
+        }
+
+        System.out.print(" ADDRESS ID " +
+                " ulica" +
+                "\n");
+
+        for(int i = 0; i < address.size(); i++){
+
+
+
+            System.out.print("-----------------------------------------------" + "\n");
+
+            System.out.print(address.get(i).getID()+" | " +
+                    address.get(i).getStreetName()+ "\n");
 
         }
 
         System.out.print(" PLACE ID " +
-                " NAME " +
-                 "\n");
-        for (int i = 0; i < places.size();i++){
+                " NAZIV" +
+                "\n");
+
+        for(int i = 0; i < places.size(); i++){
+
+
+
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.print(places.get(i).getId_place()+" | " +
+                    places.get(i).getName() + "\n");
 
-                    places.get(i).getName()+" | " + "\n");
+        }
+
+        System.out.print(" POSTAL CODE " +
+                " NAZIV" +
+                "\n");
+
+        for(int i = 0; i < posts.size(); i++){
+
+
+
+            System.out.print("-----------------------------------------------" + "\n");
+
+            System.out.print(posts.get(i).getPostal_code()+" | " +
+                    posts.get(i).getName() + "\n");
+
+        }
+
+        System.out.print(" photo_ID " +
+                " NAME " +
+                 "\n");
+        for (int i = 0; i < photos.size();i++){
+            System.out.print("-----------------------------------------------" + "\n");
+
+            System.out.print(photos.get(i).getID()+" | " +
+
+                    photos.get(i).getImageName()+" | " + "\n");
+        }
+
+        System.out.print(" photo_ID " +
+                " TYPE" +
+                "\n");
+        for (int i = 0; i < photoTypes.size();i++){
+            System.out.print("-----------------------------------------------" + "\n");
+
+            System.out.print(photoTypes.get(i).getID()+" | " +
+
+                    photoTypes.get(i).getType()+" | " + "\n");
+        }
+        System.out.print(" photo_ID " +
+                " TYPE_ID" +
+                " HOUSE_ID" +
+                "\n");
+
+        for (int i = 0; i < house_photoses.size();i++){
+            System.out.print("-----------------------------------------------" + "\n");
+
+            //System.out.print("house_photoses_size_: "+ house_photoses.size()+"\n");
+
+
+            System.out.print(house_photoses.get(i).getPhoto().getID()+" | " +
+
+                   house_photoses.get(i).getPhotoType().getID()+" | " +
+
+                    house_photoses.get(i).getHouse().getId_house()+" | " + "\n");
+
         }
     }
 }

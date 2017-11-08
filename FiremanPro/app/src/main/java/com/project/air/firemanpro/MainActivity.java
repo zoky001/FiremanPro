@@ -42,6 +42,8 @@ import butterknife.OnTextChanged;
 
 public class MainActivity extends AppCompatActivity {
 
+    MockData mockData;
+
     //Test list used by autocompleteTextVie adapter
 
     @BindView(R.id.autoCompleteTextView)
@@ -61,13 +63,16 @@ public class MainActivity extends AppCompatActivity {
         //toolbar
 
         FlowManager.init(new FlowConfig.Builder(this).build());
-        MockData.deleteAll();
-        // data for test
-        if (SQLite.select().from(House.class).queryList().isEmpty()) {
-            //  SQLite.delete().from(Places.class).where(Places_Table.id_place.is(1));
-            System.out.println("Nema zapisa u houses: ");
 
-            MockData.writeAll(); //write all entries in database
+        mockData  = new MockData();
+        mockData.deleteAll();
+        // data for test
+
+        if (SQLite.select().from(House.class).queryList().isEmpty()) {
+
+            System.out.println("Nema zapisa u housessssss: ");
+
+            mockData.writeAll(); //write all entries in database
 
 
             autoCompleteTextView.setSingleLine();
@@ -86,18 +91,22 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        MockData.printAll();
+        mockData.printAll();
 
 
-        File mydir = this.getApplicationContext().getDir("ProfilImages", Context.MODE_PRIVATE);
+        File mydir = this.getApplicationContext().getDir("Images", Context.MODE_PRIVATE);
         File lister = mydir.getAbsoluteFile();
         System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
 
         //check if image exist in folder "ProfilImages"
         if (lister.list().length < 1) {
+
+            System.out.println("PIPIS U DIREKTORIJUJU PROFILA je prazan: ");
             //save images from resource to directory in device
             SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
             SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
+
+
         }
 
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
@@ -209,13 +218,14 @@ public class MainActivity extends AppCompatActivity {
 
         //print all entries from table "House"
         for (int i = 0; i < discounts.size(); i++) {
+            /*
             listItems[i] = discounts.get(i).getName_owner();
             System.out.println("IDKuće" + i + " je: " + discounts.get(i).getId_house());
             System.out.println("Vlasnik " + i + " kuće je: " + listItems[i]);
             System.out.println("Selo id" + i + " : " + discounts.get(i).getPlace_id());
             System.out.println("Selo " + i + " : " + discounts.get(i).getPlaceName());
             System.out.println("Datum: " + discounts.get(i).getCreated_at());
-
+*/
             //  discounts.get(i).delete();
         }
 

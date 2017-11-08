@@ -124,7 +124,7 @@ public class TabPodaci extends Fragment {
 
         txtHousePlace.setText(house.getPlaceName());
 
-        txtHouseAddress.setText(house.getAddress());
+        txtHouseAddress.setText(house.getAddressStreet());
 
         txtHouseTeenants.setText(String.valueOf(house.getNumber_of_tenants()));
 

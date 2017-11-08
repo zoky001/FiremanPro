@@ -1,6 +1,10 @@
 package com.project.test.database.Entities;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+
 import com.project.test.database.MainDatabase;
+import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -82,5 +86,19 @@ public class Photos extends BaseModel {
         this.created_at = created_at;
     }
 
+    public Bitmap getImageBitmapbyContext (Context contextItem) {
+
+        Bitmap bitmap = new ImageSaver(contextItem).
+                setFileName(getFileName()+".png").
+                setDirectoryName("Images").
+                load();
+
+
+
+
+        return bitmap;
+
+
+    }
 
 }

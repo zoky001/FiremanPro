@@ -12,6 +12,8 @@ import android.widget.ListView;
 import com.kizo.ground_plan.R;
 import com.project.test.database.Entities.Ground_plan;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.House_photos;
+import com.project.test.database.Entities.Photos;
 import com.project.test.database.controllers.HouseController;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ ListView lst;
         }
 
 
-      final List<Ground_plan> gndPlans= house.getAllHouseGroundPlans();
+      final List<House_photos> gndPlans= house.getGroundPlanPhotos();
 
        // System.out.println("SIZE RESOURCE GND:  "+ house.getListGroundPlansIDResource(getContext()).size());
 thumbnail.clear();

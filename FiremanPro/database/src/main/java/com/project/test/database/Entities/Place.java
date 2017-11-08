@@ -1,81 +1,71 @@
 package com.project.test.database.Entities;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-
 import com.project.test.database.MainDatabase;
-import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Zoran on 23.10.2017..
  */
 
 @Table(database = MainDatabase.class)
-public class House_photos extends BaseModel {
+public class Place extends BaseModel {
 
 
     @PrimaryKey(autoincrement = true)
     @Column
-    int id_house_photos;
+    int id_place;
 
     @Column
-    int house_id;
+    String name;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Photos photo;
+            Post post;
 
-    @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            PhotoType photoType;
 
-    @ForeignKey(stubbedRelationship = true)
-    House house;
 
     @Column
     java.util.Date updated_at;
     @Column
     java.util.Date created_at;
 
-
-    public House_photos(Photos photo, PhotoType photoType, House house, java.util.Date updated_at, java.util.Date created_at) {
-        this.photo = photo;
-        this.photoType = photoType;
-        this.house = house;
+    public Place(String name, Post post, Date updated_at, Date created_at) {
+        this.name = name;
+        this.post = post;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
-    public House_photos() {
+    public Place() {
     }
 
-    public Photos getPhoto() {
-        return photo;
+    public int getId_place() {
+        return id_place;
     }
 
-    public void setPhoto(Photos photo) {
-        this.photo = photo;
+    public void setId_place(int id_place) {
+        this.id_place = id_place;
     }
 
-    public PhotoType getPhotoType() {
-        return photoType;
+    public String getName() {
+        return name;
     }
 
-    public void setPhotoType(PhotoType photoType) {
-        this.photoType = photoType;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public House getHouse() {
-        return house;
+    public Post getPost() {
+        return post;
     }
 
-    public void setHouse(House house) {
-        this.house = house;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public java.util.Date getUpdated_at() {

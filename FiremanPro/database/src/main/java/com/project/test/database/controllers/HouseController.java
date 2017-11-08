@@ -1,11 +1,17 @@
 package com.project.test.database.controllers;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
-import com.project.test.database.Entities.House_Table;
+
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Places;
+
+import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Places_Table;
+import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.Arrays;
@@ -21,7 +27,8 @@ House_photosController house_photosController = new House_photosController();
     public HouseController() {
     }
 
-    public void AddNewHouse (String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber, java.util.Date updated_at, java.util.Date created_at, List<House_photos> photos, Address address){
+
+    public House AddNewHouse (String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber,Address address){
 
         House house = new House(name_owner,
                 surname_owner,
@@ -53,7 +60,7 @@ House_photosController house_photosController = new House_photosController();
                 address);
         house.save();
 
-
+return house;
     }
 
     public void AddProfilPicToHouse(String pic, House house){
@@ -97,7 +104,7 @@ public void AddGroundPlanPicToHouse(String pic, House house){
     }
 
     public static List<House> serachByNameAndSurnameQuery(String text) {
-
+/*
         List<House> house = SQLite.select().from(House.class).where(House_Table.name_owner.like("%" + text + "%")).or(House_Table.surname_owner.like("%" + text + "%")).or(House_Table.address.like("%" + text + "%")).queryList();
         //Checking if string contains space for split
         if (text.contains(" ")) {
@@ -119,7 +126,46 @@ public void AddGroundPlanPicToHouse(String pic, House house){
                 }
             }
         }
-        return house;
+        */
+
+        return getAllHouseRecords();
+
+    }
+    public Bitmap getProfilImageBitmapbyContext (Context contextItem) {
+/*
+        Bitmap bitmap = new ImageSaver(contextItem).
+                setFileName(getHouse_image()+".png").
+                setDirectoryName("ProfilImages").
+                load();
+
+
+        return bitmap;
+        */
+        Bitmap bitmap = new ImageSaver(contextItem).
+                setFileName("slika_TTEST"+".png").
+                setDirectoryName("ProfilImages").
+                load();
+
+
+        return bitmap;
+
+
+    }
+
+    public List<House> GetAllRecordsFromTable(){
+
+        return SQLite.select().from(House.class).queryList();
+
+
+    }
+    public void DeleteAllRecordsInTable(){
+
+        final List<House> gndPlan = GetAllRecordsFromTable();
+        for(int i = 0; i < gndPlan.size(); i++){
+
+            gndPlan.get(i).delete();
+            //delete all item in table House
+        }
 
     }
 

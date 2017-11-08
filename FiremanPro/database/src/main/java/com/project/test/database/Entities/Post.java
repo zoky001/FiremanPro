@@ -13,56 +13,50 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class PhotoType extends BaseModel {
+public class Post extends BaseModel {
 
     @PrimaryKey(autoincrement = false)
     @Column
-    int ID;
+    int postal_code;
 
     @Column
-    String Type;
+    String name;
+
+
 
     @Column
-    String Description;
-
+    Date updated_at;
     @Column
-    java.util.Date updated_at;
-    @Column
-    java.util.Date created_at;
+    Date created_at;
 
-    public PhotoType() {
+
+
+    public Post() {
     }
 
-    public PhotoType(int ID,String type, String description, Date updated_at, Date created_at) {
-        this.ID=ID;
-        Type = type;
-        Description = description;
+    public Post(int postal_code, String name, Date updated_at, Date created_at) {
+        this.postal_code = postal_code;
+
+        this.name=name;
+
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
-    public int getID() {
-        return ID;
+    public int getPostal_code() {
+        return postal_code;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setPostal_code(int postal_code) {
+        this.postal_code = postal_code;
     }
 
-    public String getType() {
-        return Type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        Type = type;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getUpdated_at() {

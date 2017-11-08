@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.kizo.ground_plan.R;
 import com.project.test.database.Entities.Ground_plan;
+import com.project.test.database.Entities.House_photos;
+import com.project.test.database.Entities.Photos;
 
 import java.util.List;
 
@@ -26,9 +28,9 @@ public class CustomListView extends ArrayAdapter<String> {
     private  String [] fruitname;
     private Integer [] images;
     private Activity context;
-    private List<Ground_plan> plans;
+    private List<House_photos> plans;
 
-    public CustomListView(Activity context, String[] fruitname, Integer[] images, List<Ground_plan> plans) {
+    public CustomListView(Activity context, String[] fruitname, Integer[] images, List<House_photos> plans) {
         super(context, R.layout.tlocrt_item, fruitname);
 //plans.clear();
         this.context = context;
@@ -54,7 +56,7 @@ public class CustomListView extends ArrayAdapter<String> {
 
         }
         if (position < plans.size())
-        viewHolder.ivm.setImageBitmap(plans.get(position).getImageBitmapbyContext(viewHolder.ivm.getContext()));
+        viewHolder.ivm.setImageBitmap(plans.get(position).getPhoto().getImageBitmapbyContext(viewHolder.ivm.getContext()));
 //viewHolder.tvw1.setText("SLika 1");
         return r;
     }

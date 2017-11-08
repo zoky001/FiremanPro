@@ -62,20 +62,18 @@ public class TabProfil extends Fragment {
         }
 
 
-//ID image-resourcee
-// int imageresource = getResources().getIdentifier("@drawable/"+house.getHouse_image(), "drawable", getActivity().getPackageName());
 
         System.out.println("LOKACIJAAA ACTT: " + getActivity().getPackageName());
 //set profil image
 
- //       profil.setImageResource(house.getProfilImageResourceIDbyContext(profil.getContext()));
+
 profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()),400, 300, false));
 
         //set owner data
         txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
 
         txtPlace.setText(house.getPlaceName());
-        txtAdress.setText(house.getAddress());
+        txtAdress.setText(house.getAddress().getStreetName() + " "+house.getAddress().getStreetNumber());
 
         txtMobitel.setText(house.getMobNumber());
         txtTel.setText(house.getTelNumber());
