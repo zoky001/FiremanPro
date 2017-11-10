@@ -163,18 +163,7 @@ public class House extends BaseModel{
 
     }
 
-    public void saveGndPlans (List<String> plans){
 
-        java.util.Date date = new java.util.Date(System.currentTimeMillis());
-        Ground_plan g6;
-        for (String name: plans
-             ) {
-            g6 = new Ground_plan(this.id_house,name,name,date,date);
-            g6.save();
-        }
-
-
-    }
     public String getTelNumber() {
         return telNumber;
     }

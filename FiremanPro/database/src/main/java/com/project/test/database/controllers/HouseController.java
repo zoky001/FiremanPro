@@ -6,15 +6,13 @@ import android.graphics.Bitmap;
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
 
-import com.project.test.database.Entities.House_photos;
-import com.project.test.database.Entities.Places;
+
 
 import com.project.test.database.Entities.House_Table;
-import com.project.test.database.Entities.Places_Table;
+
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -96,12 +94,7 @@ public void AddGroundPlanPicToHouse(String pic, House house){
         return house;
     }
 
-    public static int GetPlaceID(String place) {
 
-        List<Places> places = SQLite.select().from(Places.class).where(Places_Table.name.is(place)).queryList();
-
-        return places.get(0).getId_place();
-    }
 
     public static List<House> serachByNameAndSurnameQuery(String text) {
 /*

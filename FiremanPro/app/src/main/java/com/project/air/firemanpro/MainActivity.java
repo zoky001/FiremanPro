@@ -10,19 +10,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
-//import com.project.test.database.Entities.House_Table;
-import com.project.test.database.Entities.Places;
-//import com.project.test.database.Entities.Places_Table;
+
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.helper.MockData;
 import com.project.test.database.imageSaver.SaveResourceImage;
@@ -37,8 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnEditorAction;
-import butterknife.OnTextChanged;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,21 +50,28 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
-        //set title (owner name )on toolbar
-        //getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar
-        //toolbar
 
+
+        //DBflow
         FlowManager.init(new FlowConfig.Builder(this).build());
 
         mockData  = new MockData();
-        mockData.deleteAll();
-        // data for test
 
+
+        // empty the entire database
+        mockData.deleteAll();
+
+
+        // if table "House" is empty, then fill database with data
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
 
             System.out.println("Nema zapisa u housessssss: ");
 
-            mockData.writeAll(); //write all entries in database
+            //write all entries in database
+            mockData.writeAll();
+
+            //print entries from database to console (for testing)
+            mockData.printAll();
 
 
             autoCompleteTextView.setSingleLine();
@@ -90,24 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-
-        mockData.printAll();
-
-
-        File mydir = this.getApplicationContext().getDir("Images", Context.MODE_PRIVATE);
-        File lister = mydir.getAbsoluteFile();
-        System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
-
-        //check if image exist in folder "ProfilImages"
-        if (lister.list().length < 1) {
-
-            System.out.println("PIPIS U DIREKTORIJUJU PROFILA je prazan: ");
-            //save images from resource to directory in device
-            SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
-            SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
+        //save images from resource to directory in device (only at first startup)
+saveImagesFromResourcesToInternalStorage();
 
 
-        }
+
 
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
 
@@ -204,55 +190,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //TEST button,, don't remove!! Kizo
-    @OnClick(R.id.test_button)
-    public void buttonClicked() {
-        System.out.println("Pritisak TEST gumba: ");
 
-        final List<House> discounts = SQLite.select().from(House.class).queryList();
-        final List<Places> places = SQLite.select().from(Places.class).queryList();
+    private void saveImagesFromResourcesToInternalStorage () {
 
-        String[] listItems = new String[discounts.size()];
+        File mydir = this.getApplicationContext().getDir("Images", Context.MODE_PRIVATE);
+        File lister = mydir.getAbsoluteFile();
 
-        System.out.println("Prije for petlje: ");
+        System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
 
-        //print all entries from table "House"
-        for (int i = 0; i < discounts.size(); i++) {
-            /*
-            listItems[i] = discounts.get(i).getName_owner();
-            System.out.println("IDKuće" + i + " je: " + discounts.get(i).getId_house());
-            System.out.println("Vlasnik " + i + " kuće je: " + listItems[i]);
-            System.out.println("Selo id" + i + " : " + discounts.get(i).getPlace_id());
-            System.out.println("Selo " + i + " : " + discounts.get(i).getPlaceName());
-            System.out.println("Datum: " + discounts.get(i).getCreated_at());
-*/
-            //  discounts.get(i).delete();
-        }
+        //check if image exist in folder "Images"
+        if (lister.list().length < 1) {
 
-        //print all entries from table "Places"
-        for (int i = 0; i < places.size(); i++) {
-            System.out.println("Selo id " + i + " je:" + places.get(i).getId_place());
-            System.out.println("Selo " + i + " je:" + places.get(i).getName());
+            System.out.println("PIPIS U DIREKTORIJUJU PROFILA je prazan: ");
 
-            //  places.get(i).delete();
+
+            //save images from resource to directory in device
+            SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
+            SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
+
 
         }
-
-        // ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
-        //   mListView.setAdapter(adapter);
-    }
-
-    @OnClick(R.id.test_profil)
-    public void buttonProfilClicked(View view) {
-
-
-        Intent intent = new Intent(view.getContext(), ProfilNewActivity.class);
-        intent.putExtra("EXTRA_SESSION_ID", "-1");
-
-
-        startActivity(intent);
-
-
     }
 
 

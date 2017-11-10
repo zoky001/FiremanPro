@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.controllers.HouseController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,10 +56,10 @@ public class TabProfil extends Fragment {
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
         if (a != -1) {
 
-            house = ProfilController.getHouse(a);
+            house = HouseController.getHouse(a);
 
         } else {
-            house = ProfilController.getFirstHouse();
+            house = HouseController.getFirstHouse();
         }
 
 

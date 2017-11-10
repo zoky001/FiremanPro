@@ -41,9 +41,7 @@ public class Hydrants extends BaseModel {
     @Column
     java.util.Date created_at;
 
-    @Column
-    @ForeignKey(tableClass = Places.class)
-    Places place;
+
 
     public int getId_hydrant() {
         return id_hydrant;
@@ -111,11 +109,5 @@ public class Hydrants extends BaseModel {
         this.created_at = created_at;
     }
 
-    public Places getPlace() {
-        return place;
-    }
 
-    public void setPlace(Places place) {
-        this.place = place;
-    }
 }

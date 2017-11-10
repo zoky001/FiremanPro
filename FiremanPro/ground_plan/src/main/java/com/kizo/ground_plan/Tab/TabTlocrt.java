@@ -10,10 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kizo.ground_plan.R;
-import com.project.test.database.Entities.Ground_plan;
+
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_photos;
-import com.project.test.database.Entities.Photos;
 import com.project.test.database.controllers.HouseController;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class TabTlocrt extends Fragment {
 
 ListView lst;
     String[] fruitname = {"Mango", "Banana", "Eatermelon"};
+
     Integer [] imgId;
     public static ArrayList<Integer> thumbnail = new ArrayList<Integer>();
 
@@ -82,13 +82,7 @@ thumbnail.clear();
             }
         });
 
-/*
-        rv.setHasFixedSize(true);
 
-        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
-        rv.setLayoutManager(llm);
-
-        rv.setAdapter(new Ground_plan_adapter(gndPlans));*/
 
         return rootView;
     }

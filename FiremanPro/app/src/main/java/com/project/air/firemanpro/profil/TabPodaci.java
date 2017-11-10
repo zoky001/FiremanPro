@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.controllers.HouseController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,11 +114,18 @@ public class TabPodaci extends Fragment {
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
         if (a != -1) {
 
-            house = ProfilController.getHouse(a);
+            house = HouseController.getHouse(a);
 
         } else {
-            house = ProfilController.getFirstHouse();
+            house = HouseController.getFirstHouse();
         }
+        //set contetn of table
+fillTableWithContent();
+
+        return rootView;
+    }
+
+    private void fillTableWithContent(){
 
         //set contetn of table
         txtHouseOwnerName.setText(house.getSurname_owner() + " " + house.getName_owner());
@@ -172,8 +180,5 @@ public class TabPodaci extends Fragment {
         txtHouseTEl.setText(house.getTelNumber());
 
         txtHouseMOB.setText(house.getMobNumber());
-
-
-        return rootView;
     }
 }

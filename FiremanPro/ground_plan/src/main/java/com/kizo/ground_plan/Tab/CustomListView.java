@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kizo.ground_plan.R;
-import com.project.test.database.Entities.Ground_plan;
+
 import com.project.test.database.Entities.House_photos;
-import com.project.test.database.Entities.Photos;
+
 
 import java.util.List;
 

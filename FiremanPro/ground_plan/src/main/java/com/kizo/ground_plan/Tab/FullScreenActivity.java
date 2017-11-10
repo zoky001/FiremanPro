@@ -36,7 +36,7 @@ public class FullScreenActivity extends AppCompatActivity {
 
 
         }
-     //   System.out.println("STARTFULL SCREEN ACTIVITI size: ["+image_list.size()+"]: pozition = "+position);
+
 //System.out.println("THUMBNAIL SIZE: "+TabTlocrt.thumbnail.size());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(image_list, getBaseContext());
         viewPager.setAdapter(viewPagerAdapter);

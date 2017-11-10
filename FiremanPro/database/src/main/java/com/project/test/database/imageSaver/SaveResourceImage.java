@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.project.test.database.Entities.Ground_plan;
+
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Photos;
-import com.project.test.database.controllers.HouseController;
+
 import com.project.test.database.controllers.PhotosController;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 
 import java.util.List;
 

@@ -1,13 +1,13 @@
 package com.project.test.database.helper;
 
 import com.project.test.database.Entities.Address;
-import com.project.test.database.Entities.Ground_plan;
+
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Photos;
 import com.project.test.database.Entities.Place;
-import com.project.test.database.Entities.Places;
+
 import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.AddressController;
 import com.project.test.database.controllers.HouseController;
@@ -16,13 +16,7 @@ import com.project.test.database.controllers.PhotoTypeController;
 import com.project.test.database.controllers.PhotosController;
 import com.project.test.database.controllers.PlaceController;
 import com.project.test.database.controllers.PostController;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static java.lang.Boolean.FALSE;
@@ -52,21 +46,6 @@ public class MockData {
         postController.DeleteAllRecordsInTable();
         placeController.DeleteAllRecordsInTable();
 
-
-        final List<Places> places = SQLite.select().from(Places.class).queryList();
-        final List<Ground_plan> gndPlan = SQLite.select().from(Ground_plan.class).queryList();
-
-        for(int i = 0; i < gndPlan.size(); i++){
-
-            gndPlan.get(i).delete();
-            //delete all item in table House
-        }
-
-        for (int i = 0; i < places.size();i++){
-
-            places.get(i).delete();
-//delete all item in table Places
-        }
     }
     public void writeAll(){
 

@@ -1,26 +1,16 @@
 package com.project.air.firemanpro;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.project.air.firemanpro.adapters.SearchingAdapter;
-import com.project.air.firemanpro.profil.ProfilController;
 import com.project.test.database.Entities.House;
-import com.project.test.database.Entities.Places;
 import com.project.test.database.controllers.HouseController;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;

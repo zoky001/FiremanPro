@@ -2,16 +2,13 @@ package com.project.test.database.controllers;
 
 import android.content.Context;
 
-import com.project.test.database.Entities.House;
 
-import com.project.test.database.Entities.House_photos;
-import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Photos;
-import com.project.test.database.Entities.Places;
+
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.Arrays;
+
 import java.util.List;
 
 /**
