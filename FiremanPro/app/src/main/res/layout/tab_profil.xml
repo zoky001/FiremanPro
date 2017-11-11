@@ -100,6 +100,34 @@
 
 
             </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+
+                    android:text="@string/selo"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/text"
+                    />
+                <TextView
+                    android:id="@+id/textViewPlace"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/textPodaci"
+                    android:layout_width="3dp"
+                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    />
+
+
+            </TableRow>
+
+
+
+
+
             <TableRow
                 android:id="@+id/tableRow2"
                 android:layout_width="match_parent"

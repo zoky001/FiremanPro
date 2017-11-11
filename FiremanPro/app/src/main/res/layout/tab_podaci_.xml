@@ -58,7 +58,23 @@
                      style="@style/textPodaci"
                      />
              </TableRow>
+             <TableRow
+                 android:layout_width="match_parent"
+                 >
+                 <TextView
 
+                     android:text="@string/selo"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     style="@style/text"
+                     />
+                 <TextView
+                     android:id="@+id/txtHousePlace"
+                     android:text="neka"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:layout_width="0dp"
+                     style="@style/textPodaci"
+                     />
+             </TableRow>
              <TableRow
                  android:layout_width="match_parent"
                  >

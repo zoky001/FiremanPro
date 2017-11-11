@@ -22,7 +22,7 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
     public TextView name;
     public ImageView housePicture;
     public TextView ID;
-
+public  TextView place;
     public TextView surname;
 
     public TextView address;
@@ -37,7 +37,7 @@ public class SearchingViewHolder extends RecyclerView.ViewHolder {
 
         grad = (TextView) v.findViewById(R.id.tv_grad);
         address = (TextView) v.findViewById(R.id.tv_adresa);
-
+place = (TextView) v.findViewById(R.id.tv_place);
         surname = (TextView) v.findViewById(R.id.tv_surName);
         name = (TextView) v.findViewById(R.id.tv_name);
         housePicture = (ImageView) v.findViewById(R.id.imageResult1);

@@ -152,6 +152,7 @@ public class House extends BaseModel{
 
 
     }
+
     public List<House_photos> getGroundPlanPhotos() {
 
         return SQLite.select()
@@ -183,7 +184,7 @@ public class House extends BaseModel{
     }
 
     public String getPlaceName(){
-return getAddress().getStreetName();
+return getAddress().getPlaceNameIfExist();
 
     }
 
@@ -295,12 +296,7 @@ return getAddress().getStreetName();
         return created_at;
     }
 
-    public int getProfilImageResourceIDbyContext (Context contextItem) {
-/*
-        int imageresource = contextItem.getResources().getIdentifier("@drawable/"+getHouse_image(), "drawable", contextItem.getPackageName());
-*/
-        return 0;
-    }
+
 
     public Bitmap getProfilImageBitmapbyContext (Context contextItem) {
 
@@ -352,7 +348,7 @@ image_list.add(imageR);
         return address;
     }
     public String getAddressStreet(){
-        return getAddress().getStreetName() + " " + getAddress().getStreetNumber();
+        return getAddress().getStreetNameIfExist();
     }
 
     public boolean isGas_bottle() {

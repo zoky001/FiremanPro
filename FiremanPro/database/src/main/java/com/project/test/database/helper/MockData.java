@@ -70,7 +70,8 @@ public class MockData {
 
 
 Address nova = addressController.addNewAddress(
-        "Križovljan Radovečki, Ulica Antuna Mihanovića",
+        "Ulica Antuna Mihanovića",
+        "Križovljan Radovečki",
         "1",
         cesticaPost,
         (long)46.368682,
@@ -110,7 +111,9 @@ House house = houseController.AddNewHouse(
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_1",house);
 
         //second house
-        nova = addressController.addNewAddress("Križovljan Radovečki, Ulica Antuna Mihanovića",
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+        "Križovljan Radovečki",
                 "3",
                 cesticaPost,
                 (long)46.368447,
@@ -149,7 +152,8 @@ House house = houseController.AddNewHouse(
 
         //second house
         nova = addressController.addNewAddress(
-                "Križovljan Radovečki, Ulica Antuna Mihanovića",
+                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki",
                 "5",
                 cesticaPost,
                 (long)46.368343,
@@ -188,7 +192,8 @@ House house = houseController.AddNewHouse(
 
         //second house
         nova = addressController.addNewAddress(
-                "Radovec, Ulica Antuna Mihanovica",
+                "Ulica Antuna Mihanovica",
+                "Radovec",
                 "23A",
                 cesticaPost,
                 (long)46.363101,
@@ -578,7 +583,7 @@ House house = houseController.AddNewHouse(
 
             System.out.print(house.get(i).getId_house()+" | " +
                     house.get(i).getName_owner()+" | " +
-                    house.get(i).getAddress().getStreetName() + " | " +
+                    house.get(i).getAddress().getStreetNameIfExist() + " | " +
                     house.get(i).getAddress().getStreetNumber()+ " | " +
 
                     house.get(i).getAddress().getPost().getName()+ " | " +
@@ -602,7 +607,7 @@ House house = houseController.AddNewHouse(
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.print(address.get(i).getID()+" | " +
-                    address.get(i).getStreetName()+ "\n");
+                    address.get(i).getStreetNameIfExist()+ "\n");
 
         }
 

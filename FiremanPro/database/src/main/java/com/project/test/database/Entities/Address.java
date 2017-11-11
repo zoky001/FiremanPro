@@ -45,8 +45,8 @@ public class Address extends BaseModel {
     public Address() {
     }
 
-    public Address(String streetName, String streetNumber, Post post,  long longitude, long latitude, Date updated_at, Date created_at) {
-        this.streetName = streetName;
+    public Address(String streetName,String place, String streetNumber, Post post,  long longitude, long latitude, Date updated_at, Date created_at) {
+        this.streetName = streetName+";"+place;
         this.streetNumber = streetNumber;
         this.post =post;
         this.longitude = longitude;
@@ -71,13 +71,38 @@ public class Address extends BaseModel {
         this.ID = ID;
     }
 
-    public String getStreetName() {
-        return streetName;
+    public String getStreetNameIfExist() {
+        //zapis u polju "streetName" je oblika "ime_ulice;ime_sela"
+        String s1=this.streetName;
+        String[] street = s1.split(";");
+
+        if (street.length == 2 && street[0].length()>0)
+             return street[0];
+        else
+            return "";
+    }
+    public String getPlaceNameIfExist() {
+
+        //zapis u polju "streetName" je oblika "ime_ulice;ime_sela"
+        String s1=this.streetName;
+        String[] street = s1.split(";");
+
+        if (street.length == 2 && street[1].length()>0)
+            return street[1];
+        else
+            return "";
     }
 
     public void setStreetName(String streetName) {
-        this.streetName = streetName;
+
+
+        this.streetName = streetName+";"+this.getPlaceNameIfExist();
     }
+    public void setPlaceName(String placeName) {
+
+        this.streetName = this.getStreetNameIfExist()+";"+placeName;
+    }
+
 
     public String getStreetNumber() {
         return streetNumber;

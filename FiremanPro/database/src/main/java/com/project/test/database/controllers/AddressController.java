@@ -21,9 +21,9 @@ public class AddressController {
     public AddressController() {
     }
 
-    public Address addNewAddress(String streetName, String streetNumber, Post post, long longitude, long latitude){
+    public Address addNewAddress(String streetName,String place, String streetNumber, Post post, long longitude, long latitude){
 
-Address address = new Address(streetName,streetNumber,post,longitude,latitude,CurrentDate,CurrentDate);
+Address address = new Address(streetName,place,streetNumber,post,longitude,latitude,CurrentDate,CurrentDate);
 address.save();
 
     return address;

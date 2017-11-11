@@ -41,6 +41,9 @@ public class TabProfil extends Fragment {
     @BindView(R.id.textViewMobitel)
     TextView txtMobitel;
 
+    @BindView(R.id.textViewPlace)
+    TextView txtPlace;
+
 
     House house;
 
@@ -74,8 +77,10 @@ profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyCont
         txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
 
       txtPost.setText(house.getAddress().getPost().getPostal_code()+ " " + house.getAddress().getPost().getName());
-        txtAdress.setText(house.getAddress().getStreetName() + " "+house.getAddress().getStreetNumber());
 
+
+        txtAdress.setText(house.getAddress().getStreetNameIfExist() + " "+house.getAddress().getStreetNumber());
+txtPlace.setText(house.getPlaceName());
         txtMobitel.setText(house.getMobNumber());
         txtTel.setText(house.getTelNumber());
 
