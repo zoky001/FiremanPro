@@ -67,13 +67,19 @@
                     tools:text="Ivić" />
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/tv_adresa"
                 style="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Petra Preradovića 28A" />
+
+            <TextView
+                android:id="@+id/tv_place"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuzno" />
 
 
             <TextView
@@ -83,12 +89,6 @@
                 android:layout_height="wrap_content"
                 tools:text=" Varaždin " />
 
-            <TextView
-                android:id="@+id/tv_place"
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="Varaždin" />
 
             <TextView
                 android:id="@+id/tv_ID"
