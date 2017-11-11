@@ -39,27 +39,28 @@ public class Address extends BaseModel {
     java.util.Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Place place;
+            Post post;
+
 
     public Address() {
     }
 
-    public Address(String streetName, String streetNumber, Place place,  long longitude, long latitude, Date updated_at, Date created_at) {
+    public Address(String streetName, String streetNumber, Post post,  long longitude, long latitude, Date updated_at, Date created_at) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
-        this.place = place;
+        this.post =post;
         this.longitude = longitude;
         this.latitude = latitude;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
-    public Place getPlace() {
-        return place;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPlace(Place place) {
-        this.place = place;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public int getID() {

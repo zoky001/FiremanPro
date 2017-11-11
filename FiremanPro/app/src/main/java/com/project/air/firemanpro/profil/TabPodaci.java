@@ -23,8 +23,8 @@ public class TabPodaci extends Fragment {
     @BindView(R.id.txtHouseOwnerName)
     TextView txtHouseOwnerName;
 
-    @BindView(R.id.txtHousePlace)
-    TextView txtHousePlace;
+    @BindView(R.id.txtHousePost)
+    TextView txtHousePost;
 
     @BindView(R.id.txtHouseAddress)
     TextView txtHouseAddress;
@@ -130,7 +130,7 @@ fillTableWithContent();
         //set contetn of table
         txtHouseOwnerName.setText(house.getSurname_owner() + " " + house.getName_owner());
 
-        txtHousePlace.setText(house.getPlaceName());
+        txtHousePost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
 
         txtHouseAddress.setText(house.getAddressStreet());
 

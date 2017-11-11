@@ -42,7 +42,7 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.ID.setText(String.valueOf(h.getId_house()));
 
         holder.surname.setText(h.getSurname_owner());
-        holder.grad.setText(h.getPlaceName());
+        holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
         holder.housePicture.setImageBitmap(Bitmap.createScaledBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()), 270, 200, false));
 

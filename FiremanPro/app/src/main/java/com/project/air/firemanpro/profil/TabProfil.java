@@ -29,8 +29,8 @@ public class TabProfil extends Fragment {
     @BindView(R.id.textViewNameOwner)
     TextView txtNameSurname;
 
-    @BindView(R.id.textViewPlace)
-    TextView txtPlace;
+    @BindView(R.id.textViewPost)
+    TextView txtPost;
 
     @BindView(R.id.textView1Address)
     TextView txtAdress;
@@ -73,7 +73,7 @@ profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyCont
         //set owner data
         txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
 
-        txtPlace.setText(house.getPlaceName());
+      txtPost.setText(house.getAddress().getPost().getPostal_code()+ " " + house.getAddress().getPost().getName());
         txtAdress.setText(house.getAddress().getStreetName() + " "+house.getAddress().getStreetNumber());
 
         txtMobitel.setText(house.getMobNumber());

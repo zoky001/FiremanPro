@@ -6,7 +6,6 @@ import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Photos;
-import com.project.test.database.Entities.Place;
 
 import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.AddressController;
@@ -14,7 +13,6 @@ import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.House_photosController;
 import com.project.test.database.controllers.PhotoTypeController;
 import com.project.test.database.controllers.PhotosController;
-import com.project.test.database.controllers.PlaceController;
 import com.project.test.database.controllers.PostController;
 
 import java.util.List;
@@ -33,7 +31,7 @@ public class MockData {
     HouseController houseController = new HouseController();
     PhotosController photosController = new PhotosController();
     PhotoTypeController photoTypeController = new PhotoTypeController();
-    PlaceController placeController = new PlaceController();
+
     PostController postController = new PostController();
 
     public  void  deleteAll(){
@@ -44,7 +42,7 @@ public class MockData {
         photosController.DeleteAllRecordsInTable();
         photoTypeController.DeleteAllRecordsInTable();
         postController.DeleteAllRecordsInTable();
-        placeController.DeleteAllRecordsInTable();
+
 
     }
     public void writeAll(){
@@ -56,18 +54,30 @@ public class MockData {
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
 
         Post cesticaPost = postController.addNewPost(42208,"Cestica");
-        Place radovec = placeController.addNewPlace("Radovec",cesticaPost);
-        Place radovec_polje = placeController.addNewPlace("Radovec Polje", cesticaPost);
-        Place cestica = placeController.addNewPlace("Cestica",cesticaPost);
-        Place krizovljan_radovecki = placeController.addNewPlace("Križovljan Radovečki",cesticaPost);
+
+        /*
+
+        SELA:
+       radovec
+         radovec_polje
+        cestica
+         krizovljan_radovecki
+*/
 
 
 
 
 
 
+Address nova = addressController.addNewAddress(
+        "Križovljan Radovečki, Ulica Antuna Mihanovića",
+        "1",
+        cesticaPost,
+        (long)46.368682,
+        (long)16.127483
+);
 
-Address nova = addressController.addNewAddress("Ulica Antuna Mihanovića","1",krizovljan_radovecki,(long)46.368682,(long)16.127483);
+
 House house = houseController.AddNewHouse(
         "ana",
         "Antolić",
@@ -100,7 +110,13 @@ House house = houseController.AddNewHouse(
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_1",house);
 
         //second house
-        nova = addressController.addNewAddress("Ulica Antuna Mihanovića","3",krizovljan_radovecki,(long)46.368447,(long)16.127473);
+        nova = addressController.addNewAddress("Križovljan Radovečki, Ulica Antuna Mihanovića",
+                "3",
+                cesticaPost,
+                (long)46.368447,
+                (long)16.127473
+        );
+
         house = houseController.AddNewHouse("Marinki",
                 "kokot",
                 5,
@@ -133,9 +149,9 @@ House house = houseController.AddNewHouse(
 
         //second house
         nova = addressController.addNewAddress(
-                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki, Ulica Antuna Mihanovića",
                 "5",
-                krizovljan_radovecki,
+                cesticaPost,
                 (long)46.368343,
                 (long)16.127398);
 
@@ -172,9 +188,9 @@ House house = houseController.AddNewHouse(
 
         //second house
         nova = addressController.addNewAddress(
-                "Ulica Antuna Mihanovica",
+                "Radovec, Ulica Antuna Mihanovica",
                 "23A",
-                radovec,
+                cesticaPost,
                 (long)46.363101,
                 (long)16.130054
         );
@@ -541,7 +557,7 @@ House house = houseController.AddNewHouse(
         final List<PhotoType> photoTypes = photoTypeController.GetAllRecordsFromTable();
         final List<House_photos> house_photoses = house_photosController.GetAllRecordsFromTable();
         final List<Post> posts = postController.GetAllRecordsFromTable();
-        final List<Place> places =placeController.GetAllRecordsFromTable();
+
 
 
 
@@ -549,7 +565,7 @@ House house = houseController.AddNewHouse(
                 " OWNER " +
                 " street " +
                 " num"  +
-                " selo"  +
+
                 " pošta"  +
                 " broj"  +
                 " profil " +
@@ -564,9 +580,9 @@ House house = houseController.AddNewHouse(
                     house.get(i).getName_owner()+" | " +
                     house.get(i).getAddress().getStreetName() + " | " +
                     house.get(i).getAddress().getStreetNumber()+ " | " +
-                    house.get(i).getAddress().getPlace().getName()+ " | " +
-                    house.get(i).getAddress().getPlace().getPost().getName()+ " | " +
-                    house.get(i).getAddress().getPlace().getPost().getPostal_code()+ " | " +
+
+                    house.get(i).getAddress().getPost().getName()+ " | " +
+                    house.get(i).getAddress().getPost().getPostal_code()+ " | " +
                     house.get(i).getProfilPhotos().getImageName()+ " | " +
                     house.get(i).getGroundPlanPhotos().get(0).getPhoto().getImageName()+ " | " +
 
@@ -590,20 +606,7 @@ House house = houseController.AddNewHouse(
 
         }
 
-        System.out.print(" PLACE ID " +
-                " NAZIV" +
-                "\n");
 
-        for(int i = 0; i < places.size(); i++){
-
-
-
-            System.out.print("-----------------------------------------------" + "\n");
-
-            System.out.print(places.get(i).getId_place()+" | " +
-                    places.get(i).getName() + "\n");
-
-        }
 
         System.out.print(" POSTAL CODE " +
                 " NAZIV" +

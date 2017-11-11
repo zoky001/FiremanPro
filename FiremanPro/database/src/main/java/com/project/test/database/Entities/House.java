@@ -183,7 +183,7 @@ public class House extends BaseModel{
     }
 
     public String getPlaceName(){
-return getAddress().getPlace().getName();
+return getAddress().getStreetName();
 
     }
 

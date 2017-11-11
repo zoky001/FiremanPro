@@ -2,7 +2,8 @@ package com.project.test.database.controllers;
 
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.Photos;
-import com.project.test.database.Entities.Place;
+
+import com.project.test.database.Entities.Post;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.Date;
@@ -20,9 +21,9 @@ public class AddressController {
     public AddressController() {
     }
 
-    public Address addNewAddress(String streetName, String streetNumber, Place place, long longitude, long latitude){
+    public Address addNewAddress(String streetName, String streetNumber, Post post, long longitude, long latitude){
 
-Address address = new Address(streetName,streetNumber,place,longitude,latitude,CurrentDate,CurrentDate);
+Address address = new Address(streetName,streetNumber,post,longitude,latitude,CurrentDate,CurrentDate);
 address.save();
 
     return address;

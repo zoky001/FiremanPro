@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FiremanPro</string>
     <string name="ime_lbl">Vlasnik:</string>
-    <string name="mjesto_lbl">Mjesto:</string>
+    <string name="mjesto_lbl">Općina/grad:</string>
     <string name="adresa_lbl">Adresa:</string>
     <string name="telefon">Telefon:</string>
     <string name="mobitel">Mobitel:</string>

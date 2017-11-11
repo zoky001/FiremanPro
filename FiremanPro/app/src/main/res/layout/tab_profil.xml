@@ -67,27 +67,7 @@
 
             just draw a red line -->
 
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
 
-                <TextView
-                    android:id="@+id/textViewPlacelbl"
-                    android:text="@string/mjesto_lbl"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    />
-
-                <TextView
-                    android:id="@+id/textViewPlace"
-                    android:text="Mladen"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    />
-
-            </TableRow>
 
             <!-- just draw a red line
 đ                            <View
@@ -120,7 +100,28 @@
 
 
             </TableRow>
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
+
+                <TextView
+                    android:id="@+id/textViewPlacelbl"
+                    android:text="@string/mjesto_lbl"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/text"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewPost"
+                    android:text="Mladen"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/textPodaci"
+                    />
+
+            </TableRow>
             <!-- just draw a red line
 đ                            <View
           android:layout_height="2dip"

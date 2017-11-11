@@ -39,24 +39,7 @@
                          />
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                >
 
-                <TextView
-                    android:id="@+id/data_house_idplace_lbl"
-                    android:text="Mjesto:"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    />
-
-                <TextView
-                    android:id="@+id/txtHousePlace"
-                    android:text="Mjesto stanovanja"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    />
-            </TableRow>
 
              <TableRow
                  android:layout_width="match_parent"
@@ -72,6 +55,25 @@
                      android:text="neka adresaffffffffffffffffffffffffffffffff"
                      android:textAppearance="?android:attr/textAppearanceLarge"
                      android:layout_width="0dp"
+                     style="@style/textPodaci"
+                     />
+             </TableRow>
+
+             <TableRow
+                 android:layout_width="match_parent"
+                 >
+
+                 <TextView
+                     android:id="@+id/data_house_idplace_lbl"
+                     android:text="Općina/grad:"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     style="@style/text"
+                     />
+
+                 <TextView
+                     android:id="@+id/txtHousePost"
+                     android:text="Mjesto stanovanja"
+                     android:textAppearance="?android:attr/textAppearanceLarge"
                      style="@style/textPodaci"
                      />
              </TableRow>
