@@ -1,7 +1,7 @@
 package com.project.air.firemanpro.profil;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.project.air.firemanpro.googlemaps.MapsActivity;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -85,5 +87,13 @@ txtPlace.setText(house.getPlaceName());
         txtTel.setText(house.getTelNumber());
 
         return rootView;
+    }
+
+    @OnClick(R.id.imageViewTESTmap)
+    public void imageViewTESTmapClicked(View view) {
+
+        Intent Intent = new Intent(view.getContext(), MapsActivity.class);
+        startActivity(Intent);
+
     }
 }
