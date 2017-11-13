@@ -2,6 +2,8 @@ package com.project.air.firemanpro.googlemaps;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -10,6 +12,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,7 +32,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.air.firemanpro.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.List;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener
+{
 
     private GoogleMap mMap;
     private GoogleApiClient client;
@@ -35,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location lastLocation;
     private Marker currentLocationMarker;
     public static  final int REQUEST_LOCATION_CODE = 99;
+    Double latitude, longitude, end_latitude, end_longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
+
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -167,5 +181,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void onClick(View v)
+    {
+        Object dataTransfer[] = new Object[2];
+
+        end_longitude = 17.225;
+        end_latitude =  45.59056;
+        switch(v.getId()) {
+            case R.id.B_search: {
+                EditText tf_location = (EditText) findViewById(R.id.TF_location);
+                String location = tf_location.getText().toString();
+                List<Address> addressList = null;
+                MarkerOptions markerOptions = new MarkerOptions();
+                Log.d("location = ", location);
+
+                if (!location.equals("")) {
+                    Geocoder geocoder = new Geocoder(this);
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 5);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (addressList != null) {
+                        for (int i = 0; i < addressList.size(); i++) {
+                            Address myAddress = addressList.get(i);
+                            LatLng latLng = new LatLng(myAddress.getLatitude(), myAddress.getLongitude());
+                            markerOptions.position(latLng);
+                            mMap.addMarker(markerOptions);
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                        }
+                    }
+
+                }
+            }
+            break;
+
+            case R.id.B_to:
+                dataTransfer = new Object[3];
+                String url = getDirectionsUrl();
+                GetDirectionsData getDirectionsData = new GetDirectionsData();
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+                dataTransfer[2] = new LatLng(end_latitude, end_longitude);
+                getDirectionsData.execute(dataTransfer);
+                break;
+        }
+    }
+
+    private String getDirectionsUrl()
+    {
+        end_longitude = 17.225;
+        end_latitude =  45.59056;
+        latitude = currentLocationMarker.getPosition().latitude;
+        longitude = currentLocationMarker.getPosition().longitude;
+
+        StringBuilder googleDirectionsUrl = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
+        googleDirectionsUrl.append("origin="+latitude+","+longitude);
+        googleDirectionsUrl.append("&destination="+end_latitude+","+end_longitude);
+        googleDirectionsUrl.append("&key="+"AIzaSyBJhtyyzFP23u76XfWqXKQ6XdPwHwID2Go");
+
+        return googleDirectionsUrl.toString();
     }
 }

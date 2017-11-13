@@ -40,7 +40,7 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.name.setText(h.getName_owner());
         holder.address.setText(h.getAddressStreet()+" "+h.getAddress().getStreetNumber());
         holder.ID.setText(String.valueOf(h.getId_house()));
-holder.place.setText(h.getPlaceName());
+        holder.place.setText(h.getPlaceName());
         holder.surname.setText(h.getSurname_owner());
         holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
