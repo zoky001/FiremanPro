@@ -41,17 +41,14 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-
         String[] directionsList;
         DataParser parser = new DataParser();
         directionsList = parser.parseDirections(s);
         displayDirection(directionsList);
-
     }
 
     public void displayDirection(String[] directionsList)
     {
-
         int count = directionsList.length;
         for(int i = 0;i<count;i++)
         {
