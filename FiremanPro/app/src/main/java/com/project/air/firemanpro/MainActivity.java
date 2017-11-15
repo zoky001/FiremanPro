@@ -123,7 +123,7 @@ saveImagesFromResourcesToInternalStorage();
         List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
         CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
         autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setThreshold(2);
 
 
         //Delayed method for inputLayout set error method after item is selected from autoCompleteTextView
@@ -159,7 +159,7 @@ saveImagesFromResourcesToInternalStorage();
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
+                if (s.length() > 2) {
 
                     autoCompleteTextView.postDelayed(new Runnable() {
                         @Override
@@ -176,6 +176,17 @@ saveImagesFromResourcesToInternalStorage();
                     }, 50);
 
 
+
+                }else if (s.length()< 3){
+                    autoCompleteTextView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                                inputLayout.setError(null); // hide error
+                            
+
+                        }
+                    }, 50);
                 }
             }
         };
