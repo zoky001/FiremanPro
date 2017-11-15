@@ -74,7 +74,8 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
                 if (constraint != null) {
                     mDepartments_Suggestion.clear();
                     for (String department : mDepartments_All) {
-                        if (department.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        String department1 = department.replaceAll(",","");
+                        if (department.toLowerCase().contains(constraint.toString().toLowerCase()) || department1.toLowerCase().contains(constraint.toString().toLowerCase())) {
                             mDepartments_Suggestion.add(department);
                         }
                     }
