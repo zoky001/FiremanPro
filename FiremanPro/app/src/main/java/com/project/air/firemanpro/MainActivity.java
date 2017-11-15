@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.test.database.Entities.House;
 
 import com.project.test.database.controllers.HouseController;
@@ -25,6 +26,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -118,7 +120,8 @@ saveImagesFromResourcesToInternalStorage();
         }
         //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
         final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, autoCompleteStrings);
+        List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
+        CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(1);
 
