@@ -231,6 +231,86 @@ House house = houseController.AddNewHouse(
         houseController.AddProfilPicToHouse("profil_radovec_ulica_antuna_mihanovica_23a",house);
         houseController.AddGroundPlanPicToHouse("gnd_radovec_ulica_antuna_mihanovica_23a",house);
 
+
+        //second house za testt samo
+        nova = addressController.addNewAddress(
+                "",
+                "Samo Place",
+                "5",
+                cesticaPost,
+                (long)46.368343,
+                (long)16.127398);
+
+        house = houseController.AddNewHouse(
+                "Ime SAmo",
+                "Place",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_5",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);
+
+        //second house
+        nova = addressController.addNewAddress(
+                "Ulica Samo Ulica",
+                " ",
+                "5",
+                cesticaPost,
+                (long)46.368343,
+                (long)16.127398);
+
+        house = houseController.AddNewHouse(
+                "Vlasnik_Samo",
+                "Prezime SAmo",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_5",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);
         /*
         gnd = new ArrayList<String>();
         gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_7");
