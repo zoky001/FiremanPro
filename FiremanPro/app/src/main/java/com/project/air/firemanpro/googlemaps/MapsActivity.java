@@ -209,6 +209,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 //Add pointer to the map at location
                 addMarker(mMap,latitude,longitude);
+
+                Object dataTransfer[] = new Object[2];
+
+                House h = HouseController.getFirstHouse();
+
+                end_latitude = h.getAddress().getLatitude();
+                end_longitude = h.getAddress().getLongitude();
+                dataTransfer = new Object[3];
+                String url = getDirectionsUrl();
+                GetDirectionsData getDirectionsData = new GetDirectionsData();
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+                dataTransfer[2] = new LatLng(end_latitude, end_longitude);
+                getDirectionsData.execute(dataTransfer);
             } else {
                 Toast.makeText(this, "Couldn't get the location. Make sure location is enabled on the device", Toast.LENGTH_SHORT).show();
             }
@@ -305,60 +319,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void onClick(View v)
-    {
-        Object dataTransfer[] = new Object[2];
-
-        end_longitude = 17.225;
-        end_latitude =  45.59056;
-        switch(v.getId()) {
-            case R.id.B_search: {
-                EditText tf_location = (EditText) findViewById(R.id.TF_location);
-                String location = tf_location.getText().toString();
-                List<Address> addressList = null;
-                MarkerOptions markerOptions = new MarkerOptions();
-                Log.d("location = ", location);
-
-                if (!location.equals("")) {
-                    Geocoder geocoder = new Geocoder(this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 5);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (addressList != null) {
-                        for (int i = 0; i < addressList.size(); i++) {
-                            Address myAddress = addressList.get(i);
-                            LatLng latLng = new LatLng(myAddress.getLatitude(), myAddress.getLongitude());
-                            markerOptions.position(latLng);
-                            mMap.addMarker(markerOptions);
-                            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                        }
-                    }
-
-                }
-            }
-            break;
-            case R.id.B_to:
-                end_longitude = 17.225;
-                end_latitude =  45.59056;
-                dataTransfer = new Object[3];
-                String url = getDirectionsUrl();
-                GetDirectionsData getDirectionsData = new GetDirectionsData();
-                dataTransfer[0] = mMap;
-                dataTransfer[1] = url;
-                dataTransfer[2] = new LatLng(end_latitude, end_longitude);
-                getDirectionsData.execute(dataTransfer);
-                break;
-        }
-    }
 
     private String getDirectionsUrl()
     {
-        end_longitude = 17.225;
-        end_latitude =  45.59056;
         latitude = currentLocationMarker.getPosition().latitude;
         longitude = currentLocationMarker.getPosition().longitude;
 
