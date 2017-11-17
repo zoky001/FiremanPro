@@ -28,10 +28,25 @@ public class Address extends BaseModel {
 
 
     @Column
-    long longitude;
+    double longitude;
     @Column
-    long latitude;
+    double latitude;
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     @Column
     java.util.Date updated_at;
@@ -45,7 +60,7 @@ public class Address extends BaseModel {
     public Address() {
     }
 
-    public Address(String streetName,String place, String streetNumber, Post post,  long longitude, long latitude, Date updated_at, Date created_at) {
+    public Address(String streetName,String place, String streetNumber, Post post,  double longitude, double latitude, Date updated_at, Date created_at) {
         this.streetName = streetName+";"+place;
         this.streetNumber = streetNumber;
         this.post =post;
@@ -118,21 +133,10 @@ public class Address extends BaseModel {
 
 
 
-    public long getLongitude() {
-        return longitude;
-    }
 
-    public void setLongitude(long longitude) {
-        this.longitude = longitude;
-    }
 
-    public long getLatitude() {
-        return latitude;
-    }
 
-    public void setLatitude(long latitude) {
-        this.latitude = latitude;
-    }
+
 
     public Date getUpdated_at() {
         return updated_at;

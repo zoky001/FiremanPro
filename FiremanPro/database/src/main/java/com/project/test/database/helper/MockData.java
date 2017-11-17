@@ -74,8 +74,8 @@ Address nova = addressController.addNewAddress(
         "Križovljan Radovečki",
         "1",
         cesticaPost,
-        (long)46.368682,
-        (long)16.127483
+        46.368682,
+        16.127483
 );
 
 
@@ -116,8 +116,8 @@ House house = houseController.AddNewHouse(
         "Križovljan Radovečki",
                 "3",
                 cesticaPost,
-                (long)46.368447,
-                (long)16.127473
+                46.368447,
+                16.127473
         );
 
         house = houseController.AddNewHouse("Marinki",
@@ -156,8 +156,8 @@ House house = houseController.AddNewHouse(
                 "Križovljan Radovečki",
                 "5",
                 cesticaPost,
-                (long)46.368343,
-                (long)16.127398);
+                46.368343,
+                16.127398);
 
         house = houseController.AddNewHouse(
                 "Jadranko",
@@ -196,8 +196,8 @@ House house = houseController.AddNewHouse(
                 "Radovec",
                 "23A",
                 cesticaPost,
-                (long)46.363101,
-                (long)16.130054
+               46.363101,
+                16.130054
         );
 
         house = houseController.AddNewHouse(

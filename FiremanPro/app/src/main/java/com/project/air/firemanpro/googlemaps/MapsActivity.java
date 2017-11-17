@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.air.firemanpro.R;
+import com.project.test.database.Entities.House;
+import com.project.test.database.controllers.HouseController;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -54,11 +56,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Double latitude, longitude, end_latitude, end_longitude;
     
     int markerCount;
+    House house;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+       // int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
+
+        int a = -1;
+
+        if (a != -1) {
+
+            house = HouseController.getHouse(a);
+
+        } else if (a == -1) {
+            house = HouseController.getFirstHouse();
+        } else {
+            house = HouseController.getFirstHouse();
+        }
+
+        System.out.println(" lokacijaa:    " +house.getAddress().getLatitude());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
