@@ -234,7 +234,7 @@ House house = houseController.AddNewHouse(
 
         //second house za testt samo
         nova = addressController.addNewAddress(
-                "",
+                "null",
                 "Samo Place",
                 "5",
                 cesticaPost,
@@ -275,7 +275,7 @@ House house = houseController.AddNewHouse(
         //second house
         nova = addressController.addNewAddress(
                 "Ulica Samo Ulica",
-                " ",
+                "null",
                 "5",
                 cesticaPost,
                 (long)46.368343,
