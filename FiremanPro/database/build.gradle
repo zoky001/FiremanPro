@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-def dbflow_version = "4.1.1"
+def dbflow_version = "4.1.2"
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.2"

@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,8 +76,22 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
                     mDepartments_Suggestion.clear();
                     for (String department : mDepartments_All) {
                         String department1 = department.replaceAll(",","");
+                        String constraintToString = constraint.toString();
+                        List<String> splitedConstraints = Arrays.asList(constraintToString.split(" "));
                         if (department.toLowerCase().contains(constraint.toString().toLowerCase()) || department1.toLowerCase().contains(constraint.toString().toLowerCase())) {
                             mDepartments_Suggestion.add(department);
+                        }
+                        boolean isItContained = true;
+                        for (String splitedConstraint: splitedConstraints
+                             ) {
+                            if (!department1.toLowerCase().contains(splitedConstraint.toLowerCase())){
+                                isItContained = false;
+                            }
+                        }
+                        if (isItContained){
+                            if (!mDepartments_Suggestion.contains(department)){
+                                mDepartments_Suggestion.add(department);
+                            }
                         }
                     }
                     FilterResults filterResults = new FilterResults();
