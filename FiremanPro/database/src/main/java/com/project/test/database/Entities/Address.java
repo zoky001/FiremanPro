@@ -91,8 +91,9 @@ public class Address extends BaseModel {
         String s1=this.streetName;
         String[] street = s1.split(";");
 
-        if (street.length == 2 && street[0].length()>0)
-             return street[0];
+        if (street.length == 2 && street[0].length()>0 && !street[0].contains("null"))
+
+            return street[0];
         else
             return "";
     }
@@ -102,7 +103,7 @@ public class Address extends BaseModel {
         String s1=this.streetName;
         String[] street = s1.split(";");
 
-        if (street.length == 2 && street[1].length()>0)
+        if (street.length == 2 && street[1].length()>0 && !street[1].contains("null"))
             return street[1];
         else
             return "";
