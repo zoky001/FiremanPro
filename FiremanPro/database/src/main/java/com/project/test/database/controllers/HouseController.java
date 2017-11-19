@@ -103,6 +103,22 @@ public void AddGroundPlanPicToHouse(String pic, House house){
 
         List<House> house = SQLite.select().from(House.class).where(House_Table.name_owner.like("%" + text + "%")).or(House_Table.surname_owner.like("%" + text + "%")).queryList();
         //Checking if string contains space for split
+        if (!text.contains(" ")){
+            List<House> allHouses = SQLite.select().from(House.class).queryList();
+
+            for (int i = 0;i<allHouses.size();i++) {
+
+                String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() + " " + allHouses.get(i).getSurname_owner().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() +
+                        " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase() + " " + allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase() + " " + allHouses.get(i).getAddress().getPost().getName().toLowerCase();
+
+                if (stringAddressWithName.contains(text)&&!house.contains(allHouses.get(i))){
+                    house.add(allHouses.get(i));
+
+                }
+
+            }
+        }
+
         if (text.contains(" ")) {
             List<String> splitedStrings = Arrays.asList(text.split(" "));
 
@@ -118,18 +134,7 @@ public void AddGroundPlanPicToHouse(String pic, House house){
                 String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() +" "+allHouses.get(i).getSurname_owner().toLowerCase() +" "+ allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase()+
                         " "+ allHouses.get(i).getAddress().getStreetNumber().toLowerCase() +" "+allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase()+" "+Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase()+" "+allHouses.get(i).getAddress().getPost().getName().toLowerCase() ;
                 List<String> splittedText = Arrays.asList(text.split(" "));
-                System.out.print(stringAddressWithName);
-                for (String splitedString:splitedStrings
-                     ) {System.out.print(splitedString);
-
-                }
                 boolean contains = true;
-               // for (int j = 0;j<splittedText.size();j++){
-                 //   if (!stringAddressWithName.contains(splittedText.get(j).toLowerCase())){
-                 //       contains = false;
-                 //   }
-               // }
-
                 for (String string:splittedText
                      ) {
                     if (!stringAddressWithName.contains((string.toLowerCase()))){
