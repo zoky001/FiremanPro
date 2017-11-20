@@ -61,6 +61,24 @@ public class MapFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
+
+        String s = getArguments().getString("IDkuce");
+        System.out.println("SESSION FRAGMENT_idkuce: " + s);
+        int a = Integer.parseInt(getArguments().getString("IDkuce"));
+        if (a != -1) {
+
+            house = HouseController.getHouse(a);
+
+        } else {
+            house = HouseController.getFirstHouse();
+        }
+        end_latitude=house.getAddress().getLatitude();
+        end_longitude=house.getAddress().getLongitude();
+
+        System.out.println("Trenutni latitude: " + end_latitude);
+        System.out.println("Trenutni longitude: " + end_longitude);
+
+
         context = getActivity();
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -74,7 +92,6 @@ public class MapFragment extends Fragment implements
             e.printStackTrace();
         }
 
-        getHouseLocation();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -114,21 +131,7 @@ public class MapFragment extends Fragment implements
             return true;
     }
 
-    private void getHouseLocation() {
-        int a = -1;
 
-        if (a != -1) {
-
-            house = HouseController.getHouse(a);
-
-        } else if (a == -1) {
-            house = HouseController.getFirstHouse();
-        } else {
-            house = HouseController.getFirstHouse();
-        }
-
-        System.out.println(" lokacijaa:    " +house.getAddress().getLatitude());
-    }
 
     protected synchronized void buildGoogleApiClient(){
         client = new GoogleApiClient.Builder(context)

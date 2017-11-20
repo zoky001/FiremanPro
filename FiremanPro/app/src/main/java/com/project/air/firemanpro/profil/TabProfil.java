@@ -94,10 +94,21 @@ txtPlace.setText(house.getPlaceName());
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+<<<<<<< HEAD
+=======
+        Bundle bundle = new Bundle();
+
+        String IDHouse = "" + house.getId_house();
+
+        bundle.putString("IDkuce", IDHouse);
+        Fragment mapFragment=new MapFragment();
+        mapFragment.setArguments(bundle);
+>>>>>>> a3c51605f4774bd972432f238ec3d0e4645da8f2
 
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.map_container, new MapFragment())
+                .replace(R.id.map_container, mapFragment)
                 .commit();
     }
 
