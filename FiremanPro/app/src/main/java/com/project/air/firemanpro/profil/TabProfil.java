@@ -56,6 +56,7 @@ public class TabProfil extends Fragment {
         View rootView = inflater.inflate(R.layout.tab_profil, container, false);
         ButterKnife.bind(this, rootView);
 
+        //CustomScrollView myScrollView = (CustomScrollView) getView().findViewById(R.id.idScrollView);
 
         String s = getArguments().getString("IDkuce");
         System.out.println("SESSION FRAGMENT_idkuce: " + s);

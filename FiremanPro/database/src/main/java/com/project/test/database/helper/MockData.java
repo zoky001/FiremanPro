@@ -460,10 +460,10 @@ House house = houseController.AddNewHouse(
                 "Cestica",
                 "21",
                 cesticaPost,
-                16.128744,
-                46.368196
+                16.128423,
+                46.368452
 
-        );
+                );
 
         house = houseController.AddNewHouse(
                 "Neven",
@@ -503,8 +503,8 @@ House house = houseController.AddNewHouse(
                 "Cestica",
                 "26",
                 cesticaPost,
-                16.128744,
-                46.368196
+                16.133096,
+                46.374510
 
         );
 

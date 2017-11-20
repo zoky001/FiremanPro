@@ -73,6 +73,7 @@ public class MapFragment extends Fragment implements
         } else {
             house = HouseController.getFirstHouse();
         }
+
         end_latitude=house.getAddress().getLatitude();
         end_longitude=house.getAddress().getLongitude();
 
@@ -213,10 +214,9 @@ public class MapFragment extends Fragment implements
 
             Object dataTransfer[] = new Object[2];
 
-            House h = HouseController.getFirstHouse();
 
-            end_latitude = h.getAddress().getLatitude();
-            end_longitude = h.getAddress().getLongitude();
+
+
             dataTransfer = new Object[3];
             String url = getDirectionsUrl();
             GetDirectionsData getDirectionsData = new GetDirectionsData();
