@@ -80,7 +80,7 @@ Address nova = addressController.addNewAddress(
 
 
 House house = houseController.AddNewHouse(
-        "ana",
+        "Ana",
         "Antolić",
         5,
         3,
@@ -121,8 +121,8 @@ House house = houseController.AddNewHouse(
 
         );
 
-        house = houseController.AddNewHouse("Marinki",
-                "kokot",
+        house = houseController.AddNewHouse("Marinko",
+                "Kokot",
                 5,
                 3,
                 "prvi kat, drugi kat",
@@ -410,7 +410,7 @@ House house = houseController.AddNewHouse(
 
         //next house
         nova = addressController.addNewAddress(
-                "Varaždinska Ulica",
+                "Varaždinska ulica",
                 "Cestica",
                 "25",
                 cesticaPost,
@@ -456,7 +456,7 @@ House house = houseController.AddNewHouse(
 
         //next house
         nova = addressController.addNewAddress(
-                "Varaždinska Ulica",
+                "Varaždinska ulica",
                 "Cestica",
                 "21",
                 cesticaPost,

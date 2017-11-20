@@ -38,11 +38,18 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
     @Override
     public void onBindViewHolder(SearchingViewHolder holder, int position) {
         House h = houseItem.get(position);
-        holder.name.setText(h.getName_owner());
+        if((h.getName_owner().length() + h.getSurname_owner().length()) < 16) {
+            holder.name.setText(h.getName_owner() + " " + h.getSurname_owner());
+            if(holder.surname.length() == 0) holder.surname.setHeight(0);
+        }
+        else {
+            holder.name.setText(h.getName_owner());
+            holder.surname.setText(h.getSurname_owner());
+        }
+
         holder.address.setText(h.getAddressStreet()+" "+h.getAddress().getStreetNumber());
         holder.ID.setText(String.valueOf(h.getId_house()));
         holder.place.setText(h.getPlaceName());
-        holder.surname.setText(h.getSurname_owner());
         holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
 
