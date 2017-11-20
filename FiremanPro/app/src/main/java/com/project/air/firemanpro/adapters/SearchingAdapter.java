@@ -12,6 +12,7 @@ import com.project.air.firemanpro.R;
 import com.project.air.firemanpro.holders.SearchingViewHolder;
 import com.project.test.database.Entities.House;
 
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -44,9 +45,18 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.surname.setText(h.getSurname_owner());
         holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
-        holder.housePicture.setImageBitmap(Bitmap.createScaledBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()), 270, 200, false));
 
-        System.out.println("onBindViewHolder: ");
+        Long P = System.currentTimeMillis();
+System.out.println("PRIJE prikaza: "+ P);
+
+        holder.housePicture.setImageBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()));
+        holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
+
+        Long PO = System.currentTimeMillis();
+        System.out.println("POSLJE prikaza: "+PO);
+        PO = PO -P;
+        System.out.println("-------POSLJE ukupno: "+ PO);
+
     }
 
     @Override

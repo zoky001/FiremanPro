@@ -45,14 +45,27 @@ public class SaveResourceImage {
     }
 
     public void SaveAllImageToInternalStorage(){
+        Bitmap scal;
+
         for (Photos h:photos
                 ) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), photosController.getPhotoResourceIDbyContext(context,h));
+
+            if (h.getFileName().contains("gnd")){
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), photosController.getPhotoResourceIDbyContext(context,h));
+                 scal = Bitmap.createScaledBitmap(bitmap, 800, 600, false);
+
+            }
+            else {
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), photosController.getPhotoResourceIDbyContext(context,h));
+                 scal = Bitmap.createScaledBitmap(bitmap, 270, 200, false);
+
+            }
+
 
             new ImageSaver(context).
                     setFileName(h.getFileName()+".png").
                     setDirectoryName("Images").
-                    save(bitmap);
+                    save(scal);
 
         }
     }
