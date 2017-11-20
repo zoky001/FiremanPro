@@ -57,7 +57,7 @@ public class SearchingResultsActivity extends AppCompatActivity {
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-
+System.out.println("PRIJE ADAPTERA: " + houses.size());
         rv.setAdapter(new SearchingAdapter(houses));
     }
 

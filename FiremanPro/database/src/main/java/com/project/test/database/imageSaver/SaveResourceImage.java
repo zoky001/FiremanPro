@@ -11,6 +11,7 @@ import com.project.test.database.Entities.Photos;
 import com.project.test.database.controllers.PhotosController;
 
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -32,7 +33,14 @@ public class SaveResourceImage {
     }
 
     public void SaveImageFromResourceToInternalStorage(){
-        SaveAllImageToInternalStorage();
+
+        File mydir = context.getDir("Images", Context.MODE_PRIVATE);
+        File lister = mydir.getAbsoluteFile();
+
+
+        if (lister.list().length < photos.size())
+            SaveAllImageToInternalStorage();
+
 
     }
 

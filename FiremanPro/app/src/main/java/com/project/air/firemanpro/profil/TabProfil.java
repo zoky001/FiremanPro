@@ -94,6 +94,7 @@ txtPlace.setText(house.getPlaceName());
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.map_container, new MapFragment())

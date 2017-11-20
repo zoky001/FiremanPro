@@ -226,7 +226,7 @@ saveImagesFromResourcesToInternalStorage();
         System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
 
         //check if image exist in folder "Images"
-        if (lister.list().length < 1) {
+        if (true) {
 
             System.out.println("PIPIS U DIREKTORIJUJU PROFILA je prazan: ");
 

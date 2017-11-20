@@ -233,7 +233,356 @@ House house = houseController.AddNewHouse(
         houseController.AddProfilPicToHouse("profil_radovec_ulica_antuna_mihanovica_23a",house);
         houseController.AddGroundPlanPicToHouse("gnd_radovec_ulica_antuna_mihanovica_23a",house);
 
+        //next house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki",
+                "7",
+                cesticaPost,
+                16.127299,
+                46.368049
 
+        );
+
+        house = houseController.AddNewHouse(
+                "Anamarija",
+                "Bananković",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_7",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_7",house);
+
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki",
+                "11",
+                cesticaPost,
+                16.127333,
+                46.367909
+
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Anton",
+                "Barić",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_11",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_11",house);
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki",
+                "13",
+                cesticaPost,
+                16.127033,
+                46.367540
+
+
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Željko",
+                "Hrnčić",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_13",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_13",house);
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki",
+                "15",
+                cesticaPost,
+                16.126830,
+                46.367522
+
+
+
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Slavica",
+                "Hrnčić",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_15",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_15",house);
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Varaždinska Ulica",
+                "Cestica",
+                "25",
+                cesticaPost,
+                16.127715,
+                46.368558
+
+
+
+
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Ivica",
+                "Milec",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_cestica_varazdinska_ulica_25",house);
+        houseController.AddGroundPlanPicToHouse("gnd_cestica_varazdinska_ulica_25",house);
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Varaždinska Ulica",
+                "Cestica",
+                "21",
+                cesticaPost,
+                16.128744,
+                46.368196
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Neven",
+                "Kokot",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_cestica_varazdinska_ulica_21",house);
+        houseController.AddGroundPlanPicToHouse("gnd_cestica_varazdinska_ulica_21",house);
+
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Ulica Ljudevita Gaja",
+                "Cestica",
+                "26",
+                cesticaPost,
+                16.128744,
+                46.368196
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Maria",
+                "Vnuk",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_cestica_ulica_ljudevita_gaja_26",house);
+        houseController.AddGroundPlanPicToHouse("gnd_cestica_ulica_ljudevita_gaja_26",house);
+
+        //next house
+        nova = addressController.addNewAddress(
+                "Ulica Antuna Mihanovića",
+                "Križovljan Radovečki",
+                "6",
+                cesticaPost,
+                16.126637,
+                46.367875
+
+
+        );
+
+        house = houseController.AddNewHouse(
+                "Mario",
+                "Majhen",
+                5,
+                3,
+                "prvi kat, drugi kat",
+                2,
+                "1998,2000",
+                2,
+                "1966,1970",
+                0,
+                "",
+                FALSE,
+                "Nadzemni",
+                TRUE,
+                "plin",
+                2,
+                "Lim",
+                20,
+                FALSE,
+                "nema",
+                FALSE,
+                "ništa",
+                FALSE,
+                "042725091",
+                "0995982910",
+                nova);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6",house);
+
+/*
         //second house za testt samo
         nova = addressController.addNewAddress(
                 "null",
@@ -317,329 +666,11 @@ House house = houseController.AddNewHouse(
                 nova);
 
         houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_5",house);
-        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);
-        /*
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_7");
-        House house3 = new House(
-                "Ana",
-                "Banana",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 7 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.368049,
-                (long) 16.127299,
-                "profil_krizovljan_radovecki_antuna_mihanovica_7",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house3.save();
-        house3.saveGndPlans(gnd);
-
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_11");
-        House house4 = new House(
-                "Anton",
-                "Barić",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 11 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.367909,
-                (long)16.127333,
-                "profil_krizovljan_radovecki_antuna_mihanovica_11",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house4.save();
-        house4.saveGndPlans(gnd);
-
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_13");
-        House house5 = new House(
-                "Željko",
-                "Hrnčić",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 13 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.367540,
-                (long)16.127033,
-                "profil_krizovljan_radovecki_antuna_mihanovica_13",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house5.save();
-        house5.saveGndPlans(gnd);
-
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_15");
-        House house6 = new House(
-                "Slavica",
-                "Hrnčić",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 15 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.367522,
-                (long)16.126830,
-                "profil_krizovljan_radovecki_antuna_mihanovica_15",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house6.save();
-        house6.saveGndPlans(gnd);
-
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_cestica_varazdinska_ulica_25");
-        House house7 = new House(
-                "Ivica",
-                "Milec",
-                cestica.getId_place(),
-                "Varaždinska Ulica 25 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.368558,
-                (long)16.127715,
-                "profil_cestica_varazdinska_ulica_25",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house7.save();
-        house7.saveGndPlans(gnd);
-
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_cestica_varazdinska_ulica_21");
-        House house8 = new House(
-                "Neven",
-                "Kokot",
-                cestica.getId_place(),
-                "Varaždinska Ulica 21 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.368196,
-                (long)16.128744,
-                "profil_cestica_varazdinska_ulica_21",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house8.save();
-        house8.saveGndPlans(gnd);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);*/
 
 
 
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_cestica_ulica_ljudevita_gaja_26");
-        House house10 = new House(
-                "Maria",
-                "Vnuk",
-                cestica.getId_place(),
-                "Ulica Ljudevita Gaja 26 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.374547,
-                (long)16.132721,
-                "profil_cestica_ulica_ljudevita_gaja_26",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house10.save();
-        house10.saveGndPlans(gnd);
 
-        gnd = new ArrayList<String>();
-        gnd.add("gnd_krizovljan_radovecki_antuna_mihanovica_6");
-        House house11 = new House(
-                "Mario",
-                "Majhen",
-                krizovljan_radovecki.getId_place(),
-                "Ulica Antuna Mihanovića 6 42208 Cestica",
-                2,
-                2,
-                "prvi kat, drugi kat",
-                0,
-                "",
-                5,
-                "1995,1975,1978,1985",
-                0,
-                "",
-                FALSE,
-                "Nadzemni priključak",
-                FALSE,
-                "DRVA",
-                TRUE,
-                1,
-                "Limeni pokrov",
-                30,
-                TRUE,
-                "Crijep",
-                TRUE,
-                "Sijeno",
-                FALSE,
-                (long)46.367875,
-                (long)16.126637,
-                "profil_krizovljan_radovecki_antuna_mihanovica_6",
-                "042725091",
-                "0995982910",
-                gnd,
-                date,
-                date);
-        house11.save();
-        house11.saveGndPlans(gnd);*/
     }
 
     public  void  printAll(){
