@@ -8,13 +8,13 @@ import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
 
 
-
 import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Address_Table;
 
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,12 +24,13 @@ import java.util.List;
 
 public class HouseController {
     java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-House_photosController house_photosController = new House_photosController();
+    House_photosController house_photosController = new House_photosController();
+
     public HouseController() {
     }
 
 
-    public House AddNewHouse (String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber,Address address){
+    public House AddNewHouse(String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber, Address address) {
 
         House house = new House(name_owner,
                 surname_owner,
@@ -61,16 +62,16 @@ House_photosController house_photosController = new House_photosController();
                 address);
         house.save();
 
-return house;
+        return house;
     }
 
-    public void AddProfilPicToHouse(String pic, House house){
-    house_photosController.addNewProfilPhotoToHouse(pic,pic,house);
-}
+    public void AddProfilPicToHouse(String pic, House house) {
+        house_photosController.addNewProfilPhotoToHouse(pic, pic, house);
+    }
 
-public void AddGroundPlanPicToHouse(String pic, House house){
-    house_photosController.addNewGrouondPlanPhotoToHouse(pic,pic,house);
-}
+    public void AddGroundPlanPicToHouse(String pic, House house) {
+        house_photosController.addNewGrouondPlanPhotoToHouse(pic, pic, house);
+    }
 
     public static House getHouse(int idHouse) {
         List<House> house = SQLite.select().from(House.class).where(House_Table.id_house.is(idHouse)).queryList();
@@ -98,112 +99,98 @@ public void AddGroundPlanPicToHouse(String pic, House house){
     }
 
 
-
     public static List<House> serachByNameAndSurnameQuery(String text) {
 
-        List<House> house = SQLite.select().from(House.class).where(House_Table.name_owner.like("%" + text + "%")).or(House_Table.surname_owner.like("%" + text + "%")).queryList();
-        //Checking if string contains space for split
-        if (!text.contains(" ")){
-            List<House> allHouses = SQLite.select().from(House.class).queryList();
+        //Fetching all houses from database and empty list (type house)
+        List<House> allHouses = SQLite.select().from(House.class).queryList();
+        List<House> house = new ArrayList<>(allHouses);
+        house.removeAll(allHouses);
 
-            for (int i = 0;i<allHouses.size();i++) {
+        //Checking if string doesn't contain space (single word search)
+        if (!text.contains(" ")) {
+
+            for (int i = 0; i < allHouses.size(); i++) {
 
                 String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() + " " + allHouses.get(i).getSurname_owner().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() +
                         " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase() + " " + allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase() + " " + allHouses.get(i).getAddress().getPost().getName().toLowerCase();
 
-                if (stringAddressWithName.contains(text)&&!house.contains(allHouses.get(i))){
+                //Checking if specific house is already inside houses list and if not, then adding it to list
+                if (stringAddressWithName.contains(text.toLowerCase()) && !house.contains(allHouses.get(i))) {
                     house.add(allHouses.get(i));
 
                 }
-
             }
         }
-
+        //Checking if string contains space for split (for searching by name and surname and/or address without needing to type commas)
         if (text.contains(" ")) {
-            List<String> splitedStrings = Arrays.asList(text.split(" "));
 
-            List<House> house1 = SQLite.select().from(House.class).where(House_Table.name_owner.is(splitedStrings.get(0))).and(House_Table.surname_owner.is(splitedStrings.get(1))).queryList();
+            for (int i = 0; i < allHouses.size(); i++) {
 
-            for (int i = 0; i < house1.size(); i++) {
-                if (!house.contains(house1.get(i))) {
-                    house.add(house1.get(i));
-                }
-            }
-            List<House> allHouses = SQLite.select().from(House.class).queryList();
-            for (int i = 0;i<allHouses.size();i++){
-                String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() +" "+allHouses.get(i).getSurname_owner().toLowerCase() +" "+ allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase()+
-                        " "+ allHouses.get(i).getAddress().getStreetNumber().toLowerCase() +" "+allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase()+" "+Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase()+" "+allHouses.get(i).getAddress().getPost().getName().toLowerCase() ;
+                String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() + " " + allHouses.get(i).getSurname_owner().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() +
+                        " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase() + " " + allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase() + " " + allHouses.get(i).getAddress().getPost().getName().toLowerCase();
                 List<String> splittedText = Arrays.asList(text.split(" "));
+
                 boolean contains = true;
-                for (String string:splittedText
-                     ) {
-                    if (!stringAddressWithName.contains((string.toLowerCase()))){
-                        contains =false;
+                for (String string : splittedText
+                        ) {
+                    if (!stringAddressWithName.contains((string.toLowerCase()))) {
+                        contains = false;
+                        break;
                     }
-
                 }
-
-                if (contains && !house.contains(allHouses.get(i))){
+                //Checking if specific house is already inside houses list and if not, then adding it to list
+                if (contains && !house.contains(allHouses.get(i))) {
                     house.add(allHouses.get(i));
                 }
-
-
             }
-
         }
-
+        //If text contains commas
         if (text.contains(",")) {
 
             List<String> splitedStrings = Arrays.asList(text.split(", "));
             if (splitedStrings.size() == 3) {
-              
-                List<House> house1 = SQLite.select().from(House.class).queryList();
 
+                for (int i = 0; i < allHouses.size(); i++) {
 
-                for (int i = 0; i < house1.size(); i++) {
+                    if (splitedStrings.get(0).toLowerCase().contains(allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase())
+                            && splitedStrings.get(1).toLowerCase().contains(allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase())
+                            && splitedStrings.get(2).toLowerCase().contains((Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()) + " " + allHouses.get(i).getAddress().getPost().getName()).toLowerCase())) {
 
-
-                    if (splitedStrings.get(0).toLowerCase().contains(house1.get(i).getAddress().getStreetNameIfExist().toLowerCase() + " " + house1.get(i).getAddress().getStreetNumber().toLowerCase())
-                            && splitedStrings.get(1).toLowerCase().contains(house1.get(i).getAddress().getPlaceNameIfExist().toLowerCase())
-                            && splitedStrings.get(2).toLowerCase().contains((Integer.toString(house1.get(i).getAddress().getPost().getPostal_code()) + " " + house1.get(i).getAddress().getPost().getName()).toLowerCase())) {
-
-                        if (!house.contains(house1.get(i))) {
-                            house.add(house1.get(i));
+                        //Checking if specific house is already inside houses list and if not, then adding it to list
+                        if (!house.contains(allHouses.get(i))) {
+                            house.add(allHouses.get(i));
                         }
                     }
                 }
             }
-            if (splitedStrings.size()==2){
-                List<House> house1 = SQLite.select().from(House.class).queryList();
-                for (int i = 0; i < house1.size(); i++){
-                    if ( house1.get(i).getAddress().getPlaceNameIfExist() == "" &&splitedStrings.get(0).toLowerCase().contains(house1.get(i).getAddress().getStreetNameIfExist().toLowerCase() + " " + house1.get(i).getAddress().getStreetNumber().toLowerCase())
-                            && splitedStrings.get(1).toLowerCase().contains((Integer.toString(house1.get(i).getAddress().getPost().getPostal_code()) + " " + house1.get(i).getAddress().getPost().getName()).toLowerCase())
-                            ) {
 
-                        if (!house.contains(house1.get(i))) {
-                            house.add(house1.get(i));
+            if (splitedStrings.size() == 2) {
+
+                for (int i = 0; i < allHouses.size(); i++) {
+                    if (allHouses.get(i).getAddress().getPlaceNameIfExist() == "" && splitedStrings.get(0).toLowerCase().contains(allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase())
+                            && splitedStrings.get(1).toLowerCase().contains((Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()) + " " + allHouses.get(i).getAddress().getPost().getName()).toLowerCase())
+                            ) {
+                        //Checking if specific house is already inside houses list and if not, then adding it to list
+                        if (!house.contains(allHouses.get(i))) {
+                            house.add(allHouses.get(i));
                         }
                     }
-                    if (house1.get(i).getAddress().getStreetNameIfExist() == "" && splitedStrings.get(0).toLowerCase().contains(house1.get(i).getAddress().getPlaceNameIfExist().toLowerCase()+" " + house1.get(i).getAddress().getStreetNumber().toLowerCase())
-                            && splitedStrings.get(1).toLowerCase().contains((Integer.toString(house1.get(i).getAddress().getPost().getPostal_code()) + " " + house1.get(i).getAddress().getPost().getName()).toLowerCase()))
-                    {
-
-                        if (!house.contains(house1.get(i))) {
-                            house.add(house1.get(i));
+                    if (allHouses.get(i).getAddress().getStreetNameIfExist() == "" && splitedStrings.get(0).toLowerCase().contains(allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase())
+                            && splitedStrings.get(1).toLowerCase().contains((Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()) + " " + allHouses.get(i).getAddress().getPost().getName()).toLowerCase())) {
+                        //Checking if specific house is already inside houses list and if not, then adding it to list
+                        if (!house.contains(allHouses.get(i))) {
+                            house.add(allHouses.get(i));
                         }
                     }
                 }
-                
+
             }
 
         }
-
-        
-
         return house;
-
     }
-    public Bitmap getProfilImageBitmapbyContext (Context contextItem) {
+
+    public Bitmap getProfilImageBitmapbyContext(Context contextItem) {
 /*
         Bitmap bitmap = new ImageSaver(contextItem).
                 setFileName(getHouse_image()+".png").
@@ -214,26 +201,22 @@ public void AddGroundPlanPicToHouse(String pic, House house){
         return bitmap;
         */
         Bitmap bitmap = new ImageSaver(contextItem).
-                setFileName("slika_TTEST"+".png").
+                setFileName("slika_TTEST" + ".png").
                 setDirectoryName("ProfilImages").
                 load();
 
-
         return bitmap;
-
-
     }
 
-    public List<House> GetAllRecordsFromTable(){
+    public List<House> GetAllRecordsFromTable() {
 
         return SQLite.select().from(House.class).queryList();
-
-
     }
-    public void DeleteAllRecordsInTable(){
+
+    public void DeleteAllRecordsInTable() {
 
         final List<House> gndPlan = GetAllRecordsFromTable();
-        for(int i = 0; i < gndPlan.size(); i++){
+        for (int i = 0; i < gndPlan.size(); i++) {
 
             gndPlan.get(i).delete();
             //delete all item in table House
