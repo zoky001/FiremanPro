@@ -74,9 +74,9 @@ Address nova = addressController.addNewAddress(
         "Križovljan Radovečki",
         "1",
         cesticaPost,
-        (long)46.368682,
-        (long)16.127483
-);
+        16.127483,
+        46.368682
+        );
 
 
 House house = houseController.AddNewHouse(
@@ -116,8 +116,9 @@ House house = houseController.AddNewHouse(
         "Križovljan Radovečki",
                 "3",
                 cesticaPost,
-                (long)46.368447,
-                (long)16.127473
+                16.127473,
+                46.368447
+
         );
 
         house = houseController.AddNewHouse("Marinki",
@@ -156,8 +157,9 @@ House house = houseController.AddNewHouse(
                 "Križovljan Radovečki",
                 "5",
                 cesticaPost,
-                (long)46.368343,
-                (long)16.127398);
+                16.127398,
+                46.368343
+        );
 
         house = houseController.AddNewHouse(
                 "Jadranko",
@@ -196,8 +198,8 @@ House house = houseController.AddNewHouse(
                 "Radovec",
                 "23A",
                 cesticaPost,
-                (long)46.363101,
-                (long)16.130054
+                16.130054,
+               46.363101
         );
 
         house = houseController.AddNewHouse(
@@ -238,8 +240,10 @@ House house = houseController.AddNewHouse(
                 "Samo Place",
                 "5",
                 cesticaPost,
-                (long)46.368343,
-                (long)16.127398);
+                16.127398,
+                46.368343
+
+        );
 
         house = houseController.AddNewHouse(
                 "Ime SAmo",
@@ -278,8 +282,11 @@ House house = houseController.AddNewHouse(
                 "null",
                 "5",
                 cesticaPost,
-                (long)46.368343,
-                (long)16.127398);
+                16.127398,
+                46.368343
+
+
+        );
 
         house = houseController.AddNewHouse(
                 "Vlasnik_Samo",
