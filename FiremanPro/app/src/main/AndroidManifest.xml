@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SearchingResultsActivity" />
+        <activity android:name=".googlemaps.GoogleMapActivity" />
         <activity
             android:name=".profil.ProfilNewActivity"
             android:label="@string/title_activity_profil_new"

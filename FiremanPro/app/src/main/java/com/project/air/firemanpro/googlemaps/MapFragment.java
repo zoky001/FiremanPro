@@ -40,6 +40,7 @@ import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
+import static android.R.attr.onClick;
 
 
 public class MapFragment extends Fragment implements
@@ -349,5 +350,8 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
+
+
+
 }
 

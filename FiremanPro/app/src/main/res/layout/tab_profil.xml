@@ -231,13 +231,22 @@
             android:layout_marginBottom="50dp"
             android:orientation="horizontal"
             android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-           >
+            android:layout_marginLeft="16dp">
+
 
             <FrameLayout
                 android:id="@+id/map_container"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/buttonMax"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:text="Povećaj"
+                    android:clickable="true">
+                </Button>
+
             </FrameLayout>
 
         </LinearLayout>

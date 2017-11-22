@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarMap"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorTitleBackground"
+        android:theme="?attr/actionBarTheme">
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/mapView_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapViewMax"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</LinearLayout>
