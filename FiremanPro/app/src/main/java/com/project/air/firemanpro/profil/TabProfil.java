@@ -50,6 +50,7 @@ public class TabProfil extends Fragment {
     TextView txtPlace;
 
 
+
     House house;
 
     @Override
@@ -116,14 +117,17 @@ txtPlace.setText(house.getPlaceName());
     @OnClick(R.id.buttonMax)
     public void buttonMaxClicked(View view) {
 
-        Intent Intent = new Intent(view.getContext(), GoogleMapActivity.class);
-        Bundle bundle = new Bundle();
+
 
         String IDHouse = "" + house.getId_house();
+        Intent intent = new Intent(view.getContext(), GoogleMapActivity.class);
+        intent.putExtra("IDkuce", IDHouse); // umjesto 01 prosljediš ID kuće
 
-        bundle.putString("IDkuce", IDHouse);
 
-        startActivity(Intent, bundle);
+
+
+
+        startActivity(intent);
 
     }
 }

@@ -64,7 +64,7 @@ public class MapFragment extends Fragment implements
 
 
         String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: " + s);
+        System.out.println("MAPFRAGMENT_idkuce kartaaaaaaaa: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
 
         if (a != -1) {

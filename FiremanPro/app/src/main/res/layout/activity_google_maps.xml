@@ -16,12 +16,11 @@
 
     <FrameLayout
         android:id="@+id/mapView_container"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent" >
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapViewMax"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+        </FrameLayout>
+
+
+
 </LinearLayout>
