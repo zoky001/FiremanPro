@@ -29,7 +29,7 @@ address.save();
     return address;
 }
 
-    public List<Address> GetAllRecordsFromTable(){
+    public static List<Address> GetAllRecordsFromTable(){
 
         return SQLite.select().from(Address.class).queryList();
 

@@ -14,7 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.kizo.core.DataLoadedListener;
+import com.kizo.core.DataLoader;
+import com.kizo.web_services.AirWebServiceCaller;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
+import com.project.air.firemanpro.loaders.WsDataLoader;
 import com.project.test.database.Entities.House;
 
 import com.project.test.database.controllers.HouseController;
@@ -34,7 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DataLoadedListener {
 
     MockData mockData;
 
@@ -210,10 +214,22 @@ saveImagesFromResourcesToInternalStorage();
 
     @OnClick(R.id.buttonSearching)
     public void buttonSearchingClicked(View view) {
-
+/*
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
         startActivity(Intent);
+*/
+
+       // AirWebServiceCaller webServiceCaller = new AirWebServiceCaller();
+      //  webServiceCaller.getAll("getAll", House.class);
+
+
+        DataLoader dataLoader;
+        if(true){
+            System.out.println("Loading web data");
+            dataLoader = new WsDataLoader();
+        }
+        dataLoader.loadData(this);
 
     }
 
@@ -239,5 +255,16 @@ saveImagesFromResourcesToInternalStorage();
         }
     }
 
+    @Override
+    public void onDataLoaded(ArrayList<House> houses) {
+        System.out.println("Data is here... ");
+        String[] listItems = new String[houses.size()];
+
+        for (int i = 0; i < houses.size(); i++) {
+            listItems[i] = houses.get(i).getName_owner();
+        }
+
+
+    }
 
 }
