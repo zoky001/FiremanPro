@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
             System.out.println("Nema zapisa u housessssss: ");
 
             //write all entries in database
-            mockData.writeAll();
+         //   mockData.writeAll();
 
             //print entries from database to console (for testing)
             mockData.printAll();
@@ -257,12 +257,19 @@ saveImagesFromResourcesToInternalStorage();
 
     @Override
     public void onDataLoaded(ArrayList<House> houses) {
+
         System.out.println("Data is here... ");
         String[] listItems = new String[houses.size()];
 
         for (int i = 0; i < houses.size(); i++) {
+
             listItems[i] = houses.get(i).getName_owner();
         }
+
+
+        mockData.printAll();
+
+
 
 
     }

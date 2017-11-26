@@ -5,5 +5,5 @@ package com.kizo.web_services;
  */
 
 public interface AirWebServiceHandler {
-    void onDataArrived(Object result, boolean ok);
+    void onDataArrived(Object result, Object address,boolean ok);
 }

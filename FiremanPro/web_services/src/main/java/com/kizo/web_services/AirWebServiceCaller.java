@@ -1,6 +1,7 @@
 package com.kizo.web_services;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.kizo.web_services.responses.AirWebServiceResponse;
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
@@ -8,7 +9,9 @@ import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.AddressController;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.File;
 import java.lang.reflect.Type;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,10 +31,12 @@ public class AirWebServiceCaller {
     // retrofit object
     Retrofit retrofit;
     // base URL of the web service
-    private final String baseUrl = "http://93.142.59.52/FiremanPro-laravel/FiremanPro/server.php/";
+    private final String baseUrl = "http://93.142.250.249/FiremanPro-laravel/FiremanPro/server.php/";
 
     // constructor
     public AirWebServiceCaller(AirWebServiceHandler airWebServiceHandler){
+
+        System.out.println("serviceLaravel: airservice caller");
         this.mAirWebServiceHandler = airWebServiceHandler;
         //todo: implement retrofit object creation
 
@@ -53,52 +58,71 @@ public class AirWebServiceCaller {
     public void getAll(String method, final Type entityType){
 
         //todo: implement web service call and response handling
-
-        AirWebService serviceCaller = retrofit.create(AirWebService.class);
-        Call<List<AirWebServiceResponse>> call = serviceCaller.getStores();
-
-        if(call != null){
-            call.enqueue(new Callback<List<AirWebServiceResponse>>() {
-                @Override
-                public void onResponse(Response<List<AirWebServiceResponse>> response, Retrofit retrofit) {
-                    try {
-                        if(response.isSuccess()){
-
-                            if(entityType == House.class){
-                                System.out.println("Got houses...");
-                              System.out.println(response.body().get(0).getNameOwner());
-                                handleHouses(response);
-                            }  else
-                            {
-                                System.out.println("Unrecognized class");
+        if(entityType == House.class) {
+            AirWebService serviceCaller = retrofit.create(AirWebService.class);
+            Call<AirWebServiceResponse> call = serviceCaller.getStores();
+            System.out.println("serviceLaravel: get ALL");
+            if (call != null) {
+                System.out.println("serviceLaravel: call nije nunll");
+                call.enqueue(new Callback<AirWebServiceResponse>() {
+                    @Override
+                    public void onResponse(Response<AirWebServiceResponse> response, Retrofit retrofit) {
+                        try {
+                            System.out.println("serviceLaravel: on response");
+                            if (response.isSuccess()) {
+                                System.out.println("serviceLaravel: on response Success");
+                                if (entityType == House.class) {
+                                    System.out.println("Got records...");
+                                   // System.out.println(response.body().get(0).getNameOwner());
+                                    handleHouses(response);
+                                } else {
+                                    System.out.println("Unrecognized class");
+                                }
+                            } else {
+                                System.out.println("serviceLaravel: on response NOOSuccess");
+                                System.out.println("serviceLaravel: on response error" + response.toString());
                             }
-                        }
 
-                    } catch (Exception ex) {
-                        System.out.println("exception response");
-                        ex.printStackTrace();
+                        } catch (Exception ex) {
+                            System.out.println("exception response");
+                            ex.printStackTrace();
+                        }
                     }
-                }
-                @Override
-                public void onFailure(Throwable t) {
-                    t.printStackTrace();
-                }
-            });
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
         }
+
+
+
+
+
+
+
+
 
 
     }
 
-    private void handleHouses(Response<List<AirWebServiceResponse>> response) {
+    private void handleHouses(Response<AirWebServiceResponse> response) {
         Gson gson = new Gson();
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-        Post p = new Post(12312,"pošta",CurrentDate,CurrentDate);
-        Address adre = new Address("sdasd","adas","1",p,12.1515,12.1231,CurrentDate,CurrentDate);
+
+
         ArrayList<House> houses = new ArrayList<House>();
 
-
+/*
         for ( AirWebServiceResponse a :response.body() ) {
-            House hou = new House(a.getNameOwner(),
+
+            Post p = new Post(42208,"pošta",CurrentDate,CurrentDate);
+            Address adre = new Address(a.getAddressId(),"0ime vulice", "String streetNumber", 16.1212, 46.1515,CurrentDate,CurrentDate,p);
+         House hou = new House(
+                    a.getId(),
+                    a.getNameOwner(),
                     a.getSurnameOwner(),
                     a.getNumberOfTenants(),
                     a.getNumberOfFloors(),
@@ -125,21 +149,26 @@ public class AirWebServiceCaller {
                     a.getMobNumber(),
                     CurrentDate,
                     CurrentDate,
-                  adre);
+               adre
+
+
+            );
             houses.add(hou);
 
 
-        }
+        }*/
        // House[] storeItems = gson.fromJson(response.body().toString(), House[].class);
 
+System.out.println(response.body().getPost());
+        Post[] posts = gson.fromJson(response.body().getPost(),Post[].class);
 
+        System.out.println(response.body().getAddress());
+        Address[] addresses = gson.fromJson(response.body().getAddress(),Address[].class);
+
+System.out.println("velisicna posat je: " + posts.length);
         if(mAirWebServiceHandler != null){
-
-            System.out.println("Air service caller dolje... ");
-            mAirWebServiceHandler.onDataArrived(houses, true);
-
+            mAirWebServiceHandler.onDataArrived(Arrays.asList(posts), Arrays.asList(addresses),true);
         }
-
 
     }
 }

@@ -17,8 +17,8 @@ import retrofit.http.POST;
 public interface AirWebService {
 
 
-    @GET("api/houses")
-    Call<List<AirWebServiceResponse>> getStores();
+    @GET("api/allEntries")
+    Call<AirWebServiceResponse> getStores();
 
 
 

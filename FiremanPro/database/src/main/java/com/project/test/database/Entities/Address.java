@@ -70,6 +70,17 @@ public class Address extends BaseModel {
         this.created_at = created_at;
     }
 
+    public Address(Integer ID, String streetName, String streetNumber, double longitude, double latitude, Date updated_at, Date created_at, Post post) {
+        this.ID = ID;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+        this.post = post;
+    }
+
     public Post getPost() {
         return post;
     }

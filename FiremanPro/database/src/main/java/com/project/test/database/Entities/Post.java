@@ -22,12 +22,13 @@ public class Post extends BaseModel {
     @Column
     String name;
 
-
+    @Column
+    Date created_at;
 
     @Column
     Date updated_at;
-    @Column
-    Date created_at;
+
+
 
 
 
@@ -42,6 +43,7 @@ public class Post extends BaseModel {
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
+
 
     public int getPostal_code() {
         return postal_code;
