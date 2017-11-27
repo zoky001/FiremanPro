@@ -4,13 +4,21 @@ import com.kizo.core.DataLoadedListener;
 import com.kizo.core.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
 import com.kizo.web_services.AirWebServiceHandler;
+import com.kizo.web_services.responses.WS_entities.HousesW;
+import com.kizo.web_services.responses.WS_entities.SlikePlanova;
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Post;
+import com.project.test.database.controllers.AddressController;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.PostController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 /**
  * Created by Zoran on 25.11.2017..
@@ -37,24 +45,83 @@ public class WsDataLoader extends DataLoader {
 
     AirWebServiceHandler storesHandler = new AirWebServiceHandler() {
         @Override
-        public void onDataArrived(Object post, Object address, boolean ok) {
+        public void onDataArrived(List<Post> post, List<PhotoType> photoTypes, List<HousesW> housesWs, boolean ok) {
             System.out.println("serviceLaravel: WSdata.on data arived    sada ide ispis pristiglih podataka");
-            System.out.print("onDATAArrived");
+            System.out.println("onDATAArrived");
 
             if(ok){
-                List<Post> stores = (List<Post>) post;
-                for(Post store : stores){
-                    System.out.println("serviceLaravel: " + store.getName());
-                    store.save();
+                List<Post> posts = post;
+                for(Post post1 : posts){
+                    System.out.println("serviceLaravel: " + post1.getName());
+                    post1.save();
                 }
+
                 storesArrived = true;
-                List<Address> addresses= (List<Address>) address;
-                for(Address adr : addresses){
-                    System.out.println("serviceLaravel: " + adr.getStreetNumber());
-                    adr.save();
+
+                List<PhotoType> photoTypes1=  photoTypes;
+                for(PhotoType photoType : photoTypes1){
+                    System.out.println("serviceLaravel: " + photoType.getType());
+                    photoType.save();
                 }
                 storesArrived = true;
 
+
+                AddressController addressController = new AddressController();
+                HouseController houseController = new HouseController();
+                Address address;
+                House house;
+
+                for(HousesW housesW : housesWs){
+                    address = addressController.addNewAddress(
+                            housesW.getStreetName(),
+                            housesW.getPlace(),
+                            housesW.getStreetNumber(),
+                            PostController.getPostByPostalCode(housesW.getPostId()),
+                            housesW.getLongitude(),
+                            housesW.getLongitude()
+                    );
+
+                    house = houseController.AddNewHouse(
+                            housesW.getNameOwner(),
+                            housesW.getSurnameOwner(),
+                            housesW.getNumberOfTenants(),
+                            housesW.getNumberOfFloors(),
+                            housesW.getListOfFloors(),
+                            housesW.getNumberOfChildren(),
+                            housesW.getYearChildren(),
+                            housesW.getNumberOfAdults(),
+                            housesW.getYearsAdults(),
+                            housesW.getNumberOfPowerlessAndElders(),
+                            housesW.getYearsPowerlessElders(),
+                            housesW.getDisabilityPerson()==1?TRUE:FALSE,
+                            housesW.getPowerSupply(),
+                            housesW.getGasConnection()==1?TRUE:FALSE,
+                            housesW.getTypeOfHeating(),
+                            housesW.getNumberOfGasBottle(),
+                            housesW.getTypeOfRoof(),
+                            housesW.getHydrantDistance(),
+                            housesW.getHighRiskObject()==1?TRUE:FALSE,
+                            housesW.getHROTypeOfRoof(),
+                            housesW.getHROPowerSupply()==1?TRUE:FALSE,
+                            housesW.getHROContent(),
+                            housesW.getHROAnimals()==1?TRUE:FALSE,
+                            housesW.getTelNumber(),
+                            housesW.getMobNumber(),
+                            address);
+
+                    if (housesW.getProfilPocture() != null)
+                        houseController.AddProfilPicToHouse(housesW.getProfilPocture().getFileName(),house);
+
+                    if (housesW.getSlikePlanova() != null)
+                    for (SlikePlanova slika:
+                         housesW.getSlikePlanova()) {
+                        houseController.AddGroundPlanPicToHouse(slika.getFileName(),house);
+
+                    }
+
+
+                }
+                storesArrived = true;
 
 
                 checkDataArrival();

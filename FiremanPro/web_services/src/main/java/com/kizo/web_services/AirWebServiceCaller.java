@@ -3,8 +3,11 @@ package com.kizo.web_services;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.kizo.web_services.responses.AirWebServiceResponse;
+import com.kizo.web_services.responses.WS_entities.PhotoTypeW;
+import com.kizo.web_services.responses.WS_entities.PostW;
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.AddressController;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,7 +34,7 @@ public class AirWebServiceCaller {
     // retrofit object
     Retrofit retrofit;
     // base URL of the web service
-    private final String baseUrl = "http://93.142.250.249/FiremanPro-laravel/FiremanPro/server.php/";
+    private final String baseUrl = "http://93.136.239.45/FiremanPro-laravel/FiremanPro/server.php/";
 
     // constructor
     public AirWebServiceCaller(AirWebServiceHandler airWebServiceHandler){
@@ -112,6 +115,25 @@ public class AirWebServiceCaller {
         Gson gson = new Gson();
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
+        ArrayList<Post> posts = new ArrayList<Post>();
+        Post p;
+        for (PostW postW :
+                response.body().getPostWS()) {
+            p = new Post(postW.getPostalCode(),postW.getName(),CurrentDate,CurrentDate);
+        posts.add(p);
+
+        }
+
+        ArrayList<PhotoType> photoTypes = new ArrayList<PhotoType>();
+
+        PhotoType photoType;
+        for (PhotoTypeW photoTypeW :
+                response.body().getPhotoTypeWS()) {
+            photoType = new PhotoType(photoTypeW.getId(),photoTypeW.getType(),photoTypeW.getDescription(),CurrentDate,CurrentDate);
+
+            photoTypes.add(photoType);
+
+        }
 
         ArrayList<House> houses = new ArrayList<House>();
 
@@ -159,15 +181,17 @@ public class AirWebServiceCaller {
         }*/
        // House[] storeItems = gson.fromJson(response.body().toString(), House[].class);
 
-System.out.println(response.body().getPost());
-        Post[] posts = gson.fromJson(response.body().getPost(),Post[].class);
+        System.out.println(response.body().getPostWS().get(0).getName());
+
+      /*  Post[] posts = gson.fromJson(response.body().getPost(),Post[].class);
 
         System.out.println(response.body().getAddress());
         Address[] addresses = gson.fromJson(response.body().getAddress(),Address[].class);
-
-System.out.println("velisicna posat je: " + posts.length);
+*/
+System.out.println("velisicna posat je: " + posts.size());
+        System.out.println("velisicna tipova  je: " + photoTypes.size());
         if(mAirWebServiceHandler != null){
-            mAirWebServiceHandler.onDataArrived(Arrays.asList(posts), Arrays.asList(addresses),true);
+            mAirWebServiceHandler.onDataArrived(posts, photoTypes, response.body().getHousesWS(),true);
         }
 
     }

@@ -1,77 +1,47 @@
 package com.kizo.web_services.responses;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.kizo.web_services.responses.WS_entities.HousesW;
+import com.kizo.web_services.responses.WS_entities.PhotoTypeW;
+import com.kizo.web_services.responses.WS_entities.PostW;
 
 public class AirWebServiceResponse {
 
-    @SerializedName("address")
+    @SerializedName("housesWS")
     @Expose
-    private String address;
-    @SerializedName("houses")
+    private List<HousesW> housesWS = null;
+    @SerializedName("photoTypeWS")
     @Expose
-    private String houses;
-    @SerializedName("photo")
+    private List<PhotoTypeW> photoTypeWS = null;
+    @SerializedName("postWS")
     @Expose
-    private String photo;
-    @SerializedName("photoPhotoTypeHouses")
-    @Expose
-    private String photoPhotoTypeHouses;
-    @SerializedName("photoType")
-    @Expose
-    private String photoType;
-    @SerializedName("post")
-    @Expose
-    private String post;
+    private List<PostW> postWS = null;
 
-    public String getAddress() {
-        return address;
+    public List<HousesW> getHousesWS() {
+        return housesWS;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setHousesWS(List<HousesW> housesWS) {
+        this.housesWS = housesWS;
     }
 
-    public String getHouses() {
-        return houses;
+    public List<PhotoTypeW> getPhotoTypeWS() {
+        return photoTypeWS;
     }
 
-    public void setHouses(String houses) {
-        this.houses = houses;
+    public void setPhotoTypeWS(List<PhotoTypeW> photoTypeWS) {
+        this.photoTypeWS = photoTypeWS;
     }
 
-    public String getPhoto() {
-        return photo;
+    public List<PostW> getPostWS() {
+        return postWS;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getPhotoPhotoTypeHouses() {
-        return photoPhotoTypeHouses;
-    }
-
-    public void setPhotoPhotoTypeHouses(String photoPhotoTypeHouses) {
-        this.photoPhotoTypeHouses = photoPhotoTypeHouses;
-    }
-
-    public String getPhotoType() {
-        return photoType;
-    }
-
-    public void setPhotoType(String photoType) {
-        this.photoType = photoType;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post;
+    public void setPostWS(List<PostW> postWS) {
+        this.postWS = postWS;
     }
 
 }
-
 

@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
 
         // empty the entire database
         mockData.deleteAll();
-
+        loadFromService();
 
         // if table "House" is empty, then fill database with data
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
@@ -214,24 +214,36 @@ saveImagesFromResourcesToInternalStorage();
 
     @OnClick(R.id.buttonSearching)
     public void buttonSearchingClicked(View view) {
-/*
+
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
         startActivity(Intent);
-*/
+
 
        // AirWebServiceCaller webServiceCaller = new AirWebServiceCaller();
       //  webServiceCaller.getAll("getAll", House.class);
 
 
+
+
+    }
+
+    private void loadFromService(){
         DataLoader dataLoader;
+
         if(true){
+            // empty the entire database
+            mockData.deleteAll();
+
             System.out.println("Loading web data");
             dataLoader = new WsDataLoader();
         }
+
         dataLoader.loadData(this);
 
     }
+
+
 
 
     private void saveImagesFromResourcesToInternalStorage () {
