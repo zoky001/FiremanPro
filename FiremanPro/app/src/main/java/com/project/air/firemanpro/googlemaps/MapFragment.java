@@ -40,6 +40,7 @@ import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
+import static android.R.attr.onClick;
 
 
 public class MapFragment extends Fragment implements
@@ -63,7 +64,7 @@ public class MapFragment extends Fragment implements
 
 
         String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: " + s);
+        System.out.println("MAPFRAGMENT_idkuce kartaaaaaaaa: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
 
         if (a != -1) {
@@ -349,5 +350,8 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
+
+
+
 }
 

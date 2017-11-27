@@ -1,6 +1,7 @@
 package com.project.air.firemanpro.profil;
 
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.project.air.firemanpro.googlemaps.GoogleMapActivity;
 import com.project.air.firemanpro.googlemaps.MapFragment;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
@@ -46,6 +48,7 @@ public class TabProfil extends Fragment {
 
     @BindView(R.id.textViewPlace)
     TextView txtPlace;
+
 
 
     House house;
@@ -107,9 +110,24 @@ txtPlace.setText(house.getPlaceName());
 
         getFragmentManager()
                 .beginTransaction()
-
                 .replace(R.id.map_container, mapFragment)
                 .commit();
     }
 
+    @OnClick(R.id.buttonMax)
+    public void buttonMaxClicked(View view) {
+
+
+
+        String IDHouse = "" + house.getId_house();
+        Intent intent = new Intent(view.getContext(), GoogleMapActivity.class);
+        intent.putExtra("IDkuce", IDHouse); // umjesto 01 prosljediš ID kuće
+
+
+
+
+
+        startActivity(intent);
+
+    }
 }
