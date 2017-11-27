@@ -110,7 +110,7 @@ public class TabPodaci extends Fragment {
 
         System.out.println("Tabpodaci");
         View rootView = inflater.inflate(R.layout.tab_podaci_, container, false);
-        ButterKnife.bind(this, rootView);
+       ButterKnife.bind(this, rootView);
 
         String s = getArguments().getString("IDkuce");
         System.out.println("SESSION FRAGMENT_idkuce: " + s);

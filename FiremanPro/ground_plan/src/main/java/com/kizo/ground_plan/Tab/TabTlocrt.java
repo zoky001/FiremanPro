@@ -3,6 +3,8 @@ package com.kizo.ground_plan.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 
 import com.kizo.ground_plan.R;
 
+import com.kizo.ground_plan.Tab.adapter.PlanRecyclerAdapter;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.controllers.HouseController;
@@ -63,24 +66,24 @@ ListView lst;
 thumbnail.clear();
         for (String str:house.getListGroundPlansIDResource(getContext())
              ) {
+
           thumbnail.add(Integer.parseInt(str));
 
         }
 
 
-        System.out.println("BROJ SLIKA:  "+gndPlans.size());
 
-      lst = (ListView) rootView.findViewById(R.id.listView);
-        System.out.println("BROJ GND PLANOVA JE: "+ gndPlans.size());
-        CustomListView customListView = new CustomListView(getActivity(),fruitname,imgId,gndPlans);
-        lst.setAdapter(customListView);
-        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), FullScreenActivity.class);
-                intent.putExtra("id", position);
-                startActivity(intent);
+        if(gndPlans != null) {
+
+            RecyclerView mRecycler = (RecyclerView) rootView.findViewById(R.id.main_recycler);
+            if(mRecycler != null) {
+                PlanRecyclerAdapter planRecyclerAdapter = new PlanRecyclerAdapter(gndPlans);
+                mRecycler.setAdapter(planRecyclerAdapter);
+
+                mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
             }
-        });
+        }
 
 
 

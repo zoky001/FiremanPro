@@ -20,6 +20,7 @@ import java.util.List;
  */
 
 public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> {
+
     List<House> houseItem;
 
     public SearchingAdapter(List<House> houseItem) {
@@ -30,6 +31,7 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
 
     @Override
     public SearchingViewHolder onCreateViewHolder(ViewGroup vg, int i) {
+
         View houseView = LayoutInflater.from(vg.getContext()).inflate(R.layout.result_item, vg, false);
         System.out.println("SearchingViewHolder onCreateViewHolder: ");
         return new SearchingViewHolder(houseView);

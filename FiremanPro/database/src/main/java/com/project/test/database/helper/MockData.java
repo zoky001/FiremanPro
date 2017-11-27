@@ -149,7 +149,12 @@ House house = houseController.AddNewHouse(
                 nova);
 
         houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_3",house);
+
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_3",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);
+
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_3",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);
 
         //second house
         nova = addressController.addNewAddress(
