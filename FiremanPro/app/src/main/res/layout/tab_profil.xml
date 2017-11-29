@@ -245,7 +245,14 @@
                     android:layout_height="40dp"
                     android:text="Povećaj"
                     android:clickable="true"/>
-
+                <Button
+                    android:id="@+id/leadMeButton"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:text="Vodi me"
+                    android:clickable="true"
+                    android:layout_marginLeft="90dp"
+                    />
 
             </FrameLayout>
 
