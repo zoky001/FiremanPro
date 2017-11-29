@@ -3,7 +3,9 @@ package com.project.air.firemanpro.profil;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -129,5 +131,16 @@ txtPlace.setText(house.getPlaceName());
 
         startActivity(intent);
 
+    }
+    @OnClick(R.id.leadMeButton)
+    public void leadMeButton(View view) {
+
+        double latitude,longitude;
+        latitude=house.getAddress().getLatitude();
+        longitude=house.getAddress().getLongitude();
+        Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude+","+longitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }
