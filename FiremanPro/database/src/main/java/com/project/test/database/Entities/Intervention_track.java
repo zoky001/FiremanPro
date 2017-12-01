@@ -7,71 +7,69 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import org.w3c.dom.Text;
-
-import java.sql.Date;
-
 /**
  * Created by Zoran on 23.10.2017..
  */
 
 @Table(database = MainDatabase.class)
-public class Hydrants extends BaseModel {
+public class Intervention_track extends BaseModel {
+
 
     @PrimaryKey(autoincrement = true)
     @Column
-    int id_hydrant;
+    int id_house_photos;
 
     @Column
-    String type_of_hydrant;
+    int house_id;
 
-    @Column
-    Text description;
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+            Photos photo;
 
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+            PhotoType photoType;
 
-    //address
-    @ForeignKey(saveForeignKeyModel = true)
-    Address address;
+    @ForeignKey(stubbedRelationship = true)
+    House house;
 
     @Column
     java.util.Date updated_at;
     @Column
     java.util.Date created_at;
 
-    public Hydrants() {
-    }
 
-    public Hydrants(String type_of_hydrant, Text description, Address address, java.util.Date updated_at, java.util.Date created_at) {
-        this.type_of_hydrant = type_of_hydrant;
-        this.description = description;
-        this.address = address;
+    public Intervention_track(Photos photo, PhotoType photoType, House house, java.util.Date updated_at, java.util.Date created_at) {
+        this.photo = photo;
+        this.photoType = photoType;
+        this.house = house;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
-
-    public String getType_of_hydrant() {
-        return type_of_hydrant;
+    public Intervention_track() {
     }
 
-    public void setType_of_hydrant(String type_of_hydrant) {
-        this.type_of_hydrant = type_of_hydrant;
+    public Photos getPhoto() {
+        return photo;
     }
 
-    public Text getDescription() {
-        return description;
+    public void setPhoto(Photos photo) {
+        this.photo = photo;
     }
 
-    public void setDescription(Text description) {
-        this.description = description;
+    public PhotoType getPhotoType() {
+        return photoType;
     }
 
-    public Address getAddress() {
-        return address;
+    public void setPhotoType(PhotoType photoType) {
+        this.photoType = photoType;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
     }
 
     public java.util.Date getUpdated_at() {
