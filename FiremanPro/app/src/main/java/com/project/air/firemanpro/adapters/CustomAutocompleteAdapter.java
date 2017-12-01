@@ -96,6 +96,36 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
+
+                    if (constraint.length() == 1){
+                        mDepartments_Suggestion.clear();
+
+
+                        for (String department : mDepartments_All) {
+
+
+                            String formatedConstraint = formatString(constraint.toString());
+                            String[] splitedString = department.split(" ");
+
+                            for (String string:splitedString) {
+                                String formatedString = formatString(string);
+                                if (string.toLowerCase().startsWith(constraint.toString().toLowerCase()) ||
+                                        formatedString.toLowerCase().startsWith(formatedConstraint.toLowerCase())){
+                                    if (!mDepartments_Suggestion.contains(department) ){
+                                        mDepartments_Suggestion.add(department);
+                                    }
+                                }
+                            }
+
+                        }
+
+
+                        FilterResults filterResults = new FilterResults();
+                        filterResults.values = mDepartments_Suggestion;
+                        filterResults.count = mDepartments_Suggestion.size();
+                        return filterResults;
+                    }else {
+
                     mDepartments_Suggestion.clear();
 
                     for (String department : mDepartments_All) {
@@ -130,7 +160,7 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
                     filterResults.values = mDepartments_Suggestion;
                     filterResults.count = mDepartments_Suggestion.size();
                     return filterResults;
-                } else {
+                }} else {
                     return new FilterResults();
                 }
             }
