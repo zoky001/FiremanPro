@@ -25,7 +25,7 @@ public class Size_of_fire extends BaseModel {
     String name;
 
     @Column
-    Text description;
+    String description;
 
 
 
@@ -38,7 +38,7 @@ public class Size_of_fire extends BaseModel {
     public Size_of_fire() {
     }
 
-    public Size_of_fire(int id, String name, Text description, Date updated_at, Date created_at) {
+    public Size_of_fire(int id, String name, String description, Date updated_at, Date created_at) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,11 +62,11 @@ public class Size_of_fire extends BaseModel {
         this.name = name;
     }
 
-    public Text getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Text description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

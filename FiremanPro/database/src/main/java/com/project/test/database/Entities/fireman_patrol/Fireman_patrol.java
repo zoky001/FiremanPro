@@ -1,6 +1,6 @@
-package com.project.test.database.Entities.fire_intervention;
+package com.project.test.database.Entities.fireman_patrol;
 
-import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.Post;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
@@ -15,11 +15,16 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Tehnical_intervention extends BaseModel {
+public class Fireman_patrol extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int ID;
+
+    @Column
+    String name;
+
+
 
 
     @Column
@@ -28,17 +33,17 @@ public class Tehnical_intervention extends BaseModel {
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Intervention_Type intervention_type;
-
-    public Tehnical_intervention() {
+           Type_of_unit type_of_unit;
 
 
+    public Fireman_patrol() {
     }
 
-    public Tehnical_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
+    public Fireman_patrol(String name, Date updated_at, Date created_at, Type_of_unit type_of_unit) {
+        this.name = name;
         this.updated_at = updated_at;
         this.created_at = created_at;
-        this.intervention_type = intervention_type;
+        this.type_of_unit = type_of_unit;
     }
 
     public int getID() {
@@ -47,6 +52,14 @@ public class Tehnical_intervention extends BaseModel {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getUpdated_at() {
@@ -65,11 +78,11 @@ public class Tehnical_intervention extends BaseModel {
         this.created_at = created_at;
     }
 
-    public Intervention_Type getIntervention_type() {
-        return intervention_type;
+    public Type_of_unit getType_of_unit() {
+        return type_of_unit;
     }
 
-    public void setIntervention_type(Intervention_Type intervention_type) {
-        this.intervention_type = intervention_type;
+    public void setType_of_unit(Type_of_unit type_of_unit) {
+        this.type_of_unit = type_of_unit;
     }
 }

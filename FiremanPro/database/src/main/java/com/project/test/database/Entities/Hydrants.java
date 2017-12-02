@@ -26,7 +26,7 @@ public class Hydrants extends BaseModel {
     String type_of_hydrant;
 
     @Column
-    Text description;
+    String description;
 
 
     //address
@@ -41,7 +41,7 @@ public class Hydrants extends BaseModel {
     public Hydrants() {
     }
 
-    public Hydrants(String type_of_hydrant, Text description, Address address, java.util.Date updated_at, java.util.Date created_at) {
+    public Hydrants(String type_of_hydrant, String description, Address address, java.util.Date updated_at, java.util.Date created_at) {
         this.type_of_hydrant = type_of_hydrant;
         this.description = description;
         this.address = address;
@@ -58,11 +58,11 @@ public class Hydrants extends BaseModel {
         this.type_of_hydrant = type_of_hydrant;
     }
 
-    public Text getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Text description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

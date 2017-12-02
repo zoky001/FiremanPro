@@ -1,12 +1,11 @@
-package com.project.test.database.Entities;
+package com.project.test.database.Entities.fireman_patrol;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -15,17 +14,15 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Outdoor_type extends BaseModel {
+public class Truck extends BaseModel {
 
-    @PrimaryKey(autoincrement = false)
+    @PrimaryKey(autoincrement = true)
     @Column
     int id;
 
     @Column
     String name;
 
-    @Column
-    Text description;
 
 
 
@@ -34,16 +31,31 @@ public class Outdoor_type extends BaseModel {
     @Column
     Date created_at;
 
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+           Type_of_truck type_of_truck;
 
-    public Outdoor_type() {
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+          Fireman_patrol fireman_patrol;
+
+
+    public Truck() {
     }
 
-    public Outdoor_type(int id, String name, Text description, Date updated_at, Date created_at) {
-        this.id = id;
+    public Truck(String name, Date updated_at, Date created_at, Type_of_truck type_of_truck, Fireman_patrol fireman_patrol) {
         this.name = name;
-        this.description = description;
         this.updated_at = updated_at;
         this.created_at = created_at;
+        this.type_of_truck = type_of_truck;
+        this.fireman_patrol = fireman_patrol;
+    }
+
+
+    public Type_of_truck getType_of_truck() {
+        return type_of_truck;
+    }
+
+    public void setType_of_truck(Type_of_truck type_of_truck) {
+        this.type_of_truck = type_of_truck;
     }
 
     public int getId() {
@@ -62,13 +74,7 @@ public class Outdoor_type extends BaseModel {
         this.name = name;
     }
 
-    public Text getDescription() {
-        return description;
-    }
 
-    public void setDescription(Text description) {
-        this.description = description;
-    }
 
     public Date getUpdated_at() {
         return updated_at;
@@ -84,5 +90,13 @@ public class Outdoor_type extends BaseModel {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+    public Fireman_patrol getFireman_patrol() {
+        return fireman_patrol;
+    }
+
+    public void setFireman_patrol(Fireman_patrol fireman_patrol) {
+        this.fireman_patrol = fireman_patrol;
     }
 }

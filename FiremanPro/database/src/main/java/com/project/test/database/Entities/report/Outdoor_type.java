@@ -1,11 +1,12 @@
-package com.project.test.database.Entities;
+package com.project.test.database.Entities.report;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -14,11 +15,18 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Other_sort_intervention extends BaseModel {
+public class Outdoor_type extends BaseModel {
 
-    @PrimaryKey(autoincrement = true)
+    @PrimaryKey(autoincrement = false)
     @Column
-    int ID;
+    int id;
+
+    @Column
+    String name;
+
+    @Column
+    String description;
+
 
 
     @Column
@@ -26,24 +34,40 @@ public class Other_sort_intervention extends BaseModel {
     @Column
     Date created_at;
 
-    @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Intervention_Type intervention_type;
 
-    public Other_sort_intervention() {
+    public Outdoor_type() {
     }
 
-    public Other_sort_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
+    public Outdoor_type(int id, String name, String description, Date updated_at, Date created_at) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.updated_at = updated_at;
         this.created_at = created_at;
-        this.intervention_type = intervention_type;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getUpdated_at() {
@@ -60,13 +84,5 @@ public class Other_sort_intervention extends BaseModel {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
-    }
-
-    public Intervention_Type getIntervention_type() {
-        return intervention_type;
-    }
-
-    public void setIntervention_type(Intervention_Type intervention_type) {
-        this.intervention_type = intervention_type;
     }
 }

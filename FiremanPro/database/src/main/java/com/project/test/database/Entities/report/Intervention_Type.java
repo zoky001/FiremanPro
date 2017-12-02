@@ -1,6 +1,5 @@
-package com.project.test.database.Entities.fire_intervention;
+package com.project.test.database.Entities.report;
 
-import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
@@ -15,11 +14,14 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Tehnical_intervention extends BaseModel {
+public class Intervention_Type extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
-    int ID;
+    int id;
+
+    @Column
+    String name;
 
 
     @Column
@@ -28,25 +30,33 @@ public class Tehnical_intervention extends BaseModel {
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Intervention_Type intervention_type;
-
-    public Tehnical_intervention() {
+            Sort_of_intervention sort_of_intervention;
 
 
-    }
-
-    public Tehnical_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
+    public Intervention_Type(String name, Date updated_at, Date created_at, Sort_of_intervention sort_of_intervention) {
+        this.name = name;
         this.updated_at = updated_at;
         this.created_at = created_at;
-        this.intervention_type = intervention_type;
+        this.sort_of_intervention = sort_of_intervention;
     }
 
-    public int getID() {
-        return ID;
+    public Intervention_Type() {
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getUpdated_at() {
@@ -63,13 +73,5 @@ public class Tehnical_intervention extends BaseModel {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
-    }
-
-    public Intervention_Type getIntervention_type() {
-        return intervention_type;
-    }
-
-    public void setIntervention_type(Intervention_Type intervention_type) {
-        this.intervention_type = intervention_type;
     }
 }

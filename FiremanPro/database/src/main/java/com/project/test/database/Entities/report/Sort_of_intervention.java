@@ -1,4 +1,4 @@
-package com.project.test.database.Entities.fire_intervention;
+package com.project.test.database.Entities.report;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Spreading_smoke extends BaseModel {
+public class Sort_of_intervention extends BaseModel {
 
     @PrimaryKey(autoincrement = false)
     @Column
@@ -35,10 +35,10 @@ public class Spreading_smoke extends BaseModel {
     Date created_at;
 
 
-    public Spreading_smoke() {
+    public Sort_of_intervention() {
     }
 
-    public Spreading_smoke(int id, String name, String description, Date updated_at, Date created_at) {
+    public Sort_of_intervention(int id, String name, String description, Date updated_at, Date created_at) {
         this.id = id;
         this.name = name;
         this.description = description;

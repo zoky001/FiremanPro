@@ -1,4 +1,4 @@
-package com.project.test.database.Entities;
+package com.project.test.database.Entities.report;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;

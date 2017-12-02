@@ -1,8 +1,7 @@
-package com.project.test.database.Entities;
+package com.project.test.database.Entities.fireman_patrol;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -14,9 +13,9 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Intervention_Type extends BaseModel {
+public class Type_of_unit extends BaseModel {
 
-    @PrimaryKey(autoincrement = true)
+    @PrimaryKey(autoincrement = false)
     @Column
     int id;
 
@@ -24,32 +23,26 @@ public class Intervention_Type extends BaseModel {
     String name;
 
 
+
     @Column
     Date updated_at;
     @Column
     Date created_at;
 
-    @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Sort_of_intervention sort_of_intervention;
 
 
-    public Intervention_Type(String name, Date updated_at, Date created_at, Sort_of_intervention sort_of_intervention) {
+    public Type_of_unit() {
+    }
+
+
+    public Type_of_unit(int id, String name, Date updated_at, Date created_at) {
+        this.id = id;
         this.name = name;
         this.updated_at = updated_at;
         this.created_at = created_at;
-        this.sort_of_intervention = sort_of_intervention;
     }
 
-    public Intervention_Type() {
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -74,4 +67,8 @@ public class Intervention_Type extends BaseModel {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
+
+
+
+
 }

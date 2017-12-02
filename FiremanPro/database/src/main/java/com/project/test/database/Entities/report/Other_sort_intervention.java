@@ -1,4 +1,4 @@
-package com.project.test.database.Entities.fire_intervention;
+package com.project.test.database.Entities.report;
 
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.MainDatabase;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Tehnical_intervention extends BaseModel {
+public class Other_sort_intervention extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
@@ -30,12 +30,10 @@ public class Tehnical_intervention extends BaseModel {
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Intervention_Type intervention_type;
 
-    public Tehnical_intervention() {
-
-
+    public Other_sort_intervention() {
     }
 
-    public Tehnical_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
+    public Other_sort_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
         this.updated_at = updated_at;
         this.created_at = created_at;
         this.intervention_type = intervention_type;

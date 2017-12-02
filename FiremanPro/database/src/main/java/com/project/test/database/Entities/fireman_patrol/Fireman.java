@@ -1,12 +1,11 @@
-package com.project.test.database.Entities.fire_intervention;
+package com.project.test.database.Entities.fireman_patrol;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -15,9 +14,9 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Spreading_smoke extends BaseModel {
+public class Fireman extends BaseModel {
 
-    @PrimaryKey(autoincrement = false)
+    @PrimaryKey(autoincrement = true)
     @Column
     int id;
 
@@ -25,8 +24,10 @@ public class Spreading_smoke extends BaseModel {
     String name;
 
     @Column
-    String description;
+    String surname;
 
+    @Column
+    String active;
 
 
     @Column
@@ -34,16 +35,20 @@ public class Spreading_smoke extends BaseModel {
     @Column
     Date created_at;
 
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+           Fireman_patrol fireman_patrol;
 
-    public Spreading_smoke() {
+
+    public Fireman() {
     }
 
-    public Spreading_smoke(int id, String name, String description, Date updated_at, Date created_at) {
-        this.id = id;
+    public Fireman(String name, String surname, String active, Date updated_at, Date created_at, Fireman_patrol fireman_patrol) {
         this.name = name;
-        this.description = description;
+        this.surname = surname;
+        this.active = active;
         this.updated_at = updated_at;
         this.created_at = created_at;
+        this.fireman_patrol = fireman_patrol;
     }
 
     public int getId() {
@@ -62,12 +67,20 @@ public class Spreading_smoke extends BaseModel {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 
     public Date getUpdated_at() {
@@ -84,5 +97,13 @@ public class Spreading_smoke extends BaseModel {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+    public Fireman_patrol getFireman_patrol() {
+        return fireman_patrol;
+    }
+
+    public void setFireman_patrol(Fireman_patrol fireman_patrol) {
+        this.fireman_patrol = fireman_patrol;
     }
 }

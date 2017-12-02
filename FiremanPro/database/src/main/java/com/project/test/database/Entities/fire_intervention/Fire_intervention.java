@@ -1,7 +1,7 @@
 package com.project.test.database.Entities.fire_intervention;
 
-import com.project.test.database.Entities.Intervention_Type;
-import com.project.test.database.Entities.Outdoor_type;
+import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;

@@ -2,18 +2,18 @@ package com.project.test.database.Entities;
 
 import com.project.test.database.Entities.fire_intervention.Fire_intervention;
 import com.project.test.database.Entities.fire_intervention.Tehnical_intervention;
+import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.report.Consumption;
+import com.project.test.database.Entities.report.Other_sort_intervention;
+import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.data.Blob;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.w3c.dom.Text;
-
-import java.sql.Date;
-import java.sql.Time;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -53,7 +53,7 @@ public class Reports extends BaseModel {
     double co2_kg;
 
     @Column
-    Text description;
+    String description;
 
     @Column
     double surface_m2;
@@ -93,15 +93,21 @@ public class Reports extends BaseModel {
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Other_sort_intervention other_sort_intervention;
+
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-    Tehnical_intervention tehnical_intervention;
+            Tehnical_intervention tehnical_intervention;
+
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+    Fireman signed;
+
 
 
 
     public Reports() {
     }
 
-    public Reports(java.util.Date time_call_received, java.util.Date time_intervention_start, java.util.Date time_arrival_intervention, java.util.Date time_intervention_ended, double water_m3, double foam_l, double powden_kg, double co2_kg, Text description, double surface_m2, double superficies_ha, String help, double mehanization_type, double mehanization_hour, java.util.Date updated_at, java.util.Date created_at, Consumption consumption) {
+
+    public Reports(java.util.Date time_call_received, java.util.Date time_intervention_start, java.util.Date time_arrival_intervention, java.util.Date time_intervention_ended, double water_m3, double foam_l, double powden_kg, double co2_kg, String description, double surface_m2, double superficies_ha, String help, double mehanization_type, double mehanization_hour, java.util.Date updated_at, java.util.Date created_at, Consumption consumption, Sort_of_intervention sort_of_intervention, Fire_intervention fire_intervention, Other_sort_intervention other_sort_intervention, Tehnical_intervention tehnical_intervention, Fireman signed) {
         this.time_call_received = time_call_received;
         this.time_intervention_start = time_intervention_start;
         this.time_arrival_intervention = time_arrival_intervention;
@@ -119,6 +125,51 @@ public class Reports extends BaseModel {
         this.updated_at = updated_at;
         this.created_at = created_at;
         this.consumption = consumption;
+        this.sort_of_intervention = sort_of_intervention;
+        this.fire_intervention = fire_intervention;
+        this.other_sort_intervention = other_sort_intervention;
+        this.tehnical_intervention = tehnical_intervention;
+        this.signed = signed;
+    }
+
+    public Sort_of_intervention getSort_of_intervention() {
+        return sort_of_intervention;
+    }
+
+    public void setSort_of_intervention(Sort_of_intervention sort_of_intervention) {
+        this.sort_of_intervention = sort_of_intervention;
+    }
+
+    public Fire_intervention getFire_intervention() {
+        return fire_intervention;
+    }
+
+    public void setFire_intervention(Fire_intervention fire_intervention) {
+        this.fire_intervention = fire_intervention;
+    }
+
+    public Other_sort_intervention getOther_sort_intervention() {
+        return other_sort_intervention;
+    }
+
+    public void setOther_sort_intervention(Other_sort_intervention other_sort_intervention) {
+        this.other_sort_intervention = other_sort_intervention;
+    }
+
+    public Tehnical_intervention getTehnical_intervention() {
+        return tehnical_intervention;
+    }
+
+    public void setTehnical_intervention(Tehnical_intervention tehnical_intervention) {
+        this.tehnical_intervention = tehnical_intervention;
+    }
+
+    public Fireman getSigned() {
+        return signed;
+    }
+
+    public void setSigned(Fireman signed) {
+        this.signed = signed;
     }
 
     public int getId() {
@@ -193,11 +244,11 @@ public class Reports extends BaseModel {
         this.co2_kg = co2_kg;
     }
 
-    public Text getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Text description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

@@ -1,12 +1,10 @@
-package com.project.test.database.Entities;
+package com.project.test.database.Entities.fireman_patrol;
 
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -15,17 +13,14 @@ import java.util.Date;
  */
 
 @Table(database = MainDatabase.class)
-public class Sort_of_intervention extends BaseModel {
+public class Type_of_truck extends BaseModel {
 
     @PrimaryKey(autoincrement = false)
     @Column
     int id;
 
     @Column
-    String name;
-
-    @Column
-    Text description;
+    String type_name;
 
 
 
@@ -35,13 +30,13 @@ public class Sort_of_intervention extends BaseModel {
     Date created_at;
 
 
-    public Sort_of_intervention() {
+
+    public Type_of_truck() {
     }
 
-    public Sort_of_intervention(int id, String name, Text description, Date updated_at, Date created_at) {
+    public Type_of_truck(int id, String type_name, Date updated_at, Date created_at) {
         this.id = id;
-        this.name = name;
-        this.description = description;
+        this.type_name = type_name;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
@@ -54,20 +49,12 @@ public class Sort_of_intervention extends BaseModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getType_name() {
+        return type_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Text getDescription() {
-        return description;
-    }
-
-    public void setDescription(Text description) {
-        this.description = description;
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 
     public Date getUpdated_at() {
@@ -85,4 +72,8 @@ public class Sort_of_intervention extends BaseModel {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
+
+
+
+
 }
