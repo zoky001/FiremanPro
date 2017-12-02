@@ -16,6 +16,7 @@ import java.util.Date;
 
 @Table(database = MainDatabase.class)
 public class Sort_of_intervention extends BaseModel {
+    java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
     @PrimaryKey(autoincrement = false)
     @Column
@@ -84,5 +85,20 @@ public class Sort_of_intervention extends BaseModel {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+
+    public void addTypes_of_intervention(String[] name){
+
+        Intervention_Type intervention_type;
+        for (String item :
+                name) {
+
+           intervention_type = new Intervention_Type(item,CurrentDate,CurrentDate,this);
+            intervention_type.save();
+
+        }
+
+
     }
 }

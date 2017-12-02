@@ -1,8 +1,11 @@
 package com.project.test.database.Entities;
 
+import android.content.Context;
+
 import com.project.test.database.Entities.fire_intervention.Fire_intervention;
 import com.project.test.database.Entities.fire_intervention.Tehnical_intervention;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Consumption;
 import com.project.test.database.Entities.report.Other_sort_intervention;
 import com.project.test.database.Entities.report.Sort_of_intervention;
@@ -14,6 +17,8 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.w3c.dom.Text;
+
+import java.util.Date;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -313,6 +318,18 @@ public class Reports extends BaseModel {
     }
 
     public void setConsumption(Consumption consumption) {
+        this.consumption = consumption;
+    }
+
+
+
+    public void addConsumption(double apsorbent, double automatic_ladder, double co2, double command_vehicle, double fire_extinguisher, double fire_fighter, double foam, double id2, double insurance, double navalVehicle, double powerPumpClock, double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
+        Consumption consumption = new Consumption( apsorbent,  automatic_ladder, co2, command_vehicle,  fire_extinguisher,fire_fighter,  foam,  id2,  insurance,  navalVehicle,  powerPumpClock,  roadTankers,  specialVehicle,  tehnicalVehicle,  transportationVehicle, CurrentDate, CurrentDate);
+
+        consumption.save();
+
         this.consumption = consumption;
     }
 }

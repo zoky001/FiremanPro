@@ -66,7 +66,8 @@ public class Spreading_smoke extends BaseModel {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String
+                                       description) {
         this.description = description;
     }
 
