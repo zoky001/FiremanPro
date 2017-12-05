@@ -3,22 +3,39 @@ package com.project.test.database.Entities;
 import android.content.Context;
 
 import com.project.test.database.Entities.fire_intervention.Fire_intervention;
+import com.project.test.database.Entities.fire_intervention.Fire_intervention_Table;
+import com.project.test.database.Entities.fire_intervention.Sepatial_spread;
+import com.project.test.database.Entities.fire_intervention.Size_of_fire;
+import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Tehnical_intervention;
+import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Fireman_Table;
+import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
+import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Consumption;
+import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Other_sort_intervention;
+import com.project.test.database.Entities.report.Outdoor_type;
+import com.project.test.database.Entities.report.Report_fireman;
+import com.project.test.database.Entities.report.Report_fireman_Table;
+import com.project.test.database.Entities.report.Report_truck_patrol;
+import com.project.test.database.Entities.report.Report_truck_patrol_Table;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.CursorResult;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.w3c.dom.Text;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -93,14 +110,7 @@ public class Reports extends BaseModel {
             Sort_of_intervention sort_of_intervention;
 
 
-    @ForeignKey(saveForeignKeyModel = true) //on update cascade
-    Fire_intervention fire_intervention;
 
-    @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Other_sort_intervention other_sort_intervention;
-
-    @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Tehnical_intervention tehnical_intervention;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
     Fireman signed;
@@ -112,7 +122,7 @@ public class Reports extends BaseModel {
     }
 
 
-    public Reports(java.util.Date time_call_received, java.util.Date time_intervention_start, java.util.Date time_arrival_intervention, java.util.Date time_intervention_ended, double water_m3, double foam_l, double powden_kg, double co2_kg, String description, double surface_m2, double superficies_ha, String help, double mehanization_type, double mehanization_hour, java.util.Date updated_at, java.util.Date created_at, Consumption consumption, Sort_of_intervention sort_of_intervention, Fire_intervention fire_intervention, Other_sort_intervention other_sort_intervention, Tehnical_intervention tehnical_intervention, Fireman signed) {
+    public Reports(java.util.Date time_call_received, java.util.Date time_intervention_start, java.util.Date time_arrival_intervention, java.util.Date time_intervention_ended, double water_m3, double foam_l, double powden_kg, double co2_kg, String description, double surface_m2, double superficies_ha, String help, double mehanization_type, double mehanization_hour, java.util.Date updated_at, java.util.Date created_at, Consumption consumption, Sort_of_intervention sort_of_intervention, Fireman signed) {
         this.time_call_received = time_call_received;
         this.time_intervention_start = time_intervention_start;
         this.time_arrival_intervention = time_arrival_intervention;
@@ -131,9 +141,7 @@ public class Reports extends BaseModel {
         this.created_at = created_at;
         this.consumption = consumption;
         this.sort_of_intervention = sort_of_intervention;
-        this.fire_intervention = fire_intervention;
-        this.other_sort_intervention = other_sort_intervention;
-        this.tehnical_intervention = tehnical_intervention;
+
         this.signed = signed;
     }
 
@@ -145,29 +153,8 @@ public class Reports extends BaseModel {
         this.sort_of_intervention = sort_of_intervention;
     }
 
-    public Fire_intervention getFire_intervention() {
-        return fire_intervention;
-    }
 
-    public void setFire_intervention(Fire_intervention fire_intervention) {
-        this.fire_intervention = fire_intervention;
-    }
 
-    public Other_sort_intervention getOther_sort_intervention() {
-        return other_sort_intervention;
-    }
-
-    public void setOther_sort_intervention(Other_sort_intervention other_sort_intervention) {
-        this.other_sort_intervention = other_sort_intervention;
-    }
-
-    public Tehnical_intervention getTehnical_intervention() {
-        return tehnical_intervention;
-    }
-
-    public void setTehnical_intervention(Tehnical_intervention tehnical_intervention) {
-        this.tehnical_intervention = tehnical_intervention;
-    }
 
     public Fireman getSigned() {
         return signed;
@@ -332,4 +319,76 @@ public class Reports extends BaseModel {
 
         this.consumption = consumption;
     }
+
+    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Sepatial_spread sepatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+        Fire_intervention fire_intervention = new Fire_intervention(localization,fireExtinguished,destroyed_space,repeated,CurrentDate,CurrentDate,spreading_smoke,sepatial_spread,time_spread,outdoor_type,size_of_fire,intervention_type,this);
+        fire_intervention.save();
+
+    }
+
+    public void addTehnicalInterventionDetails(Intervention_Type intervention_type){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+     Tehnical_intervention tehnical_intervention = new Tehnical_intervention(CurrentDate,CurrentDate,intervention_type,this);
+        tehnical_intervention.save();
+
+    }
+
+    public void addOtherInterventionDetails(Intervention_Type intervention_type){
+
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
+        Other_sort_intervention other_sort_intervention = new Other_sort_intervention(CurrentDate,CurrentDate,intervention_type,this);
+
+        other_sort_intervention.save();
+    }
+
+    public void addFiremanToIntervention(Fireman fireman){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
+        Report_fireman report_fireman = new Report_fireman(fireman,this,CurrentDate,CurrentDate);
+        report_fireman.save();
+    }
+
+    public void addFiremanPatrolandTruck(int numberOfFireman,double water, double foam, double powder,double co2, double km, double hours, Truck truck, Fireman_patrol fireman_patrol){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+        Report_truck_patrol report_truck_patrol = new Report_truck_patrol(numberOfFireman,water,foam,powder,co2,km,hours,truck,fireman_patrol,this,CurrentDate,CurrentDate);
+        report_truck_patrol.save();
+
+    }
+
+    public void addFiremanSignedToIntervention(Fireman fireman){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
+      this.signed = fireman;
+        this.save();
+    }
+
+    public Fire_intervention getFireInterventionDetails(){
+
+        List<Fire_intervention> house = SQLite.select().from(Fire_intervention.class).where(Fire_intervention_Table.report_id.is(this.id)).queryList();
+
+
+        return house.get(0);
+    }
+
+    public List<Report_truck_patrol> getTrucksAndPatrols(){
+
+        List<Report_truck_patrol> house = SQLite.select().from(Report_truck_patrol.class).where(Report_truck_patrol_Table.reports_id.is(this.id)).queryList();
+
+
+        return house;
+    }
+
+    public List<Report_fireman> getFiremans(){
+
+        List<Report_fireman> house = SQLite.select().from(Report_fireman.class).where(Report_fireman_Table.reports_id.is(this.id)).queryList();
+
+
+        return house;
+    }
+
+
+
+
 }

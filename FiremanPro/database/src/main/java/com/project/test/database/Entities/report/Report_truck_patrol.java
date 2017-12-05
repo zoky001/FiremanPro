@@ -30,6 +30,21 @@ public class Report_truck_patrol extends BaseModel {
     @Column
     double hours;
 
+    @Column
+    int numberOfFireman;
+
+    @Column
+    double water;
+
+    @Column
+    double foam;
+
+    @Column
+    double powder;
+
+    @Column
+    double co2;
+
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Truck truck;
 
@@ -49,8 +64,44 @@ public class Report_truck_patrol extends BaseModel {
     public Report_truck_patrol() {
     }
 
-    public Report_truck_patrol(int id_report_truck_patrol, double km, double hours, Truck truck, Fireman_patrol fireman_patrol, Reports reports, Date updated_at, Date created_at) {
-        this.id_report_truck_patrol = id_report_truck_patrol;
+    public double getWater() {
+        return water;
+    }
+
+    public void setWater(double water) {
+        this.water = water;
+    }
+
+    public double getFoam() {
+        return foam;
+    }
+
+    public void setFoam(double foam) {
+        this.foam = foam;
+    }
+
+    public double getPowder() {
+        return powder;
+    }
+
+    public void setPowder(double powder) {
+        this.powder = powder;
+    }
+
+    public double getCo2() {
+        return co2;
+    }
+
+    public void setCo2(double co2) {
+        this.co2 = co2;
+    }
+
+    public Report_truck_patrol(int numberFireman, double water, double foam, double powder, double co2, double km, double hours, Truck truck, Fireman_patrol fireman_patrol, Reports reports, Date updated_at, Date created_at) {
+this.numberOfFireman = numberFireman;
+        this.water = water;
+        this.foam = foam;
+        this.powder = powder;
+        this.co2 = co2;
         this.km = km;
         this.hours = hours;
         this.truck = truck;
@@ -58,6 +109,54 @@ public class Report_truck_patrol extends BaseModel {
         this.reports = reports;
         this.updated_at = updated_at;
         this.created_at = created_at;
+    }
+
+    public int getNumberOfFireman() {
+        return numberOfFireman;
+    }
+
+    public void setNumberOfFireman(int numberOfFireman) {
+        this.numberOfFireman = numberOfFireman;
+    }
+
+    public double getKm() {
+        return km;
+    }
+
+    public void setKm(double km) {
+        this.km = km;
+    }
+
+    public double getHours() {
+        return hours;
+    }
+
+    public void setHours(double hours) {
+        this.hours = hours;
+    }
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
+
+    public Fireman_patrol getFireman_patrol() {
+        return fireman_patrol;
+    }
+
+    public void setFireman_patrol(Fireman_patrol fireman_patrol) {
+        this.fireman_patrol = fireman_patrol;
+    }
+
+    public Reports getReports() {
+        return reports;
+    }
+
+    public void setReports(Reports reports) {
+        this.reports = reports;
     }
 
     public Date getUpdated_at() {

@@ -8,6 +8,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -88,7 +89,7 @@ public class Sort_of_intervention extends BaseModel {
     }
 
 
-    public void addTypes_of_intervention(String[] name){
+    public void addTypes_of_intervention(ArrayList<String> name){
 
         Intervention_Type intervention_type;
         for (String item :

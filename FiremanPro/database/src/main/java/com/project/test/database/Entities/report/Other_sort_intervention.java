@@ -1,5 +1,6 @@
 package com.project.test.database.Entities.report;
 
+import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -30,13 +31,17 @@ public class Other_sort_intervention extends BaseModel {
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Intervention_Type intervention_type;
 
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+            Reports report;
+
     public Other_sort_intervention() {
     }
 
-    public Other_sort_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
+    public Other_sort_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type, Reports report) {
         this.updated_at = updated_at;
         this.created_at = created_at;
         this.intervention_type = intervention_type;
+        this.report=report;
     }
 
     public int getID() {

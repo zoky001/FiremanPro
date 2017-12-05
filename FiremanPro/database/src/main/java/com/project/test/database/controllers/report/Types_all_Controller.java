@@ -1,5 +1,8 @@
 package com.project.test.database.controllers.report;
 
+import com.project.test.database.Entities.House;
+
+import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Post;
 import com.project.test.database.Entities.fire_intervention.Sepatial_spread;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
@@ -10,10 +13,17 @@ import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
+import com.raizlabs.android.dbflow.sql.language.CursorResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.project.test.database.Entities.fireman_patrol.Type_of_unit_Table;
+
+import com.project.test.database.Entities.fireman_patrol.Type_of_truck_Table;
+
+import com.project.test.database.Entities.report.Sort_of_intervention_Table;
+
 
 import java.util.List;
-
+import com.project.test.database.Entities.Address_Table;
 /**
  * Created by Zoran on 24.10.2017..
  */
@@ -27,12 +37,86 @@ public class Types_all_Controller {
     }
 
 // Type_of_unit BEGIN
-    public Type_of_unit addNewFiremanPatrolUnit_Type(int id_of_type, String name){
+    private Type_of_unit addNewFiremanPatrolUnit_Type(int id_of_type, String name){
         Type_of_unit type_of_unit = new Type_of_unit(id_of_type,name,CurrentDate,CurrentDate);
        type_of_unit.save();
 
     return type_of_unit;
 }
+public Type_of_unit get_DVD_type_of_unit(){
+        List<Type_of_unit> type = SQLite.select().from(Type_of_unit.class).where(Type_of_unit_Table.name.is("DVD")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_unit type_of_unit = new Type_of_unit(100,"DVD",CurrentDate,CurrentDate);
+            type_of_unit.save();
+
+            return  type_of_unit;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+    public Type_of_unit get_JVP_type_of_unit(){
+        List<Type_of_unit> type = SQLite.select().from(Type_of_unit.class).where(Type_of_unit_Table.name.is("JVP")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_unit type_of_unit = new Type_of_unit(101,"JVP",CurrentDate,CurrentDate);
+            type_of_unit.save();
+
+            return  type_of_unit;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+    public Type_of_unit get_PVP_type_of_unit(){
+        List<Type_of_unit> type = SQLite.select().from(Type_of_unit.class).where(Type_of_unit_Table.name.is("PVP")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_unit type_of_unit = new Type_of_unit(102,"PVP",CurrentDate,CurrentDate);
+            type_of_unit.save();
+
+            return  type_of_unit;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+    public Type_of_unit get_DIP_type_of_unit(){
+        List<Type_of_unit> type = SQLite.select().from(Type_of_unit.class).where(Type_of_unit_Table.name.is("DIP")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_unit type_of_unit = new Type_of_unit(103,"DIP",CurrentDate,CurrentDate);
+            type_of_unit.save();
+
+            return  type_of_unit;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+    public Type_of_unit get_HV_type_of_unit(){
+        List<Type_of_unit> type = SQLite.select().from(Type_of_unit.class).where(Type_of_unit_Table.name.is("HV")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_unit type_of_unit = new Type_of_unit(104,"HV",CurrentDate,CurrentDate);
+            type_of_unit.save();
+
+            return  type_of_unit;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+
     public List<Type_of_unit> GetAllRecordsFromTable_Type_of_unit(){
 
         return SQLite.select().from(Type_of_unit.class).queryList();
@@ -52,12 +136,48 @@ public class Types_all_Controller {
 // Type_of_unit END
 
     // Type_of_truck BEGIN
-    public Type_of_truck addNewTruck_Type(int id_of_type, String name){
-        Type_of_truck type_of_truck = new Type_of_truck(id_of_type,name,CurrentDate,CurrentDate);
-        type_of_truck.save();
+    public Type_of_truck get_naval_vehicle_type_of_truck(){
+        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("NAVAL_VEHICLE")).queryList();
 
-        return type_of_truck;
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+          Type_of_truck type_of_truck = new Type_of_truck(100,"NAVAL_VEHICLE",CurrentDate,CurrentDate);
+            type_of_truck.save();
+            return type_of_truck;
+        }else {
+            return  type.get(0);
+        }
+
     }
+    public Type_of_truck get_transportation_vehicle_type_of_truck(){
+        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("TRANSPORTATION_VEHICLE")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_truck type_of_truck = new Type_of_truck(101,"TRANSPORTATION_VEHICLE",CurrentDate,CurrentDate);
+            type_of_truck.save();
+            return type_of_truck;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+    public Type_of_truck get_SPECIAL_vehicle_type_of_truck(){
+        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("SPECIAL_VEHICLE")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Type_of_truck type_of_truck = new Type_of_truck(102,"SPECIAL_VEHICLE",CurrentDate,CurrentDate);
+            type_of_truck.save();
+            return type_of_truck;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+
     public List<Type_of_truck> GetAllRecordsFromTable_Type_of_truck(){
 
         return SQLite.select().from(Type_of_truck.class).queryList();
@@ -208,6 +328,52 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
         return sort_of_intervention;
     }
+
+
+    public Sort_of_intervention get_FIRE_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("FIRE_INTERVENTION")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"FIRE_INTERVENTION","",CurrentDate,CurrentDate);
+            sort_of_intervention.save();
+            return sort_of_intervention;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+    public Sort_of_intervention get_OTHER_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"OTHER_INTERVENTION","",CurrentDate,CurrentDate);
+            sort_of_intervention.save();
+            return sort_of_intervention;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+    public Sort_of_intervention get_TRHNICAL_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("TEHNICAL_INTERVENTION")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL_INTERVENTION","",CurrentDate,CurrentDate);
+            sort_of_intervention.save();
+            return sort_of_intervention;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+
+
+
     public List<Sort_of_intervention> GetAllRecordsFromTable_Sort_of_intervention(){
 
         return SQLite.select().from(Sort_of_intervention.class).queryList();

@@ -23,7 +23,7 @@ public class Report_fireman extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
-    int id_report_truck_patrol;
+    int id_report_fireman;
 
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
@@ -43,21 +43,15 @@ public class Report_fireman extends BaseModel {
     public Report_fireman() {
     }
 
-    public Report_fireman(int id_report_truck_patrol, Fireman fireman, Reports reports, Date updated_at, Date created_at) {
-        this.id_report_truck_patrol = id_report_truck_patrol;
+    public Report_fireman(Fireman fireman, Reports reports, Date updated_at, Date created_at) {
+
         this.fireman = fireman;
         this.reports = reports;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
-    public int getId_report_truck_patrol() {
-        return id_report_truck_patrol;
-    }
 
-    public void setId_report_truck_patrol(int id_report_truck_patrol) {
-        this.id_report_truck_patrol = id_report_truck_patrol;
-    }
 
     public Fireman getFireman() {
         return fireman;

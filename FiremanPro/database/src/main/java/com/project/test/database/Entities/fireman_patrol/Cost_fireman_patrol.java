@@ -25,7 +25,7 @@ public class Cost_fireman_patrol extends BaseModel {
     int cost_fireman_patrol;
 
     @Column
-    int year;
+    java.util.Date year;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
           Costs costs;
@@ -45,7 +45,7 @@ public class Cost_fireman_patrol extends BaseModel {
     }
 
 
-    public Cost_fireman_patrol(int year, Costs costs, Fireman_patrol fireman_patrol, Date updated_at, Date created_at) {
+    public Cost_fireman_patrol( java.util.Date year, Costs costs, Fireman_patrol fireman_patrol, Date updated_at, Date created_at) {
         this.year = year;
         this.costs = costs;
         this.fireman_patrol = fireman_patrol;
@@ -61,13 +61,7 @@ public class Cost_fireman_patrol extends BaseModel {
         this.cost_fireman_patrol = cost_fireman_patrol;
     }
 
-    public int getYear() {
-        return year;
-    }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
 
     public Costs getCosts() {
         return costs;

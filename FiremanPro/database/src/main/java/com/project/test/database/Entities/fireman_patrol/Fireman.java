@@ -1,13 +1,16 @@
 package com.project.test.database.Entities.fireman_patrol;
 
+import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -105,5 +108,13 @@ public class Fireman extends BaseModel {
 
     public void setFireman_patrol(Fireman_patrol fireman_patrol) {
         this.fireman_patrol = fireman_patrol;
+    }
+
+    public static Fireman getRandomType(){
+
+        List<Fireman> house = SQLite.select().from(Fireman.class).queryList();
+
+
+        return house.get(0);
     }
 }

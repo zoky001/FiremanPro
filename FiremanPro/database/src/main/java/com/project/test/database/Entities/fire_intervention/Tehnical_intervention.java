@@ -1,5 +1,6 @@
 package com.project.test.database.Entities.fire_intervention;
 
+import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -28,6 +29,9 @@ public class Tehnical_intervention extends BaseModel {
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
+            Reports report;
+
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Intervention_Type intervention_type;
 
     public Tehnical_intervention() {
@@ -35,10 +39,12 @@ public class Tehnical_intervention extends BaseModel {
 
     }
 
-    public Tehnical_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type) {
+    public Tehnical_intervention(Date updated_at, Date created_at, Intervention_Type intervention_type, Reports report) {
         this.updated_at = updated_at;
         this.created_at = created_at;
         this.intervention_type = intervention_type;
+        this.report = report;
+
     }
 
     public int getID() {

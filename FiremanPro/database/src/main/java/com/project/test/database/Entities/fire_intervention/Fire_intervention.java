@@ -1,6 +1,8 @@
 package com.project.test.database.Entities.fire_intervention;
 
+import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.report.Other_sort_intervention;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -56,6 +58,9 @@ public class Fire_intervention extends BaseModel {
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Intervention_Type intervention_type;
 
+    @ForeignKey(saveForeignKeyModel = true) //on update cascade
+    Reports report;
+
 
 
 
@@ -68,7 +73,7 @@ public class Fire_intervention extends BaseModel {
 
     }
 
-    public Fire_intervention(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Date updated_at, Date created_at, Spreading_smoke spreading_smoke, Sepatial_spread sepatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type) {
+    public Fire_intervention(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Date updated_at, Date created_at, Spreading_smoke spreading_smoke, Sepatial_spread sepatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type, Reports report) {
         this.localization = localization;
         this.fireExtinguished = fireExtinguished;
         this.destroyed_space = destroyed_space;
@@ -81,6 +86,7 @@ public class Fire_intervention extends BaseModel {
         this.outdoor_type = outdoor_type;
         this.size_of_fire = size_of_fire;
         this.intervention_type = intervention_type;
+        this.report = report;
     }
 
     public int getId() {

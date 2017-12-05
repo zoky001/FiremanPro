@@ -4,11 +4,13 @@ import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.w3c.dom.Text;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -84,5 +86,13 @@ public class Size_of_fire extends BaseModel {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+    public static Size_of_fire getRandomType(){
+
+        List<Size_of_fire> house = SQLite.select().from(Size_of_fire.class).queryList();
+
+
+        return house.get(0);
     }
 }
