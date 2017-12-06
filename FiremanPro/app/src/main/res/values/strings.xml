@@ -8,7 +8,7 @@
     <string name="title_activity_profil_new">ProfilNewActivity</string>
     <string name="action_settings"> Postavke </string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="pretrazivanje">    Upiši ime, prezime ili adresu kućanstva </string>
+    <string name="pretrazivanje">    Upiši ime, prezime ili adresu  </string>
     <string name="razmak">  </string>
     <string name="selo">Selo:</string>
     <string name="title_activity_maps">Map</string>

@@ -7,7 +7,10 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,20 +58,19 @@ public class MapFragment extends Fragment implements
     private Location lastLocation;
     private Marker currentLocationMarker;
     Double latitude, longitude, end_latitude, end_longitude;
-    int markerCount;
+    int markerCount = 0;
     public static  final int REQUEST_LOCATION_CODE = 99;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
 
         String s = getArguments().getString("IDkuce");
         System.out.println("MAPFRAGMENT_idkuce kartaaaaaaaa: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
 
         if (a != -1) {
-
             house = HouseController.getHouse(a);
 
         } else {
@@ -78,9 +80,9 @@ public class MapFragment extends Fragment implements
         end_latitude=house.getAddress().getLatitude();
         end_longitude=house.getAddress().getLongitude();
 
+
         System.out.println("Trenutni latitude: " + end_latitude);
         System.out.println("Trenutni longitude: " + end_longitude);
-
 
         context = getActivity();
 
@@ -213,9 +215,8 @@ public class MapFragment extends Fragment implements
             //Add pointer to the map at location
             addMarker(mMap,latitude,longitude);
 
+
             Object dataTransfer[] = new Object[2];
-
-
 
 
             dataTransfer = new Object[3];
@@ -225,6 +226,7 @@ public class MapFragment extends Fragment implements
             dataTransfer[1] = url;
             dataTransfer[2] = new LatLng(end_latitude, end_longitude);
             getDirectionsData.execute(dataTransfer);
+
         } else {
             Toast.makeText(context, "Couldn't get the location. Make sure location is enabled on the device", Toast.LENGTH_SHORT).show();
         }
@@ -241,27 +243,19 @@ public class MapFragment extends Fragment implements
             int width = 45;
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.fireman_truck);
             Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+            Bitmap smallMarker =Bitmap.createScaledBitmap(b, width, height, false);
             mMap = googleMap;
 
             LatLng latlong = new LatLng(lat, lon);
-            currentLocationMarker= mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon))
-                    //.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin3))
-                    .icon(BitmapDescriptorFactory.fromBitmap((smallMarker))));
+            currentLocationMarker= mMap.addMarker(new MarkerOptions().position(latlong)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 16));
 
-            //Set Marker Count to 1 after first marker is created
             markerCount=1;
-
-               /* if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    TODO: Consider calling
-                    return;
-                }
-                //mMap.setMyLocationEnabled(true);
-                //startLocationUpdates();
-                */
         }
     }
+
 
     public static void animateMarker(final Location destination, final Marker marker) {
         if (marker != null) {
@@ -280,9 +274,7 @@ public class MapFragment extends Fragment implements
                         float v = animation.getAnimatedFraction();
                         LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, endPosition);
                         marker.setPosition(newPosition);
-                        // marker.setRotation(computeRotation(v, startRotation, destination.getBearing()));
                     } catch (Exception ex) {
-                        // I don't care atm..
                     }
                 }
             });
@@ -350,7 +342,6 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
-
 
 
 }
