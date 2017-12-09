@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kizo.core_module.tab_profile.ITabFragment;
+import com.kizo.core_module.tab_profile.TabFragment;
 import com.project.air.firemanpro.googlemaps.GoogleMapActivity;
 import com.project.air.firemanpro.googlemaps.MapFragment;
 import com.project.air.firemanpro.R;
@@ -29,7 +31,7 @@ import butterknife.OnClick;
  * Created by Zoran on 27.10.2017..
  */
 
-public class TabProfil extends Fragment {
+public class TabProfil extends TabFragment {
     @BindView(R.id.imageViewProfilHouse)
     ImageView profil;
 
@@ -142,5 +144,12 @@ txtPlace.setText(house.getPlaceName());
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
+    }
+
+
+    @Override
+    public void loadFrag(ITabFragment iTabFragment) {
+        super.loadFrag(iTabFragment);
+        iTabFragment.getFragment(this);
     }
 }
