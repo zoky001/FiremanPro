@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
@@ -212,7 +211,20 @@ saveImagesFromResourcesToInternalStorage();
     public void buttonSearchingClicked(View view) {
 
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
+
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
+
+       startActivity(Intent);
+
+    }
+
+    @OnClick(R.id.buttonTEST)
+    public void buttonTEST_REPORTClicked(View view) {
+
+        Intent Intent = new Intent(view.getContext(), com.kizo.report.ReportActivity.class);
+
+       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
+       */
         startActivity(Intent);
 
     }
