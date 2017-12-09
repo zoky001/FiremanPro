@@ -49,6 +49,13 @@ public class Hydrants extends BaseModel {
         this.created_at = created_at;
     }
 
+    public int getId_hydrant() {
+        return id_hydrant;
+    }
+
+    public void setId_hydrant(int id_hydrant) {
+        this.id_hydrant = id_hydrant;
+    }
 
     public String getType_of_hydrant() {
         return type_of_hydrant;
