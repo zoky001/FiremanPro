@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.kizo.core_module.tab_profile.ITabFragment;
+import com.kizo.core_module.tab_profile.TabFragment;
 import com.kizo.ground_plan.R;
 
 import com.kizo.ground_plan.Tab.adapter.PlanRecyclerAdapter;
@@ -27,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by Zoran on 27.10.2017..
  */
 
-public class TabTlocrt extends Fragment {
+public class TabTlocrt extends TabFragment {
 
     House house;
 
@@ -95,5 +97,11 @@ thumbnail.clear();
         super.onResume();
 
 
+    }
+
+    @Override
+    public void loadFrag(ITabFragment iTabFragment) {
+        super.loadFrag(iTabFragment);
+         iTabFragment.getFragment(this);
     }
 }
