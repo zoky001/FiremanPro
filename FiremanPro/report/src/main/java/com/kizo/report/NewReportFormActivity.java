@@ -27,7 +27,7 @@ import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.fragments.BackConfirmationFragment;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
 
-public class NewAlarmFormActivity extends AppCompatActivity implements VerticalStepperForm {
+public class NewReportFormActivity extends AppCompatActivity implements VerticalStepperForm {
 
     public static final String NEW_ALARM_ADDED = "new_alarm_added";
 
@@ -65,7 +65,7 @@ public class NewAlarmFormActivity extends AppCompatActivity implements VerticalS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertical_stepper_form);
+        setContentView(R.layout.activity_vertical_stepper_report_form);
 
         initializeActivity();
     }

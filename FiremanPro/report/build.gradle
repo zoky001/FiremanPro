@@ -27,6 +27,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':database')
+    compile project(':core_module')
 
     //stepper
     compile 'com.ernestoyaquello.stepperform:vertical-stepper-form:0.9.9'

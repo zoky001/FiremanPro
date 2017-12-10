@@ -34,5 +34,10 @@
     <string name="vertical_form_stepper_form_info_will_be_lost">All the information about this new alarm will be lost</string>
     <string name="vertical_form_stepper_form_confirm_button">Add alarm</string>
     <string name="vertical_form_stepper_form_sending_data_message">Adding new alarm…</string>
+    <string name="navigation_drawer_open">drawer open</string>
+    <string name="navigation_drawer_close">drawer close</string>
+    <string name="savedreports">Završeni izvještaji</string>
+    <string name="unfinishedreports">Nedovršeni izvještaju</string>
+    <string name="navheader_reports_title">Pregled izvještaja</string>
 
 </resources>

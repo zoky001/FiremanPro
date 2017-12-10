@@ -7,7 +7,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity android:name=".ReportActivity"></activity>
-        <activity android:name=".NewAlarmFormActivity"></activity>
+        <activity android:name=".NewReportFormActivity"></activity>
         <activity android:name=".MainActivity"></activity>
     </application>
 
