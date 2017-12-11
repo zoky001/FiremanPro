@@ -1,7 +1,8 @@
 package com.project.air.firemanpro.loaders;
 
-import com.kizo.core.DataLoadedListener;
-import com.kizo.core.DataLoader;
+
+import com.kizo.core_module.DataLoadedListener;
+import com.kizo.core_module.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
 import com.kizo.web_services.AirWebServiceHandler;
 import com.kizo.web_services.responses.WS_entities.HousesW;
@@ -78,7 +79,7 @@ public class WsDataLoader extends DataLoader {
                             housesW.getStreetNumber(),
                             PostController.getPostByPostalCode(housesW.getPostId()),
                             housesW.getLongitude(),
-                            housesW.getLongitude()
+                            housesW.getLatitude()
                     );
 
                     house = houseController.AddNewHouse(

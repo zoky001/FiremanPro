@@ -34,7 +34,7 @@ public class AirWebServiceCaller {
     // retrofit object
     Retrofit retrofit;
     // base URL of the web service
-    private final String baseUrl = "http://93.136.239.45/FiremanPro-laravel/FiremanPro/server.php/";
+    private final String baseUrl = "http://93.139.143.125/FiremanPro-laravel/FiremanPro/server.php/";
 
     // constructor
     public AirWebServiceCaller(AirWebServiceHandler airWebServiceHandler){

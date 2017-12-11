@@ -7,11 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
+import android.view.MenuItem;
 
 
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.controllers.HouseController;
 
 
 import butterknife.ButterKnife;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by Nikol on 22.11.2017..
  */
 
-public class GoogleMapActivity extends FragmentActivity{
+public class GoogleMapActivity extends AppCompatActivity {
     House house;
 
 
@@ -35,7 +36,21 @@ public class GoogleMapActivity extends FragmentActivity{
 
         int a = Integer.parseInt(getIntent().getStringExtra("IDkuce"));
         System.out.println("MAPACTIVITY_idkuce kartaaaaaaaa: " + a);
+        try {
 
+            house = HouseController.getHouse(a);
+        }
+catch ( Exception e){
+
+    System.out.println("GREŠKA: "+e);
+            }
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMap);
+        setSupportActionBar(toolbar);
+
+        //set title (owner name )on toolbar
+        setTitleOnToolbar(house.getAddressStreet()+ " "+ house.getAddress().getStreetNumber()+", " +house.getAddress().getPlaceNameIfExist());
 
 
 
@@ -54,5 +69,19 @@ public class GoogleMapActivity extends FragmentActivity{
 
     }
 
+    private void setTitleOnToolbar(String title){
+        //set title (owner name )on toolbar
+        getSupportActionBar().setTitle(title); //set title on toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        } //toolbar
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
 }

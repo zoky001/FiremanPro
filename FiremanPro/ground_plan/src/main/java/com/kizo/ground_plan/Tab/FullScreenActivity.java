@@ -27,8 +27,8 @@ public class FullScreenActivity extends AppCompatActivity {
        //close=(ImageView)findViewById(R.id.closeIB);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         Intent intent = getIntent();
-        int position = intent.getIntExtra("id", 1);
-
+        int position = intent.getIntExtra("EXTRA_SESSION_ID", 1);
+System.out.println("Pozicije: "+ position);
         for (int i = 0; i < TabTlocrt.thumbnail.size(); i++) {
             imageBean = new ImageBean();
             imageBean.setImagePath(TabTlocrt.thumbnail.get(i));
@@ -43,12 +43,6 @@ public class FullScreenActivity extends AppCompatActivity {
         viewPager.setCurrentItem(position);
 
 
-        /*
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override            public void onClick(View v) {
-                onBackPressed();
-            }
-        });*/
     }
 
 

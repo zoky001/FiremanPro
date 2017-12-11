@@ -3,7 +3,9 @@ package com.project.air.firemanpro.profil;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kizo.core_module.tab_profile.ITabFragment;
+import com.kizo.core_module.tab_profile.TabFragment;
 import com.project.air.firemanpro.googlemaps.GoogleMapActivity;
 import com.project.air.firemanpro.googlemaps.MapFragment;
 import com.project.air.firemanpro.R;
@@ -27,7 +31,7 @@ import butterknife.OnClick;
  * Created by Zoran on 27.10.2017..
  */
 
-public class TabProfil extends Fragment {
+public class TabProfil extends TabFragment {
     @BindView(R.id.imageViewProfilHouse)
     ImageView profil;
 
@@ -129,5 +133,23 @@ txtPlace.setText(house.getPlaceName());
 
         startActivity(intent);
 
+    }
+    @OnClick(R.id.leadMeButton)
+    public void leadMeButton(View view) {
+
+        double latitude,longitude;
+        latitude=house.getAddress().getLatitude();
+        longitude=house.getAddress().getLongitude();
+        Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude+","+longitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+    }
+
+
+    @Override
+    public void loadFrag(ITabFragment iTabFragment) {
+        super.loadFrag(iTabFragment);
+        iTabFragment.getFragment(this);
     }
 }

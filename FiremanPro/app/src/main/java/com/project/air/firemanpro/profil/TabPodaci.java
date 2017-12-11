@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kizo.core_module.tab_profile.ITabFragment;
+import com.kizo.core_module.tab_profile.TabFragment;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
@@ -18,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by Zoran on 27.10.2017..
  */
 
-public class TabPodaci extends Fragment {
+public class TabPodaci extends TabFragment {
 
     @BindView(R.id.txtHouseOwnerName)
     TextView txtHouseOwnerName;
@@ -110,7 +112,7 @@ public class TabPodaci extends Fragment {
 
         System.out.println("Tabpodaci");
         View rootView = inflater.inflate(R.layout.tab_podaci_, container, false);
-        ButterKnife.bind(this, rootView);
+       ButterKnife.bind(this, rootView);
 
         String s = getArguments().getString("IDkuce");
         System.out.println("SESSION FRAGMENT_idkuce: " + s);
@@ -185,5 +187,11 @@ fillTableWithContent();
         txtHouseTEl.setText(house.getTelNumber());
 
         txtHouseMOB.setText(house.getMobNumber());
+    }
+
+    @Override
+    public void loadFrag(ITabFragment iTabFragment) {
+        super.loadFrag(iTabFragment);
+        iTabFragment.getFragment(this);
     }
 }

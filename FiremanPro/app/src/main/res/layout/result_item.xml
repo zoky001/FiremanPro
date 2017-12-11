@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:id="@+id/cv"
     android:layout_marginBottom="5dp"
     android:clickable="true"
@@ -54,18 +54,15 @@
                     android:layout_height="wrap_content"
                     tools:text="Ivo "/>
 
-                <Space
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                />
 
-                <TextView
-                    android:id="@+id/tv_surName"
-                    style="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Ivić" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_surName"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="" />
 
             <TextView
                 android:id="@+id/tv_adresa"

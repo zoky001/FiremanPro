@@ -14,8 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import com.kizo.core.DataLoadedListener;
-import com.kizo.core.DataLoader;
+
+import com.kizo.core_module.DataLoadedListener;
+import com.kizo.core_module.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.loaders.WsDataLoader;

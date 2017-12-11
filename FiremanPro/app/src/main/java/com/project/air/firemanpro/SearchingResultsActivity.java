@@ -27,6 +27,8 @@ public class SearchingResultsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProfil);
         setSupportActionBar(toolbar);
         //set title (owner name )on toolbar
+        //set title (owner name )on toolbar
+        setTitleOnToolbar("Rezultati pretraživanja ");
         //getSupportActionBar().setTitle(house.getSurname_owner()+" "+house.getName_owner()+" - "+house.getPlaceName()); //set title on toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,6 +68,15 @@ System.out.println("PRIJE ADAPTERA: " + houses.size());
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setTitleOnToolbar(String title){
+        //set title (owner name )on toolbar
+        getSupportActionBar().setTitle(title); //set title on toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        } //toolbar
     }
 
 

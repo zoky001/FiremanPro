@@ -5,10 +5,13 @@ import android.os.AsyncTask;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
 import java.io.IOException;
+
+import butterknife.OnClick;
 
 /**
  * Created by Matea on 11/13/2017.
@@ -58,6 +61,8 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
             options.addAll(PolyUtil.decode(directionsList[i]));
 
             mMap.addPolyline(options);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)));
+
         }
     }
 }
