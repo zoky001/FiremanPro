@@ -21,17 +21,18 @@ public class ReportActivity extends AppCompatActivity implements ITabFragment,
 
     public static final int NEW_ALARM = 1;
 FloatingActionButton fab;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarReport);
+        toolbar = (Toolbar) findViewById(R.id.toolbarReport);
         setSupportActionBar(toolbar);
         //set title (owner name )on toolbar
         //set title (owner name )on toolbar
-        setTitleOnToolbar("Pregled izvještaja - TEST");
+        setTitleOnToolbar("Nedovršeni izvještaji");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,6 +56,14 @@ FloatingActionButton fab;
         tabFragment = new SavedReportFragment();
         tabFragment.loadFrag(this);
 */
+        //default load all reports
+        Bundle bundle = new Bundle();
+        TabFragment tabFragment;
+        setTitleOnToolbar("Svi zapisnici");
+        bundle.putString("showFinishedReports", "ALL");
+        tabFragment = new SavedReportFragment();
+        tabFragment.setArguments(bundle);
+        tabFragment.loadFrag(this);
 
     }
 
@@ -113,17 +122,46 @@ FloatingActionButton fab;
         int id = item.getItemId();
         System.out.println("item selected");
 
+        if (id == R.id.report_nav_home)
+        {
+            onBackPressed();
+return true;
+        }
+
+
+
+
         TabFragment tabFragment;
-
-
-        if (id == R.id.nav_list){
-
-            System.out.println("LISTAA");
+        Bundle bundle = new Bundle();
+        if (id == R.id.report_nav_fished_reports){
+            setTitleOnToolbar("Popunjeni zapisnici");
+            System.out.println("finished");
             tabFragment = new SavedReportFragment();
+            bundle.putString("showFinishedReports", "TRUE");
+            tabFragment.setArguments(bundle);
+        }
+        else if(id == R.id.report_nav_unfinished_reports)
+        {   setTitleOnToolbar("Nedovršeni zapisnici");
+            System.out.println("unfinished");
+            tabFragment = new SavedReportFragment();
+
+            bundle.putString("showFinishedReports", "FALSE");
+            tabFragment.setArguments(bundle);
+        }
+        else if(id == R.id.report_nav_all_reports)
+        {
+            setTitleOnToolbar("Svi zapisnici");
+            bundle.putString("showFinishedReports", "ALL");
+
+            tabFragment = new SavedReportFragment();
+            tabFragment.setArguments(bundle);
         }
         else {
+            setTitleOnToolbar("Svi zapisnici");
+            bundle.putString("showFinishedReports", "ALL");
 
             tabFragment = new SavedReportFragment();
+            tabFragment.setArguments(bundle);
         }
 
         tabFragment.loadFrag(this);

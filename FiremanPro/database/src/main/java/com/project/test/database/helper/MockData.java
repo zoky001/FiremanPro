@@ -91,7 +91,7 @@ Types_all_Controller types_all_controller = new Types_all_Controller();
         intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
         intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
 
-        intervencija.addDescriptionOfIntervention("opis intervencije");
+        intervencija.addDescriptionOfIntervention("opis intervencije jedan završena");
 
         intervencija.addObjectSurface_m2(55);
 
@@ -106,8 +106,81 @@ intervencija.addHelpers("Nitko nije sudjelovao");
 
         intervencija.completeInterventionTrack();
 
+//druga intervencija
+        intervencija = interventionController.addNewIntervention_atHouse(HouseController.getFirstHouse());
 
 
+        intervencija.add_FIRE_ReportToIntervention();
+
+        intervencija.callReceived();
+        intervencija.intervetionStarted();
+        intervencija.intervetionArrival();
+        intervencija.intervetionEnded();
+
+
+
+
+        localzationTime = new java.util.Date(System.currentTimeMillis());
+       fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
+
+        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Sepatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+
+        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+
+        intervencija.addDescriptionOfIntervention("opis intervencije dvaaaaaa_ završena");
+
+        intervencija.addObjectSurface_m2(55);
+
+        intervencija.addObjectSuperficies_ha(2.0);
+
+        intervencija.addHelpers("Nitko nije sudjelovao");
+        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+
+        intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
+        intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
+        intervencija.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+
+        intervencija.completeInterventionTrack();
+
+
+        //treca intervencija
+        //druga intervencija
+        intervencija = interventionController.addNewIntervention_atHouse(HouseController.getFirstHouse());
+
+
+        intervencija.add_FIRE_ReportToIntervention();
+
+        intervencija.callReceived();
+        intervencija.intervetionStarted();
+        intervencija.intervetionArrival();
+        intervencija.intervetionEnded();
+
+
+
+
+        localzationTime = new java.util.Date(System.currentTimeMillis());
+        fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
+
+        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Sepatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+
+        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+
+        intervencija.addDescriptionOfIntervention("opis intervencije dvaaaaaa_ NEDOVRŠENA");
+
+        intervencija.addObjectSurface_m2(55);
+
+        intervencija.addObjectSuperficies_ha(2.0);
+
+        intervencija.addHelpers("Nitko nije sudjelovao");
+        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+
+        intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
+        intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
+        intervencija.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+
+       // unfinished intervention intervencija.completeInterventionTrack();
     }
 
     public void writeCodeBook(){

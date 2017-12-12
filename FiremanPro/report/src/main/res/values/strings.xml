@@ -36,8 +36,9 @@
     <string name="vertical_form_stepper_form_sending_data_message">Adding new alarm…</string>
     <string name="navigation_drawer_open">drawer open</string>
     <string name="navigation_drawer_close">drawer close</string>
-    <string name="savedreports">Završeni izvještaji</string>
-    <string name="unfinishedreports">Nedovršeni izvještaju</string>
+    <string name="savedreports">Popunjeni zapisnici</string>
+    <string name="unfinishedreports">Nedovršeni zapisnici</string>
     <string name="navheader_reports_title">Pregled izvještaja</string>
-
+    <string name="home">Početna</string>
+    <string name="allreports">Svi zapisnici</string>
 </resources>

@@ -2,17 +2,25 @@ package com.project.air.firemanpro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 
+import com.kizo.core_module.tab_profile.TabFragment;
+import com.kizo.report.SavedReportFragment;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.test.database.Entities.House;
 
@@ -33,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     MockData mockData;
 
@@ -49,8 +57,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, com.kizo.report.R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(com.kizo.report.R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         //DBflow
@@ -218,17 +235,6 @@ saveImagesFromResourcesToInternalStorage();
 
     }
 
-    @OnClick(R.id.buttonTEST)
-    public void buttonTEST_REPORTClicked(View view) {
-
-        Intent Intent = new Intent(view.getContext(), com.kizo.report.ReportActivity.class);
-
-       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
-       */
-        startActivity(Intent);
-
-    }
-
 
     private void saveImagesFromResourcesToInternalStorage () {
 
@@ -252,4 +258,29 @@ saveImagesFromResourcesToInternalStorage();
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        System.out.println("item selected");
+
+        TabFragment tabFragment;
+
+
+       if (id == R.id.nav_app_report) {
+
+            Intent Intent = new Intent(this, com.kizo.report.ReportActivity.class);
+
+       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
+       */
+            startActivity(Intent);
+        }
+
+
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

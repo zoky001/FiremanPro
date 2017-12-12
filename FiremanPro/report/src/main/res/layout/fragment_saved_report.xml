@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.kizo.report.ReportActivity">
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_saved_reports" />
 
 
 </android.support.design.widget.CoordinatorLayout>
