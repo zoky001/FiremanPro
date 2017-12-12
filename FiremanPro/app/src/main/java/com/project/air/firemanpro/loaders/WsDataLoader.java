@@ -1,6 +1,8 @@
 package com.project.air.firemanpro.loaders;
 
 
+import android.content.Context;
+
 import com.kizo.core_module.DataLoadedListener;
 import com.kizo.core_module.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
@@ -14,6 +16,8 @@ import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.AddressController;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.PostController;
+import com.project.test.database.imageSaver.ImageSaver;
+import com.project.test.database.imageSaver.SaveResourceImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,14 @@ import static java.lang.Boolean.TRUE;
 public class WsDataLoader extends DataLoader {
     private boolean storesArrived = false;
     private boolean discountsArrived = false;
+
+    private SaveResourceImage  saveResourceImage;
+private Context context;
+    public WsDataLoader(Context context) {
+        this.context = context;
+        saveResourceImage = new SaveResourceImage(context);
+
+    }
 
     @Override
     public void loadData(DataLoadedListener dataLoadedListener) {
@@ -109,7 +121,7 @@ public class WsDataLoader extends DataLoader {
                             housesW.getTelNumber(),
                             housesW.getMobNumber(),
                             address);
-
+/*
                     if (housesW.getProfilPocture() != null)
                         houseController.AddProfilPicToHouse(housesW.getProfilPocture().getFileName(),house);
 
@@ -118,7 +130,23 @@ public class WsDataLoader extends DataLoader {
                          housesW.getSlikePlanova()) {
                         houseController.AddGroundPlanPicToHouse(slika.getFileName(),house);
 
+                    }*/
+
+                    if (housesW.getProfilPocture() != null) {
+
+                        String name= saveResourceImage.SaveImageFromUrlToInternalStorage(housesW.getProfilPocture().getUrl());
+
+                        houseController.AddProfilPicToHouse(name, house);
                     }
+                    if (housesW.getSlikePlanova() != null)
+                        for (SlikePlanova slika:
+                                housesW.getSlikePlanova()) {
+
+                            String name= saveResourceImage.SaveImageFromUrlToInternalStorage(slika.getUrl());
+
+                            houseController.AddGroundPlanPicToHouse(name,house);
+
+                        }
 
 
                 }

@@ -106,7 +106,8 @@ txtPlace.setText(house.getPlaceName());
         Bundle bundle = new Bundle();
 
         String IDHouse = "" + house.getId_house();
-
+/*
+zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         bundle.putString("IDkuce", IDHouse);
         Fragment mapFragment=new MapFragment();
         mapFragment.setArguments(bundle);

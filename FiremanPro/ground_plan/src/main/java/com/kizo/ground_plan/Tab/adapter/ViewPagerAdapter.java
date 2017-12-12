@@ -1,6 +1,7 @@
 package com.kizo.ground_plan.Tab.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.kizo.ground_plan.R;
 import com.kizo.ground_plan.Tab.model.ImageBean;
 import com.kizo.ground_plan.Tab.utils.TouchImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -41,7 +43,20 @@ public class ViewPagerAdapter extends PagerAdapter {
         View viewLayout = layoutInflater.inflate(R.layout.image_slider, container, false);
 
         imageDisplay = (TouchImageView) viewLayout.findViewById(R.id.full_image);
-        Glide.with(context).load(image_list.get(position).getImagePath()).placeholder(R.drawable.wait).into(imageDisplay);
+
+       // Glide.with(context).load(image_list.get(position).getImgBitmap()).placeholder(R.drawable.wait).into(imageDisplay);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image_list.get(position).getImgBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+        Glide.with(context)
+                .load(stream.toByteArray())
+                .asBitmap()
+                .placeholder(R.drawable.wait)
+
+                .into(imageDisplay);
+
+
+        // Glide.with(context).load(image_list.get(position).getImagePath()).placeholder(R.drawable.wait).into(imageDisplay);
         ((ViewPager) container).addView(viewLayout);
 
         return viewLayout;

@@ -1,6 +1,7 @@
 package com.kizo.ground_plan.Tab;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,7 @@ ListView lst;
 
     Integer [] imgId;
     public static ArrayList<Integer> thumbnail = new ArrayList<Integer>();
-
+public  static ArrayList<Bitmap> gnd_images = new ArrayList<Bitmap>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +71,15 @@ thumbnail.clear();
              ) {
 
           thumbnail.add(Integer.parseInt(str));
+
+        }
+gnd_images.clear();
+        for (House_photos house_photos: gndPlans){
+
+            Bitmap gnd;
+            gnd = house_photos.getPhoto().getImageBitmapbyContext(getActivity());
+            gnd_images.add(gnd);
+
 
         }
 

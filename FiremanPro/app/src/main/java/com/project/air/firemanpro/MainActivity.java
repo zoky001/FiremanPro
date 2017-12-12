@@ -237,7 +237,7 @@ saveImagesFromResourcesToInternalStorage();
             mockData.deleteAll();
 
             System.out.println("Loading web data");
-            dataLoader = new WsDataLoader();
+            dataLoader = new WsDataLoader(this);
         }
 
         dataLoader.loadData(this);
