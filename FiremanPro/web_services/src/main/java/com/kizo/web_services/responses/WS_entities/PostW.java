@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PostW {
 
-    @SerializedName("postal_code")
+    @SerializedName("id")
     @Expose
     private Integer postalCode;
     @SerializedName("name")
