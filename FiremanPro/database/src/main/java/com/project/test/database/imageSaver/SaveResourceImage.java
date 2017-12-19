@@ -5,9 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
 
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Photos;
 
@@ -17,6 +22,11 @@ import com.squareup.picasso.Target;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.util.List;
 
@@ -50,44 +60,56 @@ public class SaveResourceImage {
 
     }
 
+    public  void SaveAllPhotoFromUrlToInternalStorage()
+    {
+        for (Photos h : photos
+                ) {
+
+            SaveImageFromUrlToInternalStorage(h.getUrl());
+        }
+
+    }
+
     public String SaveImageFromUrlToInternalStorage(String url) {
        final String name = sha256(url);
 
+System.out.println("URL_SLIKE: preuzimanje___:"+url);
 
 
-        Picasso.with(context)
-                .load(url)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
-            /* Save the bitmap or do something with it here */
-                        Bitmap scal = Bitmap.createScaledBitmap(bitmap, 270, 200, false);
+        //imageloader
+        // Create global configuration and initialize ImageLoader with this config
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
 
-                        new ImageSaver(context).
-                                setFileName(name + ".png").
-                                setDirectoryName("Images").
-                                save(scal);
+        ImageLoader.getInstance().init(config);
+        ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
+        imageLoader.loadImage(url, new SimpleImageLoadingListener()
+        {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
+            {
+                System.out.println("URL_SLIKE: spremljan slika___:"+imageUri);
+                // loaded bitmap is here (loadedImage)
+                //Save the bitmap or do something with it here
+                Bitmap scal = Bitmap.createScaledBitmap(loadedImage, 270, 200, false);
+                new ImageSaver(context).
+                        setFileName(name + ".png").
+                        setDirectoryName("Images").
+                        save(scal);
+            }
 
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                super.onLoadingFailed(imageUri, view, failReason);
+                System.out.println("URL_SLIKE: failed___:"+imageUri);
+            }
+        });
 
-
-
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
 
         return name;
     }
 
-    public String sha256(String base) {
+
+    public static  String sha256(String base) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(base.getBytes("UTF-8"));

@@ -36,6 +36,7 @@ public class AirWebServiceCaller {
     // base URL of the web service
     private final String baseUrl = "http://fireman-pro.ddns.net/FiremanPro-laravel/";
 
+  //  private final String baseUrl = "http://93.139.163.218/FiremanPro-laravel/";
     // constructor
     public AirWebServiceCaller(AirWebServiceHandler airWebServiceHandler){
 

@@ -134,17 +134,17 @@ private Context context;
 
                     if (housesW.getProfilPocture() != null) {
 
-                        String name= saveResourceImage.SaveImageFromUrlToInternalStorage(housesW.getProfilPocture().getUrl());
-
-                        houseController.AddProfilPicToHouse(name, house);
+                       // String name= saveResourceImage.SaveImageFromUrlToInternalStorage(housesW.getProfilPocture().getUrl());
+                        String name = SaveResourceImage.sha256(housesW.getProfilPocture().getUrl());
+                        houseController.AddProfilPicToHouse(name, housesW.getProfilPocture().getUrl(),house);
                     }
                     if (housesW.getSlikePlanova() != null)
                         for (SlikePlanova slika:
                                 housesW.getSlikePlanova()) {
 
-                            String name= saveResourceImage.SaveImageFromUrlToInternalStorage(slika.getUrl());
-
-                            houseController.AddGroundPlanPicToHouse(name,house);
+                            //String name= saveResourceImage.SaveImageFromUrlToInternalStorage(slika.getUrl());
+                                String name = SaveResourceImage.sha256(slika.getUrl());
+                            houseController.AddGroundPlanPicToHouse(name,slika.getUrl(),house);
 
                         }
 

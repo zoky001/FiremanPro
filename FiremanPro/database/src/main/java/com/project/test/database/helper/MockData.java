@@ -243,7 +243,7 @@ writePatrol();
          krizovljan_radovecki
 */
 
-
+/*
 
 
 
@@ -765,7 +765,7 @@ House house = houseController.AddNewHouse(
 
         houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6",house);
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6",house);
-
+*/
 /*
         //second house za testt samo
         nova = addressController.addNewAddress(
@@ -854,7 +854,7 @@ House house = houseController.AddNewHouse(
 
 
 
-        createMockIntervention();
+   //     createMockIntervention();
     }
 
     public  void  printAll(){
@@ -1015,13 +1015,18 @@ House house = houseController.AddNewHouse(
 
         System.out.print(" photo_ID " +
                 " NAME " +
+                " URL " +
                  "\n");
         for (int i = 0; i < photos.size();i++){
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.print(photos.get(i).getID()+" | " +
 
-                    photos.get(i).getImageName()+" | " + "\n");
+                    photos.get(i).getImageName()+" | " +
+
+                    photos.get(i).getUrl()+" | " +
+
+                    "\n");
         }
 
         System.out.print(" photo_ID " +

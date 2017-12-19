@@ -34,7 +34,8 @@ dependencies {
 
     // picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
-
+    //image saver
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
 
 }

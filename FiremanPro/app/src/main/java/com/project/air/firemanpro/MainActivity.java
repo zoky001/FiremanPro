@@ -18,6 +18,8 @@ import android.widget.AutoCompleteTextView;
 import com.kizo.core_module.DataLoadedListener;
 import com.kizo.core_module.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.loaders.WsDataLoader;
 import com.project.test.database.Entities.House;
@@ -61,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
 
         //DBflow
         FlowManager.init(new FlowConfig.Builder(this).build());
+
+        //imageloader
+        // Create global configuration and initialize ImageLoader with this config
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+
+        ImageLoader.getInstance().init(config);
 
         mockData  = new MockData();
 
@@ -282,7 +290,9 @@ saveImagesFromResourcesToInternalStorage();
 
         mockData.printAll();
 
+        SaveResourceImage saveResourceImage = new SaveResourceImage(getApplicationContext());
 
+       saveResourceImage.SaveAllPhotoFromUrlToInternalStorage();
 
 
     }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.project.air.firemanpro.R;
 import com.project.air.firemanpro.holders.SearchingViewHolder;
 import com.project.test.database.Entities.House;
+import com.squareup.picasso.Picasso;
 
 import java.sql.Time;
 import java.util.List;
@@ -59,6 +60,12 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
 System.out.println("PRIJE prikaza: "+ P);
 
         holder.housePicture.setImageBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()));
+//proba
+        Picasso.with(holder.housePicture.getContext())
+                .load(h.getProfilPhotos().getUrl())
+                .into(holder.housePicture);
+
+ //proba
         holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
         Long PO = System.currentTimeMillis();
