@@ -33,6 +33,7 @@ dependencies {
 
   //  compile project (':core')
     compile project(':core_module')
+    compile project(':report')
 
     //serching results list
     compile 'com.google.maps.android:android-maps-utils:0.5+'

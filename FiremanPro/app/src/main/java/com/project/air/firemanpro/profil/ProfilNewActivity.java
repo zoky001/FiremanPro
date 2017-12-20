@@ -18,7 +18,7 @@ import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
-public class ProfilNewActivity extends AppCompatActivity{
+public class ProfilNewActivity extends AppCompatActivity {
 
     House house;
 
@@ -75,15 +75,6 @@ public class ProfilNewActivity extends AppCompatActivity{
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-/*  floatin button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
     }
 
@@ -93,7 +84,6 @@ public class ProfilNewActivity extends AppCompatActivity{
             finish();
         return super.onOptionsItemSelected(item);
     }
-
 
 
     /**
@@ -109,6 +99,7 @@ public class ProfilNewActivity extends AppCompatActivity{
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
         Fragment currrentDisplayedFragment;
 
         @Override
@@ -127,7 +118,7 @@ public class ProfilNewActivity extends AppCompatActivity{
 
                     tabFragment.setArguments(bundle); //pass ID House
 
-break;
+                    break;
 
 
                 case 1:
@@ -135,13 +126,13 @@ break;
 
 
                     tabFragment.setArguments(bundle);
-break;
+                    break;
                 case 2:
 
                     tabFragment = new TabTlocrt();
                     tabFragment.setArguments(bundle);
 
-break;
+                    break;
 
                 default:
                     tabFragment = new TabProfil();
@@ -183,7 +174,7 @@ break;
         }
     }
 
-    private void setTitleOnToolbar(String title){
+    private void setTitleOnToolbar(String title) {
         //set title (owner name )on toolbar
         getSupportActionBar().setTitle(title); //set title on toolbar
         if (getSupportActionBar() != null) {

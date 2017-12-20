@@ -56,6 +56,14 @@ public class Intervention_track extends BaseModel {
     public Intervention_track() {
     }
 
+    public boolean isCompleted_intervention() {
+        return completed_intervention;
+    }
+
+    public void setCompleted_intervention(boolean completed_intervention) {
+        this.completed_intervention = completed_intervention;
+    }
+
     public Intervention_track(boolean completed_intervention, House house, Date updated_at, Date created_at) {
         this.completed_intervention = completed_intervention;
         this.house = house;

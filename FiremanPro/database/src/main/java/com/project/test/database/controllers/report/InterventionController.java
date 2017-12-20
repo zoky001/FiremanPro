@@ -8,6 +8,7 @@ import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.Entities.report.Intervention_track_Table;
 import com.project.test.database.controllers.House_photosController;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -34,8 +35,21 @@ public class InterventionController {
     }
 
 
+    public static List<Intervention_track> getAllIntervention() {
+
+        return SQLite.select().from(Intervention_track.class).queryList();
+    }
 
 
+ public static  List<Intervention_track> getCompletedIntervention (){
+
+        return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.completed_intervention.is(true)).queryList();
+    }
+
+    public static  List<Intervention_track> getUnfinishedIntervention (){
+
+        return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.completed_intervention.is(false)).queryList();
+    }
 
     public List<Intervention_track> GetAllRecordsFromTable_Intervention_track() {
 
