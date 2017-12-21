@@ -20,6 +20,9 @@ import com.project.test.database.controllers.report.InterventionController;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by Zoran on 10.12.2017..
  */
@@ -44,6 +47,7 @@ public class SavedReportFragment extends TabFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_saved_report, container, false);
 
+        ButterKnife.bind(this, rootView);
 
         information = (TextView) rootView.findViewById(R.id.information);
         disclaimer = (TextView) rootView.findViewById(R.id.disclaimer);
@@ -80,11 +84,18 @@ public class SavedReportFragment extends TabFragment {
 
                 mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+
             }
+
         }
+
         return rootView;
+
+
     }
-/*
+
+
+    /*
     @Override
     public void onViewStateRestored (Bundle savedInstanceState){
         super.onViewStateRestored(savedInstanceState);
@@ -107,6 +118,7 @@ public class SavedReportFragment extends TabFragment {
             savedInstanceState.putString(DISCLAIMER, disclaimer.getText().toString());
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -134,14 +146,12 @@ public class SavedReportFragment extends TabFragment {
 
 
 
-
-
-
-
-
     @Override
     public void loadFrag(ITabFragment iTabFragment) {
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
+
+
 }

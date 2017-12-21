@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
 
+import com.kizo.report.FinishedReportActivity;
 import com.kizo.report.R;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Reports;
@@ -52,6 +53,17 @@ public TextView mStoreDescription;
         mStoreImage = (ImageView) itemView.findViewById(R.id.store_image);
         mStoreDescription = (TextView) itemView.findViewById(R.id.store_description);
 
+        itemView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public  void onClick(View v){
+                System.out.println("clickOnItem()r: ");
+                Intent intent = new Intent(v.getContext(), FinishedReportActivity.class);
+                //intent.putExtra("EXTRA_SESSION_ID", position);
+                v.getContext().startActivity(intent);
+            }
+        });
+
         ButterKnife.bind(this, itemView);
 
 
@@ -76,19 +88,5 @@ public TextView mStoreDescription;
        // Picasso.with(itemView.getContext()).load(store.getImgUrl()).into(mStoreImage);
     }
 
-    @OnClick
-    public void clikcOnItem() {
 
-        System.out.println("clikcOnItem()r: ");
-
-
-
-/*
-        System.out.println("clikcOnItem()r: ");
-        Intent intent = new Intent(itemView.getContext(), FullScreenActivity.class);
-        intent.putExtra("EXTRA_SESSION_ID", position); // umjesto 01 prosljediš ID kuće
-        itemView.getContext().startActivity(intent);
-*/
-
-    }
 }

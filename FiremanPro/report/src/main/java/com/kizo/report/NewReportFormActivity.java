@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.fragments.BackConfirmationFragment;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
@@ -66,6 +68,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_stepper_report_form);
+
 
         initializeActivity();
     }
@@ -506,5 +509,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         // The call to super method must be at the end here
         super.onRestoreInstanceState(savedInstanceState);
     }
+
 
 }

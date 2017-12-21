@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarReport"
+            android:background="@android:color/holo_red_dark"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            />
+
+
+    <Button
+        android:id="@+id/expandableButton1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton1"
+        android:paddingRight="10dp"
+        android:text="prvi dio"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton1"
+        android:background="#FFFFE0"
+        android:padding="16dp"
+        app:ael_duration="400"
+        app:ael_expanded="false"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="općeniti i najvažniji podaci ....................................................................................................................
+........................................................."
+            android:textColor="@color/colorPrimaryDark"/>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+    <Button
+        android:id="@+id/expandableButton2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandableLayout1"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton2"
+        android:paddingRight="10dp"
+        android:text="drugi dio"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton2"
+        android:background="#FFFFE0"
+        android:padding="16dp"
+        app:ael_duration="400"
+        app:ael_expanded="false"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tekst za drugio dio... Bla bla sjhshjhxdjkdhcxjkdbcjkbsdacjbjcbfdbcfdjkbckjfdcbjkcjbfdkbdskjbcjksadbcjkabckjabckbcjkbfdskbkbvcjfbksbfjksbfkdsbdksskbskbfcdcndkncjkncf
+ndcnsdjcjscbjdbcjsbcjbcjbscjbjdb
+njdncjdncjdncjdncjncjdnjdncjdncjd"
+            android:textColor="@color/colorPrimaryDark"/>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <Button
+        android:id="@+id/expandableButton3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandableLayout2"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton3"
+        android:paddingRight="10dp"
+        android:text="treći dio"
+        android:textColor="@color/colorPrimaryDark"
+        />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton3"
+        android:background="#FFFFE0"
+        android:padding="16dp"
+        app:ael_duration="400"
+        app:ael_expanded="false"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tekst za treći dio... Bla bla sjhshjhxdjkdhcxjkdbcjkbsdacjbjcbfdbcfdjkbckjfdcbjkcjbfdkbdskjbcjksadbcjkabckjabckbcjkbfdskbkbvcjfbksbfjksbfkdsbdksskbskbfcdcndkncjkncf
+ndcnsdjcjscbjdbcjsbcjbcjbscjbjdb
+njdncjdncjdncjdncjncjdnjdncjdncjd"
+            android:textColor="@color/colorPrimaryDark"/>"/>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+    <Button
+        android:id="@+id/expandableButton4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandableLayout3"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton4"
+        android:paddingRight="10dp"
+        android:text="četvrti dio"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton4"
+        android:background="#FFFFE0"
+        android:padding="16dp"
+        app:ael_duration="400"
+        app:ael_expanded="false"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tekst za četvrti dio... Bla bla sjhshjhxdjkdhcxjkdbcjkbsdacjbjcbfdbcfdjkbckjfdcbjkcjbfdkbdskjbcjksadbcjkabckjabckbcjkbfdskbkbvcjfbksbfjksbfkdsbdksskbskbfcdcndkncjkncf
+ndcnsdjcjscbjdbcjsbcjbcjbscjbjdb
+njdncjdncjdncjdncjncjdnjdncjdncjd"
+            android:textColor="@color/colorPrimaryDark"/>" />
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
