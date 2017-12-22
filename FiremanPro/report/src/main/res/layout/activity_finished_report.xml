@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:paddingBottom="80dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarReport"
@@ -16,18 +19,59 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            />
+            android:layout_height="?attr/actionBarSize"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/naslov"
+            android:text="VATROGASNA POSTROJBA DVA-A KRIŽOVLJAN CESTICA"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dojavnica_broj"
+            android:text="Dojavnica broj: "
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dojavnica_br"
+                android:text="______________________"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/intervencija_broj"
+            android:text="Intervencija broj: "
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/intervencija_br"
+                android:text="______________________"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/expandableButton1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableRight="@android:drawable/arrow_down_float"
         android:onClick="expandableButton1"
         android:paddingRight="10dp"
-        android:text="prvi dio"
+        android:text="1. Podaci o pojavi događaja i završetku intervencije"
         android:textColor="@color/colorPrimaryDark"/>
 
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
@@ -35,19 +79,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton1"
-        android:background="#FFFFE0"
-        android:padding="16dp"
+        android:background="#FFFFF0"
         app:ael_duration="400"
-        app:ael_expanded="false"
-        app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="općeniti i najvažniji podaci ....................................................................................................................
-........................................................."
-            android:textColor="@color/colorPrimaryDark"/>
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Obavijest primljena: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/obav_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Izlazak na intervenciju: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/izlaz_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dolazak na itervenciju: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/dolazak_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 
@@ -59,7 +130,7 @@
         android:drawableRight="@android:drawable/arrow_down_float"
         android:onClick="expandableButton2"
         android:paddingRight="10dp"
-        android:text="drugi dio"
+        android:text="2. Vrsta događaja"
         android:textColor="@color/colorPrimaryDark" />
 
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
@@ -67,20 +138,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton2"
-        android:background="#FFFFE0"
-        android:padding="16dp"
+        android:background="#FFFFF0"
         app:ael_duration="400"
-        app:ael_expanded="false"
-        app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tekst za drugio dio... Bla bla sjhshjhxdjkdhcxjkdbcjkbsdacjbjcbfdbcfdjkbckjfdcbjkcjbfdkbdskjbcjksadbcjkabckjabckbcjkbfdskbkbvcjfbksbfjksbfkdsbdksskbskbfcdcndkncjkncf
-ndcnsdjcjscbjdbcjsbcjbcjbscjbjdb
-njdncjdncjdncjdncjncjdnjdncjdncjd"
-            android:textColor="@color/colorPrimaryDark"/>
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vrsta i tip intervencije: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/vrsta_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
     <Button
@@ -91,29 +168,94 @@ njdncjdncjdncjdncjncjdnjdncjdncjd"
         android:drawableRight="@android:drawable/arrow_down_float"
         android:onClick="expandableButton3"
         android:paddingRight="10dp"
-        android:text="treći dio"
-        android:textColor="@color/colorPrimaryDark"
-        />
+        android:text="3. Podaci o požaru (samo za požare)"
+        android:textColor="@color/colorPrimaryDark" />
 
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
         android:id="@+id/expandableLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton3"
-        android:background="#FFFFE0"
-        android:padding="16dp"
+        android:background="#FFFFF0"
         app:ael_duration="400"
-        app:ael_expanded="false"
-        app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tekst za treći dio... Bla bla sjhshjhxdjkdhcxjkdbcjkbsdacjbjcbfdbcfdjkbckjfdcbjkcjbfdkbdskjbcjksadbcjkabckjabckbcjkbfdskbkbvcjfbksbfjksbfkdsbdksskbskbfcdcndkncjkncf
-ndcnsdjcjscbjdbcjsbcjbcjbscjbjdb
-njdncjdncjdncjdncjncjdnjdncjdncjd"
-            android:textColor="@color/colorPrimaryDark"/>"/>
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Veličina požara: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/vel_pozara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Broj građevina, prostora, postrojenja ili prijevoznih sredstava na koje se požar proširio (zbroj): "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/zbroj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Da li se požar ponovio: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/ponovni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prostorno širenje požara: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/prostorno_sir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vremensko širenje požara: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/vremensko_sir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Širenje dima: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/dim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vrsta požara na otvorenom prostoru: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/vrsta_na_otvorenom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 
@@ -125,7 +267,7 @@ njdncjdncjdncjdncjncjdnjdncjdncjd"
         android:drawableRight="@android:drawable/arrow_down_float"
         android:onClick="expandableButton4"
         android:paddingRight="10dp"
-        android:text="četvrti dio"
+        android:text="4. Lokacija događaja"
         android:textColor="@color/colorPrimaryDark" />
 
     <com.github.aakira.expandablelayout.ExpandableRelativeLayout
@@ -133,20 +275,387 @@ njdncjdncjdncjdncjncjdnjdncjdncjd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton4"
-        android:background="#FFFFE0"
-        android:padding="16dp"
+        android:background="#FFFFF0"
         app:ael_duration="400"
-        app:ael_expanded="false"
-        app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tekst za četvrti dio... Bla bla sjhshjhxdjkdhcxjkdbcjkbsdacjbjcbfdbcfdjkbckjfdcbjkcjbfdkbdskjbcjksadbcjkabckjabckbcjkbfdskbkbvcjfbksbfjksbfkdsbdksskbskbfcdcndkncjkncf
-ndcnsdjcjscbjdbcjsbcjbcjbscjbjdb
-njdncjdncjdncjdncjncjdnjdncjdncjd"
-            android:textColor="@color/colorPrimaryDark"/>" />
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grad/općina: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/grad_opcina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mjesto: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/mjesto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ulica i kućni broj: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/ulica_kucni_br"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout4"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton5"
+            android:paddingRight="10dp"
+            android:text="5. Popis snaga na intervenciji"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton5"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vrsta i naziv postrojbe: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/postrojba"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vozilo (vrsta i broj): "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/vozilo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prijeđeno km: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utrošeno sati: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/sati"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Broj vatrogasaca: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/br_vatro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utrošeno sredstva za gašenje: "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/sredstva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout5"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton6"
+            android:paddingRight="10dp"
+            android:text="6. Karakteristike intervencije"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton6"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(detaljan opis intervencije)"
+                android:textColor="@color/colorPrimaryDark"/>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout6"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton7"
+            android:paddingRight="10dp"
+            android:text="7. Vlasnik i šteta"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton7"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vlasnik: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/vlasnik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Materijalna šteta: "
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/steta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout7"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton8"
+            android:paddingRight="10dp"
+            android:text="8. Sudjelovanje ostalih službi i subjekata"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton8"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(ostale ustanove)"
+                android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton9"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout8"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton9"
+            android:paddingRight="10dp"
+            android:text="9. Vrsta mehanizacije i vrijeme upotrebe"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton9"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vrsta:"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/vrsta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utrošeno sati:"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/utros_sati"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton10"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout9"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton10"
+            android:paddingRight="10dp"
+            android:text="10. Troškovi intervencije"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton10"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rad"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/rad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton11"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout10"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton11"
+            android:paddingRight="10dp"
+            android:text="11. Sudionici"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton11"
+            android:background="#FFFFF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. "
+                    android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/sud1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/zapovjednik"
+            android:text="Zapovjednik vatrogasne postrojbe: "
+            android:layout_marginLeft="150dp"
+            android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/zap"
+            android:text="______________________"
+            android:layout_marginLeft="150dp"
+            android:layout_marginRight="8dp"/>
+
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
