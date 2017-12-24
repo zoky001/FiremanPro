@@ -108,6 +108,9 @@ public class MapFragment extends Fragment implements
         {
             checkLocationPermission();
         }
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hydrant);
+        Bitmap b = bitmapdraw.getBitmap();
+        final Bitmap hydrantMarker =Bitmap.createScaledBitmap(b, 45, 80, false);
         final LatLng[] closestHydrants = closestHydrants(new LatLng(end_latitude,end_longitude));
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -121,8 +124,8 @@ public class MapFragment extends Fragment implements
                 {
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
-                    mMap.addMarker(new MarkerOptions().position(closestHydrants[0]));
-                    mMap.addMarker(new MarkerOptions().position(closestHydrants[1]));
+                    mMap.addMarker(new MarkerOptions().position(closestHydrants[0]).icon(BitmapDescriptorFactory.fromBitmap(hydrantMarker)));
+                    mMap.addMarker(new MarkerOptions().position(closestHydrants[1]).icon(BitmapDescriptorFactory.fromBitmap(hydrantMarker)));
                 }
             }
         });
@@ -410,7 +413,7 @@ public class MapFragment extends Fragment implements
 
             }
         }
-        
+
         return closestHydrants;
     }
 
