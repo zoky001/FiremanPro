@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.constraint.solver.SolverVariable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +19,23 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
+import com.project.test.database.Entities.report.Sort_of_intervention;
+import com.project.test.database.controllers.report.Types_all_Controller;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,15 +48,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     public static final String NEW_ALARM_ADDED = "new_alarm_added";
 
     // Information about the steps/fields of the form
-    private static final int TITLE_STEP_NUM = 0;
+    private static final int MAIN_INFORMATION_NUM = 0;
     private static final int DESCRIPTION_STEP_NUM = 1;
     private static final int TIME_STEP_NUM = 2;
     private static final int DAYS_STEP_NUM = 3;
 
     // Title step
-    private EditText titleEditText;
+    private EditText chooseTypeAndSort;
     private static final int MIN_CHARACTERS_TITLE = 3;
-    public static final String STATE_TITLE = "title";
+    public static final String STATE_TITLE = "Osnovne informacije";
 
     // Description step
     private EditText descriptionEditText;
@@ -63,6 +77,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private boolean confirmBack = true;
     private ProgressDialog progressDialog;
     private VerticalStepperFormLayout verticalStepperForm;
+
+    Spinner spinnerType, spinnerSort;
+    int userSelectedIndex;
+
+    Spinner spinnerVehicle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +129,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         // automatically added to the step layout (AKA stepContent)
         View view = null;
         switch (stepNumber) {
-            case TITLE_STEP_NUM:
-                view = createAlarmTitleStep();
+            case MAIN_INFORMATION_NUM:
+                // view = createAlarmTitleStep();
+                view  = createTypeAndSort();
                 break;
             case DESCRIPTION_STEP_NUM:
-                view = createAlarmDescriptionStep();
+                view = createUsedResources();
                 break;
             case TIME_STEP_NUM:
                 view = createAlarmTimeStep();
@@ -126,13 +146,124 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return view;
     }
 
+    private View createUsedResources() {
+        chooseTypeAndSort = new EditText(this);
+        // titleEditText.setHint(R.string.form_hint_title);
+        // titleEditText.setSingleLine(true);
+
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout vehicleContent = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
+
+        spinnerVehicle = (Spinner) vehicleContent.findViewById(R.id.vehicle);
+        List<String> vehicleAll = new ArrayList<String>();
+
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Sort_of_intervention> sort_of_intervention = type_all_controller.GetAllRecordsFromTable_Sort_of_intervention();
+        for(Sort_of_intervention s : sort_of_intervention){
+            vehicleAll.add(s.getName());
+        }
+
+
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerVehicle.setAdapter(dataAdapter2);
+
+
+        return vehicleContent;
+    }
+
+    private View createSortOfUnitStep() {
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.sort_of_unit_report, null, false);
+
+        List<String> sortOfUnitAll = new ArrayList<String>();
+
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Type_of_unit> sort_of_units = type_all_controller.GetAllRecordsFromTable_Sort_of_unit();
+        for(Type_of_unit t : sort_of_units){
+            sortOfUnitAll.add(t.getName());
+        }
+
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.sortOfUnit);
+        for (int i = 0; i < sortOfUnitAll.toArray().length; i++)
+        {
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(String.valueOf(sortOfUnitAll.get(i)));
+            radioButton.setId(i);
+            RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            rgp.addView(radioButton, rprms);
+        }
+
+        return typeAndSortContent;
+    }
+
+    private View createTypeAndSort() {
+        chooseTypeAndSort = new EditText(this);
+       // titleEditText.setHint(R.string.form_hint_title);
+        // titleEditText.setSingleLine(true);
+
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
+
+
+
+        spinnerSort = (Spinner) typeAndSortContent.findViewById(R.id.sort_of_intervention);
+        List<String> sortAll = new ArrayList<String>();
+
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Sort_of_intervention> sort_of_intervention = type_all_controller.GetAllRecordsFromTable_Sort_of_intervention();
+        for(Sort_of_intervention s : sort_of_intervention){
+            sortAll.add(s.getName());
+        }
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerSort.setAdapter(dataAdapter);
+
+        EditText inputLayout = (EditText) findViewById(R.id.description);
+
+
+
+/*
+        spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
+        List<String> typeAll = new ArrayList<String>();
+
+DAODATI TYPE OF INTERVENTION
+        Types_all_Controller type_all_controller2 = new Types_all_Controller();
+        List<> sort_of_intervention = type_all_controller2.GetAllRecordsFromTable_Sort_of_intervention();
+        for(Sort_of_intervention s : sort_of_intervention){
+            sortAll.add(s.getName());
+        }
+
+        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                verticalStepperForm.goToNextStep();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerSort.setAdapter(dataAdapter);
+
+*/
+
+        return typeAndSortContent;
+    }
+
     @Override
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
-            case TITLE_STEP_NUM:
+            case MAIN_INFORMATION_NUM:
                 // When this step is open, we check that the title is correct
-                checkTitleStep(titleEditText.getText().toString());
-                break;
+                //checkTitleStep(chooseTypeAndSort.getText().toString());
             case DESCRIPTION_STEP_NUM:
             case TIME_STEP_NUM:
                 // As soon as they are open, these two steps are marked as completed because they
@@ -172,7 +303,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     Intent intent = getIntent();
                     setResult(RESULT_OK, intent);
                     intent.putExtra(NEW_ALARM_ADDED, true);
-                    intent.putExtra(STATE_TITLE, titleEditText.getText().toString());
+                    intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
                     intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
                     intent.putExtra(STATE_TIME_HOUR, time.first);
                     intent.putExtra(STATE_TIME_MINUTES, time.second);
@@ -186,12 +317,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             }
         }).start(); // You should delete this code and add yours
     }
-
+/*
     private View createAlarmTitleStep() {
         // This step view is generated programmatically
         titleEditText = new EditText(this);
         titleEditText.setHint(R.string.form_hint_title);
         titleEditText.setSingleLine(true);
+
         titleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -213,10 +345,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 return false;
             }
         });
+
         return titleEditText;
     }
 
-    private View createAlarmDescriptionStep() {
+    */
+
+
+    private View createDescriptionStep() {
         descriptionEditText = new EditText(this);
         descriptionEditText.setHint(R.string.form_hint_description);
         descriptionEditText.setSingleLine(true);
@@ -436,12 +572,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-
+/*
         // Saving title field
         if(titleEditText != null) {
             savedInstanceState.putString(STATE_TITLE, titleEditText.getText().toString());
         }
-
+*/
         // Saving description field
         if(descriptionEditText != null) {
             savedInstanceState.putString(STATE_DESCRIPTION, descriptionEditText.getText().toString());
@@ -468,7 +604,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         // Restoration of title field
         if(savedInstanceState.containsKey(STATE_TITLE)) {
             String title = savedInstanceState.getString(STATE_TITLE);
-            titleEditText.setText(title);
+           // titleEditText.setText(title);
         }
 
         // Restoration of description field

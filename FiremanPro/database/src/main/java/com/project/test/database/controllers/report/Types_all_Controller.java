@@ -380,6 +380,14 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
     }
+
+    public List<Type_of_unit> GetAllRecordsFromTable_Sort_of_unit(){
+
+        return SQLite.select().from(Type_of_unit.class).queryList();
+
+
+    }
+
     public void DeleteAllRecordsInTable_Sort_of_intervention(){
 
         final List<Sort_of_intervention> gndPlan = GetAllRecordsFromTable_Sort_of_intervention();
