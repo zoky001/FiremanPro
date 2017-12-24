@@ -41,8 +41,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.Hydrants;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.HydrantsController;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
+import static android.R.attr.editorExtras;
 import static android.R.attr.onClick;
 
 
@@ -102,7 +108,7 @@ public class MapFragment extends Fragment implements
         {
             checkLocationPermission();
         }
-
+        final LatLng[] closestHydrants = closestHydrants(new LatLng(end_latitude,end_longitude));
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap1) {
@@ -115,6 +121,8 @@ public class MapFragment extends Fragment implements
                 {
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
+                    mMap.addMarker(new MarkerOptions().position(closestHydrants[0]));
+                    mMap.addMarker(new MarkerOptions().position(closestHydrants[1]));
                 }
             }
         });
@@ -342,7 +350,69 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
+    //Function to calculate 2 nearest hydrants relative to house
+    private LatLng[] closestHydrants (LatLng houseLatLng){
 
+        HydrantsController hydrantsController = new HydrantsController();
+        List<Hydrants> hydrants = hydrantsController.GetAllRecordsFromTableHydrants();
+        LatLng[] closestHydrants = new LatLng[2];
+        Location houseLocation = new Location("");
+        houseLocation.setLatitude(houseLatLng.latitude);
+        houseLocation.setLongitude(houseLatLng.longitude);
+        System.out.println(closestHydrants.length);
+        //Put two fire hydrants from hydrant table and order them relative to distance to target house
+
+            Location hydrant0 = new Location("");
+            hydrant0.setLatitude(hydrants.get(0).getAddress().getLatitude());
+            hydrant0.setLongitude(hydrants.get(0).getAddress().getLongitude());
+            Location hydrant1 = new Location("");
+            hydrant1.setLatitude(hydrants.get(1).getAddress().getLatitude());
+            hydrant1.setLongitude(hydrants.get(1).getAddress().getLongitude());
+            if (houseLocation.distanceTo(hydrant0) <= houseLocation.distanceTo(hydrant1)) {
+                closestHydrants[0] = new LatLng(hydrant0.getLatitude(), hydrant0.getLongitude());
+                closestHydrants[1] = new LatLng(hydrant1.getLatitude(), hydrant1.getLongitude());
+
+            } else {
+                closestHydrants[0] = new LatLng(hydrant1.getLatitude(), hydrant1.getLongitude());
+                closestHydrants[1] = new LatLng(hydrant0.getLatitude(), hydrant0.getLongitude());
+
+            }
+
+
+        //For each hydrant calculate distance to house and if distance is less than closestHydrants 0 and 1 then put it in array
+        for (Hydrants hydrant:hydrants) {
+            Location currentHydrant = new Location("");
+            currentHydrant.setLatitude(hydrant.getAddress().getLatitude());
+            currentHydrant.setLongitude(hydrant.getAddress().getLongitude());
+
+            Location closestHydrants0 = new Location("");
+            closestHydrants0.setLatitude(closestHydrants[0].latitude);
+            closestHydrants0.setLongitude(closestHydrants[0].longitude);
+
+            Location closestHydrants1 = new Location("");
+            closestHydrants1.setLatitude(closestHydrants[1].latitude);
+            closestHydrants1.setLongitude(closestHydrants[1].longitude);
+
+            LatLng currentHydrantLatLng = new LatLng(currentHydrant.getLatitude(), currentHydrant.getLongitude());
+
+            //Skip starting houses
+            if ((closestHydrants[0] != currentHydrantLatLng) && (closestHydrants[1] != currentHydrantLatLng)) {
+
+                if (houseLocation.distanceTo(currentHydrant) < houseLocation.distanceTo(closestHydrants0)) {
+                    closestHydrants[1]  = closestHydrants[0];
+                    closestHydrants[0] = new LatLng(currentHydrant.getLatitude(),currentHydrant.getLongitude());
+
+                }
+                if( houseLocation.distanceTo(currentHydrant) > houseLocation.distanceTo(closestHydrants0) &&  houseLocation.distanceTo(currentHydrant) < houseLocation.distanceTo(closestHydrants1)){
+                    closestHydrants[1] = new LatLng(currentHydrant.getLatitude(),currentHydrant.getLongitude());
+                }
+
+
+            }
+        }
+        
+        return closestHydrants;
+    }
 
 }
 
