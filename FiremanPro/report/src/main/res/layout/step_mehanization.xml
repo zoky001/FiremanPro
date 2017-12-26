@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vrsta vozila:"
+        />
+    <Spinner
+        android:id="@+id/vehicleUsed"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        style="@style/NumberArea">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="20"
+            android:text="PRIJEĐENO (KM)" />
+        <NumberPicker
+            android:id="@+id/hours"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="+"
+        />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vehicleAdder">
+
+    </RadioGroup>
+
+
+</LinearLayout>

@@ -16,11 +16,12 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarReport"
             android:background="@android:color/holo_red_dark"
-            android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+     <!--   android:minHeight="?attr/actionBarSize"
+     -->
 
     </android.support.design.widget.AppBarLayout>
 

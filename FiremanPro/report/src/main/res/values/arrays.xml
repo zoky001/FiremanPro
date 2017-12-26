@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="steps_titles">
-        <item>Osnovne informacije</item>
-        <item>Popis snaga na intervenciji (postrojba, tehnika, utrošena sredstva)</item>
-        <item>Vlasnik i šteta</item>
-        <item>Sudjelovanje ostalih hitnih, javnih službi, komunalnih službi i ostalih subjekata</item>
+        <item> Osnovne informacije </item>
+        <item> Popis snaga na intervenciji (postrojba, tehnika, utrošena sredstva) </item>
+        <item> Vlasnik i šteta </item>
+        <item> Sudjelovanje ostalih hitnih, javnih službi, komunalnih službi i ostalih subjekata</item>
+        <item> Vrsta mehanizacije koja je bila angažirana na intervenciji i vrijeme upotrebe </item>
+        <item> Troškovi vatrogasne intervencije </item>
+        <!--
+
+<item> Sudionici vatrogasne intervencije  </item>
+-->
     </string-array>
 
     <string-array name="steps_subtitles">

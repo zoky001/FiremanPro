@@ -1,59 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginRight="16dp"
-    android:layout_marginLeft="16dp">
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Vozilo:"
-        />
-
-    <Spinner
-        android:id="@+id/vehicle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
-
-    <LinearLayout
-        style="@style/NumberArea">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="20"
-            android:text="PRIJEĐENO (KM)" />
-
-        <NumberPicker
-            android:id="@+id/km"
-            style="@style/numberPickerFireman"
-            />
-
-    </LinearLayout>
-
+    android:layout_height="match_parent">
 
     <LinearLayout
         style="@style/NumberArea"
         >
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
+            android:text="Sat rada navalnog vozila: "
             android:layout_gravity="center"
-            android:text="UTROŠENO SATI"
             />
 
         <NumberPicker
-            android:id="@+id/clock"
+            android:id="@+id/navalVehicle"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
-
-
 
 
     <LinearLayout
@@ -63,12 +28,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
+            android:text="Sat rada autocisterne: "
             android:layout_gravity="center"
-            android:text="Voda(m3):"
             />
-
         <NumberPicker
-            android:id="@+id/water"
+            android:id="@+id/commandVehicle"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada tehničkog vozila"
+            android:layout_gravity="center"
+            />
+        <NumberPicker
+            android:id="@+id/tehnicalVehicle"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -81,11 +61,42 @@
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:layout_gravity="center"
-            android:text="Pjenilo(foam)(l):"
+            android:text="Sat rada automatske ljestve:"
             />
-
         <NumberPicker
-            android:id="@+id/foam"
+            android:id="@+id/automaticLadder"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada zapovjednog vozila:"
+            android:layout_gravity="center"
+            />
+        <NumberPicker
+            android:id="@+id/roadTankers"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada specijalnog vozila: "
+            android:layout_gravity="center"
+            />
+        <NumberPicker
+            android:id="@+id/specialVehicle"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -98,30 +109,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:layout_gravity="center"
-            android:text="Prah(kg):"
-            />
+            android:text="Sat rada vozila za prijevoz vatrogasaca i opreme: " />
 
         <NumberPicker
-            android:id="@+id/powder"
+            android:id="@+id/transportationVehicle"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
-
-    <LinearLayout
-        style="@style/NumberArea"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:layout_gravity="center"
-            android:text="CO2(kg): "
-            />
-        <NumberPicker
-            android:id="@+id/CO2"
-            style="@style/numberPickerFireman"
-            />
-    </LinearLayout>
-
 
 </LinearLayout>

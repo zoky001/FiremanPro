@@ -3,8 +3,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-
     <ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout
         android:id="@+id/vertical_stepper_form"
         android:layout_width="match_parent"

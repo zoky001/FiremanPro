@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -30,6 +31,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
+import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.controllers.report.Types_all_Controller;
@@ -50,8 +54,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     // Information about the steps/fields of the form
     private static final int MAIN_INFORMATION_NUM = 0;
     private static final int DESCRIPTION_STEP_NUM = 1;
-    private static final int TIME_STEP_NUM = 2;
-    private static final int DAYS_STEP_NUM = 3;
+    private static final int MATERIAL_AND_COST_NUM = 2;
+    private static final int INTERVENTION_COST_NUM = 3;
+    private static final int HELP_NUM = 4;
+    private static final int MEHANIZATION_NUM = 5;
+    private static final int FIREMEN_NUM = 6;
+
 
     // Title step
     private EditText chooseTypeAndSort;
@@ -82,18 +90,35 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     int userSelectedIndex;
 
     Spinner spinnerVehicle;
+    NumberPicker surfaceNumber;
+    NumberPicker superficiesNumber;
+    NumberPicker kmNumber;
+    NumberPicker clockNumber;
+    NumberPicker waterNumber;
+    NumberPicker foamNumber;
+    NumberPicker powderNumber;
+    NumberPicker co2Number;
+
+    NumberPicker navalVehicleNumber;
+    NumberPicker commandVehicleNumber;
+    NumberPicker tehnicalVehicleNumber;
+    NumberPicker automaticLadderNumber;
+    NumberPicker roadTankersNumber;
+    NumberPicker specialVehicleNumber;
+    NumberPicker transportationVehicleNumber;
+
+    NumberPicker numberOfFiremanNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_stepper_report_form);
 
-
         initializeActivity();
     }
 
     private void initializeActivity() {
-
         // Time step vars
         time = new Pair<>(8, 30);
         setTimePicker(8, 30);
@@ -105,7 +130,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryREPORT);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDarkREPORT);
         String[] stepsTitles = getResources().getStringArray(R.array.steps_titles);
-        //String[] stepsSubtitles = getResources().getStringArray(R.array.steps_subtitles);
+        String[] stepsSubtitles = getResources().getStringArray(R.array.steps_subtitles);
 
         // Here we find and initialize the form
         verticalStepperForm = (VerticalStepperFormLayout) findViewById(R.id.vertical_stepper_form);
@@ -136,14 +161,143 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             case DESCRIPTION_STEP_NUM:
                 view = createUsedResources();
                 break;
-            case TIME_STEP_NUM:
-                view = createAlarmTimeStep();
+            case MATERIAL_AND_COST_NUM:
+               // view = createUsedResources();
+                view = createOwnerAndMaterialCost();
                 break;
-            case DAYS_STEP_NUM:
-                view = createAlarmDaysStep();
+            case INTERVENTION_COST_NUM:
+                view = createInterventionCost();
                 break;
+            case HELP_NUM:
+                view = createDescriptionStep();
+                break;
+            case MEHANIZATION_NUM:
+                view = createMehanizationStep();
+                break;
+            case FIREMEN_NUM:
+                view = createFiremenStep();
         }
         return view;
+    }
+
+    private View createFiremenStep() {
+        chooseTypeAndSort = new EditText(this);
+
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout firemenContent = (LinearLayout) inflate.inflate(R.layout.step_firemen, null, false);
+
+        numberOfFiremanNumber = (NumberPicker) firemenContent.findViewById(R.id.number_of_firemen);
+        numberOfFiremanNumber.setMaxValue(40);
+        numberOfFiremanNumber.setMinValue(1);
+
+        /*
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.firemenAll);
+        for (int i = 0; i < numberOfFiremanNumber.getValue(); i++)
+        {
+            Spinner fireman = new Spinner(this);
+            ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, allFiremen);
+            dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+            fireman.setAdapter(dataAdapter2);
+            rgp.addView(fireman);
+        }
+
+        */
+        return firemenContent;
+
+    }
+
+    private View createMehanizationStep() {
+        final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout mehanizationContent = (LinearLayout) inflate.inflate(R.layout.step_mehanization, null, false);
+
+        List<String> vehicleAll = new ArrayList<String>();
+
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Type_of_truck> type_of_truck = type_all_controller.GetAllRecordsFromTable_Type_of_truck();
+        for(Type_of_truck t : type_of_truck){
+            vehicleAll.add(t.getType_name());
+        }
+        Spinner usedTruck = (Spinner) mehanizationContent.findViewById(R.id.vehicleUsed);
+
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        usedTruck.setAdapter(dataAdapter2);
+
+        Button addVehicleButton = (Button) mehanizationContent.findViewById(R.id.addVehicle);
+
+        RadioGroup rgp = (RadioGroup) mehanizationContent.findViewById(R.id.vehicleAdder);
+        addVehicleButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+               /* Spinner vehicleSpinner = new Spinner(this);
+                RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+                rgp.addView(vehicleSpinner, rprms);
+                */
+            }
+        });
+
+        /*
+
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
+        for (int i = 0; i < mehanizationAll.toArray().length; i++)
+        {
+            Spinner vehicleSpinner = onNewIntent();
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(String.valueOf(mehanizationAll.get(i)));
+            radioButton.setId(i);
+            RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            rgp.addView(radioButton, rprms);
+        }
+        */
+        return mehanizationContent;
+    }
+
+
+    @Override
+    public void onStepOpening(int stepNumber) {
+        switch (stepNumber) {
+            case MAIN_INFORMATION_NUM:
+                // When this step is open, we check that the title is correct
+                //checkTitleStep(chooseTypeAndSort.getText().toString());
+            case DESCRIPTION_STEP_NUM:
+            case MATERIAL_AND_COST_NUM:
+                // As soon as they are open, these two steps are marked as completed because they
+                // have default values
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+                // In this case, the instruction above is equivalent to:
+                // verticalStepperForm.setActiveStepAsCompleted();
+                // break;
+            case INTERVENTION_COST_NUM:
+                // When this step is open, we check the days to verify that at least one is selected
+                //  checkDays();
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+                // break;
+            case HELP_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case MEHANIZATION_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case  FIREMEN_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+        }
+    }
+
+    private View createOwnerAndMaterialCost() {
+        chooseTypeAndSort = new EditText(this);
+        // titleEditText.setHint(R.string.form_hint_title);
+        // titleEditText.setSingleLine(true);
+
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout ownerAndCostContent = (LinearLayout) inflate.inflate(R.layout.step_owner_and_cost, null, false);
+
+        surfaceNumber = (NumberPicker) ownerAndCostContent.findViewById(R.id.surface);
+        surfaceNumber.setMinValue(0);
+        surfaceNumber.setMaxValue(100);
+
+        superficiesNumber = (NumberPicker) ownerAndCostContent.findViewById(R.id.superficies);
+        superficiesNumber.setMinValue(0);
+        superficiesNumber.setMaxValue(100);
+
+        return ownerAndCostContent;
     }
 
     private View createUsedResources() {
@@ -158,9 +312,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         List<String> vehicleAll = new ArrayList<String>();
 
         Types_all_Controller type_all_controller = new Types_all_Controller();
-        List<Sort_of_intervention> sort_of_intervention = type_all_controller.GetAllRecordsFromTable_Sort_of_intervention();
-        for(Sort_of_intervention s : sort_of_intervention){
-            vehicleAll.add(s.getName());
+        List<Type_of_truck> type_of_truck = type_all_controller.GetAllRecordsFromTable_Type_of_truck();
+        for(Type_of_truck t : type_of_truck){
+            vehicleAll.add(t.getType_name());
         }
 
 
@@ -168,8 +322,76 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerVehicle.setAdapter(dataAdapter2);
 
+        kmNumber = (NumberPicker) vehicleContent.findViewById(R.id.km);
+        kmNumber.setMinValue(0);
+        kmNumber.setMaxValue(100);
+
+        clockNumber = (NumberPicker) vehicleContent.findViewById(R.id.clock);
+        clockNumber.setMinValue(0);
+        clockNumber.setMaxValue(100);
+
+        /*
+        numberOfFiremanNumber = (NumberPicker) vehicleContent.findViewById(R.id.number_of_firemen);
+        numberOfFiremanNumber.setMinValue(0);
+        numberOfFiremanNumber.setMaxValue(100);
+        */
+
+        waterNumber = (NumberPicker) vehicleContent.findViewById(R.id.water);
+        waterNumber.setMinValue(0);
+        waterNumber.setMaxValue(100);
+
+        foamNumber = (NumberPicker) vehicleContent.findViewById(R.id.foam);
+        foamNumber.setMinValue(0);
+        foamNumber.setMaxValue(100);
+
+        powderNumber = (NumberPicker) vehicleContent.findViewById(R.id.powder);
+        powderNumber.setMinValue(0);
+        powderNumber.setMaxValue(100);
+
+        co2Number = (NumberPicker) vehicleContent.findViewById(R.id.CO2);
+        co2Number.setMinValue(0);
+        co2Number.setMaxValue(100);
 
         return vehicleContent;
+    }
+
+    private View createInterventionCost() {
+        chooseTypeAndSort = new EditText(this);
+        // titleEditText.setHint(R.string.form_hint_title);
+        // titleEditText.setSingleLine(true);
+
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout interventionCostContent = (LinearLayout) inflate.inflate(R.layout.step_intervention_cost, null, false);
+
+        navalVehicleNumber = (NumberPicker) interventionCostContent.findViewById(R.id.navalVehicle);
+        navalVehicleNumber.setMinValue(0);
+        navalVehicleNumber.setMaxValue(100);
+
+        commandVehicleNumber = (NumberPicker) interventionCostContent.findViewById(R.id.commandVehicle);
+        commandVehicleNumber.setMinValue(0);
+        commandVehicleNumber.setMaxValue(100);
+
+        tehnicalVehicleNumber = (NumberPicker) interventionCostContent.findViewById(R.id.tehnicalVehicle);
+        tehnicalVehicleNumber.setMinValue(0);
+        tehnicalVehicleNumber.setMaxValue(100);
+
+        automaticLadderNumber = (NumberPicker) interventionCostContent.findViewById(R.id.automaticLadder);
+        automaticLadderNumber.setMinValue(0);
+        automaticLadderNumber.setMaxValue(100);
+
+        roadTankersNumber = (NumberPicker) interventionCostContent.findViewById(R.id.roadTankers);
+        roadTankersNumber.setMinValue(0);
+        roadTankersNumber.setMaxValue(100);
+
+        specialVehicleNumber = (NumberPicker) interventionCostContent.findViewById(R.id.specialVehicle);
+        specialVehicleNumber.setMinValue(0);
+        specialVehicleNumber.setMaxValue(100);
+
+        transportationVehicleNumber = (NumberPicker) interventionCostContent.findViewById(R.id.transportationVehicle);
+        transportationVehicleNumber.setMinValue(0);
+        transportationVehicleNumber.setMaxValue(100);
+
+        return interventionCostContent;
     }
 
     private View createSortOfUnitStep() {
@@ -197,6 +419,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return typeAndSortContent;
     }
 
+
     private View createTypeAndSort() {
         chooseTypeAndSort = new EditText(this);
        // titleEditText.setHint(R.string.form_hint_title);
@@ -204,8 +427,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
-
-
 
         spinnerSort = (Spinner) typeAndSortContent.findViewById(R.id.sort_of_intervention);
         List<String> sortAll = new ArrayList<String>();
@@ -258,26 +479,6 @@ DAODATI TYPE OF INTERVENTION
         return typeAndSortContent;
     }
 
-    @Override
-    public void onStepOpening(int stepNumber) {
-        switch (stepNumber) {
-            case MAIN_INFORMATION_NUM:
-                // When this step is open, we check that the title is correct
-                //checkTitleStep(chooseTypeAndSort.getText().toString());
-            case DESCRIPTION_STEP_NUM:
-            case TIME_STEP_NUM:
-                // As soon as they are open, these two steps are marked as completed because they
-                // have default values
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-                // In this case, the instruction above is equivalent to:
-                // verticalStepperForm.setActiveStepAsCompleted();
-                break;
-            case DAYS_STEP_NUM:
-                // When this step is open, we check the days to verify that at least one is selected
-                checkDays();
-                break;
-        }
-    }
 
     @Override
     public void sendData() {
@@ -308,6 +509,9 @@ DAODATI TYPE OF INTERVENTION
                     intent.putExtra(STATE_TIME_HOUR, time.first);
                     intent.putExtra(STATE_TIME_MINUTES, time.second);
                     intent.putExtra(STATE_WEEK_DAYS, weekDays);
+                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
+                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
+
                     // You must set confirmBack to false before calling finish() to avoid the confirmation dialog
                     confirmBack = false;
                     finish();
@@ -316,7 +520,9 @@ DAODATI TYPE OF INTERVENTION
                 }
             }
         }).start(); // You should delete this code and add yours
+
     }
+
 /*
     private View createAlarmTitleStep() {
         // This step view is generated programmatically
@@ -469,7 +675,7 @@ DAODATI TYPE OF INTERVENTION
         dayText.setTextColor(Color.rgb(255, 255, 255));
 
         if(check) {
-            checkDays();
+        //    checkDays();
         }
     }
 
@@ -485,25 +691,25 @@ DAODATI TYPE OF INTERVENTION
         dayText.setTextColor(colour);
 
         if(check) {
-            checkDays();
+          //  checkDays();
         }
     }
-
+/*
     private boolean checkDays() {
         boolean thereIsAtLeastOneDaySelected = false;
         for(int i = 0; i < weekDays.length && !thereIsAtLeastOneDaySelected; i++) {
             if(weekDays[i]) {
-                verticalStepperForm.setStepAsCompleted(DAYS_STEP_NUM);
+                verticalStepperForm.setStepAsCompleted(DAYS_STEP_NUM); //INTERVENTION_COST_NUM
                 thereIsAtLeastOneDaySelected = true;
             }
         }
         if(!thereIsAtLeastOneDaySelected) {
-            verticalStepperForm.setStepAsUncompleted(DAYS_STEP_NUM, null);
+            verticalStepperForm.setStepAsUncompleted(DAYS_STEP_NUM, null); //INTERVENTION_COST_NUM
         }
 
         return thereIsAtLeastOneDaySelected;
     }
-
+*/
     private LinearLayout getDayLayout(int i) {
         int id = daysStepContent.getResources().getIdentifier(
                 "day_" + i, "id", getPackageName());
@@ -572,7 +778,7 @@ DAODATI TYPE OF INTERVENTION
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-/*
+        /*
         // Saving title field
         if(titleEditText != null) {
             savedInstanceState.putString(STATE_TITLE, titleEditText.getText().toString());
@@ -596,6 +802,7 @@ DAODATI TYPE OF INTERVENTION
 
         // The call to super method must be at the end here
         super.onSaveInstanceState(savedInstanceState);
+
     }
 
     @Override
