@@ -431,6 +431,11 @@
                 android:layout_height="wrap_content"
                 android:text="(detaljan opis intervencije)"
                 android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/opis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
         <Button
@@ -473,11 +478,36 @@
                 android:layout_height="wrap_content"
                 android:text="Materijalna šteta: "
                 android:textColor="@color/colorPrimaryDark"/>
-            <TextView
-                android:id="@+id/steta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:text="površina objekata: "
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content" />
+                        <TextView
+                            android:id="@+id/pov_obj"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:text="vanjski prostor: "
+                            android:layout_width="wrap_content" />
+                        <TextView
+                            android:id="@+id/vanjski"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+                </TableLayout>
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -506,11 +536,35 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(ostale ustanove)"
-                android:textColor="@color/colorPrimaryDark"/>
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  Javna služba/ustanova"
+                        android:textColor="@color/colorPrimaryDark"/>
+                    </TableRow>
+
+                    <TableRow>
+                    <TextView
+                        android:id="@+id/ustanova_1"
+                        android:text="__"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                        </TableRow>
+                    <TableRow>
+                    <TextView
+                        android:id="@+id/ustanova_2"
+                        android:text="__"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                </TableLayout>
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -539,26 +593,48 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vrsta:"
-                    android:textColor="@color/colorPrimaryDark"/>
-                <TextView
-                    android:id="@+id/vrsta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Utrošeno sati:"
-                    android:textColor="@color/colorPrimaryDark"/>
-                <TextView
-                    android:id="@+id/utros_sati"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vrsta "
+                            android:textColor="@color/colorPrimaryDark"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  Utrošeno sati"
+                            android:textColor="@color/colorPrimaryDark"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Navalno vozilo" />
+                        <TextView
+                            android:id="@+id/navalno_sati"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kombi vozilo" />
+                        <TextView
+                            android:id="@+id/kombi_sati"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                </TableLayout>
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -587,16 +663,219 @@
             android:layout_width="match_parent"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rad"
-                android:textColor="@color/colorPrimaryDark"/>
-            <TextView
-                android:id="@+id/rad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp">
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Rad "
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorPrimaryDark"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Ukupno(kn)"
+                        android:textColor="@color/colorPrimaryDark"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Navalno vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/navalno_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Autocisterna "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/autocisterna_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Tehničko vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/tehnicko_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Automatske ljestve "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/ljestve_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Zapovjedno vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/zapovjedno_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Specijalno vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/specijalno_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="vozilo za prijevoz vatrogasaca i opreme "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/prijevoz_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Prijeđeni kilometri "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/km_prijedeno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Rad vatrogasca "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/vatrogasac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Osiguranje s vozilom i 3 vatrogasca "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/osiguran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Elektro pumpa "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/el_pumpa_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Ptah za gašenje 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/nprah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="CO2 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/co2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Pjenilo 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/pjenilo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Apsorbent 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/apsorbent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Ostali troškovi "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/ostali"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 

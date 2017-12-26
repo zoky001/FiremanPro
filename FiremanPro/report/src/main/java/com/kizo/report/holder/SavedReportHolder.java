@@ -59,7 +59,7 @@ public TextView mStoreDescription;
             public  void onClick(View v){
                 System.out.println("clickOnItem()r: ");
                 Intent intent = new Intent(v.getContext(), FinishedReportActivity.class);
-                //intent.putExtra("EXTRA_SESSION_ID", position);
+                intent.putExtra("EXTRA_SESSION_ID", position);
                 v.getContext().startActivity(intent);
             }
         });

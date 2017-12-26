@@ -2,13 +2,19 @@ package com.kizo.report;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.HouseController;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Nikol on 21.12.2017..
@@ -19,9 +25,12 @@ public class FinishedReportActivity extends AppCompatActivity {
     ExpandableRelativeLayout expandableLayout1, expandableLayout2, expandableLayout3, expandableLayout4, expandableLayout5, expandableLayout6, expandableLayout7, expandableLayout8,
             expandableLayout9, expandableLayout10, expandableLayout11;
 
-    //House house;
-
+    House house;
     Toolbar toolbar;
+
+    Intervention_track intervention;
+
+    TextView txtOpis;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,9 +41,10 @@ public class FinishedReportActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitleOnToolbar("Izvješće o intervenciji");
 
+        ButterKnife.bind(this);
 
-
-        /*
+        txtOpis = (TextView) findViewById(R.id.opis);
+/*
         int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
         if (a != -1) {
 
@@ -45,12 +55,14 @@ public class FinishedReportActivity extends AppCompatActivity {
         } else {
             house = HouseController.getFirstHouse();
         }
+
+        intervention.setId_intervention_track(a);
+        fillWithData();
         */
     }
 
     private void setTitleOnToolbar(String title){
-        //set title (owner name )on toolbar
-        getSupportActionBar().setTitle(title); //set title on toolbar
+        getSupportActionBar().setTitle(title);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -111,4 +123,10 @@ public class FinishedReportActivity extends AppCompatActivity {
         expandableLayout11 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout11);
         expandableLayout11.toggle();
     }
+
+    /*
+    public void fillWithData(){
+        txtOpis.setText(intervention.getReports().getDescription());
+    }
+    */
 }
