@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginRight="16dp"
-    android:layout_marginLeft="16dp">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".NewReportFormActivity"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Vrsta vozila:"
-        />
-    <Spinner
-        android:id="@+id/vehicleUsed"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           android:text="Vrsta vozila:"
+           />
+       <Spinner
+           android:id="@+id/vehicleUsed"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           />
 
     <LinearLayout
         style="@style/NumberArea">
@@ -23,9 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="20"
-            android:text="PRIJEĐENO (KM)" />
-        <NumberPicker
-            android:id="@+id/hours"
+            android:text="Prijeđeno(km):" />
+
+        <EditText
+            android:id="@+id/km"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -34,15 +43,7 @@
         android:id="@+id/addVehicle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+"
+        android:text="Dodaj vozilo"
         />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/vehicleAdder">
-
-    </RadioGroup>
-
 
 </LinearLayout>

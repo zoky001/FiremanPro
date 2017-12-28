@@ -3,7 +3,7 @@
     <string name="add_alarm">Add New Alarm</string>
     <string name="new_alarm_added">New alarm added successfully</string>
     <string name="form_hint_title">Alarm title (required)</string>
-    <string name="form_hint_description"> Karakteristike (opis) intervencije </string>
+    <string name="form_hint_description"> Javna služba/ ustanova </string>
     <string name="error_title_min_characters">At least %1$d characters</string>
     <string name="main_activity_explanation">Click the button to try it!</string>
     <string name="main_activity_explanation_disclaimer">This app DOES NOT set up alarms for real!</string>

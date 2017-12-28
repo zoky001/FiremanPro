@@ -19,10 +19,9 @@
             android:theme="?attr/actionBarTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-     <!--   android:minHeight="?attr/actionBarSize"
-     -->
-
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:minHeight="?attr/actionBarSize"
+        />
     </android.support.design.widget.AppBarLayout>
 
 

@@ -7,10 +7,7 @@
         <item> Sudjelovanje ostalih hitnih, javnih službi, komunalnih službi i ostalih subjekata</item>
         <item> Vrsta mehanizacije koja je bila angažirana na intervenciji i vrijeme upotrebe </item>
         <item> Troškovi vatrogasne intervencije </item>
-        <!--
-
-<item> Sudionici vatrogasne intervencije  </item>
--->
+        <item> Sudionici vatrogasne intervencije  </item>
     </string-array>
 
     <string-array name="steps_subtitles">

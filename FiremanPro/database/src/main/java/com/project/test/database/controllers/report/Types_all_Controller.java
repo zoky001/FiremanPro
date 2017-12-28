@@ -142,7 +142,7 @@ public Type_of_unit get_DVD_type_of_unit(){
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-          Type_of_truck type_of_truck = new Type_of_truck(100,"NAVAL_VEHICLE",CurrentDate,CurrentDate);
+          Type_of_truck type_of_truck = new Type_of_truck(100,"NAVAL VEHICLE",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -155,7 +155,7 @@ public Type_of_unit get_DVD_type_of_unit(){
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Type_of_truck type_of_truck = new Type_of_truck(101,"TRANSPORTATION_VEHICLE",CurrentDate,CurrentDate);
+            Type_of_truck type_of_truck = new Type_of_truck(101,"TRANSPORTATION VEHICLE",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -169,7 +169,7 @@ public Type_of_unit get_DVD_type_of_unit(){
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Type_of_truck type_of_truck = new Type_of_truck(102,"SPECIAL_VEHICLE",CurrentDate,CurrentDate);
+            Type_of_truck type_of_truck = new Type_of_truck(102,"SPECIAL VEHICLE",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -336,7 +336,7 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"FIRE_INTERVENTION","",CurrentDate,CurrentDate);
+        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"FIRE INTERVENTION","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -350,7 +350,7 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"OTHER_INTERVENTION","",CurrentDate,CurrentDate);
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"OTHER INTERVENTION","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -364,7 +364,7 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL_INTERVENTION","",CurrentDate,CurrentDate);
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL INTERVENTION","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {

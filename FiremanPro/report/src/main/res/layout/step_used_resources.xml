@@ -8,13 +8,37 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:text="Vrsta i naziv postrojbe:"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <Spinner
+        android:id="@+id/sortOfUnit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:text="Vozilo:"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         />
 
     <Spinner
         android:id="@+id/vehicle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         />
 
     <LinearLayout
@@ -25,9 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="20"
-            android:text="PRIJEĐENO (KM)" />
+            android:text="Prijeđeno(km): " />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/km"
             style="@style/numberPickerFireman"
             />
@@ -44,17 +68,32 @@
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:layout_gravity="center"
-            android:text="UTROŠENO SATI"
+            android:text="Utrošeno sati: "
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/clock"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
 
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Broj vatrogasaca: "
+            />
 
+        <EditText
+            android:id="@+id/number_of_firemen_in_truck"
+            style="@style/numberPickerFireman"
+            />
 
+    </LinearLayout>
 
     <LinearLayout
         style="@style/NumberArea"
@@ -67,7 +106,7 @@
             android:text="Voda(m3):"
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/water"
             style="@style/numberPickerFireman"
             />
@@ -81,10 +120,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:layout_gravity="center"
-            android:text="Pjenilo(foam)(l):"
+            android:text="Pjenilo(l):"
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/foam"
             style="@style/numberPickerFireman"
             />
@@ -101,7 +140,7 @@
             android:text="Prah(kg):"
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/powder"
             style="@style/numberPickerFireman"
             />
@@ -117,11 +156,18 @@
             android:layout_gravity="center"
             android:text="CO2(kg): "
             />
-        <NumberPicker
+        <EditText
             android:id="@+id/CO2"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/addDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dodaj resurs"
+        />
 
 
 </LinearLayout>

@@ -6,5 +6,5 @@
     <color name="colorPrimaryREPORT">#3F51B5</color>
     <color name="colorPrimaryDarkREPORT">#303F9F</color>
     <color name="colorRed">#c1000d</color>
-
+    <color name="glavna">#c1000d</color>
 </resources>

@@ -27,8 +27,6 @@ public class Truck extends BaseModel {
     String name;
 
 
-
-
     @Column
     Date updated_at;
     @Column
@@ -103,7 +101,6 @@ public class Truck extends BaseModel {
         this.fireman_patrol = fireman_patrol;
     }
 
-
     public static Truck getRandomTruck(){
 
         List<Truck> house = SQLite.select().from(Truck.class).queryList();
@@ -111,4 +108,7 @@ public class Truck extends BaseModel {
 
         return house.get(0);
     }
+
+
+
 }

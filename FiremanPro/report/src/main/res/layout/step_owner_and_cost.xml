@@ -18,7 +18,7 @@
             android:text="Površina objekta(m2): "
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/surface"
             style="@style/numberPickerFireman"
             />
@@ -36,7 +36,7 @@
             android:text="Vanjski prostor,površina opožarene površine(ha): "
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/superficies"
             style="@style/numberPickerFireman"
             />

@@ -14,7 +14,7 @@
             android:layout_gravity="center"
             />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/navalVehicle"
             style="@style/numberPickerFireman"
             />
@@ -31,7 +31,7 @@
             android:text="Sat rada autocisterne: "
             android:layout_gravity="center"
             />
-        <NumberPicker
+        <EditText
             android:id="@+id/commandVehicle"
             style="@style/numberPickerFireman"
             />
@@ -47,7 +47,7 @@
             android:text="Sat rada tehničkog vozila"
             android:layout_gravity="center"
             />
-        <NumberPicker
+        <EditText
             android:id="@+id/tehnicalVehicle"
             style="@style/numberPickerFireman"
             />
@@ -63,7 +63,7 @@
             android:layout_gravity="center"
             android:text="Sat rada automatske ljestve:"
             />
-        <NumberPicker
+        <EditText
             android:id="@+id/automaticLadder"
             style="@style/numberPickerFireman"
             />
@@ -79,7 +79,7 @@
             android:text="Sat rada zapovjednog vozila:"
             android:layout_gravity="center"
             />
-        <NumberPicker
+        <EditText
             android:id="@+id/roadTankers"
             style="@style/numberPickerFireman"
             />
@@ -95,7 +95,7 @@
             android:text="Sat rada specijalnog vozila: "
             android:layout_gravity="center"
             />
-        <NumberPicker
+        <EditText
             android:id="@+id/specialVehicle"
             style="@style/numberPickerFireman"
             />
@@ -111,7 +111,7 @@
             android:layout_gravity="center"
             android:text="Sat rada vozila za prijevoz vatrogasaca i opreme: " />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/transportationVehicle"
             style="@style/numberPickerFireman"
             />
