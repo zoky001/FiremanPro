@@ -30,6 +30,7 @@ import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
+import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
@@ -120,6 +122,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     LinearLayout mehanizationContent;
 
+    Spinner spinneTypeOfUnit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,33 +231,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
 
         spinnerSort = (Spinner) typeAndSortContent.findViewById(R.id.sort_of_intervention);
-        List<String> sortAll = new ArrayList<String>();
-
-        Types_all_Controller type_all_controller = new Types_all_Controller();
-        List<Sort_of_intervention> sort_of_intervention = type_all_controller.GetAllRecordsFromTable_Sort_of_intervention();
-        for(Sort_of_intervention s : sort_of_intervention){
-            sortAll.add(s.getName());
-        }
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortAll);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spinnerSort.setAdapter(dataAdapter);
+        spinnerSort.setAdapter(getSortOfInterventionAdapter());
 
         EditText inputLayout = (EditText) findViewById(R.id.description);
 
         spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
-        List<String> typeAll = new ArrayList<String>();
-
-        Types_all_Controller type_all_controller2 = new Types_all_Controller();
-        List<Sort_of_intervention> type_of_intervention = type_all_controller2.GetAllRecordsFromTable_Sort_of_intervention();
-        for(Sort_of_intervention s : sort_of_intervention){
-            sortAll.add(s.getName());
-        }
-        /*
-        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortAll);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        */
-        spinnerType.setAdapter(dataAdapter);
+        spinnerType.setAdapter(getTypeOfInterventionAdapter());
 
 
         spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -270,6 +252,34 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         });
 
         return typeAndSortContent;
+    }
+
+    private ArrayAdapter<String> getTypeOfInterventionAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Intervention_Type> type_of_intervention = type_all_controller.GetAllRecordsFromTable_Intervention_type();
+        for(Intervention_Type i : type_of_intervention){
+            typeAll.add(i.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+    private ArrayAdapter<String> getSortOfInterventionAdapter() {
+        List<String> sortAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Sort_of_intervention> sort_of_intervention = type_all_controller.GetAllRecordsFromTable_Sort_of_intervention();
+        for(Sort_of_intervention s : sort_of_intervention){
+            sortAll.add(s.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
     }
 
     private View createUsedResources() {
@@ -302,17 +312,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     private void addUsedResources(View ll) {
         spinnerVehicle = (Spinner) ll.findViewById(R.id.vehicle);
+        spinnerVehicle.setAdapter(getVehicleAdapter());
 
-        List<String> vehicleAll = new ArrayList<String>();
-        Types_all_Controller type_all_controller = new Types_all_Controller();
-        List<Type_of_truck> type_of_truck = type_all_controller.GetAllRecordsFromTable_Type_of_truck();
-        for(Type_of_truck t : type_of_truck){
-            vehicleAll.add(t.getType_name());
-        }
-
-        final ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spinnerVehicle.setAdapter(dataAdapter2);
+        spinneTypeOfUnit = (Spinner) ll.findViewById(R.id.sort_of_unit);
+        spinneTypeOfUnit.setAdapter(getTypeOfUnitAdapter());
 
         kmNumber = (EditText) ll.findViewById(R.id.km);
         numberKeybord(kmNumber);
@@ -338,6 +341,34 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout addedVehicleContent = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
         addMoreDescription(addedVehicleContent);
+    }
+
+    private ArrayAdapter<String> getTypeOfUnitAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Type_of_unit> type_of_intervention = type_all_controller.GetAllRecordsFromTable_Type_of_unit();
+        for(Type_of_unit i : type_of_intervention){
+            typeAll.add(i.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+    private ArrayAdapter<String> getVehicleAdapter() {
+        List<String> vehicleAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Type_of_truck> type_of_truck = type_all_controller.GetAllRecordsFromTable_Type_of_truck();
+        for(Type_of_truck t : type_of_truck){
+            vehicleAll.add(t.getType_name());
+        }
+
+        final ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return dataAdapter2;
     }
 
     private void numberKeybord(EditText et) {
@@ -424,17 +455,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         mehanizationContent = (LinearLayout) inflate.inflate(R.layout.step_mehanization, null, false);
 
-        List<String> vehicleAll = new ArrayList<String>();
-        Types_all_Controller type_all_controller = new Types_all_Controller();
-        List<Type_of_truck> type_of_truck = type_all_controller.GetAllRecordsFromTable_Type_of_truck();
-        for(Type_of_truck t : type_of_truck){
-            vehicleAll.add(t.getType_name());
-        }
-        Spinner usedTruck = (Spinner) mehanizationContent.findViewById(R.id.vehicleUsed);
 
-        final  ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        usedTruck.setAdapter(dataAdapter2);
+        Spinner usedTruck = (Spinner) mehanizationContent.findViewById(R.id.vehicleUsed);
+        usedTruck.setAdapter(getVehicleAdapter());
 
         EditText kmOdabrano = (EditText) mehanizationContent.findViewById(R.id.km);
         numberKeybord(kmOdabrano);

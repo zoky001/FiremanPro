@@ -82,7 +82,6 @@ Types_all_Controller types_all_controller = new Types_all_Controller();
 
 
 
-
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
         java.util.Date fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
 

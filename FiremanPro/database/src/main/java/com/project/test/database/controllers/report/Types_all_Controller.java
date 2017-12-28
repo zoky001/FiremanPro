@@ -407,6 +407,11 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
     }
+
+    //all types of intervention
+    public List<Intervention_Type> GetAllRecordsFromTable_Intervention_type(){
+        return SQLite.select().from(Intervention_Type.class).queryList();
+    }
 // Sort_of_intervention  END
 
 
