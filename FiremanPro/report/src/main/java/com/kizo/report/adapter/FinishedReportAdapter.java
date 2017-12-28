@@ -34,7 +34,7 @@ public class FinishedReportAdapter extends RecyclerView.Adapter<SavedReportHolde
     public void onBindViewHolder(SavedReportHolder holder, int position) {
         Intervention_track intervention = reports.get(position);
 
-        holder.opis.setText(intervention.getReports().getDescription());
+        //holder.opis.setText(intervention.getReports().getDescription());
     }
 
     @Override

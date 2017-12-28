@@ -40,6 +40,10 @@ public class InterventionController {
         return SQLite.select().from(Intervention_track.class).queryList();
     }
 
+    public static  Intervention_track getInterventionByID ( int id){
+
+        return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.id_intervention_track.is(id)).querySingle();
+    }
 
  public static  List<Intervention_track> getCompletedIntervention (){
 
