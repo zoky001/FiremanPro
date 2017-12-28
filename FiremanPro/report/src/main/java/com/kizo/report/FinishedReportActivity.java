@@ -1,28 +1,18 @@
+
 package com.kizo.report;
 
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.kizo.report.adapter.FinishedReportAdapter;
-import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.report.Intervention_track;
-import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -84,7 +74,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     public TextView ostaliTr;
     public TextView sudionik1;
     public TextView zapovjednik;
-
+    public Boolean repeat;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,9 +86,6 @@ public class FinishedReportActivity extends AppCompatActivity {
         setTitleOnToolbar("Izvješće o intervenciji");
 
         ButterKnife.bind(this);
-
-        //need ID of selected intervetion
-       String i = getIntent().getStringExtra("EXTRA_SESSION_ID");
 
         int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
         if (a != -1) {
@@ -113,22 +100,11 @@ public class FinishedReportActivity extends AppCompatActivity {
 
        System.out.println("ID intervencije _ "+ intervention.getId_intervention_track());
 
-        final List<Intervention_track> listOfIntervetions = InterventionController.getCompletedIntervention();
-        //fillWithData();
-
-        FinishedReportAdapter  finishedReportAdapter = new FinishedReportAdapter(listOfIntervetions);
-
-
-   bindTextView();
-
-
-
-fillWithData();
-
+        bindTextView();
+        fillWithData();
     }
 
     private void bindTextView() {
-        //bind
 
         brDojavnica = (TextView) findViewById(R.id.dojavnica_br);
         brIntervencija = (TextView) findViewById(R.id.intervencija_br);
@@ -176,13 +152,64 @@ fillWithData();
         apsorbentTr = (TextView)findViewById(R.id.apsorbent);
         ostaliTr = (TextView) findViewById(R.id.ostali);
         sudionik1 = (TextView) findViewById(R.id.sud1);
-        zapovjednik = (TextView) findViewById(R.id.zapovjednik);
+        zapovjednik = (TextView) findViewById(R.id.zap);
     }
 
     private void fillWithData() {
 
         obavijestPrimljena.setText(intervention.getReports().getTime_call_received().toString());
         izlazNaInt.setText(intervention.getReports().getTime_intervention_start().toString());
+        dolazakNaInt.setText(intervention.getReports().getTime_arrival_intervention().toString());
+        vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getFireInterventionDetails().getIntervention_type().getName().toString());
+        velPoz.setText(intervention.getReports().getFireInterventionDetails().getSize_of_fire().getName().toString());
+        brGradevinaPoz.setText(String.valueOf(intervention.getReports().getFireInterventionDetails().getDestroyed_space()));
+        repeat = intervention.getReports().getFireInterventionDetails().isRepeated();
+        if(repeat == null){
+            ponovioPoz.setText("NE");
+        }else{
+            ponovioPoz.setText("DA");
+        }
+        prostornoPoz.setText(intervention.getReports().getFireInterventionDetails().getSepatial_spread().getName().toString());
+        vremenskoPoz.setText(intervention.getReports().getFireInterventionDetails().getTime_spread().getName().toString());
+        dimPoz.setText(intervention.getReports().getFireInterventionDetails().getSpreading_smoke().getName().toString());
+        vrstaOtvorenoPoz.setText(intervention.getReports().getFireInterventionDetails().getOutdoor_type().getName().toString());
+        gradOpcina.setText(intervention.getLocation().getPost().getName().toString());
+        mjesto.setText(intervention.getLocation().getPlaceNameIfExist().toString());
+        ulicaKbr.setText(intervention.getLocation().getStreetNameIfExist() + " " + intervention.getLocation().getStreetNumber().toString());
+        postrojba.setText(intervention.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName().toString());
+        vozilo.setText(intervention.getReports().getTrucksAndPatrols().get(0).getTruck().getName().toString());
+        prijedenoKm.setText(String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getKm()));
+        utrosenoSati.setText(String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getHours()));
+        brVatrogas.setText(String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getNumberOfFireman()));
+        sredstva.setText("Voda: " + String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getWater()) + "\nPjenilo: "
+                + String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getFoam()) + "\nPrah: "
+                + String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getPowder()) + "\nCO2: "
+                + String.valueOf(intervention.getReports().getTrucksAndPatrols().get(0).getCo2()));
+        opis.setText(intervention.getReports().getDescription().toString());
+        vlas.setText(intervention.getHouse().getName_owner().toString() + " " + intervention.getHouse().getSurname_owner().toString());
+        povObjekta.setText(String.valueOf(intervention.getReports().getSurface_m2()));
+        vanjskoPr.setText(String.valueOf(intervention.getReports().getSuperficies_ha()));
+        javna.setText(intervention.getReports().getHelp().toString());
+        navalnoVoz.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
+        //kombiVoz.setText(intervention.getReports().getConsumption());
+        navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
+        autocisternaSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getRoadTankers()));
+        tehnickoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getTehnicalVehicle()));
+        ljestveTr.setText(String.valueOf(intervention.getReports().getConsumption().getAutomatic_ladder()));
+        zapovjednoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getCommand_vehicle()));
+        specijalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getSpecialVehicle()));
+        prijevozTr.setText(String.valueOf(intervention.getReports().getConsumption().getTransportationVehicle()));
+        //KmTr.setText(intervention.getReports().getConsumption());
+        vatrogasacTr.setText(String.valueOf(intervention.getReports().getConsumption().getFire_fighter()));
+        osiguranoTr.setText(String.valueOf(intervention.getReports().getConsumption().getInsurance()));
+        elPumpaTr.setText(String.valueOf(intervention.getReports().getConsumption().getPowerPumpClock()));
+        prahTr.setText(String.valueOf(intervention.getReports().getPowden_kg()));
+        co2Tr.setText(String.valueOf(intervention.getReports().getCo2_kg()));
+        pjeniloTr.setText(String.valueOf(intervention.getReports().getFoam_l()));
+        apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent()));
+       // ostaliTr.setText(intervention.getReports().getConsumption());
+        sudionik1.setText(intervention.getReports().getFiremans().get(0).getFireman().getName().toString() + " " + intervention.getReports().getFiremans().get(0).getFireman().getSurname().toString());
+        zapovjednik.setText(intervention.getReports().getSigned().getName().toString() + " " + intervention.getReports().getSigned().getSurname().toString());
     }
 
     private void setTitleOnToolbar(String title){
@@ -254,10 +281,4 @@ fillWithData();
         expandableLayout11 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout11);
         expandableLayout11.toggle();
     }
-
-    /*
-    public void fillWithData(){
-        txtOpis.setText(intervention.getReports().getDescription());
-    }
-    */
 }

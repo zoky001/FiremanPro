@@ -51,18 +51,13 @@ public class SavedReportHolder extends ParentViewHolder {
         mStoreDescription = (TextView) itemView.findViewById(R.id.store_description);
         ID = (TextView) itemView.findViewById(R.id.textView_ID);
 
-        //viska
-
-/*
-
-*/
         itemView.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public  void onClick(View v){
                 System.out.println("clickOnItem() _ ID: " + ID.getText());
                 Intent intent = new Intent(v.getContext(), FinishedReportActivity.class);
-                intent.putExtra("EXTRA_SESSION_ID", ID.getText()); // umjesto 01 prosljediš ID intervencije
+                intent.putExtra("EXTRA_SESSION_ID", ID.getText());
                 v.getContext().startActivity(intent);
             }
         });
@@ -75,8 +70,6 @@ public class SavedReportHolder extends ParentViewHolder {
     // when the adapter is implemented this method is used to bind list elements with the recycler-view, here, we populate the Views
     public void bind(Intervention_track intervention_track, int position){
         this.position = position;
-
-
 
 
         if (!intervention_track.isCompleted_intervention())

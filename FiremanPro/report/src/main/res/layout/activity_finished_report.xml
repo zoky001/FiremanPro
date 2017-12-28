@@ -13,8 +13,6 @@
         android:layout_marginBottom="16dp"
         android:paddingBottom="80dp">
 
-
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarReport"
             android:background="@android:color/holo_red_dark"
@@ -40,7 +38,8 @@
             android:id="@+id/dojavnica_broj"
             android:text="Dojavnica broj: "
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="8dp"
+            style="@style/reportText"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +53,8 @@
             android:id="@+id/intervencija_broj"
             android:text="Intervencija broj: "
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="8dp"
+            style="@style/reportText"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton1"
-        android:background="#FFFFF0"
+        android:background="#FFFAF0"
         app:ael_duration="400"
         app:ael_orientation="vertical">
 
@@ -94,32 +94,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Obavijest primljena: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText" />
                 <TextView
                     android:id="@+id/obav_dat_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Izlazak na intervenciju: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText" />
                 <TextView
                     android:id="@+id/izlaz_dat_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dolazak na itervenciju: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/dolazak_dat_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
         </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -140,7 +140,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton2"
-        android:background="#FFFFF0"
+        android:background="#FFFAF0"
         app:ael_duration="400"
         app:ael_orientation="vertical">
 
@@ -153,12 +153,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vrsta i tip intervencije: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/vrsta_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
         </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -178,7 +178,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton3"
-        android:background="#FFFFF0"
+        android:background="#FFFAF0"
         app:ael_duration="400"
         app:ael_orientation="vertical">
 
@@ -191,72 +191,72 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Veličina požara: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/vel_pozara"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Broj građevina, prostora, postrojenja ili prijevoznih sredstava na koje se požar proširio (zbroj): "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/zbroj"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Da li se požar ponovio: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/ponovni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Prostorno širenje požara: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/prostorno_sir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vremensko širenje požara: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/vremensko_sir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Širenje dima: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/dim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vrsta požara na otvorenom prostoru: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/vrsta_na_otvorenom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
         </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -277,7 +277,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/expandableButton4"
-        android:background="#FFFFF0"
+        android:background="#FFFAF0"
         app:ael_duration="400"
         app:ael_orientation="vertical">
 
@@ -290,32 +290,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Grad/općina: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/grad_opcina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mjesto: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/mjesto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ulica i kućni broj: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/ulica_kucni_br"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
         </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -335,7 +335,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton5"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -348,62 +348,63 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vrsta i naziv postrojbe: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/postrojba"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vozilo (vrsta i broj): "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/vozilo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Prijeđeno km: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/km"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:text="__"
+                    style="@style/reportData"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Utrošeno sati: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/sati"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Broj vatrogasaca: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/br_vatro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Utrošeno sredstva za gašenje: "
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportText"/>
                 <TextView
                     android:id="@+id/sredstva"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -415,7 +416,7 @@
             android:drawableRight="@android:drawable/arrow_down_float"
             android:onClick="expandableButton6"
             android:paddingRight="10dp"
-            android:text="6. Karakteristike intervencije"
+            android:text="6. Karakteristike (opis) intervencije"
             android:textColor="@color/colorPrimaryDark" />
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
@@ -423,7 +424,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton6"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -431,13 +432,12 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(detaljan opis intervencije)"
                 android:textColor="@color/colorPrimaryDark"/>
             <TextView
                 android:id="@+id/opis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
         <Button
@@ -456,7 +456,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton7"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -469,17 +469,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vlasnik: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
             <TextView
                 android:id="@+id/vlasnik"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportData"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Materijalna šteta: "
-                android:textColor="@color/colorPrimaryDark"/>
+                style="@style/reportText"/>
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -529,7 +529,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton8"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -548,8 +548,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="  Javna služba/ustanova"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:text="Javna služba/ustanova"
+                        style="@style/reportText"/>
                     </TableRow>
 
                     <TableRow>
@@ -560,11 +560,6 @@
                         android:layout_height="wrap_content" />
                         </TableRow>
                     <TableRow>
-                    <TextView
-                        android:id="@+id/ustanova_2"
-                        android:text="__"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
                 </TableRow>
                 </TableLayout>
             </LinearLayout>
@@ -586,7 +581,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton9"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -606,19 +601,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Vrsta "
-                            android:textColor="@color/colorPrimaryDark"/>
+                            style="@style/reportText"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="  Utrošeno sati"
-                            android:textColor="@color/colorPrimaryDark"/>
+                            android:text=" Utrošeno sati"
+                            style="@style/reportText"/>
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Navalno vozilo" />
+                            android:text="Navalno vozilo  " />
                         <TextView
                             android:id="@+id/navalno_sati"
                             android:layout_width="wrap_content"
@@ -629,11 +624,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kombi vozilo" />
+                            android:text="Kombi vozilo  " />
                         <TextView
                             android:id="@+id/kombi_sati"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="__"/>
                     </TableRow>
 
                 </TableLayout>
@@ -656,7 +652,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton10"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -678,12 +674,12 @@
                         android:text="Rad "
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        style="@style/reportText"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" Ukupno(kn)"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        style="@style/reportText"/>
                 </TableRow>
 
                 <TableRow
@@ -694,8 +690,7 @@
                     <TextView
                         android:id="@+id/navalno_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -706,8 +701,7 @@
                     <TextView
                         android:id="@+id/autocisterna_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content"/>
                 </TableRow>
 
                 <TableRow
@@ -718,8 +712,7 @@
                     <TextView
                         android:id="@+id/tehnicko_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content"/>
                 </TableRow>
 
                 <TableRow
@@ -730,8 +723,7 @@
                     <TextView
                         android:id="@+id/ljestve_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -742,8 +734,7 @@
                     <TextView
                         android:id="@+id/zapovjedno_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -754,8 +745,7 @@
                     <TextView
                         android:id="@+id/specijalno_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -766,8 +756,7 @@
                     <TextView
                         android:id="@+id/prijevoz_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -779,7 +768,7 @@
                         android:id="@+id/km_prijedeno"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:text="__"/>
                 </TableRow>
 
                 <TableRow
@@ -790,8 +779,7 @@
                     <TextView
                         android:id="@+id/vatrogasac"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -802,8 +790,7 @@
                     <TextView
                         android:id="@+id/osiguran"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -814,8 +801,7 @@
                     <TextView
                         android:id="@+id/el_pumpa_h"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -826,8 +812,7 @@
                     <TextView
                         android:id="@+id/prah"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -838,8 +823,7 @@
                     <TextView
                         android:id="@+id/co2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -850,8 +834,7 @@
                     <TextView
                         android:id="@+id/pjenilo"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -862,8 +845,7 @@
                     <TextView
                         android:id="@+id/apsorbent"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -897,7 +879,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/expandableButton11"
-            android:background="#FFFFF0"
+            android:background="#FFFAF0"
             app:ael_duration="400"
             app:ael_orientation="vertical">
 
@@ -906,16 +888,12 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1. "
-                    android:textColor="@color/colorPrimaryDark"/>
+
                 <TextView
                     android:id="@+id/sud1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/reportData"/>
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -926,15 +904,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/zapovjednik"
             android:text="Zapovjednik vatrogasne postrojbe: "
+            style="@style/reportText"
             android:layout_marginLeft="150dp"
             android:layout_marginRight="8dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/zap"
-            android:text="______________________"
             android:layout_marginLeft="150dp"
             android:layout_marginRight="8dp"/>
 
