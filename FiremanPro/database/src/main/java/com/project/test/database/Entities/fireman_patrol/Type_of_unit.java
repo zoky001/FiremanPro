@@ -38,7 +38,8 @@ public class Type_of_unit extends BaseModel {
         this.created_at = created_at;
     }
 
-
+    public Type_of_unit() {
+    }
 
     public String getName() {
         return name;
