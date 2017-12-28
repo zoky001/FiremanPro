@@ -1,17 +1,26 @@
 package com.kizo.report;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.kizo.report.adapter.FinishedReportAdapter;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.report.InterventionController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,12 +34,8 @@ public class FinishedReportActivity extends AppCompatActivity {
     ExpandableRelativeLayout expandableLayout1, expandableLayout2, expandableLayout3, expandableLayout4, expandableLayout5, expandableLayout6, expandableLayout7, expandableLayout8,
             expandableLayout9, expandableLayout10, expandableLayout11;
 
-    House house;
     Toolbar toolbar;
 
-    Intervention_track intervention;
-
-    TextView txtOpis;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,22 +48,15 @@ public class FinishedReportActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        txtOpis = (TextView) findViewById(R.id.opis);
-/*
-        int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
-        if (a != -1) {
+        //need ID of selected intervetion
+       String i = getIntent().getStringExtra("EXTRA_SESSION_ID");
+       System.out.println(i);
 
-            house = HouseController.getHouse(a);
+        final List<Intervention_track> listOfIntervetions = InterventionController.getCompletedIntervention();
+        //fillWithData();
 
-        } else if (a == -1) {
-            house = HouseController.getFirstHouse();
-        } else {
-            house = HouseController.getFirstHouse();
-        }
+        FinishedReportAdapter  finishedReportAdapter = new FinishedReportAdapter(listOfIntervetions);
 
-        intervention.setId_intervention_track(a);
-        fillWithData();
-        */
     }
 
     private void setTitleOnToolbar(String title){
@@ -67,6 +65,13 @@ public class FinishedReportActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 
     public void expandableButton1(View view) {
