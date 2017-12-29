@@ -159,6 +159,24 @@ public class Intervention_track extends BaseModel {
         this.save();
 
     }
+    public void setThisInterventionAsFire(){
+        Types_all_Controller types_all_controller = new Types_all_Controller();
+        reports.setSort_of_intervention(types_all_controller.get_FIRE_Sort_of_intervention());
+        reports.save();
+        this.save();
+    }
+    public void setThisInterventionAsTehnical(){
+        Types_all_Controller types_all_controller = new Types_all_Controller();
+        reports.setSort_of_intervention(types_all_controller.get_TRHNICAL_Sort_of_intervention());
+        reports.save();
+        this.save();
+    }
+    public void setThisInterventionAsOther(){
+        Types_all_Controller types_all_controller = new Types_all_Controller();
+        reports.setSort_of_intervention(types_all_controller.get_OTHER_Sort_of_intervention());
+        reports.save();
+        this.save();
+    }
     public void add_OTHER_ReportToIntervention(){
         Types_all_Controller types_all_controller = new Types_all_Controller();
 

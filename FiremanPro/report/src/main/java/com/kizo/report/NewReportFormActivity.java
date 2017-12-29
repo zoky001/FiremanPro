@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.test.suitebuilder.annotation.Smoke;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,7 +37,6 @@ import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
-import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
@@ -50,6 +49,8 @@ import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
 
 public class NewReportFormActivity extends AppCompatActivity implements VerticalStepperForm {
 
+    private static final String NO_SELECTED = "Odaberite..";
+    Types_all_Controller types_all_controller = new Types_all_Controller();
     public static final String NEW_ALARM_ADDED = "new_alarm_added";
 
     // Information about the steps/fields of the form
@@ -134,7 +135,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     Spinner smokeSpread;
     Spinner outdoorSpread;
     private Intervention_track intervencije;
-    private EditText inputLayout;
+    private EditText interventionDescription;
 
 
     @Override
@@ -221,20 +222,22 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:/*
-                System.out.println("prvi step:" + inputLayout.getText());
+                System.out.println("prvi step:" + interventionDescription.getText());
 
-                if (inputLayout.length() == 0){
+                if (interventionDescription.length() == 0){
                 verticalStepperForm.setActiveStepAsCompleted();
                 }
                 else {
                     String errorMessage = "Morate upisati opis intervencije";
                     verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
-                }
-            break;*/
-            case DESCRIPTION_STEP_NUM:
-              /*  System.out.println("drugi step:");
+                }*/
 
-break;*/
+            break;
+            case DESCRIPTION_STEP_NUM:
+                save_MAIN_INFORMATION();
+              /*  System.out.println("drugi step:");
+*/
+break;
             case MATERIAL_AND_COST_NUM:
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case INTERVENTION_COST_NUM:
@@ -400,14 +403,35 @@ break;*/
         chooseTypeAndSort = new EditText(this);
         // titleEditText.setHint(R.string.form_hint_title);
         // titleEditText.setSingleLine(true);
-
+       // verticalStepperForm.setActiveStepAsUncompleted("Potrebno je upisani opis intervencije");
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
 
         spinnerSort = (Spinner) typeAndSortContent.findViewById(R.id.sort_of_intervention);
         spinnerSort.setAdapter(getSortOfInterventionAdapter());
 
-        inputLayout = (EditText) typeAndSortContent.findViewById(R.id.description);
+
+        interventionDescription = (EditText) typeAndSortContent.findViewById(R.id.description);
+
+
+        interventionDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                System.out.println("AFTER");
+validate_MAIN_INFORMATIONA();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 /*
         spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
         spinnerType.setAdapter(getTypeOfInterventionAdapter());
@@ -421,12 +445,15 @@ break;*/
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
+
                 Object item = parentView.getItemAtPosition(position);
 System.out.println("SPINNER"+ item.toString());
 
 
                 spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
                 spinnerType.setVisibility(View.VISIBLE);
+
+                validate_MAIN_INFORMATIONA();
             }
 
             @Override
@@ -436,13 +463,70 @@ System.out.println("SPINNER"+ item.toString());
             }
         });
 
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                validate_MAIN_INFORMATIONA();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return typeAndSortContent;
     }
 
+
+
+    private boolean validate_MAIN_INFORMATIONA() {
+        boolean titleIsCorrect = false;
+String title = interventionDescription.getText().toString();
+
+        if(title.length() > 3 && !spinnerSort.getSelectedItem().toString().equals(NO_SELECTED) && !spinnerType.getSelectedItem().toString().equals(NO_SELECTED)) {
+            titleIsCorrect = true;
+
+            verticalStepperForm.setActiveStepAsCompleted();
+            // Equivalent to: verticalStepperForm.setStepAsCompleted(TITLE_STEP_NUM);
+
+        } else {
+            String titleErrorString = "Potrebno je upisati opis intervencije  i odabrati vrstu i tip intervencije";
+
+
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+            // Equivalent to: verticalStepperForm.setStepAsUncompleted(TITLE_STEP_NUM, titleError);
+
+        }
+
+        return titleIsCorrect;
+    }
+ private void save_MAIN_INFORMATION(){
+     if(validate_MAIN_INFORMATIONA()) {
+         System.out.println("SAve first step");
+         String title = interventionDescription.getText().toString();
+         // insert in database
+         intervencije.addDescriptionOfIntervention(title);
+
+         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+
+             intervencije.setThisInterventionAsFire();
+         }
+         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
+
+             intervencije.setThisInterventionAsTehnical();
+         }
+         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
+
+             intervencije.setThisInterventionAsOther();
+         }
+     }
+ }
     private ArrayAdapter<String> getTypeOfInterventionAdapter(String sortName) {
         List<String> typeAll = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
         List<Intervention_Type> type_of_intervention = type_all_controller.GetAllRecordsFromTable_Intervention_type();
+
+        typeAll.add(NO_SELECTED); // first item, "unselected"
         for(Intervention_Type i : type_of_intervention){
 
             if (i.getSort_of_intervention().getName().equals(sortName))
@@ -460,6 +544,7 @@ System.out.println("SPINNER"+ item.toString());
         List<String> sortAll = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
         List<Sort_of_intervention> sort_of_intervention = type_all_controller.GetAllRecordsFromTable_Sort_of_intervention();
+        sortAll.add(NO_SELECTED); // first item, "unselected"
         for(Sort_of_intervention s : sort_of_intervention){
             sortAll.add(s.getName());
         }
