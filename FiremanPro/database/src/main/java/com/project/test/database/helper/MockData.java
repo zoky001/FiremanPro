@@ -253,7 +253,7 @@ intervencija.addHelpers("Nitko nije sudjelovao");
         strings.add("Stambena zgrada");
         strings.add("Turistički objekti i vikend-kuće");
 
-types_all_controller.get_FIRE_Sort_of_intervention().addTypes_of_intervention(strings);
+        types_all_controller.get_FIRE_Sort_of_intervention().addTypes_of_intervention(strings);
 
         ArrayList<String> strings1 = new ArrayList<String>();
 

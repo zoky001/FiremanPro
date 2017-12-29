@@ -30,6 +30,7 @@ import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
@@ -37,6 +38,7 @@ import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
+import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
@@ -221,7 +223,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     @Override
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
-            case MAIN_INFORMATION_NUM:/*
+            case MAIN_INFORMATION_NUM:
+                //VALIDIRANO i SPREMLJENO
+                /*
                 System.out.println("prvi step:" + interventionDescription.getText());
 
                 if (interventionDescription.length() == 0){
@@ -235,20 +239,27 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             break;
             case DESCRIPTION_STEP_NUM:
                 save_MAIN_INFORMATION();
+                //NIJE
               /*  System.out.println("drugi step:");
 */
-break;
+            break;
             case MATERIAL_AND_COST_NUM:
+                //VALIDIRANO 
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case INTERVENTION_COST_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
+                //VALIDIRANO i SPREMLJENO
+                //verticalStepperForm.setStepAsCompleted(stepNumber);
             case HELP_NUM:
+                //NIJE
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case MEHANIZATION_NUM:
+                //NIJE
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case  FIREMEN_NUM:
+                //NIJE
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case FIRE_STEP_NUM:
+                //djelomično
                 verticalStepperForm.setStepAsCompleted(stepNumber);
         }
     }
@@ -315,10 +326,49 @@ break;
 
         destroyedSpace = (EditText) fireContent.findViewById(R.id.destroyed_space);
         numberKeybord(destroyedSpace);
+        destroyedSpace.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_FIRE();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         return fireContent;
+    }
+    // -- need to add validation for spinners !!!
+    private boolean validate_FIRE() {
+        boolean isCorrect = false;
+
+        String destroyed = destroyedSpace.getText().toString();
+
+        if(destroyed.length() > 0) {
+            isCorrect = true;
+            verticalStepperForm.setActiveStepAsCompleted();
+
+        } else {
+            String titleErrorString = "Niste popunili sve podatke!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+        }
+
+        return isCorrect;
+    }
+    private void save_FIRE(){
+        if(validate_FIRE()) {
+            String destroyed = destroyedSpace.getText().toString();
+
+            // insert in database
+        }
     }
 
     private ArrayAdapter<String> getOutdoorSpreadAdapter() {
@@ -423,7 +473,7 @@ break;
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 System.out.println("AFTER");
-validate_MAIN_INFORMATIONA();
+            validate_MAIN_INFORMATIONA();
 
             }
 
@@ -437,9 +487,7 @@ validate_MAIN_INFORMATIONA();
         spinnerType.setAdapter(getTypeOfInterventionAdapter());
 */
         spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
-
         spinnerType.setVisibility(View.INVISIBLE);
-
 
         spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -447,7 +495,7 @@ validate_MAIN_INFORMATIONA();
 
 
                 Object item = parentView.getItemAtPosition(position);
-System.out.println("SPINNER"+ item.toString());
+                System.out.println("SPINNER"+ item.toString());
 
 
                 spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
@@ -481,7 +529,7 @@ System.out.println("SPINNER"+ item.toString());
 
     private boolean validate_MAIN_INFORMATIONA() {
         boolean titleIsCorrect = false;
-String title = interventionDescription.getText().toString();
+        String title = interventionDescription.getText().toString();
 
         if(title.length() > 3 && !spinnerSort.getSelectedItem().toString().equals(NO_SELECTED) && !spinnerType.getSelectedItem().toString().equals(NO_SELECTED)) {
             titleIsCorrect = true;
@@ -491,8 +539,6 @@ String title = interventionDescription.getText().toString();
 
         } else {
             String titleErrorString = "Potrebno je upisati opis intervencije  i odabrati vrstu i tip intervencije";
-
-
             verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
             // Equivalent to: verticalStepperForm.setStepAsUncompleted(TITLE_STEP_NUM, titleError);
 
@@ -581,29 +627,173 @@ String title = interventionDescription.getText().toString();
         spinnerVehicle = (Spinner) v.findViewById(R.id.vehicle);
         spinnerVehicle.setAdapter(getVehicleAdapter());
 
+        /*
+        spinnerVehicle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
+
         spinneTypeOfUnit = (Spinner) v.findViewById(R.id.sort_of_unit);
         spinneTypeOfUnit.setAdapter(getTypeOfUnitAdapter());
+
+        /*spinneTypeOfUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
 
         kmNumber = (EditText) v.findViewById(R.id.km);
         numberKeybord(kmNumber);
 
+        /*kmNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
+
         clockNumber = (EditText) v.findViewById(R.id.clock);
         numberKeybord(clockNumber);
+        /*
+        clockNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
 
         numberOfFiremanParticipated = (EditText) v.findViewById(R.id.number_of_firemen_in_truck);
         numberKeybord(numberOfFiremanParticipated);
+        /*
+        numberOfFiremanNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
 
         waterNumber = (EditText) v.findViewById(R.id.water);
         numberKeybord(waterNumber);
+        /*
+        waterNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
 
         foamNumber = (EditText) v.findViewById(R.id.foam);
         numberKeybord(foamNumber);
+        /*
+        foamNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
 
         powderNumber = (EditText) v.findViewById(R.id.powder);
         numberKeybord(powderNumber);
+        /*
+        powderNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
 
         co2Number = (EditText) v.findViewById(R.id.CO2);
         numberKeybord(co2Number);
+        /*
+        co2Number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
 
         ll.addView(prvi);
 
@@ -615,6 +805,95 @@ String title = interventionDescription.getText().toString();
         Button b = new Button(this);
         b.setText("Dodaj resurs");
         addNewUsedResources(prvi, b, ll, myView);
+    }
+/*
+    private boolean validate_USED_RESOURCES() {
+        boolean correctInformation = true; //all together
+
+        boolean correct = true;
+        if(spinnerVehicle.getSelectedItem().toString().equals(NO_SELECTED)) {
+            String titleErrorVehicle = "Potrebno je odabrati vozilo!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorVehicle);
+            correct = false;
+        }
+        if (spinneTypeOfUnit.getSelectedItem().toString().equals(NO_SELECTED)) {
+            String titleErrorUnit = "Potrebno je odabrati vrstu i naziv postrojbe!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorUnit);
+            correct = false;
+        }
+        if(kmNumber.getText().toString().length() == 0){
+            String titleErrorKm = "Potrebno je unjeti broj kilometara!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorKm);
+            correct = false;
+        }
+        if(clockNumber.getText().toString().length() == 0){
+            String titleErrorClock = "Potrebno je unjeti broj sati!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorClock);
+            correct = false;
+        }
+        if(numberOfFiremanParticipated.getText().toString().length() == 0){
+            String titleErrorFiremans = "Potrebno je unjeti broj vatrogasaca!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorFiremans);
+            correct = false;
+        }
+        if(waterNumber.getText().toString().length() == 0){
+            String titleErrorWater = "Potrebno je unjeti količinu vode!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorWater);
+            correct = false;
+        }
+        if(foamNumber.getText().toString().length() == 0){
+            String titleErrorFoam = "Potrebno je unjeti količinu pjenila!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorFoam);
+            correct = false;
+        }
+        if(powderNumber.getText().toString().length() == 0){
+            String titleErrorPowder = "Potrebno je unjeti količinu praha!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorPowder);
+            correct = false;
+        }
+        if(co2Number.getText().toString().length() == 0){
+            String titleErrorco2 = "Potrebno je unjeti količinu co2!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorco2);
+            correct = false;
+        }
+
+        if(correct == true ){
+            verticalStepperForm.setActiveStepAsCompleted();
+        } else{
+            verticalStepperForm.setActiveStepAsUncompleted("Niste unjeli sve podatke!");
+        }
+
+        return correctInformation;
+    }*/
+
+    private void save_USED_RESOURCES(){
+        /*if(validate_USED_RESOURCES()) {
+
+            String km =kmNumber.getText().toString();
+            String water = waterNumber.getText().toString();
+            String powder = powderNumber.getText().toString();
+            String foam = foamNumber.getText().toString();
+            String co2 = co2Number.getText().toString();
+            String numberOfFiremans = numberOfFiremanParticipated.getText().toString();
+            String clock = clockNumber.getText().toString();
+
+
+            /*if (spinnerVehicle.getSelectedItem().toString().equals(types_all_controller.get_naval_vehicle_type_of_truck().getType_name())) {
+
+            }
+            if (spinneTypeOfUnit.getSelectedItem().toString().equals(types_all_controller.get_JVP_type_of_unit().getName())) {
+
+
+            }
+
+            // insert in database
+            intervencije.getReports().addFiremanPatrolandTruck(Integer.parseInt(numberOfFiremans),
+                    Double.parseDouble(water),
+                    Double.parseDouble(foam), Double.parseDouble(powder),
+                    Double.parseDouble(co2), Double.parseDouble(km),
+                    Double.parseDouble(clock),
+                    spinnerVehicle.getSelectedItem().toString(), spinneTypeOfUnit.getSelectedItem().toString());
+        }*/
     }
 
     private void addNewUsedResources(final Button prvi,final Button noviB,  final LinearLayout ll, final  View myView) {
@@ -677,14 +956,72 @@ String title = interventionDescription.getText().toString();
 
         surfaceNumber = (EditText) ownerAndCostContent.findViewById(R.id.surface);
         numberKeybord(surfaceNumber);
+        surfaceNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_OWNER_AND_MATERIAL_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         superficiesNumber = (EditText) ownerAndCostContent.findViewById(R.id.superficies);
         numberKeybord(superficiesNumber);
+        superficiesNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_OWNER_AND_MATERIAL_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         return ownerAndCostContent;
     }
 
 
+    private boolean validate_OWNER_AND_MATERIAL_COST() {
+        boolean isCorrect = false;
+        String surface = surfaceNumber.getText().toString();
+        String superficies = superficiesNumber.getText().toString();
+
+        if(surface.length() > 0 && superficies.length() > 0) {
+            isCorrect = true;
+            verticalStepperForm.setActiveStepAsCompleted();
+
+        } else {
+            String titleErrorString = "Potrebno je upisati površinu objekata i vanjskog prostora!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+        }
+
+        return isCorrect;
+    }
+    private void save_OWNER_AND_MATERIAL_COST(){
+        if(validate_OWNER_AND_MATERIAL_COST()) {
+
+            String surface = surfaceNumber.getText().toString();
+            String superficies = superficiesNumber.getText().toString();
+            // insert in database
+            intervencije.addObjectSuperficies_ha(Double.parseDouble(superficies));
+            intervencije.addObjectSurface_m2(Double.parseDouble(surface));
+        }
+    }
     private View createInterventionCostStep() {
         chooseTypeAndSort = new EditText(this);
         // titleEditText.setHint(R.string.form_hint_title);
@@ -695,26 +1032,175 @@ String title = interventionDescription.getText().toString();
 
         navalVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.navalVehicle);
         numberKeybord(navalVehicleNumber);
+        navalVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         commandVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.commandVehicle);
         numberKeybord(commandVehicleNumber);
+        commandVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         tehnicalVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.tehnicalVehicle);
         numberKeybord(tehnicalVehicleNumber);
+        tehnicalVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         automaticLadderNumber = (EditText) interventionCostContent.findViewById(R.id.automaticLadder);
         numberKeybord(automaticLadderNumber);
+        automaticLadderNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         roadTankersNumber = (EditText) interventionCostContent.findViewById(R.id.roadTankers);
         numberKeybord(roadTankersNumber);
+        roadTankersNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         specialVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.specialVehicle);
         numberKeybord(specialVehicleNumber);
+        specialVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         transportationVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.transportationVehicle);
         numberKeybord(transportationVehicleNumber);
+        transportationVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         return interventionCostContent;
+    }
+    private boolean validate_INTERVENTION_COST() {
+        boolean isCorrect = false;
+
+        String navalVehicle = navalVehicleNumber.getText().toString();
+        String commandVehicle = commandVehicleNumber.getText().toString();
+        String technicalVehicle = tehnicalVehicleNumber.getText().toString();
+        String automaticLadder = automaticLadderNumber.getText().toString();
+        String roadTanker = roadTankersNumber.getText().toString();
+        String specialVehicle = specialVehicleNumber.getText().toString();
+        String transportVehicle = transportationVehicleNumber.getText().toString();
+
+        if(navalVehicle.length() > 0 && commandVehicle.length() > 0 && technicalVehicle.length() > 0
+                && automaticLadder.length() > 0 && roadTanker.length() > 0 && specialVehicle.length() > 0  && transportVehicle.length() > 0) {
+            isCorrect = true;
+            verticalStepperForm.setActiveStepAsCompleted();
+
+        } else {
+            String titleErrorString = "Niste popunili sve podatke!";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+        }
+
+        return isCorrect;
+    }
+    private void save_INTERVENTION_COST(){
+        if(validate_INTERVENTION_COST()) {
+
+            String navalVehicle = navalVehicleNumber.getText().toString();
+            String commandVehicle = commandVehicleNumber.getText().toString();
+            String technicalVehicle = tehnicalVehicleNumber.getText().toString();
+            String automaticLadder = automaticLadderNumber.getText().toString();
+            String roadTanker = roadTankersNumber.getText().toString();
+            String specialVehicle = specialVehicleNumber.getText().toString();
+            String transportVehicle = transportationVehicleNumber.getText().toString();
+
+            // insert in database
+        }
     }
 
     private View createDescriptionStep() {
