@@ -162,12 +162,10 @@
             />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/addDescription"
+    <EditText
+        android:id="@+id/crticaa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dodaj resurs"
-        />
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

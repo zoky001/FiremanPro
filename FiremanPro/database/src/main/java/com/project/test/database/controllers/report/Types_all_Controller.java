@@ -9,6 +9,7 @@ import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
@@ -413,6 +414,12 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
         return SQLite.select().from(Intervention_Type.class).queryList();
     }
 // Sort_of_intervention  END
+
+    //all trucks
+    public List<Truck> GetAllRecordsFromTable_Truck(){
+        return SQLite.select().from(Truck.class).queryList();
+    }
+
 
 
 

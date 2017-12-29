@@ -1,21 +1,12 @@
 package com.kizo.report;
 
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.constraint.solver.SolverVariable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,17 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.project.test.database.Entities.fireman_patrol.Fireman;
-import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
+import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
@@ -46,8 +34,6 @@ import com.project.test.database.controllers.report.Types_all_Controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.fragments.BackConfirmationFragment;
 import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm;
@@ -75,6 +61,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private EditText descriptionEditText;
     public static final String STATE_DESCRIPTION = "description";
 
+    /*
     // Time step
     private TextView timeTextView;
     private TimePickerDialog timePicker;
@@ -86,6 +73,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private boolean[] weekDays;
     private LinearLayout daysStepContent;
     public static final String STATE_WEEK_DAYS = "week_days";
+    */
 
     private boolean confirmBack = true;
     private ProgressDialog progressDialog;
@@ -123,6 +111,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     LinearLayout mehanizationContent;
 
     Spinner spinneTypeOfUnit;
+
+    Spinner usedTruck;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,13 +123,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
     private void initializeActivity() {
-        // Time step vars
-        time = new Pair<>(8, 30);
-        setTimePicker(8, 30);
-
-        // Week days step vars
-        weekDays = new boolean[7];
-
         // Vertical Stepper form vars
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.glavna);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDarkREPORT);
@@ -198,21 +182,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
-                // When this step is open, we check that the title is correct
-                //checkTitleStep(chooseTypeAndSort.getText().toString());
             case DESCRIPTION_STEP_NUM:
             case MATERIAL_AND_COST_NUM:
-                // As soon as they are open, these two steps are marked as completed because they
-                // have default values
                 verticalStepperForm.setStepAsCompleted(stepNumber);
-                // In this case, the instruction above is equivalent to:
-                // verticalStepperForm.setActiveStepAsCompleted();
-                // break;
             case INTERVENTION_COST_NUM:
-                // When this step is open, we check the days to verify that at least one is selected
-                //  checkDays();
                 verticalStepperForm.setStepAsCompleted(stepNumber);
-                // break;
             case HELP_NUM:
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case MEHANIZATION_NUM:
@@ -289,58 +263,63 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout vehicleContent = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
 
-        addUsedResources(vehicleContent);
-        addMoreDescription(vehicleContent);
+        final Button prvi = new Button(this);
+        prvi.setText("Dodaj resurs");
+
+        addUsedResources(prvi, vehicleContent, vehicleContent);
 
         return vehicleContent;
     }
 
-    private void addMoreDescription(final LinearLayout ll) {
-        Button oneMoreDescription = (Button) ll.findViewById(R.id.addDescription);
 
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View myView = factory.inflate(R.layout.step_used_resources, null);
-
-        oneMoreDescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ll.addView(myView);
-                addUsedResources(myView);
-            }
-        });
-    }
-
-    private void addUsedResources(View ll) {
-        spinnerVehicle = (Spinner) ll.findViewById(R.id.vehicle);
+    private void addUsedResources(Button prvi, final View v, final  LinearLayout ll) {
+        spinnerVehicle = (Spinner) v.findViewById(R.id.vehicle);
         spinnerVehicle.setAdapter(getVehicleAdapter());
 
-        spinneTypeOfUnit = (Spinner) ll.findViewById(R.id.sort_of_unit);
+        spinneTypeOfUnit = (Spinner) v.findViewById(R.id.sort_of_unit);
         spinneTypeOfUnit.setAdapter(getTypeOfUnitAdapter());
 
-        kmNumber = (EditText) ll.findViewById(R.id.km);
+        kmNumber = (EditText) v.findViewById(R.id.km);
         numberKeybord(kmNumber);
 
-        clockNumber = (EditText) ll.findViewById(R.id.clock);
+        clockNumber = (EditText) v.findViewById(R.id.clock);
         numberKeybord(clockNumber);
 
-        numberOfFiremanParticipated = (EditText) ll.findViewById(R.id.number_of_firemen_in_truck);
+        numberOfFiremanParticipated = (EditText) v.findViewById(R.id.number_of_firemen_in_truck);
         numberKeybord(numberOfFiremanParticipated);
 
-        waterNumber = (EditText) ll.findViewById(R.id.water);
+        waterNumber = (EditText) v.findViewById(R.id.water);
         numberKeybord(waterNumber);
 
-        foamNumber = (EditText) ll.findViewById(R.id.foam);
+        foamNumber = (EditText) v.findViewById(R.id.foam);
         numberKeybord(foamNumber);
 
-        powderNumber = (EditText) ll.findViewById(R.id.powder);
+        powderNumber = (EditText) v.findViewById(R.id.powder);
         numberKeybord(powderNumber);
 
-        co2Number = (EditText) ll.findViewById(R.id.CO2);
+        co2Number = (EditText) v.findViewById(R.id.CO2);
         numberKeybord(co2Number);
+
+        ll.addView(prvi);
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout addedVehicleContent = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
-        addMoreDescription(addedVehicleContent);
+
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View myView = factory.inflate(R.layout.step_used_resources, null);
+        Button b = new Button(this);
+        b.setText("Dodaj resurs");
+        addNewUsedResources(prvi, b, ll, myView);
+    }
+
+    private void addNewUsedResources(final Button prvi,final Button noviB,  final LinearLayout ll, final  View myView) {
+        prvi.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ll.removeView(prvi);
+                ll.addView(myView);
+                addUsedResources(noviB, myView, ll);
+            }
+        });
     }
 
     private ArrayAdapter<String> getTypeOfUnitAdapter() {
@@ -455,28 +434,24 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         mehanizationContent = (LinearLayout) inflate.inflate(R.layout.step_mehanization, null, false);
 
+        makeMehanizationSpinnerFull(mehanizationContent, mehanizationContent);
 
-        Spinner usedTruck = (Spinner) mehanizationContent.findViewById(R.id.vehicleUsed);
-        usedTruck.setAdapter(getVehicleAdapter());
-
-        EditText kmOdabrano = (EditText) mehanizationContent.findViewById(R.id.km);
-        numberKeybord(kmOdabrano);
-
-        final Button addVehicleButton = (Button) mehanizationContent.findViewById(R.id.addVehicle);
-
+        /*
         LayoutInflater factory = LayoutInflater.from(this);
         final View myView = factory.inflate(R.layout.step_mehanization, null);
 
         addVehicleButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                makeMehanizationSpinnerFull(v);
                 mehanizationContent.addView(myView);
+
             }
                /* Spinner vehicleSpinner = new Spinner(this);
                 RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
                 rgp.addView(vehicleSpinner, rprms);
 
             }
-            */
+
         });
 
 /*
@@ -494,14 +469,55 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return mehanizationContent;
     }
 
+    private void addMoreMehanization(final Button b, final View myView, final LinearLayout ll) {
+        b.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ll.removeView(b);
+                ll.addView(myView);
+                makeMehanizationSpinnerFull(ll, myView);
+            }
+        });
+    }
+
+
+    private void makeMehanizationSpinnerFull(LinearLayout ll, View v) {
+        usedTruck = (Spinner) v.findViewById(R.id.vehicleUsed);
+        usedTruck.setAdapter(getTruckAdapter());
+
+        EditText kmOdabrano = (EditText) v.findViewById(R.id.km);
+        numberKeybord(kmOdabrano);
+
+        final Button b = new Button(this);
+        ll.addView(b);
+        b.setText("noviii");
+
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View myView = factory.inflate(R.layout.step_mehanization, null);
+
+        addMoreMehanization(b, myView, ll);
+    }
+
+
+    private SpinnerAdapter getTruckAdapter() {
+        List<String> truckAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Truck> all_trucks = type_all_controller.GetAllRecordsFromTable_Truck();
+        for(Truck t : all_trucks){
+            truckAll.add(t.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, truckAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+
     private View createFiremenStep() {
         chooseTypeAndSort = new EditText(this);
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout firemenContent = (LinearLayout) inflate.inflate(R.layout.step_firemen, null, false);
-
-        numberOfFiremanNumber = (EditText) firemenContent.findViewById(R.id.number_of_firemen);
-        numberKeybord(numberOfFiremanNumber);
 
 
         final List<String> firemanList = new ArrayList<String>();
@@ -537,11 +553,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-
         });
-
         return firemenContent;
-
     }
 
 
@@ -592,11 +605,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     intent.putExtra(NEW_ALARM_ADDED, true);
                     intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
                     intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
+                    /*
                     intent.putExtra(STATE_TIME_HOUR, time.first);
                     intent.putExtra(STATE_TIME_MINUTES, time.second);
                     intent.putExtra(STATE_WEEK_DAYS, weekDays);
                     intent.putExtra(STATE_WEEK_DAYS, weekDays);
                     intent.putExtra(STATE_WEEK_DAYS, weekDays);
+                    */
 
                     // You must set confirmBack to false before calling finish() to avoid the confirmation dialog
                     confirmBack = false;
@@ -666,8 +681,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return titleEditText;
     }
-
-    */
 
 
 
@@ -789,13 +802,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return thereIsAtLeastOneDaySelected;
     }
-*/
+
     private LinearLayout getDayLayout(int i) {
         int id = daysStepContent.getResources().getIdentifier(
                 "day_" + i, "id", getPackageName());
         return (LinearLayout) daysStepContent.findViewById(id);
     }
 
+    */
     // CONFIRMATION DIALOG WHEN USER TRIES TO LEAVE WITHOUT SUBMITTING
 
     private void confirmBack() {
@@ -869,6 +883,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             savedInstanceState.putString(STATE_DESCRIPTION, descriptionEditText.getText().toString());
         }
 
+        /*
         // Saving time field
         if(time != null) {
             savedInstanceState.putInt(STATE_TIME_HOUR, time.first);
@@ -879,7 +894,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         if(weekDays != null) {
             savedInstanceState.putBooleanArray(STATE_WEEK_DAYS, weekDays);
         }
-
+        */
         // The call to super method must be at the end here
         super.onSaveInstanceState(savedInstanceState);
 
@@ -900,15 +915,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             descriptionEditText.setText(description);
         }
 
+        /*
         // Restoration of time field
         if(savedInstanceState.containsKey(STATE_TIME_HOUR)
                 && savedInstanceState.containsKey(STATE_TIME_MINUTES)) {
             int hour = savedInstanceState.getInt(STATE_TIME_HOUR);
             int minutes = savedInstanceState.getInt(STATE_TIME_MINUTES);
             time = new Pair<>(hour, minutes);
-            setTime(hour, minutes);
             if(timePicker == null) {
-                setTimePicker(hour, minutes);
             } else {
                 timePicker.updateTime(hour, minutes);
             }
@@ -919,15 +933,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             weekDays = savedInstanceState.getBooleanArray(STATE_WEEK_DAYS);
             if (weekDays != null) {
                 for (int i = 0; i < weekDays.length; i++) {
-                    LinearLayout dayLayout = getDayLayout(i);
                     if (weekDays[i]) {
-                        activateDay(i, dayLayout, false);
                     } else {
-                        deactivateDay(i, dayLayout, false);
                     }
                 }
             }
         }
+        */
 
         // The call to super method must be at the end here
         super.onRestoreInstanceState(savedInstanceState);

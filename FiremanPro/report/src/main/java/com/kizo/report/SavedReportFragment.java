@@ -133,15 +133,18 @@ public class SavedReportFragment extends TabFragment {
                 // Handling the data received from the stepper form
                 dataReceived = true;
                 String title = data.getExtras().getString(NewReportFormActivity.STATE_TITLE);
+                /*
                 //String description = data.getExtras().getString(NewReportFormActivity.STATE_DESCRIPTION);
                 int hour = data.getExtras().getInt(NewReportFormActivity.STATE_TIME_HOUR);
                 int minutes = data.getExtras().getInt(NewReportFormActivity.STATE_TIME_MINUTES);
+
                 String time = ((hour > 9) ? hour : ("0" + hour))
                         + ":" + ((minutes > 9) ? minutes : ("0" + minutes));
                 //boolean[] weekDays = data.getExtras().getBooleanArray(NewReportFormActivity.STATE_WEEK_DAYS);
                 information.setText("Alarm \"" + title + "\" set up at " + time);
                 disclaimer.setVisibility(View.VISIBLE);
                 Snackbar.make(fab, getString(R.string.new_alarm_added), Snackbar.LENGTH_LONG).show();
+                */
             }
         }
     }

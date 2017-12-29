@@ -10,23 +10,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
-        style="@style/NumberArea"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:layout_gravity="center"
-            android:text="Broj vatrogasaca: "
-            />
-
-        <EditText
-            android:id="@+id/number_of_firemen"
-            style="@style/numberPickerFireman"
-            />
-
-    </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"

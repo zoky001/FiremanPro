@@ -105,7 +105,6 @@ public class Truck extends BaseModel {
 
         List<Truck> house = SQLite.select().from(Truck.class).queryList();
 
-
         return house.get(0);
     }
 
