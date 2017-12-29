@@ -34,8 +34,11 @@ import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
+import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
 import java.util.ArrayList;
@@ -130,6 +133,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     Spinner timeSpread;
     Spinner smokeSpread;
     Spinner outdoorSpread;
+    private Intervention_track intervencije;
+    private EditText inputLayout;
 
 
     @Override
@@ -137,6 +142,19 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_stepper_report_form);
 
+
+        String s = getIntent().getStringExtra("IDintervencije");
+        System.out.println("SESSION FRAGMENT_idkuce: " + s);
+        int a = Integer.parseInt(getIntent().getStringExtra("IDintervencije"));
+        if (a != -1) {
+
+            intervencije = InterventionController.getInterventionByID(a);
+
+        } else {
+            intervencije = InterventionController.getInterventionByID(a);
+        }
+
+        System.out.println("SESSION FRAGMENT_idkuce: " + intervencije.getHouse().getName_owner());
         initializeActivity();
     }
 
@@ -197,6 +215,84 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 view = createFiremenStep();
         }
         return view;
+    }
+
+    @Override
+    public void onStepOpening(int stepNumber) {
+        switch (stepNumber) {
+            case MAIN_INFORMATION_NUM:/*
+                System.out.println("prvi step:" + inputLayout.getText());
+
+                if (inputLayout.length() == 0){
+                verticalStepperForm.setActiveStepAsCompleted();
+                }
+                else {
+                    String errorMessage = "Morate upisati opis intervencije";
+                    verticalStepperForm.setActiveStepAsUncompleted(errorMessage);
+                }
+            break;*/
+            case DESCRIPTION_STEP_NUM:
+              /*  System.out.println("drugi step:");
+
+break;*/
+            case MATERIAL_AND_COST_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case INTERVENTION_COST_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case HELP_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case MEHANIZATION_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case  FIREMEN_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+            case FIRE_STEP_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+        }
+    }
+
+    @Override
+    public void sendData() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+        progressDialog.setMessage(getString(R.string.vertical_form_stepper_form_sending_data_message));
+        executeDataSending();
+    }
+
+    // OTHER METHODS USED TO MAKE THIS EXAMPLE WORK
+
+    private void executeDataSending() {
+
+        // TODO Use here the data of the form as you wish
+
+        // Fake data sending effect
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    Intent intent = getIntent();
+                    setResult(RESULT_OK, intent);
+                    intent.putExtra(NEW_ALARM_ADDED, true);
+                    intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
+                    intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
+                    /*
+                    intent.putExtra(STATE_TIME_HOUR, time.first);
+                    intent.putExtra(STATE_TIME_MINUTES, time.second);
+                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
+                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
+                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
+                    */
+
+                    // You must set confirmBack to false before calling finish() to avoid the confirmation dialog
+                    confirmBack = false;
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start(); // You should delete this code and add yours
+
     }
 
     private View createFireStep() {
@@ -298,25 +394,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         spinner.setAdapter(methodArray);
     }
 
-    @Override
-    public void onStepOpening(int stepNumber) {
-        switch (stepNumber) {
-            case MAIN_INFORMATION_NUM:
-            case DESCRIPTION_STEP_NUM:
-            case MATERIAL_AND_COST_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-            case INTERVENTION_COST_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-            case HELP_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-            case MEHANIZATION_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-            case  FIREMEN_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-            case FIRE_STEP_NUM:
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-        }
-    }
+
 
     private View createTypeAndSortStep() {
         chooseTypeAndSort = new EditText(this);
@@ -324,25 +402,36 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         // titleEditText.setSingleLine(true);
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
-        LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
+        final LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
 
         spinnerSort = (Spinner) typeAndSortContent.findViewById(R.id.sort_of_intervention);
         spinnerSort.setAdapter(getSortOfInterventionAdapter());
 
-        EditText inputLayout = (EditText) findViewById(R.id.description);
-
+        inputLayout = (EditText) typeAndSortContent.findViewById(R.id.description);
+/*
         spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
         spinnerType.setAdapter(getTypeOfInterventionAdapter());
+*/
+        spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
+
+        spinnerType.setVisibility(View.INVISIBLE);
 
 
         spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
+                Object item = parentView.getItemAtPosition(position);
+System.out.println("SPINNER"+ item.toString());
+
+
+                spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
+                spinnerType.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                spinnerType.setVisibility(View.INVISIBLE);
                 // your code here
             }
         });
@@ -350,12 +439,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return typeAndSortContent;
     }
 
-    private ArrayAdapter<String> getTypeOfInterventionAdapter() {
+    private ArrayAdapter<String> getTypeOfInterventionAdapter(String sortName) {
         List<String> typeAll = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
         List<Intervention_Type> type_of_intervention = type_all_controller.GetAllRecordsFromTable_Intervention_type();
         for(Intervention_Type i : type_of_intervention){
-            typeAll.add(i.getName());
+
+            if (i.getSort_of_intervention().getName().equals(sortName))
+            {typeAll.add(i.getName());
+            }
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
@@ -701,50 +793,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return titleIsCorrect;
     }
 
-    @Override
-    public void sendData() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
-        progressDialog.setMessage(getString(R.string.vertical_form_stepper_form_sending_data_message));
-        executeDataSending();
-    }
 
-    // OTHER METHODS USED TO MAKE THIS EXAMPLE WORK
-
-    private void executeDataSending() {
-
-        // TODO Use here the data of the form as you wish
-
-        // Fake data sending effect
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    Intent intent = getIntent();
-                    setResult(RESULT_OK, intent);
-                    intent.putExtra(NEW_ALARM_ADDED, true);
-                    intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
-                    intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
-                    /*
-                    intent.putExtra(STATE_TIME_HOUR, time.first);
-                    intent.putExtra(STATE_TIME_MINUTES, time.second);
-                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
-                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
-                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
-                    */
-
-                    // You must set confirmBack to false before calling finish() to avoid the confirmation dialog
-                    confirmBack = false;
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start(); // You should delete this code and add yours
-
-    }
 
     private View createSortOfUnitStep() {
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());

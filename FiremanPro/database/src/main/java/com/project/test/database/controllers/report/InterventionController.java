@@ -27,6 +27,24 @@ public class InterventionController {
     public InterventionController() {
     }
 
+    public boolean checkIfExistUnfinishedInterventionAtHouse( House house){
+
+        List<Intervention_track> intervention_tracks =  SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.house_id_house.is(house.getId_house())).and(Intervention_track_Table.completed_intervention.is(Boolean.FALSE)).queryList();
+
+        if (intervention_tracks.size() > 0)
+            return true;
+        else return false;
+    }
+
+    public Intervention_track getUnfinishedInterventionAtHouse( House house){
+
+        Intervention_track intervention_tracks =  SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.house_id_house.is(house.getId_house())).and(Intervention_track_Table.completed_intervention.is(Boolean.FALSE)).querySingle();
+
+        return intervention_tracks;
+    }
+
+
+
     public Intervention_track addNewIntervention_atHouse(House house){
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
         Intervention_track intervention_track = new Intervention_track(false,house,CurrentDate,CurrentDate);

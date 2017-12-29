@@ -66,6 +66,8 @@ Types_all_Controller types_all_controller = new Types_all_Controller();
         interventionController.DeleteAllRecordsInTable_Intervention_track();
         interventionController.DeleteAllRecordsInTable_Reports();
 
+       types_all_controller.DeleteAllRecordsTable_Intervention_type();
+
 
     }
 
@@ -185,7 +187,7 @@ intervencija.addHelpers("Nitko nije sudjelovao");
     public void writeCodeBook(){
 
         types_all_controller.addNewSize_of_fire_Type(100,"mali požar","jedan aparat za gašenje požara");
-        types_all_controller.addNewSize_of_fire_Type(101,"mali požar","1  \" C \" mlaz");
+        types_all_controller.addNewSize_of_fire_Type(101,"mali požar - 1  \" C \" mlaz","1  \" C \" mlaz");
         types_all_controller.addNewSize_of_fire_Type(102,"srednji požar","2-3  \" C \" mlaz");
         types_all_controller.addNewSize_of_fire_Type(103,"veliki požar","više od 3  \" C \" mlaza");
 

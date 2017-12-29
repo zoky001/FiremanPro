@@ -11,18 +11,7 @@
     android:orientation="vertical"
     >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Tip intervencije:"
-        android:layout_marginTop="8dp"
-        />
 
-    <Spinner
-        android:id="@+id/type_of_intervention"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
 
 
     <TextView
@@ -34,6 +23,19 @@
 
     <Spinner
         android:id="@+id/sort_of_intervention"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Tip intervencije:"
+        android:layout_marginTop="8dp"
+        />
+
+    <Spinner
+        android:id="@+id/type_of_intervention"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />

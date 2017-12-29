@@ -341,19 +341,7 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
 
     }
 
-    public Sort_of_intervention get_OTHER_Sort_of_intervention(){
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
 
-
-        if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"OTHER INTERVENTION","",CurrentDate,CurrentDate);
-            sort_of_intervention.save();
-            return sort_of_intervention;
-        }else {
-            return  type.get(0);
-        }
-
-    }
 
     public Sort_of_intervention get_TRHNICAL_Sort_of_intervention(){
         List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("TEHNICAL_INTERVENTION")).queryList();
@@ -361,6 +349,19 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
             Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL INTERVENTION","",CurrentDate,CurrentDate);
+            sort_of_intervention.save();
+            return sort_of_intervention;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+    public Sort_of_intervention get_OTHER_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(102,"OTHER INTERVENTION","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -407,6 +408,16 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
     //all types of intervention
     public List<Intervention_Type> GetAllRecordsFromTable_Intervention_type(){
         return SQLite.select().from(Intervention_Type.class).queryList();
+    }
+    public void DeleteAllRecordsTable_Intervention_type(){
+
+        final List<Intervention_Type> gndPlan = GetAllRecordsFromTable_Intervention_type();
+        for(int i = 0; i < gndPlan.size(); i++){
+
+            gndPlan.get(i).delete();
+            //delete all item in table House
+        }
+
     }
 // Sort_of_intervention  END
 
