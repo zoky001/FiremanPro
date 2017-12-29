@@ -1,10 +1,6 @@
 package com.project.test.database.controllers.report;
 
-import com.project.test.database.Entities.House;
-
-import com.project.test.database.Entities.PhotoType;
-import com.project.test.database.Entities.Post;
-import com.project.test.database.Entities.fire_intervention.Sepatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
@@ -15,7 +11,6 @@ import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
-import com.raizlabs.android.dbflow.sql.language.CursorResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit_Table;
 
@@ -223,22 +218,22 @@ public Type_of_unit get_DVD_type_of_unit(){
     }
 // Spreading_smoke END
 
-    // Sepatial_spread BEGIN
-public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, String description){
-    Sepatial_spread sepatial_spread = new Sepatial_spread(id_of_type,name,description,CurrentDate,CurrentDate);
-    sepatial_spread.save();
+    // Spatial_spread BEGIN
+public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, String description){
+    Spatial_spread spatial_spread = new Spatial_spread(id_of_type,name,description,CurrentDate,CurrentDate);
+    spatial_spread.save();
 
-    return sepatial_spread;
+    return spatial_spread;
 }
-    public List<Sepatial_spread> GetAllRecordsFromTable_Sepatial_spread(){
+    public List<Spatial_spread> GetAllRecordsFromTable_Spatial_spread(){
 
-        return SQLite.select().from(Sepatial_spread.class).queryList();
+        return SQLite.select().from(Spatial_spread.class).queryList();
 
 
     }
     public void DeleteAllRecordsInTable_Sepatial_spread(){
 
-        final List<Sepatial_spread> gndPlan = GetAllRecordsFromTable_Sepatial_spread();
+        final List<Spatial_spread> gndPlan = GetAllRecordsFromTable_Spatial_spread();
         for(int i = 0; i < gndPlan.size(); i++){
 
             gndPlan.get(i).delete();
@@ -246,7 +241,7 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
         }
 
     }
-// Sepatial_spread  END
+// Spatial_spread  END
 
     // Time_spread BEGIN
     public Time_spread addNewTime_spread_Type(int id_of_type, String name, String description){

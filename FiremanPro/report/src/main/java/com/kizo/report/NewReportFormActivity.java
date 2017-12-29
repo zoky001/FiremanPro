@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.test.suitebuilder.annotation.Smoke;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,11 +25,16 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.project.test.database.Entities.fire_intervention.Size_of_fire;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
+import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
@@ -45,11 +52,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     // Information about the steps/fields of the form
     private static final int MAIN_INFORMATION_NUM = 0;
     private static final int DESCRIPTION_STEP_NUM = 1;
-    private static final int MATERIAL_AND_COST_NUM = 2;
-    private static final int INTERVENTION_COST_NUM = 3;
-    private static final int HELP_NUM = 4;
-    private static final int MEHANIZATION_NUM = 5;
-    private static final int FIREMEN_NUM = 6;
+    private static final int FIRE_STEP_NUM = 2;
+    private static final int MATERIAL_AND_COST_NUM = 3;
+    private static final int INTERVENTION_COST_NUM = 4;
+    private static final int HELP_NUM = 5;
+    private static final int MEHANIZATION_NUM = 6;
+    private static final int FIREMEN_NUM = 7;
 
 
     // Title step
@@ -114,6 +122,16 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     Spinner usedTruck;
 
+    //fire
+    Spinner sizeOfFire;
+    EditText destroyedSpace;
+    Spinner repeatedSpinner;
+    Spinner spatialSpread;
+    Spinner timeSpread;
+    Spinner smokeSpread;
+    Spinner outdoorSpread;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,14 +172,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
                 // view = createAlarmTitleStep();
-                view  = createTypeAndSort();
+                view  = createTypeAndSortStep();
                 break;
             case DESCRIPTION_STEP_NUM:
-                view = createUsedResources();
+                view = createUsedResourcesStep();
+                break;
+            case FIRE_STEP_NUM:
+                view = createFireStep();
                 break;
             case MATERIAL_AND_COST_NUM:
                // view = createUsedResources();
-                view = createOwnerAndMaterialCost();
+                view = createOwnerAndMaterialCostStep();
                 break;
             case INTERVENTION_COST_NUM:
                 view = createDescriptionStep();
@@ -170,12 +191,111 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 view = createMehanizationStep();
                 break;
             case MEHANIZATION_NUM:
-                view = createInterventionCost();
+                view = createInterventionCostStep();
                 break;
             case FIREMEN_NUM:
                 view = createFiremenStep();
         }
         return view;
+    }
+
+    private View createFireStep() {
+        chooseTypeAndSort = new EditText(this);
+        // titleEditText.setHint(R.string.form_hint_title);
+        // titleEditText.setSingleLine(true);
+
+        LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+        LinearLayout fireContent = (LinearLayout) inflate.inflate(R.layout.step_fire, null, false);
+
+        addSpinnerValue(sizeOfFire, fireContent, R.id.size_of_fire, getSizeOfFireAdapter());
+        addSpinnerValue(repeatedSpinner, fireContent, R.id.repeated, getSizeOfFireAdapter());
+        addSpinnerValue(spatialSpread, fireContent, R.id.spatial_spread, getSpatialSpreadAdapter());
+        addSpinnerValue(timeSpread, fireContent, R.id.time_spread, getTimeSpreadAdapter());
+        addSpinnerValue(smokeSpread, fireContent, R.id.smoke_spread, getSmokeSpreadAdapter());
+        addSpinnerValue(outdoorSpread, fireContent, R.id.outdoor_spread, getOutdoorSpreadAdapter());
+
+        destroyedSpace = (EditText) fireContent.findViewById(R.id.destroyed_space);
+        numberKeybord(destroyedSpace);
+
+
+
+        return fireContent;
+    }
+
+    private ArrayAdapter<String> getOutdoorSpreadAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Outdoor_type> all_size_of_fire = type_all_controller.GetAllRecordsFromTable_Outdoor_type();
+        for(Outdoor_type t : all_size_of_fire){
+            typeAll.add(t.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return dataAdapter;
+    }
+
+    private ArrayAdapter<String> getSmokeSpreadAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Spreading_smoke> all_size_of_fire = type_all_controller.GetAllRecordsFromTable_Spreading_smoke();
+        for(Spreading_smoke t : all_size_of_fire){
+            typeAll.add(t.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+    private ArrayAdapter<String> getTimeSpreadAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Time_spread> all_size_of_fire = type_all_controller.GetAllRecordsFromTable_Time_spread();
+        for(Time_spread t : all_size_of_fire){
+            typeAll.add(t.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+    private ArrayAdapter<String> getSpatialSpreadAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Spatial_spread> all_size_of_fire = type_all_controller.GetAllRecordsFromTable_Spatial_spread();
+        for(Spatial_spread s : all_size_of_fire){
+            typeAll.add(s.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+
+    private ArrayAdapter<String> getSizeOfFireAdapter() {
+        List<String> typeAll = new ArrayList<String>();
+        Types_all_Controller type_all_controller = new Types_all_Controller();
+        List<Size_of_fire> all_size_of_fire = type_all_controller.GetAllRecordsFromTable_Size_of_fire();
+        for(Size_of_fire s : all_size_of_fire){
+            typeAll.add(s.getName());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeAll);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        return  dataAdapter;
+    }
+
+    private void addSpinnerValue(Spinner spinner, LinearLayout content, int id, ArrayAdapter<String> methodArray) {
+        spinner = (Spinner) content.findViewById(id);
+        spinner.setAdapter(methodArray);
     }
 
     @Override
@@ -193,10 +313,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 verticalStepperForm.setStepAsCompleted(stepNumber);
             case  FIREMEN_NUM:
                 verticalStepperForm.setStepAsCompleted(stepNumber);
+            case FIRE_STEP_NUM:
+                verticalStepperForm.setStepAsCompleted(stepNumber);
         }
     }
 
-    private View createTypeAndSort() {
+    private View createTypeAndSortStep() {
         chooseTypeAndSort = new EditText(this);
         // titleEditText.setHint(R.string.form_hint_title);
         // titleEditText.setSingleLine(true);
@@ -256,7 +378,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return  dataAdapter;
     }
 
-    private View createUsedResources() {
+    private View createUsedResourcesStep() {
         chooseTypeAndSort = new EditText(this);
         // titleEditText.setHint(R.string.form_hint_title);
         // titleEditText.setSingleLine(true);
@@ -362,7 +484,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
     }
 
-    private View createOwnerAndMaterialCost() {
+    private View createOwnerAndMaterialCostStep() {
         chooseTypeAndSort = new EditText(this);
         // titleEditText.setHint(R.string.form_hint_title);
         // titleEditText.setSingleLine(true);
@@ -380,7 +502,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
-    private View createInterventionCost() {
+    private View createInterventionCostStep() {
         chooseTypeAndSort = new EditText(this);
         // titleEditText.setHint(R.string.form_hint_title);
         // titleEditText.setSingleLine(true);
@@ -519,17 +641,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout firemenContent = (LinearLayout) inflate.inflate(R.layout.step_firemen, null, false);
 
-
         final List<String> firemanList = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
         List<Fireman> type_of_truck = type_all_controller.GetAllRecordsFromTable_Fireman();
         for(Fireman t : type_of_truck){
             firemanList.add(t.getName() + " " + t.getSurname());
         }
-        firemanSpinner = (Spinner) firemenContent.findViewById(R.id.participatedFireman);
 
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, firemanList);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        firemanSpinner = (Spinner) firemenContent.findViewById(R.id.participatedFireman);
         firemanSpinner.setAdapter(dataAdapter2);
 
         final TextView ispis = (TextView) firemenContent.findViewById(R.id.all);

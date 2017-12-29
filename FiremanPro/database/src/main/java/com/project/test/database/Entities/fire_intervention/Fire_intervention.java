@@ -2,7 +2,6 @@ package com.project.test.database.Entities.fire_intervention;
 
 import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_Type;
-import com.project.test.database.Entities.report.Other_sort_intervention;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -46,7 +45,7 @@ public class Fire_intervention extends BaseModel {
            Spreading_smoke spreading_smoke;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-            Sepatial_spread sepatial_spread;
+            Spatial_spread spatial_spread;
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Time_spread time_spread;
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
@@ -73,7 +72,7 @@ public class Fire_intervention extends BaseModel {
 
     }
 
-    public Fire_intervention(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Date updated_at, Date created_at, Spreading_smoke spreading_smoke, Sepatial_spread sepatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type, Reports report) {
+    public Fire_intervention(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Date updated_at, Date created_at, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type, Reports report) {
         this.localization = localization;
         this.fireExtinguished = fireExtinguished;
         this.destroyed_space = destroyed_space;
@@ -81,7 +80,7 @@ public class Fire_intervention extends BaseModel {
         this.updated_at = updated_at;
         this.created_at = created_at;
         this.spreading_smoke = spreading_smoke;
-        this.sepatial_spread = sepatial_spread;
+        this.spatial_spread = spatial_spread;
         this.time_spread = time_spread;
         this.outdoor_type = outdoor_type;
         this.size_of_fire = size_of_fire;
@@ -153,12 +152,12 @@ public class Fire_intervention extends BaseModel {
         this.spreading_smoke = spreading_smoke;
     }
 
-    public Sepatial_spread getSepatial_spread() {
-        return sepatial_spread;
+    public Spatial_spread getSpatial_spread() {
+        return spatial_spread;
     }
 
-    public void setSepatial_spread(Sepatial_spread sepatial_spread) {
-        this.sepatial_spread = sepatial_spread;
+    public void setSpatial_spread(Spatial_spread spatial_spread) {
+        this.spatial_spread = spatial_spread;
     }
 
     public Time_spread getTime_spread() {

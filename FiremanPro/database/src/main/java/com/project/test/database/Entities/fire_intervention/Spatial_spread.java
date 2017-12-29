@@ -1,6 +1,5 @@
 package com.project.test.database.Entities.fire_intervention;
 
-import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_Table;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -8,8 +7,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +16,7 @@ import java.util.List;
  */
 
 @Table(database = MainDatabase.class)
-public class Sepatial_spread extends BaseModel {
+public class Spatial_spread extends BaseModel {
 
     @PrimaryKey(autoincrement = false)
     @Column
@@ -39,10 +36,10 @@ public class Sepatial_spread extends BaseModel {
     Date created_at;
 
 
-    public Sepatial_spread() {
+    public Spatial_spread() {
     }
 
-    public Sepatial_spread(int id, String name, String description, Date updated_at, Date created_at) {
+    public Spatial_spread(int id, String name, String description, Date updated_at, Date created_at) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -90,9 +87,9 @@ public class Sepatial_spread extends BaseModel {
         this.created_at = created_at;
     }
 
-    public static Sepatial_spread getRandomType(){
+    public static Spatial_spread getRandomType(){
 
-        List<Sepatial_spread> house = SQLite.select().from(Sepatial_spread.class).queryList();
+        List<Spatial_spread> house = SQLite.select().from(Spatial_spread.class).queryList();
 
 
         return house.get(0);

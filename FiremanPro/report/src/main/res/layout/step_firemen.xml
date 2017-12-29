@@ -12,25 +12,17 @@
 
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Sudionici intervencije:"
-        android:layout_marginTop="8dp"
-        />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Sudionici intervencije:"
+            android:layout_marginTop="8dp"
+            />
 
-    <RadioGroup
-        style="@style/NumberArea"
-        android:id="@+id/firemenAll">
 
         <Spinner
             android:id="@+id/participatedFireman"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="20"
+            style="@style/sexySpinner"
             />
-
-    </RadioGroup>
 
     <TextView
         android:layout_width="fill_parent"

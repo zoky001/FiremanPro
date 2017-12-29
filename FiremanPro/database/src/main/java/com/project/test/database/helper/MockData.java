@@ -9,7 +9,7 @@ import com.project.test.database.Entities.Photos;
 
 import com.project.test.database.Entities.Post;
 import com.project.test.database.Entities.Reports;
-import com.project.test.database.Entities.fire_intervention.Sepatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
@@ -85,7 +85,7 @@ Types_all_Controller types_all_controller = new Types_all_Controller();
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
         java.util.Date fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
 
-        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Sepatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 
         intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
         intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
@@ -122,7 +122,7 @@ intervencija.addHelpers("Nitko nije sudjelovao");
         localzationTime = new java.util.Date(System.currentTimeMillis());
        fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
 
-        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Sepatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 
         intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
         intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
@@ -161,7 +161,7 @@ intervencija.addHelpers("Nitko nije sudjelovao");
         localzationTime = new java.util.Date(System.currentTimeMillis());
         fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
 
-        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Sepatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 
         intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
         intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
@@ -190,27 +190,27 @@ intervencija.addHelpers("Nitko nije sudjelovao");
         types_all_controller.addNewSize_of_fire_Type(103,"veliki požar","više od 3  \" C \" mlaza");
 
 
-        types_all_controller.addNewSepatial_spread_Type(100,"bez širenja iz prostora u kojem je nastao","");
-        types_all_controller.addNewSepatial_spread_Type(101,"na prostoriju/okno","");
-        types_all_controller.addNewSepatial_spread_Type(102,"na grupu prostorija","");
-        types_all_controller.addNewSepatial_spread_Type(103,"na kat-etažu kao odsječak","");
+        types_all_controller.addNewSpatial_spread_Type(100,"bez širenja iz prostora u kojem je nastao","");
+        types_all_controller.addNewSpatial_spread_Type(101,"na prostoriju/okno","");
+        types_all_controller.addNewSpatial_spread_Type(102,"na grupu prostorija","");
+        types_all_controller.addNewSpatial_spread_Type(103,"na kat-etažu kao odsječak","");
 
 
 
 
 
-        types_all_controller.addNewSepatial_spread_Type(104,"dio kata-etaže","");
-        types_all_controller.addNewSepatial_spread_Type(105,"stubište","");
-        types_all_controller.addNewSepatial_spread_Type(106,"dio stubišta","");
-        types_all_controller.addNewSepatial_spread_Type(107,"odsječak s više katova","");
-        types_all_controller.addNewSepatial_spread_Type(108,"kat s više odsječaka","");
+        types_all_controller.addNewSpatial_spread_Type(104,"dio kata-etaže","");
+        types_all_controller.addNewSpatial_spread_Type(105,"stubište","");
+        types_all_controller.addNewSpatial_spread_Type(106,"dio stubišta","");
+        types_all_controller.addNewSpatial_spread_Type(107,"odsječak s više katova","");
+        types_all_controller.addNewSpatial_spread_Type(108,"kat s više odsječaka","");
 
-        types_all_controller.addNewSepatial_spread_Type(109,"zgradu kao odsječak","");
-        types_all_controller.addNewSepatial_spread_Type(110,"zgradu s više odsječaka","");
-        types_all_controller.addNewSepatial_spread_Type(111,"zgradu s kojom se graniči","");
-        types_all_controller.addNewSepatial_spread_Type(112,"susjednu zgradu ili građevinu","");
-        types_all_controller.addNewSepatial_spread_Type(113,"pročelje građevine (fasadu)","");
-        types_all_controller.addNewSepatial_spread_Type(114,"cijelu građevinu","");
+        types_all_controller.addNewSpatial_spread_Type(109,"zgradu kao odsječak","");
+        types_all_controller.addNewSpatial_spread_Type(110,"zgradu s više odsječaka","");
+        types_all_controller.addNewSpatial_spread_Type(111,"zgradu s kojom se graniči","");
+        types_all_controller.addNewSpatial_spread_Type(112,"susjednu zgradu ili građevinu","");
+        types_all_controller.addNewSpatial_spread_Type(113,"pročelje građevine (fasadu)","");
+        types_all_controller.addNewSpatial_spread_Type(114,"cijelu građevinu","");
 
 
 
@@ -1004,7 +1004,7 @@ House house = houseController.AddNewHouse(
 
                     intervention_tracks.get(i).getReports().getFireInterventionDetails().getDestroyed_space()+ " | " +
                     intervention_tracks.get(i).getReports().getFireInterventionDetails().isRepeated()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getSepatial_spread().getName()+ " | " +
+                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getSpatial_spread().getName()+ " | " +
                     intervention_tracks.get(i).getReports().getFireInterventionDetails().getTime_spread().getName()+ " | " +
                     intervention_tracks.get(i).getReports().getFireInterventionDetails().getSpreading_smoke().getName()+ " | " +
                     intervention_tracks.get(i).getReports().getFireInterventionDetails().getOutdoor_type().getName()+ " | " +

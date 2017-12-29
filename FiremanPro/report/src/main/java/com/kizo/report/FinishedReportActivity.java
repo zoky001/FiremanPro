@@ -169,7 +169,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         }else{
             ponovioPoz.setText("DA");
         }
-        prostornoPoz.setText(intervention.getReports().getFireInterventionDetails().getSepatial_spread().getName().toString());
+        prostornoPoz.setText(intervention.getReports().getFireInterventionDetails().getSpatial_spread().getName().toString());
         vremenskoPoz.setText(intervention.getReports().getFireInterventionDetails().getTime_spread().getName().toString());
         dimPoz.setText(intervention.getReports().getFireInterventionDetails().getSpreading_smoke().getName().toString());
         vrstaOtvorenoPoz.setText(intervention.getReports().getFireInterventionDetails().getOutdoor_type().getName().toString());

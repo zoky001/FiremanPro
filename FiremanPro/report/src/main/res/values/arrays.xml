@@ -3,6 +3,7 @@
     <string-array name="steps_titles">
         <item> Osnovne informacije </item>
         <item> Popis snaga na intervenciji (postrojba, tehnika, utrošena sredstva) </item>
+        <item> Požar </item>
         <item> Vlasnik i šteta </item>
         <item> Sudjelovanje ostalih hitnih, javnih službi, komunalnih službi i ostalih subjekata</item>
         <item> Vrsta mehanizacije koja je bila angažirana na intervenciji i vrijeme upotrebe </item>
