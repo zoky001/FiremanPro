@@ -502,7 +502,7 @@ String title = interventionDescription.getText().toString();
     }
  private void save_MAIN_INFORMATION(){
      if(validate_MAIN_INFORMATIONA()) {
-         System.out.println("SAve first step");
+
          String title = interventionDescription.getText().toString();
          // insert in database
          intervencije.addDescriptionOfIntervention(title);
@@ -510,14 +510,20 @@ String title = interventionDescription.getText().toString();
          if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
 
              intervencije.setThisInterventionAsFire();
+             intervencije.getReports().addFireIntervention(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
+             System.out.println("SAve first step");
          }
          if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
 
              intervencije.setThisInterventionAsTehnical();
+             intervencije.getReports().addTehnicalInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
+             System.out.println("SAve first step");
          }
          if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
 
              intervencije.setThisInterventionAsOther();
+             intervencije.getReports().addOtherInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
+             System.out.println("SAve first step");
          }
      }
  }

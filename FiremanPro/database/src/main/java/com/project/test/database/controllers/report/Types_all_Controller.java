@@ -9,6 +9,8 @@ import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.report.Intervention_Type_Table;
+import com.project.test.database.Entities.report.Intervention_track_Table;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -419,6 +421,12 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
         }
 
     }
+
+    public static Intervention_Type get_Intervention_typeByName(String name){
+        return SQLite.select().from(Intervention_Type.class).where(Intervention_Type_Table.name.is(name)).querySingle();
+    }
+
+
 // Sort_of_intervention  END
 
     //all trucks

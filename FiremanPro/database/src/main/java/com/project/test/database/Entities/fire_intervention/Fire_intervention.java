@@ -72,6 +72,17 @@ public class Fire_intervention extends BaseModel {
 
     }
 
+    public Fire_intervention(Intervention_Type intervention_type, Reports report,Date updated_at, Date created_at) {
+        this.intervention_type = intervention_type;
+        this.report = report;
+
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+    }
+
+
+
+
     public Fire_intervention(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Date updated_at, Date created_at, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type, Reports report) {
         this.localization = localization;
         this.fireExtinguished = fireExtinguished;
@@ -86,6 +97,18 @@ public class Fire_intervention extends BaseModel {
         this.size_of_fire = size_of_fire;
         this.intervention_type = intervention_type;
         this.report = report;
+    }
+
+    public void addDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire) {
+        this.localization = localization;
+        this.fireExtinguished = fireExtinguished;
+        this.destroyed_space = destroyed_space;
+        this.repeated = repeated;
+        this.spreading_smoke = spreading_smoke;
+        this.spatial_spread = spatial_spread;
+        this.time_spread = time_spread;
+        this.outdoor_type = outdoor_type;
+        this.size_of_fire = size_of_fire;
     }
 
     public int getId() {

@@ -79,8 +79,8 @@ public class SavedReportHolder extends ParentViewHolder {
             //unfinished intervention cad has red background
             cardView.setCardBackgroundColor(Color.parseColor("#DEE93C"));
         }
-      //  interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName() +" - " +
-      //  intervention_track.getReports().getFireInterventionDetails().getIntervention_type().getName());
+       interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName() +" - " +
+        intervention_track.getReports().getFireInterventionDetails().getIntervention_type().getName());
         mStoreDescription.setText(intervention_track.getReports().getDescription());
         mStoreName.setText(intervention_track.getLocation().getStreetNameIfExist() + " " + intervention_track.getLocation().getStreetNumber());
        mStoreImage.setImageBitmap(intervention_track.getHouse().getProfilPhotos().getImageBitmapbyContext(itemView.getContext()));
