@@ -30,6 +30,7 @@ import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
@@ -37,6 +38,7 @@ import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
+import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
@@ -122,7 +124,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     LinearLayout mehanizationContent;
 
-    Spinner spinneTypeOfUnit;
+    Spinner spinnerFiremanPatrol;
 
     Spinner usedTruck;
 
@@ -204,9 +206,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 view = createOwnerAndMaterialCostStep();
                 break;
             case INTERVENTION_COST_NUM:
+
+                //ovdje su helperi
                 view = createDescriptionStep();
                 break;
-            case HELP_NUM:
+            case HELP_NUM://mehanization
                 view = createMehanizationStep();
                 break;
             case MEHANIZATION_NUM:
@@ -226,36 +230,44 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
                 break;
             case DESCRIPTION_STEP_NUM:
-                save_MAIN_INFORMATION();
+                save_MAIN_INFORMATION(); //sprema se korak on prije
                 //NIJE
               /*  System.out.println("drugi step:");
 */
                 break;
 
             case FIRE_STEP_NUM:
+                save_USED_RESOURCES();
                 //VSLIDIRANO I SPREMLJENO
-              //  verticalStepperForm.setStepAsCompleted(stepNumber);
+                //  verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case MATERIAL_AND_COST_NUM:
-                save_FIRE_STEP();
-                //VALIDIRANO 
-                verticalStepperForm.setStepAsCompleted(stepNumber);
+                save_FIRE_STEP(); //sprema se koram od prije
+                validate_OWNER_AND_MATERIAL_COST();
+                //VALIDIRANO  i SPREMLJENO
+                // verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case INTERVENTION_COST_NUM:
+                save_OWNER_AND_MATERIAL_COST(); //sprema se korak od prije
+                validate_DESCRIPTION_STEP_HELPER(); //validate helper edittext
+                System.out.println("surface: " + intervencije.getReports().getSurface_m2());
                 //VALIDIRANO i SPREMLJENO
                 //verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case HELP_NUM:
-                //NIJE
+            case HELP_NUM: //mehanization
+                save__DESCRIPTION_STEP_HELPER();
+                //VALIDIRANO i SPREMLJENO
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case MEHANIZATION_NUM:
-                //NIJE
-                verticalStepperForm.setStepAsCompleted(stepNumber);
+                validate_INTERVENTION_COST();
+                //VALIDIRANO i SPREMLJENO
+               // verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case FIREMEN_NUM:
+                save_INTERVENTION_COST();
                 //NIJE
-                verticalStepperForm.setStepAsCompleted(stepNumber);
+               verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
 
         }
@@ -351,7 +363,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
 
-        if (destroyed.length() > 0 & validSpinner(sizeOfFire) & validSpinner(repeatedSpinner)  & validSpinner(spatialSpread) & validSpinner(timeSpread) & validSpinner(smokeSpread) & validSpinner(outdoorSpread)) {
+        if (destroyed.length() > 0 & validSpinner(sizeOfFire) & validSpinner(repeatedSpinner) & validSpinner(spatialSpread) & validSpinner(timeSpread) & validSpinner(smokeSpread) & validSpinner(outdoorSpread)) {
             isCorrect = true;
             verticalStepperForm.setActiveStepAsCompleted();
 
@@ -364,7 +376,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
     private boolean validSpinner(Spinner spinner) {
-        if (spinner.getSelectedItem().toString().equals(NO_SELECTED)) {
+        if (spinner == null || spinner.getSelectedItem().toString().equals(NO_SELECTED)) {
             return false;
         } else {
             return true;
@@ -375,18 +387,16 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     private void save_FIRE_STEP() {
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
-        java.util.Date fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
+        java.util.Date fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
         if (validate_FIRE_STEP()) {
-System.out.println("SAVE FIRE STEP");
-
-
+            System.out.println("SAVE FIRE STEP");
 
 
             intervencije.getReports().addFireInterventionDetails(
                     localzationTime,
                     fire_extinguished_time,
                     Integer.parseInt(destroyedSpace.getText().toString()),
-                    repeatedSpinner.getSelectedItem().toString().equals("DA")?true:false,
+                    repeatedSpinner.getSelectedItem().toString().equals("DA") ? true : false,
                     Spreading_smoke.getByName(smokeSpread.getSelectedItem().toString()),
                     Spatial_spread.getByName(spatialSpread.getSelectedItem().toString()),
                     Time_spread.getByName(timeSpread.getSelectedItem().toString()),
@@ -513,6 +523,7 @@ System.out.println("SAVE FIRE STEP");
         });
         return spinner;
     }
+
     private Spinner addSpinnerValue_listener_FIRE_STEP(Spinner spinner, LinearLayout content, int id, ArrayAdapter<String> methodArray) {
         spinner = (Spinner) content.findViewById(id);
         spinner.setAdapter(methodArray);
@@ -700,25 +711,112 @@ System.out.println("SAVE FIRE STEP");
         // titleEditText.setHint(R.string.form_hint_title);
         // titleEditText.setSingleLine(true);
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
-        final LinearLayout vehicleContent = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
-
+        final LinearLayout v = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
+final LinearLayout ll = v;
         final Button prvi = new Button(this);
         prvi.setText("Dodaj resurs");
 
-        addUsedResources(prvi, vehicleContent, vehicleContent);
+        //addUsedResources(prvi, vehicleContent, vehicleContent);
 
-        return vehicleContent;
+// pocetak
+
+
+
+        //spinnerVehicle.setVisibility(View.INVISIBLE);
+        spinnerFiremanPatrol = (Spinner) v.findViewById(R.id.sort_of_unit);
+        spinnerFiremanPatrol.setAdapter(getFiremanPatrols());
+
+        spinnerFiremanPatrol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+
+                }
+                else {
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+
+                }
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+        kmNumber = addTextChangeListenerWithValidation(v,R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+        numberKeybord(kmNumber);
+
+
+        clockNumber = addTextChangeListenerWithValidation(v,R.id.clock);
+        numberKeybord(clockNumber);
+
+
+        numberOfFiremanParticipated =addTextChangeListenerWithValidation (v,R.id.number_of_firemen_in_truck);
+        numberKeybord(numberOfFiremanParticipated);
+
+
+
+        waterNumber = addTextChangeListenerWithValidation(v,R.id.water);
+        numberKeybord(waterNumber);
+
+
+        foamNumber =addTextChangeListenerWithValidation (v,R.id.foam);
+        numberKeybord(foamNumber);
+
+
+        powderNumber = addTextChangeListenerWithValidation(v,R.id.powder);
+        numberKeybord(powderNumber);
+
+
+        co2Number = addTextChangeListenerWithValidation (v,R.id.CO_2);
+        numberKeybord(co2Number);
+
+
+        ll.addView(prvi);
+
+
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View myView = factory.inflate(R.layout.step_used_resources, null);
+
+        Button b = new Button(this);
+        b.setText("Dodaj resurs");
+
+
+        addNewUsedResources(prvi, b, ll, myView);
+//kraj
+        return v;
     }
 
 
     private void addUsedResources(Button prvi, final View v, final LinearLayout ll) {
-        spinnerVehicle = (Spinner) v.findViewById(R.id.vehicle);
-        spinnerVehicle.setAdapter(getVehicleAdapter());
 
-        /*
-        spinnerVehicle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View myView = factory.inflate(R.layout.step_used_resources, null);
+
+
+        //spinnerVehicle.setVisibility(View.INVISIBLE);
+        spinnerFiremanPatrol = (Spinner) v.findViewById(R.id.sort_of_unit);
+        spinnerFiremanPatrol.setAdapter(getFiremanPatrols());
+
+        spinnerFiremanPatrol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+             if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+
+             }
+             else {
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+
+             }
                 validate_USED_RESOURCES();
             }
 
@@ -726,174 +824,132 @@ System.out.println("SAVE FIRE STEP");
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });*/
+        });
 
-        spinneTypeOfUnit = (Spinner) v.findViewById(R.id.sort_of_unit);
-        spinneTypeOfUnit.setAdapter(getTypeOfUnitAdapter());
 
-        /*spinneTypeOfUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                validate_USED_RESOURCES();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });*/
-
-        kmNumber = (EditText) v.findViewById(R.id.km);
+        kmNumber = addTextChangeListenerWithValidation(v,R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
         numberKeybord(kmNumber);
 
-        /*kmNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        clockNumber = (EditText) v.findViewById(R.id.clock);
+        clockNumber = addTextChangeListenerWithValidation(v,R.id.clock);
         numberKeybord(clockNumber);
-        /*
-        clockNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        numberOfFiremanParticipated = (EditText) v.findViewById(R.id.number_of_firemen_in_truck);
+        numberOfFiremanParticipated =addTextChangeListenerWithValidation (v,R.id.number_of_firemen_in_truck);
         numberKeybord(numberOfFiremanParticipated);
-        /*
-        numberOfFiremanNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        waterNumber = (EditText) v.findViewById(R.id.water);
+        waterNumber = addTextChangeListenerWithValidation(v,R.id.water);
         numberKeybord(waterNumber);
-        /*
-        waterNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        foamNumber = (EditText) v.findViewById(R.id.foam);
+        foamNumber =addTextChangeListenerWithValidation (v,R.id.foam);
         numberKeybord(foamNumber);
-        /*
-        foamNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        powderNumber = (EditText) v.findViewById(R.id.powder);
+        powderNumber = addTextChangeListenerWithValidation(v,R.id.powder);
         numberKeybord(powderNumber);
-        /*
-        powderNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        co2Number = (EditText) v.findViewById(R.id.CO2);
+        co2Number = addTextChangeListenerWithValidation (v,R.id.CO_2);
         numberKeybord(co2Number);
-        /*
-        co2Number.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
 
         ll.addView(prvi);
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout addedVehicleContent = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
 
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View myView = factory.inflate(R.layout.step_used_resources, null);
+
         Button b = new Button(this);
         b.setText("Dodaj resurs");
         addNewUsedResources(prvi, b, ll, myView);
     }
+
+    private boolean validate_USED_RESOURCES() {
+        boolean isCorrect = false;
+        System.out.println("validateUSED_RESOURCES");
+
+
+        if (validSpinner(spinnerVehicle) & validSpinner(spinnerFiremanPatrol) & isValidEditbox(co2Number) & isValidEditbox(powderNumber) & isValidEditbox(foamNumber) & isValidEditbox(waterNumber) & isValidEditbox(numberOfFiremanParticipated) & isValidEditbox(clockNumber) & isValidEditbox(kmNumber)) {
+            isCorrect = true;
+            System.out.println("validateUSED_RESOURCES_CORRECT");
+            verticalStepperForm.setActiveStepAsCompleted();
+
+        } else {
+            try {
+                String titleErrorString = "Niste popunili sve podatke!";
+                verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+                verticalStepperForm.setStepAsUncompleted(DESCRIPTION_STEP_NUM, titleErrorString);
+            }
+            catch (Exception e)
+            {
+                System.out.println("GREŠKA: " + e);
+
+            }
+        }
+
+        return isCorrect;
+    }
+
+    private boolean isValidEditbox(EditText editText){
+
+        if (editText == null || editText.getText().toString().isEmpty())
+        return false;
+        else
+            return true;
+    }
+
+
+    private Spinner addSpinnerValue_listener_USED_RESOURCES_STEP(Spinner spinner, LinearLayout content, int id, ArrayAdapter<String> methodArray) {
+        spinner = (Spinner) content.findViewById(id);
+        spinner.setAdapter(methodArray);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+
+                Object item = parentView.getItemAtPosition(position);
+                System.out.println("SPINNER_size of fire " + item.toString());
+               validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                spinnerType.setVisibility(View.INVISIBLE);
+                // your code here
+            }
+        });
+        return spinner;
+    }
+
+    private EditText addTextChangeListenerWithValidation(View view, int id){
+
+        EditText editText = (EditText) view.findViewById(id);
+        editText.setText("0");
+       editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_USED_RESOURCES();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        return editText;
+    }
+
 /*
     private boolean validate_USED_RESOURCES() {
         boolean correctInformation = true; //all together
@@ -904,7 +960,7 @@ System.out.println("SAVE FIRE STEP");
             verticalStepperForm.setActiveStepAsUncompleted(titleErrorVehicle);
             correct = false;
         }
-        if (spinneTypeOfUnit.getSelectedItem().toString().equals(NO_SELECTED)) {
+        if (spinnerFiremanPatrol.getSelectedItem().toString().equals(NO_SELECTED)) {
             String titleErrorUnit = "Potrebno je odabrati vrstu i naziv postrojbe!";
             verticalStepperForm.setActiveStepAsUncompleted(titleErrorUnit);
             correct = false;
@@ -955,7 +1011,7 @@ System.out.println("SAVE FIRE STEP");
     }*/
 
     private void save_USED_RESOURCES() {
-        /*if(validate_USED_RESOURCES()) {
+        if(validate_USED_RESOURCES()) {
 
             String km =kmNumber.getText().toString();
             String water = waterNumber.getText().toString();
@@ -965,14 +1021,9 @@ System.out.println("SAVE FIRE STEP");
             String numberOfFiremans = numberOfFiremanParticipated.getText().toString();
             String clock = clockNumber.getText().toString();
 
+            Fireman_patrol patrol = Fireman_patrol.getPatrolByName(spinnerFiremanPatrol.getSelectedItem().toString());
+            Truck truck = patrol.getTruckByName(spinnerVehicle.getSelectedItem().toString());
 
-            /*if (spinnerVehicle.getSelectedItem().toString().equals(types_all_controller.get_naval_vehicle_type_of_truck().getType_name())) {
-
-            }
-            if (spinneTypeOfUnit.getSelectedItem().toString().equals(types_all_controller.get_JVP_type_of_unit().getName())) {
-
-
-            }
 
             // insert in database
             intervencije.getReports().addFiremanPatrolandTruck(Integer.parseInt(numberOfFiremans),
@@ -980,8 +1031,12 @@ System.out.println("SAVE FIRE STEP");
                     Double.parseDouble(foam), Double.parseDouble(powder),
                     Double.parseDouble(co2), Double.parseDouble(km),
                     Double.parseDouble(clock),
-                    spinnerVehicle.getSelectedItem().toString(), spinneTypeOfUnit.getSelectedItem().toString());
-        }*/
+                    truck,
+                    patrol
+            );
+        }
+
+        System.out.println("SAVE USED RESOURCE " + intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName());
     }
 
     private void addNewUsedResources(final Button prvi, final Button noviB, final LinearLayout ll, final View myView) {
@@ -994,11 +1049,13 @@ System.out.println("SAVE FIRE STEP");
         });
     }
 
-    private ArrayAdapter<String> getTypeOfUnitAdapter() {
+    private ArrayAdapter<String> getFiremanPatrols() {
         List<String> typeAll = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
-        List<Type_of_unit> type_of_intervention = type_all_controller.GetAllRecordsFromTable_Type_of_unit();
-        for (Type_of_unit i : type_of_intervention) {
+        FiremanPatrolController firemanPatrol = new FiremanPatrolController();
+        List<Fireman_patrol> type_of_intervention = firemanPatrol.GetAllRecordsFromTable();
+        typeAll.add(NO_SELECTED);
+        for (Fireman_patrol i : type_of_intervention) {
             typeAll.add(i.getName());
         }
 
@@ -1008,14 +1065,17 @@ System.out.println("SAVE FIRE STEP");
         return dataAdapter;
     }
 
-    private ArrayAdapter<String> getVehicleAdapter() {
+    private ArrayAdapter<String> getVehicleAdapter(Fireman_patrol patrol) {
         List<String> vehicleAll = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
-        List<Type_of_truck> type_of_truck = type_all_controller.GetAllRecordsFromTable_Type_of_truck();
-        for (Type_of_truck t : type_of_truck) {
-            vehicleAll.add(t.getType_name());
-        }
+        vehicleAll.add(NO_SELECTED);
+if (patrol != null)
+{List<Truck> type_of_truck = patrol.getAllTrucks();
 
+        for (Truck t : type_of_truck) {
+            vehicleAll.add(t.getName());
+        }
+}
         final ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
@@ -1044,6 +1104,7 @@ System.out.println("SAVE FIRE STEP");
 
         surfaceNumber = (EditText) ownerAndCostContent.findViewById(R.id.surface);
         numberKeybord(surfaceNumber);
+
         surfaceNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1283,13 +1344,25 @@ System.out.println("SAVE FIRE STEP");
     private void save_INTERVENTION_COST() {
         if (validate_INTERVENTION_COST()) {
 
-            String navalVehicle = navalVehicleNumber.getText().toString();
-            String commandVehicle = commandVehicleNumber.getText().toString();
-            String technicalVehicle = tehnicalVehicleNumber.getText().toString();
-            String automaticLadder = automaticLadderNumber.getText().toString();
-            String roadTanker = roadTankersNumber.getText().toString();
-            String specialVehicle = specialVehicleNumber.getText().toString();
-            String transportVehicle = transportationVehicleNumber.getText().toString();
+            double navalVehicle = Double.valueOf(navalVehicleNumber.getText().toString());
+            double commandVehicle = Double.valueOf(commandVehicleNumber.getText().toString());
+            double technicalVehicle = Double.valueOf(tehnicalVehicleNumber.getText().toString());
+            double automaticLadder = Double.valueOf(automaticLadderNumber.getText().toString());
+            double roadTanker = Double.valueOf(roadTankersNumber.getText().toString());
+            double specialVehicle = Double.valueOf(specialVehicleNumber.getText().toString());
+            double transportVehicle = Double.valueOf(transportationVehicleNumber.getText().toString());
+            intervencije.getReports().addConsumption(0,automaticLadder,0,commandVehicle,0,0,0,0,0,0,navalVehicle,roadTanker,specialVehicle,technicalVehicle,transportVehicle);
+         intervencije.getReports().getConsumption().save();
+            intervencije.getReports().save();
+            intervencije.save();
+//ovo je samo za probu, treba obrisati START
+            intervencije.getReports().addFiremanToIntervention(Fireman.getRandomType());
+            intervencije.getReports().addFiremanToIntervention(Fireman.getRandomType());
+            intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+            intervencije.completeInterventionTrack();
+//sve do ovdje START
+
+            System.out.println("SAVE_COST + " +intervencije.getReports().getConsumption().getNavalVehicle());
 
             // insert in database
         }
@@ -1306,9 +1379,51 @@ System.out.println("SAVE FIRE STEP");
                 return false;
             }
         });
+        descriptionEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_DESCRIPTION_STEP_HELPER();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return descriptionEditText;
     }
 
+    private boolean validate_DESCRIPTION_STEP_HELPER() {
+        boolean isCorrect = false;
+        String surface = surfaceNumber.getText().toString();
+        String superficies = superficiesNumber.getText().toString();
+
+        if (descriptionEditText.length() > 0) {
+            isCorrect = true;
+            verticalStepperForm.setActiveStepAsCompleted();
+
+        } else {
+            String titleErrorString = "Potrebno je popuniti polje! ";
+            verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+        }
+
+        return isCorrect;
+
+    }
+
+    private void save__DESCRIPTION_STEP_HELPER() {
+
+
+        intervencije.addHelpers(descriptionEditText.getText().toString());
+
+        System.out.println("HELPERS: " + intervencije.getReports().getHelp());
+
+    }
 
     private View createMehanizationStep() {
         chooseTypeAndSort = new EditText(this);
