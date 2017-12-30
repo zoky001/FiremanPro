@@ -324,7 +324,12 @@ public class Reports extends BaseModel {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
         Fire_intervention fire_intervention = new Fire_intervention(localization,fireExtinguished,destroyed_space,repeated,CurrentDate,CurrentDate,spreading_smoke, spatial_spread,time_spread,outdoor_type,size_of_fire,intervention_type,this);
         fire_intervention.save();
+    }
 
+    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+        this.getFireInterventionDetails().addDetails(localization,fireExtinguished,destroyed_space,repeated,spreading_smoke, spatial_spread,time_spread,outdoor_type,size_of_fire);
+        this.getFireInterventionDetails().save();
     }
 
     public void addTehnicalInterventionDetails(Intervention_Type intervention_type){

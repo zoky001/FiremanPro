@@ -109,6 +109,8 @@ public class Fire_intervention extends BaseModel {
         this.time_spread = time_spread;
         this.outdoor_type = outdoor_type;
         this.size_of_fire = size_of_fire;
+        this.save();
+
     }
 
     public int getId() {
