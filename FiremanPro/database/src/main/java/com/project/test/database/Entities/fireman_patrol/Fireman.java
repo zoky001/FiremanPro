@@ -117,4 +117,11 @@ public class Fireman extends BaseModel {
 
         return house.get(0);
     }
+    public static Fireman getFiremanbyID(Integer id){
+
+        Fireman house = SQLite.select().from(Fireman.class).where(Fireman_Table.id.is(id)).querySingle();
+
+
+        return house;
+    }
 }

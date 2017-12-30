@@ -32,7 +32,6 @@ import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Truck;
-import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Intervention_track;
@@ -57,12 +56,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     // Information about the steps/fields of the form
     private static final int MAIN_INFORMATION_NUM = 0;
-    private static final int DESCRIPTION_STEP_NUM = 1;
+    private static final int USED_RESOURCES_STEP_NUM = 1;
     private static final int FIRE_STEP_NUM = 2;
-    private static final int MATERIAL_AND_COST_NUM = 3;
-    private static final int INTERVENTION_COST_NUM = 4;
-    private static final int HELP_NUM = 5;
-    private static final int MEHANIZATION_NUM = 6;
+    private static final int OWNER_AND_MATERIAL_STEP_NUM = 3;
+    private static final int DESCRIPTION_HELPER_STEP_NUM = 4;
+    private static final int MEHANIZATION_STEP_NUM = 5;
+    private static final int INTERVENTION_STEP_NUM = 6;
     private static final int FIREMEN_NUM = 7;
 
 
@@ -75,6 +74,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private EditText descriptionEditText;
     public static final String STATE_DESCRIPTION = "description";
 
+
+    private List<Integer> firemans_id_selected = new ArrayList<Integer> ();
     /*
     // Time step
     private TextView timeTextView;
@@ -195,25 +196,25 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 // view = createAlarmTitleStep();
                 view = createTypeAndSortStep();
                 break;
-            case DESCRIPTION_STEP_NUM:
+            case USED_RESOURCES_STEP_NUM:
                 view = createUsedResourcesStep();
                 break;
             case FIRE_STEP_NUM:
                 view = createFireStep();
                 break;
-            case MATERIAL_AND_COST_NUM:
+            case OWNER_AND_MATERIAL_STEP_NUM:
                 // view = createUsedResources();
                 view = createOwnerAndMaterialCostStep();
                 break;
-            case INTERVENTION_COST_NUM:
+            case DESCRIPTION_HELPER_STEP_NUM:
 
                 //ovdje su helperi
                 view = createDescriptionStep();
                 break;
-            case HELP_NUM://mehanization
+            case MEHANIZATION_STEP_NUM://mehanization
                 view = createMehanizationStep();
                 break;
-            case MEHANIZATION_NUM:
+            case INTERVENTION_STEP_NUM:
                 view = createInterventionCostStep();
                 break;
             case FIREMEN_NUM:
@@ -229,7 +230,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 //VALIDIRANO i SPREMLJENO
 
                 break;
-            case DESCRIPTION_STEP_NUM:
+            case USED_RESOURCES_STEP_NUM:
                 save_MAIN_INFORMATION(); //sprema se korak on prije
                 //NIJE
               /*  System.out.println("drugi step:");
@@ -241,25 +242,25 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 //VSLIDIRANO I SPREMLJENO
                 //  verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case MATERIAL_AND_COST_NUM:
+            case OWNER_AND_MATERIAL_STEP_NUM:
                 save_FIRE_STEP(); //sprema se koram od prije
                 validate_OWNER_AND_MATERIAL_COST();
                 //VALIDIRANO  i SPREMLJENO
                 // verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case INTERVENTION_COST_NUM:
+            case DESCRIPTION_HELPER_STEP_NUM:
                 save_OWNER_AND_MATERIAL_COST(); //sprema se korak od prije
                 validate_DESCRIPTION_STEP_HELPER(); //validate helper edittext
                 System.out.println("surface: " + intervencije.getReports().getSurface_m2());
                 //VALIDIRANO i SPREMLJENO
                 //verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case HELP_NUM: //mehanization
+            case MEHANIZATION_STEP_NUM: //mehanization
                 save__DESCRIPTION_STEP_HELPER();
                 //VALIDIRANO i SPREMLJENO
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case MEHANIZATION_NUM:
+            case INTERVENTION_STEP_NUM:
                 validate_INTERVENTION_COST();
                 //VALIDIRANO i SPREMLJENO
                // verticalStepperForm.setStepAsCompleted(stepNumber);
@@ -275,6 +276,18 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     @Override
     public void sendData() {
+System.out.println("SEND DATA");
+//ovo je samo za probu, treba obrisati START
+        for (Integer id :
+                firemans_id_selected) {
+
+            intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
+
+        }
+        intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+        intervencije.completeInterventionTrack();
+//sve do ovdje START
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
         progressDialog.show();
@@ -883,7 +896,7 @@ final LinearLayout ll = v;
             try {
                 String titleErrorString = "Niste popunili sve podatke!";
                 verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
-                verticalStepperForm.setStepAsUncompleted(DESCRIPTION_STEP_NUM, titleErrorString);
+                verticalStepperForm.setStepAsUncompleted(USED_RESOURCES_STEP_NUM, titleErrorString);
             }
             catch (Exception e)
             {
@@ -1355,12 +1368,7 @@ if (patrol != null)
          intervencije.getReports().getConsumption().save();
             intervencije.getReports().save();
             intervencije.save();
-//ovo je samo za probu, treba obrisati START
-            intervencije.getReports().addFiremanToIntervention(Fireman.getRandomType());
-            intervencije.getReports().addFiremanToIntervention(Fireman.getRandomType());
-            intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
-            intervencije.completeInterventionTrack();
-//sve do ovdje START
+
 
             System.out.println("SAVE_COST + " +intervencije.getReports().getConsumption().getNavalVehicle());
 
@@ -1516,14 +1524,23 @@ if (patrol != null)
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout firemenContent = (LinearLayout) inflate.inflate(R.layout.step_firemen, null, false);
 
+        final List<Integer> id_fireman = new ArrayList<Integer>();
         final List<String> firemanList = new ArrayList<String>();
+
         Types_all_Controller type_all_controller = new Types_all_Controller();
         List<Fireman> type_of_truck = type_all_controller.GetAllRecordsFromTable_Fireman();
+        firemanList.add(NO_SELECTED);
+        id_fireman.add(-1);
         for (Fireman t : type_of_truck) {
             firemanList.add(t.getName() + " " + t.getSurname());
+            id_fireman.add(t.getId());
         }
 
+
+
+
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, firemanList);
+
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
         firemanSpinner = (Spinner) firemenContent.findViewById(R.id.participatedFireman);
@@ -1534,13 +1551,25 @@ if (patrol != null)
         firemanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (brojac == 0) {
+                if (position == 0) {
                 } else {
+
                     String selectedItemText = (String) parent.getItemAtPosition(position);
-                    firemanList.remove(parent.getItemAtPosition(position));
+
                     sviOdabranivatrogasci += selectedItemText + "\n";
+                    Integer i = id_fireman.get(position);
+                    firemans_id_selected.add(i);
                     ispis.setTextSize(18);
-                    ispis.setText(sviOdabranivatrogasci);
+                   ispis.setText(sviOdabranivatrogasci);
+                    System.out.println("SELECTED: " + selectedItemText + " ID: "+ id_fireman.get(position));
+
+                   // firemanList.remove(parent.getItemAtPosition(position));
+                  //  id_fireman.remove(position);
+                    for (Integer id_fir :
+                            firemans_id_selected) {
+                        System.out.println("SELECTED: " +Fireman.getFiremanbyID(id_fir).getName());
+                    }
+
                 }
                 brojac++;
             }
@@ -1743,12 +1772,12 @@ if (patrol != null)
         boolean thereIsAtLeastOneDaySelected = false;
         for(int i = 0; i < weekDays.length && !thereIsAtLeastOneDaySelected; i++) {
             if(weekDays[i]) {
-                verticalStepperForm.setStepAsCompleted(DAYS_STEP_NUM); //INTERVENTION_COST_NUM
+                verticalStepperForm.setStepAsCompleted(DAYS_STEP_NUM); //DESCRIPTION_HELPER_STEP_NUM
                 thereIsAtLeastOneDaySelected = true;
             }
         }
         if(!thereIsAtLeastOneDaySelected) {
-            verticalStepperForm.setStepAsUncompleted(DAYS_STEP_NUM, null); //INTERVENTION_COST_NUM
+            verticalStepperForm.setStepAsUncompleted(DAYS_STEP_NUM, null); //DESCRIPTION_HELPER_STEP_NUM
         }
 
         return thereIsAtLeastOneDaySelected;
