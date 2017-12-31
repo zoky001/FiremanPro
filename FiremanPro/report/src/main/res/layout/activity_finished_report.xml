@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp"
+        android:paddingBottom="80dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarReport"
+            android:background="@android:color/holo_red_dark"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/naslov"
+            android:text="VATROGASNA POSTROJBA DVA-A KRIŽOVLJAN CESTICA"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dojavnica_broj"
+            android:text="Dojavnica broj: "
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            style="@style/reportText"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dojavnica_br"
+                android:text="______________________"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/intervencija_broj"
+            android:text="Intervencija broj: "
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            style="@style/reportText"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/intervencija_br"
+                android:text="______________________"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/expandableButton1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton1"
+        android:paddingRight="10dp"
+        android:text="1. Podaci o pojavi događaja i završetku intervencije"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton1"
+        android:background="#FFFAF0"
+        app:ael_duration="400"
+        app:ael_orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Obavijest primljena: "
+                    style="@style/reportText" />
+                <TextView
+                    android:id="@+id/obav_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Izlazak na intervenciju: "
+                    style="@style/reportText" />
+                <TextView
+                    android:id="@+id/izlaz_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dolazak na itervenciju: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/dolazak_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+        </LinearLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+    <Button
+        android:id="@+id/expandableButton2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandableLayout1"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton2"
+        android:paddingRight="10dp"
+        android:text="2. Vrsta događaja"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton2"
+        android:background="#FFFAF0"
+        app:ael_duration="400"
+        app:ael_orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vrsta i tip intervencije: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/vrsta_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+        </LinearLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <Button
+        android:id="@+id/expandableButton3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandableLayout2"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton3"
+        android:paddingRight="10dp"
+        android:text="3. Podaci o požaru (samo za požare)"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton3"
+        android:background="#FFFAF0"
+        app:ael_duration="400"
+        app:ael_orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Veličina požara: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/vel_pozara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Broj građevina, prostora, postrojenja ili prijevoznih sredstava na koje se požar proširio (zbroj): "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/zbroj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Da li se požar ponovio: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/ponovni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prostorno širenje požara: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/prostorno_sir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vremensko širenje požara: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/vremensko_sir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Širenje dima: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/dim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vrsta požara na otvorenom prostoru: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/vrsta_na_otvorenom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+        </LinearLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+    <Button
+        android:id="@+id/expandableButton4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandableLayout3"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:onClick="expandableButton4"
+        android:paddingRight="10dp"
+        android:text="4. Lokacija događaja"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expandableButton4"
+        android:background="#FFFAF0"
+        app:ael_duration="400"
+        app:ael_orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grad/općina: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/grad_opcina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mjesto: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/mjesto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ulica i kućni broj: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/ulica_kucni_br"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+        </LinearLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout4"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton5"
+            android:paddingRight="10dp"
+            android:text="5. Popis snaga na intervenciji"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton5"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vrsta i naziv postrojbe: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/postrojba"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vozilo (vrsta i broj): "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/vozilo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prijeđeno km: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="__"
+                    style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utrošeno sati: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/sati"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Broj vatrogasaca: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/br_vatro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utrošeno sredstva za gašenje: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/sredstva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout5"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton6"
+            android:paddingRight="10dp"
+            android:text="6. Karakteristike (opis) intervencije"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton6"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/opis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout6"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton7"
+            android:paddingRight="10dp"
+            android:text="7. Vlasnik i šteta"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton7"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vlasnik: "
+                style="@style/reportText"/>
+            <TextView
+                android:id="@+id/vlasnik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reportData"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Materijalna šteta: "
+                style="@style/reportText"/>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:text="površina objekata: "
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content" />
+                        <TextView
+                            android:id="@+id/pov_obj"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:text="vanjski prostor: "
+                            android:layout_width="wrap_content" />
+                        <TextView
+                            android:id="@+id/vanjski"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout7"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton8"
+            android:paddingRight="10dp"
+            android:text="8. Sudjelovanje ostalih službi i subjekata"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton8"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Javna služba/ustanova"
+                        style="@style/reportText"/>
+                    </TableRow>
+
+                    <TableRow>
+                    <TextView
+                        android:id="@+id/ustanova_1"
+                        android:text="__"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                        </TableRow>
+                    <TableRow>
+                </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton9"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout8"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton9"
+            android:paddingRight="10dp"
+            android:text="9. Vrsta mehanizacije i vrijeme upotrebe"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton9"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vrsta "
+                            style="@style/reportText"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Utrošeno sati"
+                            style="@style/reportText"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Navalno vozilo  " />
+                        <TextView
+                            android:id="@+id/navalno_sati"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kombi vozilo  " />
+                        <TextView
+                            android:id="@+id/kombi_sati"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="__"/>
+                    </TableRow>
+
+                </TableLayout>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton10"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout9"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton10"
+            android:paddingRight="10dp"
+            android:text="10. Troškovi intervencije"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton10"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp">
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Rad "
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/reportText"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Ukupno(kn)"
+                        style="@style/reportText"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Navalno vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/navalno_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Autocisterna "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/autocisterna_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Tehničko vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/tehnicko_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Automatske ljestve "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/ljestve_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Zapovjedno vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/zapovjedno_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Specijalno vozilo "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/specijalno_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="vozilo za prijevoz vatrogasaca i opreme "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/prijevoz_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Prijeđeni kilometri "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/km_prijedeno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Rad vatrogasca "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/vatrogasac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Osiguranje s vozilom i 3 vatrogasca "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/osiguran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Elektro pumpa "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/el_pumpa_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Prah za gašenje 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/prah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="CO2 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/co2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Pjenilo 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/pjenilo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Apsorbent 1 kg "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/apsorbent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:text="Ostali troškovi "
+                        android:layout_width="wrap_content" />
+                    <TextView
+                        android:id="@+id/ostali"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="__" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <Button
+            android:id="@+id/expandableButton11"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/expandableLayout10"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:onClick="expandableButton11"
+            android:paddingRight="10dp"
+            android:text="11. Sudionici"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/expandableButton11"
+            android:background="#FFFAF0"
+            app:ael_duration="400"
+            app:ael_orientation="vertical">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/sud1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
+            </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zapovjednik vatrogasne postrojbe: "
+            style="@style/reportText"
+            android:layout_marginLeft="150dp"
+            android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/zap"
+            android:layout_marginLeft="150dp"
+            android:layout_marginRight="8dp"/>
+
+    </LinearLayout>
+</ScrollView>

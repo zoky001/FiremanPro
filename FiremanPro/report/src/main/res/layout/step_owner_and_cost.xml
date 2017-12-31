@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Površina objekta(m2): "
+            />
+
+        <EditText
+            android:id="@+id/surface"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Vanjski prostor,površina opožarene površine(ha): "
+            />
+
+        <EditText
+            android:id="@+id/superficies"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+</LinearLayout>

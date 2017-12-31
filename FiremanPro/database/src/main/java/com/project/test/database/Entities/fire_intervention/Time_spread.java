@@ -95,4 +95,13 @@ public class Time_spread extends BaseModel {
 
         return house.get(0);
     }
+
+    public static Time_spread getByName(String name){
+
+        Time_spread spreading_smoke = SQLite.select().from(Time_spread.class).where(Time_spread_Table.name.is(name)).querySingle();
+
+
+        return spreading_smoke;
+    }
+
 }

@@ -31,10 +31,6 @@ public class Type_of_unit extends BaseModel {
 
 
 
-    public Type_of_unit() {
-    }
-
-
     public Type_of_unit(int id, String name, Date updated_at, Date created_at) {
         this.id = id;
         this.name = name;
@@ -42,7 +38,8 @@ public class Type_of_unit extends BaseModel {
         this.created_at = created_at;
     }
 
-
+    public Type_of_unit() {
+    }
 
     public String getName() {
         return name;

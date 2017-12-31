@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vrsta i naziv postrojbe:"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <Spinner
+        android:id="@+id/sort_of_unit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vozilo:"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <Spinner
+        android:id="@+id/vehicle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <LinearLayout
+        style="@style/NumberArea">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="20"
+            android:text="Prijeđeno(km): " />
+
+        <EditText
+            android:id="@+id/km"
+            style="@style/numberPickerFireman"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Utrošeno sati: "
+            />
+
+        <EditText
+            android:id="@+id/clock"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Broj vatrogasaca: "
+            />
+
+        <EditText
+            android:id="@+id/number_of_firemen_in_truck"
+            style="@style/numberPickerFireman"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Voda(m3):"
+            />
+
+        <EditText
+            android:id="@+id/water"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Pjenilo(l):"
+            />
+
+        <EditText
+            android:id="@+id/foam"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Prah(kg):"
+            />
+
+        <EditText
+            android:id="@+id/powder"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="CO2(kg): "
+            />
+        <EditText
+            android:id="@+id/CO_2"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+
+</LinearLayout>

@@ -8,6 +8,7 @@ import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.Entities.report.Intervention_track_Table;
 import com.project.test.database.controllers.House_photosController;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -26,6 +27,24 @@ public class InterventionController {
     public InterventionController() {
     }
 
+    public boolean checkIfExistUnfinishedInterventionAtHouse( House house){
+
+        List<Intervention_track> intervention_tracks =  SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.house_id_house.is(house.getId_house())).and(Intervention_track_Table.completed_intervention.is(Boolean.FALSE)).queryList();
+
+        if (intervention_tracks.size() > 0)
+            return true;
+        else return false;
+    }
+
+    public Intervention_track getUnfinishedInterventionAtHouse( House house){
+
+        Intervention_track intervention_tracks =  SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.house_id_house.is(house.getId_house())).and(Intervention_track_Table.completed_intervention.is(Boolean.FALSE)).querySingle();
+
+        return intervention_tracks;
+    }
+
+
+
     public Intervention_track addNewIntervention_atHouse(House house){
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
         Intervention_track intervention_track = new Intervention_track(false,house,CurrentDate,CurrentDate);
@@ -34,8 +53,25 @@ public class InterventionController {
     }
 
 
+    public static List<Intervention_track> getAllIntervention() {
 
+        return SQLite.select().from(Intervention_track.class).queryList();
+    }
 
+    public static  Intervention_track getInterventionByID ( int id){
+
+        return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.id_intervention_track.is(id)).querySingle();
+    }
+
+ public static  List<Intervention_track> getCompletedIntervention (){
+
+        return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.completed_intervention.is(true)).queryList();
+    }
+
+    public static  List<Intervention_track> getUnfinishedIntervention (){
+
+        return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.completed_intervention.is(false)).queryList();
+    }
 
     public List<Intervention_track> GetAllRecordsFromTable_Intervention_track() {
 
