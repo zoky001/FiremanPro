@@ -7,6 +7,8 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import org.w3c.dom.Text;
+
 import java.sql.Date;
 
 /**
@@ -21,27 +23,31 @@ public class Hydrants extends BaseModel {
     int id_hydrant;
 
     @Column
-    int placeID; //foreign key to places
-    @Column
-    String address;
-    @Column
     String type_of_hydrant;
 
+    @Column
+    String description;
 
-    @Column
-    long longitude;
-    @Column
-    long latitude;
 
-    @Column
-    String hydrant_image;
+    //address
+    @ForeignKey(saveForeignKeyModel = true)
+    Address address;
 
     @Column
     java.util.Date updated_at;
     @Column
     java.util.Date created_at;
 
+    public Hydrants() {
+    }
 
+    public Hydrants(String type_of_hydrant, String description, Address address, java.util.Date updated_at, java.util.Date created_at) {
+        this.type_of_hydrant = type_of_hydrant;
+        this.description = description;
+        this.address = address;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+    }
 
     public int getId_hydrant() {
         return id_hydrant;
@@ -49,22 +55,6 @@ public class Hydrants extends BaseModel {
 
     public void setId_hydrant(int id_hydrant) {
         this.id_hydrant = id_hydrant;
-    }
-
-    public int getPlaceID() {
-        return placeID;
-    }
-
-    public void setPlaceID(int placeID) {
-        this.placeID = placeID;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getType_of_hydrant() {
@@ -75,39 +65,35 @@ public class Hydrants extends BaseModel {
         this.type_of_hydrant = type_of_hydrant;
     }
 
-    public long getLongitude() {
-        return longitude;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLongitude(long longitude) {
-        this.longitude = longitude;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public long getLatitude() {
-        return latitude;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setLatitude(long latitude) {
-        this.latitude = latitude;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public String getHydrant_image() {
-        return hydrant_image;
+    public java.util.Date getUpdated_at() {
+        return updated_at;
     }
 
-    public void setHydrant_image(String hydrant_image) {
-        this.hydrant_image = hydrant_image;
-    }
-
-
-    public void setUpdated_at(Date updated_at) {
+    public void setUpdated_at(java.util.Date updated_at) {
         this.updated_at = updated_at;
     }
 
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public java.util.Date getCreated_at() {
+        return created_at;
     }
 
-
+    public void setCreated_at(java.util.Date created_at) {
+        this.created_at = created_at;
+    }
 }

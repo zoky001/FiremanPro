@@ -54,9 +54,7 @@ class DataParser {
         try {
             if(!googlePlaceJson.isNull("name"))
             {
-
                 placeName = googlePlaceJson.getString("name");
-
             }
             if( !googlePlaceJson.isNull("vicinity"))
             {
@@ -139,7 +137,7 @@ class DataParser {
         return getPaths(jsonArray);
     }
 
-    public String[] getPaths(JSONArray googleStepsJson )
+    public String[] getPaths(JSONArray googleStepsJson)
     {
         int count = googleStepsJson.length();
         String[] polylines = new String[count];

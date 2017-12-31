@@ -11,12 +11,14 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.kizo.core_module.tab_profile.ITabFragment;
+import com.kizo.core_module.tab_profile.TabFragment;
 import com.kizo.ground_plan.Tab.TabTlocrt;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
-public class ProfilNewActivity extends AppCompatActivity {
+public class ProfilNewActivity extends AppCompatActivity{
 
     House house;
 
@@ -24,7 +26,7 @@ public class ProfilNewActivity extends AppCompatActivity {
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
+     * loaded currrentDisplayedFragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
@@ -62,7 +64,7 @@ public class ProfilNewActivity extends AppCompatActivity {
         setTitleOnToolbar(house.getSurname_owner() + " " + house.getName_owner() + " - " + house.getPlaceName());
 
 
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a currrentDisplayedFragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -95,18 +97,19 @@ public class ProfilNewActivity extends AppCompatActivity {
 
 
     /**
-     * A placeholder fragment containing a simple view.
+     * A placeholder currrentDisplayedFragment containing a simple view.
      */
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * A {@link FragmentPagerAdapter} that returns a currrentDisplayedFragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter implements ITabFragment {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+        Fragment currrentDisplayedFragment;
 
         @Override
         public Fragment getItem(int position) {
@@ -116,31 +119,42 @@ public class ProfilNewActivity extends AppCompatActivity {
 
             bundle.putString("IDkuce", IDHouse);
 
+            TabFragment tabFragment;
             switch (position) {
                 case 0:
-                    TabProfil tab1 = new TabProfil();
+                    tabFragment = new TabProfil();
 
 
-                    tab1.setArguments(bundle); //pass ID House
+                    tabFragment.setArguments(bundle); //pass ID House
 
-                    return tab1;
+break;
+
 
                 case 1:
-                    TabPodaci tab2 = new TabPodaci();
+                    tabFragment = new TabPodaci();
 
 
-                    tab2.setArguments(bundle);
-                    return tab2;
+                    tabFragment.setArguments(bundle);
+break;
                 case 2:
 
-                    TabTlocrt tab3 = new TabTlocrt();
-                    tab3.setArguments(bundle);
+                    tabFragment = new TabTlocrt();
+                    tabFragment.setArguments(bundle);
 
-                    return tab3;
+break;
 
                 default:
-                    return null;
+                    tabFragment = new TabProfil();
+
+
+                    tabFragment.setArguments(bundle); //pass ID House
+                    break;
             }
+
+            tabFragment.loadFrag(this);
+
+            return currrentDisplayedFragment;
+
         }
 
         @Override
@@ -160,6 +174,12 @@ public class ProfilNewActivity extends AppCompatActivity {
                     return "TLOCRT";
             }
             return null;
+        }
+
+
+        @Override
+        public void getFragment(Fragment f) {
+            currrentDisplayedFragment = f;
         }
     }
 

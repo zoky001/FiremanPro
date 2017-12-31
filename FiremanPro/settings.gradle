@@ -1,1 +1,1 @@
-include ':app', ':database', ':ground_plan'
+include ':app', ':database', ':ground_plan', ':core_module'

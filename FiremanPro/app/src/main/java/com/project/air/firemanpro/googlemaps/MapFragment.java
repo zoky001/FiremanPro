@@ -7,7 +7,10 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,8 +41,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.Hydrants;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.HydrantsController;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
+import static android.R.attr.editorExtras;
 import static android.R.attr.onClick;
 
 
@@ -55,20 +64,19 @@ public class MapFragment extends Fragment implements
     private Location lastLocation;
     private Marker currentLocationMarker;
     Double latitude, longitude, end_latitude, end_longitude;
-    int markerCount;
+    int markerCount = 0;
     public static  final int REQUEST_LOCATION_CODE = 99;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
 
         String s = getArguments().getString("IDkuce");
         System.out.println("MAPFRAGMENT_idkuce kartaaaaaaaa: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
 
         if (a != -1) {
-
             house = HouseController.getHouse(a);
 
         } else {
@@ -78,9 +86,9 @@ public class MapFragment extends Fragment implements
         end_latitude=house.getAddress().getLatitude();
         end_longitude=house.getAddress().getLongitude();
 
+
         System.out.println("Trenutni latitude: " + end_latitude);
         System.out.println("Trenutni longitude: " + end_longitude);
-
 
         context = getActivity();
 
@@ -100,7 +108,10 @@ public class MapFragment extends Fragment implements
         {
             checkLocationPermission();
         }
-
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hydrant);
+        Bitmap b = bitmapdraw.getBitmap();
+        final Bitmap hydrantMarker =Bitmap.createScaledBitmap(b, 45, 80, false);
+        final LatLng[] closestHydrants = closestHydrants(new LatLng(end_latitude,end_longitude));
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap1) {
@@ -113,6 +124,8 @@ public class MapFragment extends Fragment implements
                 {
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
+                    mMap.addMarker(new MarkerOptions().position(closestHydrants[0]).icon(BitmapDescriptorFactory.fromBitmap(hydrantMarker)));
+                    mMap.addMarker(new MarkerOptions().position(closestHydrants[1]).icon(BitmapDescriptorFactory.fromBitmap(hydrantMarker)));
                 }
             }
         });
@@ -213,9 +226,8 @@ public class MapFragment extends Fragment implements
             //Add pointer to the map at location
             addMarker(mMap,latitude,longitude);
 
+
             Object dataTransfer[] = new Object[2];
-
-
 
 
             dataTransfer = new Object[3];
@@ -225,6 +237,7 @@ public class MapFragment extends Fragment implements
             dataTransfer[1] = url;
             dataTransfer[2] = new LatLng(end_latitude, end_longitude);
             getDirectionsData.execute(dataTransfer);
+
         } else {
             Toast.makeText(context, "Couldn't get the location. Make sure location is enabled on the device", Toast.LENGTH_SHORT).show();
         }
@@ -241,27 +254,19 @@ public class MapFragment extends Fragment implements
             int width = 45;
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.fireman_truck);
             Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+            Bitmap smallMarker =Bitmap.createScaledBitmap(b, width, height, false);
             mMap = googleMap;
 
             LatLng latlong = new LatLng(lat, lon);
-            currentLocationMarker= mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon))
-                    //.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin3))
-                    .icon(BitmapDescriptorFactory.fromBitmap((smallMarker))));
+            currentLocationMarker= mMap.addMarker(new MarkerOptions().position(latlong)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 16));
 
-            //Set Marker Count to 1 after first marker is created
             markerCount=1;
-
-               /* if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    TODO: Consider calling
-                    return;
-                }
-                //mMap.setMyLocationEnabled(true);
-                //startLocationUpdates();
-                */
         }
     }
+
 
     public static void animateMarker(final Location destination, final Marker marker) {
         if (marker != null) {
@@ -280,9 +285,7 @@ public class MapFragment extends Fragment implements
                         float v = animation.getAnimatedFraction();
                         LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, endPosition);
                         marker.setPosition(newPosition);
-                        // marker.setRotation(computeRotation(v, startRotation, destination.getBearing()));
                     } catch (Exception ex) {
-                        // I don't care atm..
                     }
                 }
             });
@@ -350,8 +353,69 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
+    //Function to calculate 2 nearest hydrants relative to house
+    private LatLng[] closestHydrants (LatLng houseLatLng){
+
+        HydrantsController hydrantsController = new HydrantsController();
+        List<Hydrants> hydrants = hydrantsController.GetAllRecordsFromTableHydrants();
+        LatLng[] closestHydrants = new LatLng[2];
+        Location houseLocation = new Location("");
+        houseLocation.setLatitude(houseLatLng.latitude);
+        houseLocation.setLongitude(houseLatLng.longitude);
+        System.out.println(closestHydrants.length);
+        //Put two fire hydrants from hydrant table and order them relative to distance to target house
+
+            Location hydrant0 = new Location("");
+            hydrant0.setLatitude(hydrants.get(0).getAddress().getLatitude());
+            hydrant0.setLongitude(hydrants.get(0).getAddress().getLongitude());
+            Location hydrant1 = new Location("");
+            hydrant1.setLatitude(hydrants.get(1).getAddress().getLatitude());
+            hydrant1.setLongitude(hydrants.get(1).getAddress().getLongitude());
+            if (houseLocation.distanceTo(hydrant0) <= houseLocation.distanceTo(hydrant1)) {
+                closestHydrants[0] = new LatLng(hydrant0.getLatitude(), hydrant0.getLongitude());
+                closestHydrants[1] = new LatLng(hydrant1.getLatitude(), hydrant1.getLongitude());
+
+            } else {
+                closestHydrants[0] = new LatLng(hydrant1.getLatitude(), hydrant1.getLongitude());
+                closestHydrants[1] = new LatLng(hydrant0.getLatitude(), hydrant0.getLongitude());
+
+            }
 
 
+        //For each hydrant calculate distance to house and if distance is less than closestHydrants 0 and 1 then put it in array
+        for (Hydrants hydrant:hydrants) {
+            Location currentHydrant = new Location("");
+            currentHydrant.setLatitude(hydrant.getAddress().getLatitude());
+            currentHydrant.setLongitude(hydrant.getAddress().getLongitude());
+
+            Location closestHydrants0 = new Location("");
+            closestHydrants0.setLatitude(closestHydrants[0].latitude);
+            closestHydrants0.setLongitude(closestHydrants[0].longitude);
+
+            Location closestHydrants1 = new Location("");
+            closestHydrants1.setLatitude(closestHydrants[1].latitude);
+            closestHydrants1.setLongitude(closestHydrants[1].longitude);
+
+            LatLng currentHydrantLatLng = new LatLng(currentHydrant.getLatitude(), currentHydrant.getLongitude());
+
+            //Skip starting houses
+            if ((closestHydrants[0] != currentHydrantLatLng) && (closestHydrants[1] != currentHydrantLatLng)) {
+
+                if (houseLocation.distanceTo(currentHydrant) < houseLocation.distanceTo(closestHydrants0)) {
+                    closestHydrants[1]  = closestHydrants[0];
+                    closestHydrants[0] = new LatLng(currentHydrant.getLatitude(),currentHydrant.getLongitude());
+
+                }
+                if( houseLocation.distanceTo(currentHydrant) > houseLocation.distanceTo(closestHydrants0) &&  houseLocation.distanceTo(currentHydrant) < houseLocation.distanceTo(closestHydrants1)){
+                    closestHydrants[1] = new LatLng(currentHydrant.getLatitude(),currentHydrant.getLongitude());
+                }
+
+
+            }
+        }
+
+        return closestHydrants;
+    }
 
 }
 
