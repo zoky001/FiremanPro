@@ -46,6 +46,10 @@ public class Intervention_Type extends BaseModel {
     public Intervention_Type() {
     }
 
+    public Sort_of_intervention getSort_of_intervention() {
+        return sort_of_intervention;
+    }
+
     public int getId() {
         return id;
     }

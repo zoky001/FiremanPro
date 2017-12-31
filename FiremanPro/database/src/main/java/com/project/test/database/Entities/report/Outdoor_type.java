@@ -1,6 +1,7 @@
 package com.project.test.database.Entities.report;
 
 import com.project.test.database.Entities.fire_intervention.Time_spread;
+import com.project.test.database.Entities.fire_intervention.Time_spread_Table;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -96,5 +97,13 @@ public class Outdoor_type extends BaseModel {
 
 
         return house.get(0);
+    }
+
+    public static Outdoor_type getByName(String name){
+
+        Outdoor_type spreading_smoke = SQLite.select().from(Outdoor_type.class).where(Outdoor_type_Table.name.is(name)).querySingle();
+
+
+        return spreading_smoke;
     }
 }

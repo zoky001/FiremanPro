@@ -1,5 +1,9 @@
 package com.project.test.database.Entities.fire_intervention;
 
+import android.support.annotation.Size;
+
+import com.project.test.database.Entities.report.Outdoor_type;
+import com.project.test.database.Entities.report.Outdoor_type_Table;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -94,5 +98,12 @@ public class Size_of_fire extends BaseModel {
 
 
         return house.get(0);
+    }
+    public static Size_of_fire getByName(String name){
+
+        Size_of_fire spreading_smoke = SQLite.select().from(Size_of_fire.class).where(Size_of_fire_Table.name.is(name)).querySingle();
+
+
+        return spreading_smoke;
     }
 }

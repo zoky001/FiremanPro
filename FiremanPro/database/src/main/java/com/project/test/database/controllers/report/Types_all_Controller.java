@@ -1,19 +1,18 @@
 package com.project.test.database.controllers.report;
 
-import com.project.test.database.Entities.House;
-
-import com.project.test.database.Entities.PhotoType;
-import com.project.test.database.Entities.Post;
-import com.project.test.database.Entities.fire_intervention.Sepatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
+import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Intervention_Type;
+import com.project.test.database.Entities.report.Intervention_Type_Table;
+import com.project.test.database.Entities.report.Intervention_track_Table;
 import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.Entities.report.Sort_of_intervention;
-import com.raizlabs.android.dbflow.sql.language.CursorResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit_Table;
 
@@ -141,7 +140,7 @@ public Type_of_unit get_DVD_type_of_unit(){
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-          Type_of_truck type_of_truck = new Type_of_truck(100,"NAVAL_VEHICLE",CurrentDate,CurrentDate);
+          Type_of_truck type_of_truck = new Type_of_truck(100,"NAVAL VEHICLE",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -154,7 +153,7 @@ public Type_of_unit get_DVD_type_of_unit(){
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Type_of_truck type_of_truck = new Type_of_truck(101,"TRANSPORTATION_VEHICLE",CurrentDate,CurrentDate);
+            Type_of_truck type_of_truck = new Type_of_truck(101,"TRANSPORTATION VEHICLE",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -168,7 +167,7 @@ public Type_of_unit get_DVD_type_of_unit(){
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Type_of_truck type_of_truck = new Type_of_truck(102,"SPECIAL_VEHICLE",CurrentDate,CurrentDate);
+            Type_of_truck type_of_truck = new Type_of_truck(102,"SPECIAL VEHICLE",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -221,22 +220,22 @@ public Type_of_unit get_DVD_type_of_unit(){
     }
 // Spreading_smoke END
 
-    // Sepatial_spread BEGIN
-public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, String description){
-    Sepatial_spread sepatial_spread = new Sepatial_spread(id_of_type,name,description,CurrentDate,CurrentDate);
-    sepatial_spread.save();
+    // Spatial_spread BEGIN
+public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, String description){
+    Spatial_spread spatial_spread = new Spatial_spread(id_of_type,name,description,CurrentDate,CurrentDate);
+    spatial_spread.save();
 
-    return sepatial_spread;
+    return spatial_spread;
 }
-    public List<Sepatial_spread> GetAllRecordsFromTable_Sepatial_spread(){
+    public List<Spatial_spread> GetAllRecordsFromTable_Spatial_spread(){
 
-        return SQLite.select().from(Sepatial_spread.class).queryList();
+        return SQLite.select().from(Spatial_spread.class).queryList();
 
 
     }
     public void DeleteAllRecordsInTable_Sepatial_spread(){
 
-        final List<Sepatial_spread> gndPlan = GetAllRecordsFromTable_Sepatial_spread();
+        final List<Spatial_spread> gndPlan = GetAllRecordsFromTable_Spatial_spread();
         for(int i = 0; i < gndPlan.size(); i++){
 
             gndPlan.get(i).delete();
@@ -244,7 +243,7 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
         }
 
     }
-// Sepatial_spread  END
+// Spatial_spread  END
 
     // Time_spread BEGIN
     public Time_spread addNewTime_spread_Type(int id_of_type, String name, String description){
@@ -335,7 +334,7 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"FIRE_INTERVENTION","",CurrentDate,CurrentDate);
+        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"FIRE INTERVENTION","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -344,26 +343,27 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
     }
 
-    public Sort_of_intervention get_OTHER_Sort_of_intervention(){
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
 
-
-        if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"OTHER_INTERVENTION","",CurrentDate,CurrentDate);
-            sort_of_intervention.save();
-            return sort_of_intervention;
-        }else {
-            return  type.get(0);
-        }
-
-    }
 
     public Sort_of_intervention get_TRHNICAL_Sort_of_intervention(){
         List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("TEHNICAL_INTERVENTION")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL_INTERVENTION","",CurrentDate,CurrentDate);
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL INTERVENTION","",CurrentDate,CurrentDate);
+            sort_of_intervention.save();
+            return sort_of_intervention;
+        }else {
+            return  type.get(0);
+        }
+
+    }
+    public Sort_of_intervention get_OTHER_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
+
+
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(102,"OTHER INTERVENTION","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -380,6 +380,14 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
 
 
     }
+
+    public List<Type_of_unit> GetAllRecordsFromTable_Sort_of_unit(){
+
+        return SQLite.select().from(Type_of_unit.class).queryList();
+
+
+    }
+
     public void DeleteAllRecordsInTable_Sort_of_intervention(){
 
         final List<Sort_of_intervention> gndPlan = GetAllRecordsFromTable_Sort_of_intervention();
@@ -390,7 +398,42 @@ public Sepatial_spread addNewSepatial_spread_Type(int id_of_type, String name, S
         }
 
     }
+
+    //all firemen
+    public List<Fireman> GetAllRecordsFromTable_Fireman(){
+
+        return SQLite.select().from(Fireman.class).queryList();
+
+
+    }
+
+    //all types of intervention
+    public List<Intervention_Type> GetAllRecordsFromTable_Intervention_type(){
+        return SQLite.select().from(Intervention_Type.class).queryList();
+    }
+    public void DeleteAllRecordsTable_Intervention_type(){
+
+        final List<Intervention_Type> gndPlan = GetAllRecordsFromTable_Intervention_type();
+        for(int i = 0; i < gndPlan.size(); i++){
+
+            gndPlan.get(i).delete();
+            //delete all item in table House
+        }
+
+    }
+
+    public static Intervention_Type get_Intervention_typeByName(String name){
+        return SQLite.select().from(Intervention_Type.class).where(Intervention_Type_Table.name.is(name)).querySingle();
+    }
+
+
 // Sort_of_intervention  END
+
+    //all trucks
+    public List<Truck> GetAllRecordsFromTable_Truck(){
+        return SQLite.select().from(Truck.class).queryList();
+    }
+
 
 
 

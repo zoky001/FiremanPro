@@ -1,10 +1,8 @@
 package com.project.test.database.Entities;
 
-import android.content.Context;
-
 import com.project.test.database.Entities.fire_intervention.Fire_intervention;
 import com.project.test.database.Entities.fire_intervention.Fire_intervention_Table;
-import com.project.test.database.Entities.fire_intervention.Sepatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
 import com.project.test.database.Entities.fire_intervention.Tehnical_intervention;
@@ -13,7 +11,6 @@ import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_Table;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Truck;
-import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Consumption;
 import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Other_sort_intervention;
@@ -28,11 +25,8 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.CursorResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -320,11 +314,22 @@ public class Reports extends BaseModel {
         this.consumption = consumption;
     }
 
-    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Sepatial_spread sepatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type){
+    public void addFireIntervention(Intervention_Type intervention_type){
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-        Fire_intervention fire_intervention = new Fire_intervention(localization,fireExtinguished,destroyed_space,repeated,CurrentDate,CurrentDate,spreading_smoke,sepatial_spread,time_spread,outdoor_type,size_of_fire,intervention_type,this);
+        Fire_intervention fire_intervention = new Fire_intervention(intervention_type,this,CurrentDate,CurrentDate);
         fire_intervention.save();
+    }
 
+    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+        Fire_intervention fire_intervention = new Fire_intervention(localization,fireExtinguished,destroyed_space,repeated,CurrentDate,CurrentDate,spreading_smoke, spatial_spread,time_spread,outdoor_type,size_of_fire,intervention_type,this);
+        fire_intervention.save();
+    }
+
+    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire){
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+        this.getFireInterventionDetails().addDetails(localization,fireExtinguished,destroyed_space,repeated,spreading_smoke, spatial_spread,time_spread,outdoor_type,size_of_fire);
+        this.getFireInterventionDetails().save();
     }
 
     public void addTehnicalInterventionDetails(Intervention_Type intervention_type){

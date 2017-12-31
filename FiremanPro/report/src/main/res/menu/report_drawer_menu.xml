@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/report_nav_home"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/report_nav_all_reports"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/allreports" />
+        <item
+            android:id="@+id/report_nav_fished_reports"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/savedreports" />
+        <item
+            android:id="@+id/report_nav_unfinished_reports"
+            android:icon="@android:drawable/ic_menu_mylocation"
+            android:title="@string/unfinishedreports" />
+    </group>
+    <item android:title="Additional">
+        <menu>
+            <item
+                android:id="@+id/menu_about"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="O aplikaciji" />
+        </menu>
+    </item>
+</menu>
