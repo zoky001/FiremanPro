@@ -48,7 +48,7 @@ FloatingActionButton fab;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +56,7 @@ FloatingActionButton fab;
                 startActivityForResult(intent, NEW_ALARM);
             }
         });
-
+*/
 
        /* TabFragment tabFragment;
         tabFragment = new SavedReportFragment();
@@ -71,14 +71,14 @@ FloatingActionButton fab;
         tabFragment.setArguments(bundle);
         tabFragment.loadFrag(this);
 
-
+/*
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
                 startActivityForResult(intent, NEW_ALARM);
             }
-        });
+        });*/
     }
 
 
