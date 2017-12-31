@@ -495,8 +495,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
 
 
- java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
-        java.util.Date fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
+
 
      
 
@@ -581,18 +580,18 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         types_all_controller.addNewSpatial_spread_Type(102,"na grupu prostorija","");
         types_all_controller.addNewSpatial_spread_Type(103,"na kat-etažu kao odsječak","");
 
-        types_all_controller.addNewSepatial_spread_Type(104, "dio kata-etaže", "");
-        types_all_controller.addNewSepatial_spread_Type(105, "stubište", "");
-        types_all_controller.addNewSepatial_spread_Type(106, "dio stubišta", "");
-        types_all_controller.addNewSepatial_spread_Type(107, "odsječak s više katova", "");
-        types_all_controller.addNewSepatial_spread_Type(108, "kat s više odsječaka", "");
+        types_all_controller.addNewSpatial_spread_Type(104, "dio kata-etaže", "");
+        types_all_controller.addNewSpatial_spread_Type(105, "stubište", "");
+        types_all_controller.addNewSpatial_spread_Type(106, "dio stubišta", "");
+        types_all_controller.addNewSpatial_spread_Type(107, "odsječak s više katova", "");
+        types_all_controller.addNewSpatial_spread_Type(108, "kat s više odsječaka", "");
 
-        types_all_controller.addNewSepatial_spread_Type(109, "zgradu kao odsječak", "");
-        types_all_controller.addNewSepatial_spread_Type(110, "zgradu s više odsječaka", "");
-        types_all_controller.addNewSepatial_spread_Type(111, "zgradu s kojom se graniči", "");
-        types_all_controller.addNewSepatial_spread_Type(112, "susjednu zgradu ili građevinu", "");
-        types_all_controller.addNewSepatial_spread_Type(113, "pročelje građevine (fasadu)", "");
-        types_all_controller.addNewSepatial_spread_Type(114, "cijelu građevinu", "");
+        types_all_controller.addNewSpatial_spread_Type(109, "zgradu kao odsječak", "");
+        types_all_controller.addNewSpatial_spread_Type(110, "zgradu s više odsječaka", "");
+        types_all_controller.addNewSpatial_spread_Type(111, "zgradu s kojom se graniči", "");
+        types_all_controller.addNewSpatial_spread_Type(112, "susjednu zgradu ili građevinu", "");
+        types_all_controller.addNewSpatial_spread_Type(113, "pročelje građevine (fasadu)", "");
+        types_all_controller.addNewSpatial_spread_Type(114, "cijelu građevinu", "");
 
 
 
