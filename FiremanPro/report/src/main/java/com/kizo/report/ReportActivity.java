@@ -12,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ReportActivity extends AppCompatActivity implements ITabFragment,
         NavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +26,7 @@ public class ReportActivity extends AppCompatActivity implements ITabFragment,
     public static final int NEW_ALARM = 1;
 FloatingActionButton fab;
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ FloatingActionButton fab;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,6 +56,7 @@ FloatingActionButton fab;
                 startActivityForResult(intent, NEW_ALARM);
             }
         });
+*/
 
        /* TabFragment tabFragment;
         tabFragment = new SavedReportFragment();
@@ -65,7 +71,16 @@ FloatingActionButton fab;
         tabFragment.setArguments(bundle);
         tabFragment.loadFrag(this);
 
+/*
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
+                startActivityForResult(intent, NEW_ALARM);
+            }
+        });*/
     }
+
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -113,6 +128,7 @@ FloatingActionButton fab;
                 .replace(R.id.frame_report, f)
                 .commit();
     }
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -171,4 +187,6 @@ return true;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

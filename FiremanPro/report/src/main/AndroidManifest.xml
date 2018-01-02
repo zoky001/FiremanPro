@@ -8,7 +8,7 @@
         android:supportsRtl="true">
         <activity android:name=".ReportActivity"></activity>
         <activity android:name=".NewReportFormActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".FinishedReportActivity"></activity>
     </application>
 
 </manifest>

@@ -11,16 +11,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
+import com.kizo.report.NewReportFormActivity;
 import com.project.air.firemanpro.googlemaps.GoogleMapActivity;
 import com.project.air.firemanpro.googlemaps.MapFragment;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.report.InterventionController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +36,7 @@ import butterknife.OnClick;
  */
 
 public class TabProfil extends TabFragment {
+    private static final int NEW_ALARM = 1;
     @BindView(R.id.imageViewProfilHouse)
     ImageView profil;
 
@@ -53,9 +58,12 @@ public class TabProfil extends TabFragment {
     @BindView(R.id.textViewPlace)
     TextView txtPlace;
 
-
+    @BindView(R.id.btn_new_report)
+    Button btnNewReport;
 
     House house;
+
+    private InterventionController interventionController = new InterventionController();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,11 +120,11 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         Fragment mapFragment=new MapFragment();
         mapFragment.setArguments(bundle);
 
-
+/*  ruši mi se na virtualki KIZO
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.map_container, mapFragment)
-                .commit();
+                .commit();*/
     }
 
     @OnClick(R.id.buttonMax)
@@ -145,6 +153,39 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
+    }
+
+    @OnClick(R.id.btn_new_report)
+    public void newReport(View view){
+        Intervention_track intervencija;
+        if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
+         intervencija = interventionController.addNewIntervention_atHouse(house);
+
+
+            intervencija.add_FIRE_ReportToIntervention();
+
+            intervencija.callReceived();
+            intervencija.intervetionStarted();
+            intervencija.intervetionArrival();
+            intervencija.intervetionEnded();
+
+
+        }
+        else
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+
+
+
+
+
+
+
+
+        Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
+        intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
+        startActivityForResult(intent, NEW_ALARM);
+
     }
 
 

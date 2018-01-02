@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".NewReportFormActivity"
+    tools:showIn="@layout/content_main_report"
+    android:orientation="vertical"
+    >
+
+
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vrsta intervencije:"
+        android:layout_marginTop="8dp"
+        />
+
+    <Spinner
+        android:id="@+id/sort_of_intervention"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Tip intervencije:"
+        android:layout_marginTop="8dp"
+        />
+
+    <Spinner
+        android:id="@+id/type_of_intervention"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Karakteristike (opis) intervencije:"
+
+        />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:minLines="2"
+        android:maxLines="3"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        />
+
+
+</LinearLayout>

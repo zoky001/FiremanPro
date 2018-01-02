@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada navalnog vozila: "
+            android:layout_gravity="center"
+            />
+
+        <EditText
+            android:id="@+id/navalVehicle"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada autocisterne: "
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/commandVehicle"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada tehničkog vozila"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/tehnicalVehicle"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Sat rada automatske ljestve:"
+            />
+        <EditText
+            android:id="@+id/automaticLadder"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada zapovjednog vozila:"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/roadTankers"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Sat rada specijalnog vozila: "
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/specialVehicle"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Sat rada vozila za prijevoz vatrogasaca i opreme: " />
+
+        <EditText
+            android:id="@+id/transportationVehicle"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+</LinearLayout>

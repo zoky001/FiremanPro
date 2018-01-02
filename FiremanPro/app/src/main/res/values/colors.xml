@@ -4,10 +4,10 @@
     <color name="colorMain">#c1000d</color>
     <color name="colorPrimaryDark">#141415</color>
     <color name="colorPrimaryLightDark">#505050</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="colorInput">#f4efef</color>
     <color name="glavna">#c1000d</color>
     <color name="colorButton">#ffffff</color>
+    <color name="colorButtonReport">#36921d</color>
     <color name="pozadina">#ffffff</color>
     <color name="colorTable">#adeefc</color>
     <color name="colorTitleBackground">#c1000d</color>

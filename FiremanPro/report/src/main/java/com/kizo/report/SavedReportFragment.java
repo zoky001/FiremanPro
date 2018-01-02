@@ -3,8 +3,10 @@ package com.kizo.report;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +21,9 @@ import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.report.InterventionController;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Zoran on 10.12.2017..
@@ -44,6 +49,7 @@ public class SavedReportFragment extends TabFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_saved_report, container, false);
 
+        ButterKnife.bind(this, rootView);
 
         information = (TextView) rootView.findViewById(R.id.information);
         disclaimer = (TextView) rootView.findViewById(R.id.disclaimer);
@@ -80,11 +86,18 @@ public class SavedReportFragment extends TabFragment {
 
                 mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+
             }
+
         }
+
         return rootView;
+
+
     }
-/*
+
+
+    /*
     @Override
     public void onViewStateRestored (Bundle savedInstanceState){
         super.onViewStateRestored(savedInstanceState);
@@ -108,6 +121,7 @@ public class SavedReportFragment extends TabFragment {
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -119,24 +133,21 @@ public class SavedReportFragment extends TabFragment {
                 // Handling the data received from the stepper form
                 dataReceived = true;
                 String title = data.getExtras().getString(NewReportFormActivity.STATE_TITLE);
+                /*
                 //String description = data.getExtras().getString(NewReportFormActivity.STATE_DESCRIPTION);
                 int hour = data.getExtras().getInt(NewReportFormActivity.STATE_TIME_HOUR);
                 int minutes = data.getExtras().getInt(NewReportFormActivity.STATE_TIME_MINUTES);
+
                 String time = ((hour > 9) ? hour : ("0" + hour))
                         + ":" + ((minutes > 9) ? minutes : ("0" + minutes));
                 //boolean[] weekDays = data.getExtras().getBooleanArray(NewReportFormActivity.STATE_WEEK_DAYS);
                 information.setText("Alarm \"" + title + "\" set up at " + time);
                 disclaimer.setVisibility(View.VISIBLE);
                 Snackbar.make(fab, getString(R.string.new_alarm_added), Snackbar.LENGTH_LONG).show();
+                */
             }
         }
     }
-
-
-
-
-
-
 
 
     @Override
@@ -144,4 +155,7 @@ public class SavedReportFragment extends TabFragment {
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
+
+
 }

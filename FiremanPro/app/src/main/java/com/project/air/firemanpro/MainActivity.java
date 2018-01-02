@@ -269,6 +269,7 @@ saveImagesFromResourcesToInternalStorage();
 
 
 
+
     private void saveImagesFromResourcesToInternalStorage () {
 
         File mydir = this.getApplicationContext().getDir("Images", Context.MODE_PRIVATE);

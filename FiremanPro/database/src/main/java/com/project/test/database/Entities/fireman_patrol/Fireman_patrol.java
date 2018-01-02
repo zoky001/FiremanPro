@@ -1,5 +1,7 @@
 package com.project.test.database.Entities.fireman_patrol;
 
+import android.widget.TableRow;
+
 import com.project.test.database.Entities.Post;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.MainDatabase;
@@ -152,5 +154,33 @@ public class Fireman_patrol extends BaseModel {
 
 
         return house.get(0);
+    }
+
+
+    public List<Truck> getAllTrucks(){
+        List<Truck> house = SQLite.select().from(Truck.class).where(Truck_Table.fireman_patrol_ID.is(this.getID())).queryList();
+
+
+        return house;
+
+    }
+
+    public static Fireman_patrol getPatrolByName (String name){
+
+       return SQLite.select().from(Fireman_patrol.class).where(Fireman_patrol_Table.name.is(name)).querySingle();
+    }
+
+    public  Truck getTruckByName (String name){
+        List<Truck> trucks = getAllTrucks();
+
+        for (Truck t :
+                trucks) {
+            if (t.getName().equals(name))
+            {
+                return t;
+            }
+        }
+        return null;
+
     }
 }
