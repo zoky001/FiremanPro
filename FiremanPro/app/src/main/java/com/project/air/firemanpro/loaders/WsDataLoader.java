@@ -16,6 +16,7 @@ import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.AddressController;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.PostController;
+import com.project.test.database.helper.MockData;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.project.test.database.imageSaver.SaveResourceImage;
 
@@ -33,11 +34,11 @@ public class WsDataLoader extends DataLoader {
     private boolean storesArrived = false;
     private boolean discountsArrived = false;
 
-    private SaveResourceImage  saveResourceImage;
+  //  private SaveResourceImage  saveResourceImage;
 private Context context;
     public WsDataLoader(Context context) {
         this.context = context;
-        saveResourceImage = new SaveResourceImage(context);
+       // saveResourceImage = new SaveResourceImage(context);
 
     }
 
@@ -61,6 +62,9 @@ private Context context;
         public void onDataArrived(List<Post> post, List<PhotoType> photoTypes, List<HousesW> housesWs, boolean ok) {
             System.out.println("serviceLaravel: WSdata.on data arived    sada ide ispis pristiglih podataka");
             System.out.println("onDATAArrived");
+
+            MockData mockData = new MockData();
+            mockData.deleteAllWhenNewDataArrived(); // delete all old data in database
 
             if(ok){
                 List<Post> posts = post;

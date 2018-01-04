@@ -9,6 +9,7 @@ import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Post;
+import com.project.test.database.Entities.Settings;
 import com.project.test.database.controllers.AddressController;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -34,8 +35,8 @@ public class AirWebServiceCaller {
     // retrofit object
     Retrofit retrofit;
     // base URL of the web service
-    private final String baseUrl = "http://fireman-pro.ddns.net/FiremanPro-laravel/";
-
+    //private final String baseUrl = "http://fireman-pro.ddns.net/FiremanPro-laravel/";
+    private final String baseUrl = Settings.getSettings().getWebServicesAddress();
   //  private final String baseUrl = "http://93.139.163.218/FiremanPro-laravel/";
     // constructor
     public AirWebServiceCaller(AirWebServiceHandler airWebServiceHandler){

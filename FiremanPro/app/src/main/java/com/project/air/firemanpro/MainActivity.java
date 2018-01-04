@@ -2,6 +2,8 @@ package com.project.air.firemanpro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
@@ -18,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
+
 import com.kizo.core_module.DataLoadedListener;
 import com.kizo.core_module.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
@@ -28,6 +32,7 @@ import com.kizo.report.SavedReportFragment;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.loaders.WsDataLoader;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.Settings;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.helper.MockData;
 import com.project.test.database.imageSaver.SaveResourceImage;
@@ -58,8 +63,15 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //DBflow connect to database
+        FlowManager.init(new FlowConfig.Builder(this).build());
+
 
         ButterKnife.bind(this);
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
 
@@ -67,14 +79,24 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, com.kizo.report.R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
+
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(com.kizo.report.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //DBflow
-        FlowManager.init(new FlowConfig.Builder(this).build());
+        View header=navigationView.getHeaderView(0);
+
+        TextView headerTitle = (TextView)header.findViewById(R.id.headerTitle);
+        headerTitle.setText(Settings.getSettings().getPatrolName());
+
+
+        //set default settings
+
+        Settings.setDefaultSettings();
+
 
         //imageloader
         // Create global configuration and initialize ImageLoader with this config
@@ -84,10 +106,11 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
 
         mockData  = new MockData();
 
-
+//mockData.writeAll();
         // empty the entire database
-        mockData.deleteAll();
-        loadFromService();
+        /*
+        mockData.deleteAll();*/
+       // loadFromService();
 
         // if table "House" is empty, then fill database with data
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
@@ -270,6 +293,7 @@ saveImagesFromResourcesToInternalStorage();
 
 
 
+
     private void saveImagesFromResourcesToInternalStorage () {
 
         File mydir = this.getApplicationContext().getDir("Images", Context.MODE_PRIVATE);
@@ -284,8 +308,8 @@ saveImagesFromResourcesToInternalStorage();
 
 
             //save images from resource to directory in device
-            SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
-            SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
+            //SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
+           // SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
 
 
         }
@@ -305,9 +329,9 @@ saveImagesFromResourcesToInternalStorage();
         mockData.writeAll();
         mockData.printAll();
 
-        SaveResourceImage saveResourceImage = new SaveResourceImage(getApplicationContext());
+        //SaveResourceImage saveResourceImage = new SaveResourceImage(getApplicationContext());
 
-       saveResourceImage.SaveAllPhotoFromUrlToInternalStorage();
+      // saveResourceImage.SaveAllPhotoFromUrlToInternalStorage();
 
 
 
@@ -332,6 +356,15 @@ saveImagesFromResourcesToInternalStorage();
             startActivity(Intent);
         }
 
+        if (id == R.id.settings) {
+
+            Intent Intent = new Intent(this, SettingsActivity.class);
+
+       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
+       */
+            startActivity(Intent);
+        }
+
 
 
 
@@ -339,4 +372,8 @@ saveImagesFromResourcesToInternalStorage();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
 }

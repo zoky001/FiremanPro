@@ -42,9 +42,11 @@ public class SaveResourceImage {
     private List<Photos> photos;
     private Context context;
 
-    public SaveResourceImage(Context context) {
-        this.photos = photosController.GetAllRecordsFromTable();
+    public SimpleImageLoadingListener simpleImageLoadingListener;
 
+    public SaveResourceImage(Context context, SimpleImageLoadingListener simpleImageLoadingListener) {
+        this.photos = photosController.GetAllRecordsFromTable();
+this.simpleImageLoadingListener = simpleImageLoadingListener;
         this.context = context;
     }
 
@@ -82,11 +84,13 @@ System.out.println("URL_SLIKE: preuzimanje___:"+url);
 
         ImageLoader.getInstance().init(config);
         ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
-        imageLoader.loadImage(url, new SimpleImageLoadingListener()
+        imageLoader.loadImage(url,
+                simpleImageLoadingListener
+                /*new SimpleImageLoadingListener()
         {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
-            {
+            { String name = sha256(imageUri);
                 System.out.println("URL_SLIKE: spremljan slika___:"+imageUri);
                 // loaded bitmap is here (loadedImage)
                 //Save the bitmap or do something with it here
@@ -95,6 +99,7 @@ System.out.println("URL_SLIKE: preuzimanje___:"+url);
                         setFileName(name + ".png").
                         setDirectoryName("Images").
                         save(scal);
+
             }
 
             @Override
@@ -102,7 +107,10 @@ System.out.println("URL_SLIKE: preuzimanje___:"+url);
                 super.onLoadingFailed(imageUri, view, failReason);
                 System.out.println("URL_SLIKE: failed___:"+imageUri);
             }
-        });
+        }
+*/
+
+        );
 
 
         return name;

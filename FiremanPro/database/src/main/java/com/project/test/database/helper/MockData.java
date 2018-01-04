@@ -73,6 +73,25 @@ public class MockData {
 
     }
 
+    public void deleteAllWhenNewDataArrived() {
+
+        addressController.DeleteAllRecordsInTable();
+        house_photosController.DeleteAllRecordsInTable();
+        houseController.DeleteAllRecordsInTable();
+        photosController.DeleteAllRecordsInTable();
+        photoTypeController.DeleteAllRecordsInTable();
+        postController.DeleteAllRecordsInTable();
+
+        firemanPatrolController.DeleteAllRecordsInTable();
+        interventionController.DeleteAllRecordsInTable_Intervention_track();
+        interventionController.DeleteAllRecordsInTable_Reports();
+        hydrantsController.DeleteAllRecordsInTableHydrants();
+
+        types_all_controller.DeleteAllRecordsTable_Intervention_type();
+
+    }
+
+
     public void insertHydrants(Post post) {
 hydrantsController.addNewHydrant(
         "NADZEMNI",
@@ -1315,7 +1334,8 @@ Address nova = addressController.addNewAddress(
 
 
 
-        createMockIntervention();
+       // createMockIntervention();
+
     }
 
     public void printAll() {
