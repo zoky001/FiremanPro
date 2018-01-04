@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
     AutoCompleteTextView autoCompleteTextView;
 
 
+    List<House> allHouses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         View header=navigationView.getHeaderView(0);
 
         TextView headerTitle = (TextView)header.findViewById(R.id.headerTitle);
-        headerTitle.setText(Settings.getSettings().getPatrolName());
+        //headerTitle.setText(Settings.getSettings().getPatrolName());
 
 
         //set default settings
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         ImageLoader.getInstance().init(config);
 
         mockData  = new MockData();
-
+        mockData.writeAll();
 //mockData.writeAll();
         // empty the entire database
         /*
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
             System.out.println("Nema zapisa u housessssss: ");
 
             //write all entries in database
-         //   mockData.writeAll();
+          mockData.writeAll();
 
             //print entries from database to console (for testing)
             mockData.printAll();
@@ -256,6 +257,7 @@ saveImagesFromResourcesToInternalStorage();
     }
 
 
+
     @OnClick(R.id.buttonSearching)
     public void buttonSearchingClicked(View view) {
 
@@ -288,7 +290,46 @@ saveImagesFromResourcesToInternalStorage();
         dataLoader.loadData(this);
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        List<String> autocompleteListOfStrings = new ArrayList<String>();
+        List<House> allHouses = HouseController.getAllHouseRecords();
+        for (int i = 0; i < allHouses.size(); i++) {
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
+            }
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getSurname_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
+            }
 
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
+            }
+
+            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " +allHouses.get(i).getAddress().getPlaceNameIfExist()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+
+            if (allHouses.get(i).getAddress().getPlaceNameIfExist()!=""&& allHouses.get(i).getAddress().getStreetNameIfExist()!="" &&!autocompleteListOfStrings.contains(FullAddress)) {
+                autocompleteListOfStrings.add(FullAddress);
+            }
+            if(allHouses.get(i).getAddress().getPlaceNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutPlace)){
+                autocompleteListOfStrings.add(AddressWithoutPlace);
+            }
+            if(allHouses.get(i).getAddress().getStreetNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutStreet)){
+                autocompleteListOfStrings.add(AddressWithoutStreet);
+            }
+
+
+        }
+        //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
+        final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
+        List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
+        CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
+    }
 
 
 
