@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         //headerTitle.setText(Settings.getSettings().getPatrolName());
 
 
-        //set default settings
-
-        Settings.setDefaultSettings();
+   
 
 
         //imageloader

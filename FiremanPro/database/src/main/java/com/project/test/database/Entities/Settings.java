@@ -9,6 +9,7 @@ import com.raizlabs.android.dbflow.sql.language.Set;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -111,18 +112,21 @@ public class Settings extends BaseModel {
     }
 
 
-    public static void setDefaultSettings(){
+    private static Settings setDefaultSettings(){
 
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-        int sizeOf = SQLite.select()
+        List<Settings> settings = SQLite.select()
                 .from(Settings.class)
-                .queryList().size();
+                .queryList();//.size();
 
-        if (sizeOf < 1) {
+        if (settings.size() < 1) {
 
-            Settings settings = new Settings(1,"DVD Križovljan Cestica", "zoky001@gmail.com",CurrentDate,"http://fireman-pro.ddns.net/FiremanPro-laravel/",CurrentDate,CurrentDate);
-settings.save();
-
+            Settings settings1 = new Settings(1,"DVD Križovljan Cestica", "zoky001@gmail.com",CurrentDate,"http://fireman-pro.ddns.net/FiremanPro-laravel/",CurrentDate,CurrentDate);
+            settings1.save();
+            return settings1;
+        }
+        else {
+            return settings.get(0);
         }
 
 
@@ -130,9 +134,6 @@ settings.save();
 
     public static Settings getSettings(){
 
-        return SQLite.select()
-                .from(Settings.class)
-                .where(Settings_Table.id.is(1))
-                .querySingle();
+        return setDefaultSettings();
     }
 }
