@@ -88,11 +88,23 @@ public class MockData {
         hydrantsController.DeleteAllRecordsInTableHydrants();
 
         types_all_controller.DeleteAllRecordsTable_Intervention_type();
+        types_all_controller.DeleteAllRecordsInTable_Outdoor_type();
+        types_all_controller.DeleteAllRecordsInTable_Sepatial_spread();
+        types_all_controller.DeleteAllRecordsInTable_Size_of_fire();
+        types_all_controller.DeleteAllRecordsInTable_Sort_of_intervention();
+        types_all_controller.DeleteAllRecordsInTable_Spreading_smoke();
+        types_all_controller.DeleteAllRecordsInTable_Time_spread();
+        types_all_controller.DeleteAllRecordsInTable_Type_of_truck();
+        types_all_controller.DeleteAllRecordsInTable_Type_of_unit();
+
+        firemanPatrolController.DeleteAllRecordsInTable();
+
 
     }
 
 
     public void insertHydrants(Post post) {
+
 hydrantsController.addNewHydrant(
         "NADZEMNI",
         "Pavlović Vinko",
@@ -654,7 +666,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
         ArrayList<String> strings1 = new ArrayList<String>();
 
-        strings1.add("PRIJEVOZ VODE po nalogu)");
+        strings1.add("PRIJEVOZ VODE po nalogu");
         strings1.add("LAŽNA DOJAVA");
         strings1.add("IZVIDI");
 
@@ -694,19 +706,20 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
     }
 
-    public void writeAll() {
+    public void wrriteAll() {
 
        // deleteAll();
         //delete all
-        writePatrol();
-        writeCodeBook();
+
+      //  writePatrol();
+      //  writeCodeBook();
 
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
 
         Post cesticaPost = postController.addNewPost(42208, "Cestica");
 
         //write all hydrants
-       insertHydrants(cesticaPost);
+     //  insertHydrants(cesticaPost);
         /*
 
         SELA:
@@ -1348,6 +1361,9 @@ Address nova = addressController.addNewAddress(
         final List<Intervention_track> intervention_tracks = interventionController.GetAllRecordsFromTable_Intervention_track();
         final List<Reports> reportses = interventionController.GetAllRecordsFromTable_Reports();
 final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydrants();
+List<Spatial_spread> spatial_spreads = types_all_controller.GetAllRecordsFromTable_Spatial_spread();
+
+
 
         System.out.println("Obavijest primljena" +
                 " Iizlazak na intervenciju" +

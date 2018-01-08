@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         //headerTitle.setText(Settings.getSettings().getPatrolName());
 
 
-   
+
 
 
         //imageloader
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         ImageLoader.getInstance().init(config);
 
         mockData  = new MockData();
-        mockData.writeAll();
+      //  mockData.writeAll();
 //mockData.writeAll();
         // empty the entire database
         /*
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
             System.out.println("Nema zapisa u housessssss: ");
 
             //write all entries in database
-          mockData.writeAll();
+         // mockData.writeAll();
 
             //print entries from database to console (for testing)
             mockData.printAll();
@@ -365,7 +365,7 @@ saveImagesFromResourcesToInternalStorage();
             listItems[i] = houses.get(i).getName_owner();
         }
 
-        mockData.writeAll();
+       // mockData.writeAll();
         mockData.printAll();
 
         //SaveResourceImage saveResourceImage = new SaveResourceImage(getApplicationContext());

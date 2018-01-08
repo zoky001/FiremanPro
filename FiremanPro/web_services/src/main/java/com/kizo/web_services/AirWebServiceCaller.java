@@ -139,61 +139,15 @@ public class AirWebServiceCaller {
 
         ArrayList<House> houses = new ArrayList<House>();
 
-/*
-        for ( AirWebServiceResponse a :response.body() ) {
 
-            Post p = new Post(42208,"pošta",CurrentDate,CurrentDate);
-            Address adre = new Address(a.getAddressId(),"0ime vulice", "String streetNumber", 16.1212, 46.1515,CurrentDate,CurrentDate,p);
-         House hou = new House(
-                    a.getId(),
-                    a.getNameOwner(),
-                    a.getSurnameOwner(),
-                    a.getNumberOfTenants(),
-                    a.getNumberOfFloors(),
-                    a.getListOfFloors(),
-                    a.getNumberOfChildren(),
-                    a.getYearChildren(),
-                    a.getNumberOfAdults(),
-                    a.getYearsAdults(),
-                    a.getNumberOfPowerlessAndElders(),
-                    a.getYearsPowerlessElders(),
-                    a.getDisabilityPerson()==1?true:false,
-                    a.getPowerSupply(),
-                    a.getGasConnection()==1?true:false,
-                    a.getTypeOfHeating(),
-                    a.getNumberOfGasBottle(),
-                    a.getTypeOfRoof(),
-                    a.getHydrantDistance(),
-                    a.getHighRiskObject()==1?true:false,
-                    a.getHROTypeOfRoof(),
-                    a.getHROPowerSupply()==1?true:false,
-                    a.getHROContent(),
-                    a.getHROAnimals()==1?true:false,
-                    a.getTelNumber(),
-                    a.getMobNumber(),
-                    CurrentDate,
-                    CurrentDate,
-               adre
-
-
-            );
-            houses.add(hou);
-
-
-        }*/
-       // House[] storeItems = gson.fromJson(response.body().toString(), House[].class);
 
         System.out.println(response.body().getPostWS().get(0).getName());
 
-      /*  Post[] posts = gson.fromJson(response.body().getPost(),Post[].class);
 
-        System.out.println(response.body().getAddress());
-        Address[] addresses = gson.fromJson(response.body().getAddress(),Address[].class);
-*/
 System.out.println("velisicna posat je: " + posts.size());
         System.out.println("velisicna tipova  je: " + photoTypes.size());
         if(mAirWebServiceHandler != null){
-            mAirWebServiceHandler.onDataArrived(posts, photoTypes, response.body().getHousesWS(),true);
+            mAirWebServiceHandler.onDataArrived(posts, photoTypes, response.body().getHousesWS(), response,true);
         }
 
     }

@@ -1,12 +1,15 @@
 package com.project.test.database.Entities;
 
+import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.MainDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -77,7 +80,15 @@ public class Post extends BaseModel {
         this.created_at = created_at;
     }
 
+public static Post getPostById(int id){
 
+    Post post = SQLite.select().from(Post.class).where(Post_Table.postal_code.is(id)).querySingle();
+
+    if (post != null)
+        return post;
+    else
+        return null;
+}
 
 
 }

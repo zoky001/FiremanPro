@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -157,8 +159,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     private void setupActionBar() {
 
-        getLayoutInflater().inflate(R.layout.tolbar_settings, (ViewGroup)findViewById(android.R.id.content));
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        getLayoutInflater().inflate(R.layout.tolbar_settings, (ViewGroup) findViewById(android.R.id.content));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         int horizontalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
@@ -174,7 +176,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-
 
 
         }
@@ -217,7 +218,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName);
-               // || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+        // || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -238,8 +239,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
 
-
-
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -247,15 +246,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("emailToSend"));
             bindPreferenceSummaryToValue(findPreference("patrolName"));
 
-            patrolNamePref = (EditTextPreference)findPreference("patrolName");
+            patrolNamePref = (EditTextPreference) findPreference("patrolName");
             patrolNamePref.setText(Settings.getSettings().getPatrolName());
             patrolNamePref.setSummary(Settings.getSettings().getPatrolName());
-            patrolNamePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+            patrolNamePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                    System.out.println("PROMJENA "+ newValue.toString());
+                    System.out.println("PROMJENA " + newValue.toString());
                     Settings settings = Settings.getSettings();//
                     settings.setPatrolName(newValue.toString());
                     settings.save();
@@ -269,12 +268,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             emailToSendPref = (EditTextPreference) findPreference("emailToSend");
             emailToSendPref.setText(Settings.getSettings().getEmailToSendReport());
             emailToSendPref.setSummary(Settings.getSettings().getEmailToSendReport());
-            emailToSendPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+            emailToSendPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                    System.out.println("PROMJENA "+ newValue.toString());
+                    System.out.println("PROMJENA " + newValue.toString());
                     Settings settings = Settings.getSettings();//
                     settings.setEmailToSendReport(newValue.toString());
 
@@ -297,7 +296,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             View lv = getView().findViewById(android.R.id.list);
 
 
-            if (lv != null) lv.setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
+            if (lv != null)
+                lv.setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
 
 
         }
@@ -345,6 +345,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 */
+
     /**
      * This fragment shows data and sync preferences only. It is used when the
      * activity is showing a two-pane settings UI.
@@ -359,6 +360,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         Preference syncNowPref;
         Preference webServiceAddressPref;
         Preference lastSyncPref;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -371,7 +373,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
 
 
-           // bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+            // bindPreferenceSummaryToValue(findPreference("sync_frequency"));
 
             syncNowPref = (Preference) findPreference("syncKey");
 
@@ -390,16 +392,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(webServiceAddressPref);
 
 
-           // webServiceAddressPref.setText(Settings.getSettings().getWebServicesAddress());
+            // webServiceAddressPref.setText(Settings.getSettings().getWebServicesAddress());
 
             webServiceAddressPref.setSummary(Settings.getSettings().getWebServicesAddress());
 
-            webServiceAddressPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+            webServiceAddressPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                    System.out.println("PROMJENA "+ newValue.toString());
+                    System.out.println("PROMJENA " + newValue.toString());
                     //Settings.getSettings().setWebServicesAddress(newValue.toString());
 
                     return false;
@@ -407,15 +409,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             });
 
 
-
-
             java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getActivity());
 
             lastSyncPref = (Preference) findPreference("lastSyncPref");
-                    bindPreferenceSummaryToValue(lastSyncPref);
-            lastSyncPref.setSummary(android.text.format.DateFormat.format("dd. MM. yyyy hh:mm:ss ",Settings.getSettings().getLastSync()));
-
-
+            bindPreferenceSummaryToValue(lastSyncPref);
+            lastSyncPref.setSummary(android.text.format.DateFormat.format("dd. MM. yyyy hh:mm:ss ", Settings.getSettings().getLastSync()));
 
 
         }
@@ -430,8 +428,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             View lv = getView().findViewById(android.R.id.list);
 
 
-            if (lv != null) lv.setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
-
+            if (lv != null)
+                lv.setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
 
 
         }
@@ -447,30 +445,33 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
 
-        private void loadFromService(){
+        private void loadFromService() {
 
             System.out.println("Dohvaćanje podataka sa web servisa");
             progress = new ProgressDialog(getActivity());
             progress.setTitle("Preuzimanje podataka sa web servisa");
             progress.setMessage("Povezivanje sa serverom...");
             progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+
+
             progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-progress.setMax(1);
+            progress.setMax(1);
             progress.show();
 
             DataLoader dataLoader;
 
 
-                // empty the entire database
+            // empty the entire database
             //    mockData.deleteAll();
 
-                System.out.println("Loading web data");
-                dataLoader = new WsDataLoader(getActivity());
+            System.out.println("Loading web data");
+            dataLoader = new WsDataLoader(getActivity());
 
 
             dataLoader.loadData(this);
 
         }
+
         @Override
         public void onDataLoaded(ArrayList<House> houses) {
 
@@ -485,6 +486,7 @@ progress.setMax(1);
             progress.setProgress(1);
             progress.setMax(photoses.size());
 
+
             loadedPhotos = 0;
 
             String[] listItems = new String[houses.size()];
@@ -493,7 +495,7 @@ progress.setMax(1);
                 listItems[i] = houses.get(i).getName_owner();
             }
 
-            mockData.writeAll();
+            // mockData.writeAll();
 
 
             mockData.printAll();
@@ -507,14 +509,12 @@ progress.setMax(1);
 
         }
 
-       SimpleImageLoadingListener simpleImageLoadingListener = new SimpleImageLoadingListener()
-        {
+        SimpleImageLoadingListener simpleImageLoadingListener = new SimpleImageLoadingListener() {
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
-            {
-                String name =SaveResourceImage.sha256(imageUri);
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                String name = SaveResourceImage.sha256(imageUri);
 
-                System.out.println("URL_SLIKE: spremljan slika___:"+imageUri);
+                System.out.println("URL_SLIKE: spremljan slika___:" + imageUri);
                 // loaded bitmap is here (loadedImage)
                 //Save the bitmap or do something with it here
                 Bitmap scal = Bitmap.createScaledBitmap(loadedImage, 270, 200, false);
@@ -528,40 +528,38 @@ progress.setMax(1);
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            super.onLoadingFailed(imageUri, view, failReason);
-            System.out.println("URL_SLIKE: failed___:"+imageUri);
+                super.onLoadingFailed(imageUri, view, failReason);
+                System.out.println("URL_SLIKE: failed___:" + imageUri);
                 oneMoreDownloadedPicture(false, imageUri);
 
-        }
+            }
         };
 
         private void oneMoreDownloadedPicture(boolean success, String uri) {
 
-            if (success){
+            if (success) {
 
                 progress.setMessage("Uspješno dohvaćena slika sa adrese: \n \n  " + uri);
-            }
-            else {
+            } else {
                 progress.setMessage("Neuspješno dohvaćenje slika sa adrese: \n \n " + uri);
 
             }
-            if (++loadedPhotos <= photoses.size())
-            {
-                double progressValue = ( (double)loadedPhotos /  (double) photoses.size())  * 100 ;
+            if (++loadedPhotos <= photoses.size()) {
+                double progressValue = ((double) loadedPhotos / (double) photoses.size()) * 100;
 
 
                 progress.setProgress(loadedPhotos);//(int)progressValue);
-                System.out.println("Učitana je slika omjer: " + progressValue );
+                System.out.println("Učitana je slika omjer: " + progressValue);
 
             }
 
-            if(loadedPhotos == photoses.size()){
+            if (loadedPhotos == photoses.size()) {
                 java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
                 Settings settings = Settings.getSettings();
                 settings.setLastSync(CurrentDate);
                 settings.save();
 
-                lastSyncPref.setSummary(android.text.format.DateFormat.format("dd. MM. yyyy hh:mm:ss ",Settings.getSettings().getLastSync()));
+                lastSyncPref.setSummary(android.text.format.DateFormat.format("dd. MM. yyyy hh:mm:ss ", Settings.getSettings().getLastSync()));
 
 
                 // To dismiss the dialog
