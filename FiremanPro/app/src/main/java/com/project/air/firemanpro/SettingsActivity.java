@@ -2,6 +2,7 @@ package com.project.air.firemanpro;
 
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -48,6 +50,8 @@ import com.project.test.database.helper.MockData;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.project.test.database.imageSaver.SaveResourceImage;
 
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -447,6 +451,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         private void loadFromService() {
 
+            System.out.println("Povezivanje sa web servisom..");
+            new TestConnestion().execute(Settings.getSettings().getWebServicesAddress(),"10000");
+
             System.out.println("Dohvaćanje podataka sa web servisa");
             progress = new ProgressDialog(getActivity());
             progress.setTitle("Preuzimanje podataka sa web servisa");
@@ -591,6 +598,78 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             }
 
+        }
+
+        class  TestConnestion extends AsyncTask<String, Void, Boolean> {
+
+            private Exception exception;
+
+
+            @Override
+            protected Boolean doInBackground(String... url) {
+                try{
+                    URL myUrl = new URL(url[0]);
+                    URLConnection connection = myUrl.openConnection();
+                    connection.setConnectTimeout(Integer.valueOf(url[1]));
+                    connection.connect();
+                    System.out.println("HOST: dostupan" );
+                    return true;
+                } catch (Exception e) {
+                    this.exception = e;
+                    System.out.println("HOST: NE dostupan");
+                    return false;
+                } finally {
+
+                }
+            }
+
+            protected void onPostExecute(Boolean feed) {
+
+                if (feed){
+                    progress.setMessage("Uspješno povezan sa serverom!!");
+
+
+
+                    System.out.println("HOST:  dostupan");
+                }else
+                {
+
+
+                    progress.setMessage("Neuspješno povezan sa serverom!!");
+
+
+                    try {
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                    builder1.setMessage("Problem kod povezivanja sa web servisom.");
+                    builder1.setCancelable(true);
+
+
+                    builder1.setPositiveButton(
+                            "U redu.",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    progress.dismiss();
+                                }
+                            });
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+
+                    System.out.println("HOST: NE dostupan");
+                }
+                // TODO: check this.exception
+                // TODO: do something with the feed
+            }
         }
 
 

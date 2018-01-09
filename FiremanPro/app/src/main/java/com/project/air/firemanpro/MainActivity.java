@@ -3,8 +3,12 @@ package com.project.air.firemanpro;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
@@ -39,10 +43,23 @@ import com.project.test.database.imageSaver.SaveResourceImage;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -69,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
 
 
         ButterKnife.bind(this);
+
+
+
+
+
 
 
 
@@ -411,6 +433,8 @@ saveImagesFromResourcesToInternalStorage();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 
 
