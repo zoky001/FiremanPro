@@ -207,8 +207,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 view = createOwnerAndMaterialCostStep();
                 break;
             case DESCRIPTION_HELPER_STEP_NUM:
-
-                //ovdje su helperi
                 view = createDescriptionStep();
                 break;
             case MEHANIZATION_STEP_NUM://mehanization
@@ -227,47 +225,34 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
-                //VALIDIRANO i SPREMLJENO
-
                 break;
             case USED_RESOURCES_STEP_NUM:
-                save_MAIN_INFORMATION(); //sprema se korak on prije
-                //NIJE
-              /*  System.out.println("drugi step:");
-*/
+                save_MAIN_INFORMATION();
                 break;
 
             case FIRE_STEP_NUM:
                 save_USED_RESOURCES();
-                //VSLIDIRANO I SPREMLJENO
-                //  verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case OWNER_AND_MATERIAL_STEP_NUM:
-                save_FIRE_STEP(); //sprema se koram od prije
+                save_FIRE_STEP();
                 validate_OWNER_AND_MATERIAL_COST();
-                //VALIDIRANO  i SPREMLJENO
-                // verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case DESCRIPTION_HELPER_STEP_NUM:
-                save_OWNER_AND_MATERIAL_COST(); //sprema se korak od prije
-                validate_DESCRIPTION_STEP_HELPER(); //validate helper edittext
+                save_OWNER_AND_MATERIAL_COST();
+                validate_DESCRIPTION_STEP_HELPER();
                 System.out.println("surface: " + intervencije.getReports().getSurface_m2());
-                //VALIDIRANO i SPREMLJENO
                 //verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case MEHANIZATION_STEP_NUM: //mehanization
+            case MEHANIZATION_STEP_NUM:
                 save__DESCRIPTION_STEP_HELPER();
-                //VALIDIRANO i SPREMLJENO
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case INTERVENTION_STEP_NUM:
                 validate_INTERVENTION_COST();
-                //VALIDIRANO i SPREMLJENO
                // verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case FIREMEN_NUM:
                 save_INTERVENTION_COST();
-                //NIJE
                verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
 

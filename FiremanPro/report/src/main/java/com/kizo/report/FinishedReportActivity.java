@@ -10,8 +10,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.Entities.report.Report_fireman;
 import com.project.test.database.controllers.report.InterventionController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -208,7 +213,19 @@ public class FinishedReportActivity extends AppCompatActivity {
         pjeniloTr.setText(String.valueOf(intervention.getReports().getFoam_l()));
         apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent()));
        // ostaliTr.setText(intervention.getReports().getConsumption());
-        sudionik1.setText(intervention.getReports().getFiremans().get(0).getFireman().getName().toString() + " " + intervention.getReports().getFiremans().get(0).getFireman().getSurname().toString());
+
+        final List<String> firemanList = new ArrayList<String>();
+        for(Report_fireman fireman: intervention.getReports().getFiremans() ){
+            firemanList.add(fireman.getFireman().getName().toString() + " " + fireman.getFireman().getSurname().toString());
+        }
+
+        String firemanIspis = "";
+
+        for(String f: firemanList){
+            firemanIspis += f + "\n";
+        }
+        sudionik1.setText(firemanIspis.toString());
+
         zapovjednik.setText(intervention.getReports().getSigned().getName().toString() + " " + intervention.getReports().getSigned().getSurname().toString());
     }
 
@@ -281,4 +298,6 @@ public class FinishedReportActivity extends AppCompatActivity {
         expandableLayout11 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout11);
         expandableLayout11.toggle();
     }
+
+
 }

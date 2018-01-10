@@ -136,11 +136,11 @@ public Type_of_unit get_DVD_type_of_unit(){
 
     // Type_of_truck BEGIN
     public Type_of_truck get_naval_vehicle_type_of_truck(){
-        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("NAVAL_VEHICLE")).queryList();
+        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("Navalno vozilo")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-          Type_of_truck type_of_truck = new Type_of_truck(100,"NAVAL VEHICLE",CurrentDate,CurrentDate);
+          Type_of_truck type_of_truck = new Type_of_truck(100,"Navalno vozilo",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -149,11 +149,11 @@ public Type_of_unit get_DVD_type_of_unit(){
 
     }
     public Type_of_truck get_transportation_vehicle_type_of_truck(){
-        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("TRANSPORTATION_VEHICLE")).queryList();
+        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("Transportno vozilo")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Type_of_truck type_of_truck = new Type_of_truck(101,"TRANSPORTATION VEHICLE",CurrentDate,CurrentDate);
+            Type_of_truck type_of_truck = new Type_of_truck(101,"Transportno vozilo",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -163,11 +163,11 @@ public Type_of_unit get_DVD_type_of_unit(){
     }
 
     public Type_of_truck get_SPECIAL_vehicle_type_of_truck(){
-        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("SPECIAL_VEHICLE")).queryList();
+        List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("Specijalno vozilo")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Type_of_truck type_of_truck = new Type_of_truck(102,"SPECIAL VEHICLE",CurrentDate,CurrentDate);
+            Type_of_truck type_of_truck = new Type_of_truck(102,"Specijalno vozilo",CurrentDate,CurrentDate);
             type_of_truck.save();
             return type_of_truck;
         }else {
@@ -330,11 +330,11 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
 
 
     public Sort_of_intervention get_FIRE_Sort_of_intervention(){
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("FIRE_INTERVENTION")).queryList();
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("Požar")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"FIRE INTERVENTION","",CurrentDate,CurrentDate);
+        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"Požar","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -346,11 +346,11 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
 
 
     public Sort_of_intervention get_TRHNICAL_Sort_of_intervention(){
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("TEHNICAL_INTERVENTION")).queryList();
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("Tehnička intervencija")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"TEHNICAL INTERVENTION","",CurrentDate,CurrentDate);
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"Tehnička intervencija","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {
@@ -359,11 +359,11 @@ public Spatial_spread addNewSpatial_spread_Type(int id_of_type, String name, Str
 
     }
     public Sort_of_intervention get_OTHER_Sort_of_intervention(){
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("Ostalo")).queryList();
 
 
         if (type.size() < 1){ // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(102,"OTHER INTERVENTION","",CurrentDate,CurrentDate);
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(102,"Ostalo","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         }else {

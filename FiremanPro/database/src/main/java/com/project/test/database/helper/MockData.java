@@ -569,8 +569,8 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
     public void writeCodeBook() {
 
 
-        types_all_controller.addNewSize_of_fire_Type(100, "mali požar", "jedan aparat za gašenje požara");
-        types_all_controller.addNewSize_of_fire_Type(101, "mali požar", "1  \" C \" mlaz");
+        types_all_controller.addNewSize_of_fire_Type(100, "mali požar-aparat", "jedan aparat za gašenje požara");
+        types_all_controller.addNewSize_of_fire_Type(101, "mali požar-mlaz", "1  \" C \" mlaz");
         types_all_controller.addNewSize_of_fire_Type(102, "srednji požar", "2-3  \" C \" mlaz");
         types_all_controller.addNewSize_of_fire_Type(103, "veliki požar", "više od 3  \" C \" mlaza");
 
