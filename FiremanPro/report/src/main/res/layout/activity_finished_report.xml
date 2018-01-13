@@ -554,8 +554,7 @@
 
                     <TableRow>
                     <TextView
-                        android:id="@+id/ustanova_1"
-                        android:text="__"
+                        android:id="@+id/javne"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                         </TableRow>

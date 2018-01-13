@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Vertical Stepper Form Example</string>
-    <string name="add_alarm">Add New Alarm</string>
-    <string name="new_alarm_added">New intervention added successfully</string>
-    <string name="form_hint_title">Intervetion title (required)</string>
+    <string name="add_alarm">Dodaj novu intervenciju</string>
+    <string name="new_alarm_added">Nova intervencija uspjesno dodana</string>
+    <string name="form_hint_title">Naziv intervencije(obavezno)</string>
     <string name="form_hint_description"> Javna služba/ ustanova </string>
     <string name="error_title_min_characters">At least %1$d characters</string>
     <string name="main_activity_explanation">Click the button to try it!</string>
@@ -10,7 +10,7 @@
 
 
     <!-- We can overwrite the values of the library's strings in order to customize them -->
-    <string name="vertical_form_stepper_form_discard_question">DOtkaži intervenciju?</string>
+    <string name="vertical_form_stepper_form_discard_question">Otkaži intervenciju?</string>
     <string name="vertical_form_stepper_form_info_will_be_lost">Sve informacije o intervenciji će biti izgubljene</string>
     <string name="vertical_form_stepper_form_confirm_button">Dodaj intervenciju</string>
     <string name="vertical_form_stepper_form_sending_data_message">Dodajem novu intervenciju…</string>

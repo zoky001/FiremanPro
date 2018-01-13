@@ -13,6 +13,7 @@ import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Report_fireman;
+import com.project.test.database.Entities.report.Report_truck_patrol;
 import com.project.test.database.controllers.report.InterventionController;
 
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         vlas = (TextView) findViewById(R.id.vlasnik);
         povObjekta = (TextView) findViewById(R.id.pov_obj);
         vanjskoPr = (TextView) findViewById(R.id.vanjski);
-        javna = (TextView) findViewById(R.id.ustanova_1);
+        javna = (TextView) findViewById(R.id.javne);
         navalnoVoz = (TextView) findViewById(R.id.navalno_sati);
         kombiVoz = (TextView) findViewById(R.id.kombi_sati);
         navalnoSatiTr = (TextView)findViewById(R.id.navalno_h);
@@ -194,7 +195,16 @@ public class FinishedReportActivity extends AppCompatActivity {
         vlas.setText(intervention.getHouse().getName_owner().toString() + " " + intervention.getHouse().getSurname_owner().toString());
         povObjekta.setText(String.valueOf(intervention.getReports().getSurface_m2()));
         vanjskoPr.setText(String.valueOf(intervention.getReports().getSuperficies_ha()));
-        javna.setText(intervention.getReports().getHelp().toString());
+
+        final List<String> sluzbe = new ArrayList<String>();
+        sluzbe.add(intervention.getReports().getHelp().toString());
+        String sluzbeIspis = "";
+
+        for(String s: sluzbe){
+            sluzbeIspis += s + "\n";
+        }
+        javna.setText(sluzbeIspis.toString());
+
         navalnoVoz.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
         //kombiVoz.setText(intervention.getReports().getConsumption());
         navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
