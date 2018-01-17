@@ -50,18 +50,6 @@ this.simpleImageLoadingListener = simpleImageLoadingListener;
         this.context = context;
     }
 
-    public void SaveImageFromResourceToInternalStorage() {
-
-        File mydir = context.getDir("Images", Context.MODE_PRIVATE);
-        File lister = mydir.getAbsoluteFile();
-
-
-        if (lister.list().length < photos.size())
-            SaveAllImageToInternalStorage();
-
-
-    }
-
     public  void SaveAllPhotoFromUrlToInternalStorage()
     {
         for (Photos h : photos
@@ -72,7 +60,7 @@ this.simpleImageLoadingListener = simpleImageLoadingListener;
 
     }
 
-    public String SaveImageFromUrlToInternalStorage(String url) {
+    private String SaveImageFromUrlToInternalStorage(String url) {
        final String name = sha256(url);
 
 System.out.println("URL_SLIKE: preuzimanje___:"+url);
@@ -86,29 +74,6 @@ System.out.println("URL_SLIKE: preuzimanje___:"+url);
         ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
         imageLoader.loadImage(url,
                 simpleImageLoadingListener
-                /*new SimpleImageLoadingListener()
-        {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
-            { String name = sha256(imageUri);
-                System.out.println("URL_SLIKE: spremljan slika___:"+imageUri);
-                // loaded bitmap is here (loadedImage)
-                //Save the bitmap or do something with it here
-                Bitmap scal = Bitmap.createScaledBitmap(loadedImage, 270, 200, false);
-                new ImageSaver(context).
-                        setFileName(name + ".png").
-                        setDirectoryName("Images").
-                        save(scal);
-
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                super.onLoadingFailed(imageUri, view, failReason);
-                System.out.println("URL_SLIKE: failed___:"+imageUri);
-            }
-        }
-*/
 
         );
 
@@ -135,29 +100,6 @@ System.out.println("URL_SLIKE: preuzimanje___:"+url);
         }
     }
 
-    public void SaveAllImageToInternalStorage() {
-        Bitmap scal;
 
-        for (Photos h : photos
-                ) {
-
-            if (h.getFileName().contains("gnd")) {
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), photosController.getPhotoResourceIDbyContext(context, h));
-                scal = Bitmap.createScaledBitmap(bitmap, 800, 600, false);
-
-            } else {
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), photosController.getPhotoResourceIDbyContext(context, h));
-                scal = Bitmap.createScaledBitmap(bitmap, 270, 200, false);
-
-            }
-
-
-            new ImageSaver(context).
-                    setFileName(h.getFileName() + ".png").
-                    setDirectoryName("Images").
-                    save(scal);
-
-        }
-    }
 
 }

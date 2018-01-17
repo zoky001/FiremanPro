@@ -39,6 +39,7 @@ import android.widget.ListView;
 
 import com.kizo.core_module.DataLoadedListener;
 import com.kizo.core_module.DataLoader;
+import com.kizo.web_services.AirWebServiceHandler;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.project.air.firemanpro.loaders.WsDataLoader;
@@ -130,7 +131,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * Binds a preference's summary to its value. More specifically, when the
+     * Binds a preferencfe's summary to its value. More specifically, when the
      * preference's value is changed, its summary (line of text below the
      * preference title) is updated to reflect the value. The summary is also
      * immediately updated upon calling this method. The exact display format is
@@ -222,12 +223,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName);
-        // || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
+     * Ovaj fragment prikazuje glavne posatvke aplikacije (Email na koji se šalje report, Naziv vatrogasne postrojbe..)
+     * Omogućujeizmjenu podataka.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
@@ -252,13 +252,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             patrolNamePref = (EditTextPreference) findPreference("patrolName");
             patrolNamePref.setText(Settings.getSettings().getPatrolName());
+
+
             patrolNamePref.setSummary(Settings.getSettings().getPatrolName());
+
+            //nakon promjene vrijednost, ista se pohranjeuje u bazu podataka
             patrolNamePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                    System.out.println("PROMJENA " + newValue.toString());
                     Settings settings = Settings.getSettings();//
                     settings.setPatrolName(newValue.toString());
                     settings.save();
@@ -272,12 +275,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             emailToSendPref = (EditTextPreference) findPreference("emailToSend");
             emailToSendPref.setText(Settings.getSettings().getEmailToSendReport());
             emailToSendPref.setSummary(Settings.getSettings().getEmailToSendReport());
+            //nakon promjene vrijednost, ista se pohranjeuje u bazu podataka
+
             emailToSendPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                    System.out.println("PROMJENA " + newValue.toString());
                     Settings settings = Settings.getSettings();//
                     settings.setEmailToSendReport(newValue.toString());
 
@@ -323,32 +327,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
 
-  /*  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-*/
 
     /**
      * This fragment shows data and sync preferences only. It is used when the
@@ -359,12 +337,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         ProgressDialog progress;
         List<Photos> photoses;
         Integer loadedPhotos = 0;
-
-        MockData mockData = new MockData();
         Preference syncNowPref;
         Preference webServiceAddressPref;
         Preference lastSyncPref;
 
+        /**
+         * Po kreiranju fragmenta se popunjavaju svi podatci o sinkroniziranju sa podatcima dohvaćenim iz baze podata.
+         *
+         * @param savedInstanceState
+         */
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -377,9 +358,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
 
 
-            // bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-
-            syncNowPref = (Preference) findPreference("syncKey");
+            syncNowPref = findPreference("syncKey");
 
             syncNowPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
@@ -391,31 +370,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-            webServiceAddressPref = (Preference) findPreference("webServiceAddressPref");
+
+            webServiceAddressPref = findPreference("webServiceAddressPref");
 
             bindPreferenceSummaryToValue(webServiceAddressPref);
 
 
-            // webServiceAddressPref.setText(Settings.getSettings().getWebServicesAddress());
-
             webServiceAddressPref.setSummary(Settings.getSettings().getWebServicesAddress());
 
+            // korisit je u slučaju da se korisniku omogući promjena web adrese Web Servisa
             webServiceAddressPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                    System.out.println("PROMJENA " + newValue.toString());
                     //Settings.getSettings().setWebServicesAddress(newValue.toString());
-
                     return false;
                 }
             });
 
 
-            java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getActivity());
-
-            lastSyncPref = (Preference) findPreference("lastSyncPref");
+            lastSyncPref = findPreference("lastSyncPref");
             bindPreferenceSummaryToValue(lastSyncPref);
             lastSyncPref.setSummary(android.text.format.DateFormat.format("dd. MM. yyyy hh:mm:ss ", Settings.getSettings().getLastSync()));
 
@@ -448,13 +421,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
 
-
+        /**
+         * Pokreće se povezivanje sa WS te dohvaćanje podataka i pohranjivanje istih u bazu podataka.
+         */
         private void loadFromService() {
 
             System.out.println("Povezivanje sa web servisom..");
-            new TestConnestion().execute(Settings.getSettings().getWebServicesAddress(),"10000");
 
-            System.out.println("Dohvaćanje podataka sa web servisa");
+            // provjera postojanja veze sa web servisom
+            // TIMEOUT: 10sec
+            new TestConnestion().execute(Settings.getSettings().getWebServicesAddress(), "10000");
+
             progress = new ProgressDialog(getActivity());
             progress.setTitle("Preuzimanje podataka sa web servisa");
             progress.setMessage("Povezivanje sa serverom...");
@@ -467,20 +444,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             DataLoader dataLoader;
 
-
-            // empty the entire database
-            //    mockData.deleteAll();
-
-            System.out.println("Loading web data");
-            dataLoader = new WsDataLoader(getActivity());
-
+            dataLoader = new WsDataLoader();
 
             dataLoader.loadData(this);
 
         }
 
+
+        /**
+         * Nakon usjpješnog dohvačanja svih podataka sa udaljenog webservisa i uspješnog spremanja zapisa u bazu podataka,
+         * ova metoda kontrolira progress bar, te pokreće dohvaćanje/preuzimanje svim slika sa web mjesta.
+         */
         @Override
-        public void onDataLoaded(ArrayList<House> houses) {
+        public void onDataLoaded() {
 
             System.out.println("Data is here... ");
 
@@ -496,17 +472,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             loadedPhotos = 0;
 
-            String[] listItems = new String[houses.size()];
-
-            for (int i = 0; i < houses.size(); i++) {
-                listItems[i] = houses.get(i).getName_owner();
-            }
-
-            // mockData.writeAll();
-
-
-            mockData.printAll();
-
             SaveResourceImage saveResourceImage = new SaveResourceImage(getActivity(), simpleImageLoadingListener);
 
             saveResourceImage.SaveAllPhotoFromUrlToInternalStorage();
@@ -516,7 +481,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         }
 
+
         SimpleImageLoadingListener simpleImageLoadingListener = new SimpleImageLoadingListener() {
+
+            /**
+             * Nakon uspješnog pruzimanja slike ona se pohranjuje u memoriju uređaja, a naziv se pohranjuje u bazu podataka.
+             * @param imageUri
+             * @param view
+             * @param loadedImage
+             */
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 String name = SaveResourceImage.sha256(imageUri);
@@ -542,6 +515,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         };
 
+
+        /**
+         * Provjera se da li su preuzete sve slike, odnosno kontrolira progress bar.
+         * Po završetku preuzimanja svih slika javlja poruku o uspjehu i zatvara progress bar.
+         *
+         * @param success
+         * @param uri
+         */
         private void oneMoreDownloadedPicture(boolean success, String uri) {
 
             if (success) {
@@ -552,11 +533,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             }
             if (++loadedPhotos <= photoses.size()) {
-                double progressValue = ((double) loadedPhotos / (double) photoses.size()) * 100;
 
-
-                progress.setProgress(loadedPhotos);//(int)progressValue);
-                System.out.println("Učitana je slika omjer: " + progressValue);
+                progress.setProgress(loadedPhotos);
 
             }
 
@@ -585,13 +563,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             }
                         });
 
-              /*  builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });*/
 
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
@@ -600,22 +571,34 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         }
 
-        class  TestConnestion extends AsyncTask<String, Void, Boolean> {
 
-            private Exception exception;
+        /**
+         * Klasa koja na pozadinskoj dretvi testira postoji li veza prema Web Servisu
+         */
+        class TestConnestion extends AsyncTask<String, Void, Boolean> {
 
 
+            /**
+             * Pokušava uspostaviti vezu sa serverom prema prosljeđenom URL i vremenu čekanja (Time out)
+             * <p>
+             * Ako NE POSTOJI  veza javlja poruku u dialogu! Zatvara progress bar!!
+             * <p>
+             * Ako POSTOJI veza, onda ne radi ništa.
+             *
+             * @param url [0] URL adresa [1] timeout
+             * @return [TRUE] ako postoji veza [FALSE] ako ne postoji veza
+             */
             @Override
             protected Boolean doInBackground(String... url) {
-                try{
+                try {
                     URL myUrl = new URL(url[0]);
                     URLConnection connection = myUrl.openConnection();
                     connection.setConnectTimeout(Integer.valueOf(url[1]));
                     connection.connect();
-                    System.out.println("HOST: dostupan" );
+                    System.out.println("HOST: dostupan");
                     return true;
                 } catch (Exception e) {
-                    this.exception = e;
+
                     System.out.println("HOST: NE dostupan");
                     return false;
                 } finally {
@@ -625,25 +608,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             protected void onPostExecute(Boolean feed) {
 
-                if (feed){
+                if (feed) {
                     progress.setMessage("Uspješno povezan sa serverom!!");
 
-
-
                     System.out.println("HOST:  dostupan");
-                }else
-                {
-
-
+                } else {
                     progress.setMessage("Neuspješno povezan sa serverom!!");
-
-
-                    try {
-                        Thread.sleep(1000);
-                    }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
 
 
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
@@ -667,8 +637,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                     System.out.println("HOST: NE dostupan");
                 }
-                // TODO: check this.exception
-                // TODO: do something with the feed
+
             }
         }
 

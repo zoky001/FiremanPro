@@ -304,7 +304,7 @@ saveImagesFromResourcesToInternalStorage();
             mockData.deleteAll();
 
             System.out.println("Loading web data");
-            dataLoader = new WsDataLoader(this);
+            dataLoader = new WsDataLoader();
         }
 
         dataLoader.loadData(this);
@@ -377,15 +377,10 @@ saveImagesFromResourcesToInternalStorage();
     }
 
     @Override
-    public void onDataLoaded(ArrayList<House> houses) {
+    public void onDataLoaded() {
 
         System.out.println("Data is here... ");
-        String[] listItems = new String[houses.size()];
 
-        for (int i = 0; i < houses.size(); i++) {
-
-            listItems[i] = houses.get(i).getName_owner();
-        }
 
        // mockData.writeAll();
         mockData.printAll();

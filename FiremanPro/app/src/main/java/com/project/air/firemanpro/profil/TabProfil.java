@@ -32,7 +32,19 @@ import butterknife.OnClick;
 
 
 /**
- * Created by Zoran on 27.10.2017..
+ * Ova klasa služi za prikazivanje jednog Tab-a u obliku fragmenta.
+ * Prikazuje se na vrhu slika profila kuće. Ispod slike je ispis najbitnijih podtaka o kući.
+ * Na dnu taba se nalazi fragment u kojem je prikazana google karta sa navigazijom do odabrane kuće.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Created by Zoran Hrnčić on 27.10.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
  */
 
 public class TabProfil extends TabFragment {
@@ -65,14 +77,17 @@ public class TabProfil extends TabFragment {
 
     private InterventionController interventionController = new InterventionController();
 
+    /**
+     * Prilikom kriranja View-a se iz argumenata/Bundle dohvaća ID odabrane kuće.
+     * Pomoću navedenog ID-a se dohvaća kuća iu baze podataka, te pohranjuje u varijablu "house" za daljnje korištenje.
+     *
+     * @author Zoran Hrnčić
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_profil, container, false);
         ButterKnife.bind(this, rootView);
-
-        //CustomScrollView myScrollView = (CustomScrollView) getView().findViewById(R.id.idScrollView);
-
         String s = getArguments().getString("IDkuce");
         System.out.println("SESSION FRAGMENT_idkuce: " + s);
         int a = Integer.parseInt(getArguments().getString("IDkuce"));
@@ -85,27 +100,37 @@ public class TabProfil extends TabFragment {
         }
 
 
-
         System.out.println("LOKACIJAAA ACTT: " + getActivity().getPackageName());
-//set profil image
+        //set profil image
 
 
-profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()),400, 300, false));
+        profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
 
         //set owner data
         txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
 
-      txtPost.setText(house.getAddress().getPost().getPostal_code()+ " " + house.getAddress().getPost().getName());
+        txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
 
 
-        txtAdress.setText(house.getAddress().getStreetNameIfExist() + " "+house.getAddress().getStreetNumber());
-txtPlace.setText(house.getPlaceName());
+        txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
+        txtPlace.setText(house.getPlaceName());
         txtMobitel.setText(house.getMobNumber());
         txtTel.setText(house.getTelNumber());
 
         return rootView;
     }
 
+
+
+    /**
+     * Nakon kriranja View-a se ID kuće stavlja u Bundel.
+     * U fragment frame se učitava Map fragment koji prikazije put do kuče od trenutne lokacije.
+     *
+     *
+     *
+     *
+     * @author Zoran Hrnčić
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -117,49 +142,48 @@ txtPlace.setText(house.getPlaceName());
 /*
 zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         bundle.putString("IDkuce", IDHouse);
-        Fragment mapFragment=new MapFragment();
+        Fragment mapFragment = new MapFragment();
         mapFragment.setArguments(bundle);
 
-/*  ruši mi se na virtualki KIZO
+//*  ruši mi se na virtualki KIZO
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.map_container, mapFragment)
-                .commit();*/
+                .commit();
     }
+
+
 
     @OnClick(R.id.buttonMax)
     public void buttonMaxClicked(View view) {
 
 
-
         String IDHouse = "" + house.getId_house();
         Intent intent = new Intent(view.getContext(), GoogleMapActivity.class);
-        intent.putExtra("IDkuce", IDHouse); // umjesto 01 prosljediš ID kuće
-
-
-
+        intent.putExtra("IDkuce", IDHouse);
 
 
         startActivity(intent);
 
     }
+
     @OnClick(R.id.leadMeButton)
     public void leadMeButton(View view) {
 
-        double latitude,longitude;
-        latitude=house.getAddress().getLatitude();
-        longitude=house.getAddress().getLongitude();
-        Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude+","+longitude);
+        double latitude, longitude;
+        latitude = house.getAddress().getLatitude();
+        longitude = house.getAddress().getLongitude();
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
 
     @OnClick(R.id.btn_new_report)
-    public void newReport(View view){
+    public void newReport(View view) {
         Intervention_track intervencija;
         if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
-         intervencija = interventionController.addNewIntervention_atHouse(house);
+            intervencija = interventionController.addNewIntervention_atHouse(house);
 
 
             intervencija.add_FIRE_ReportToIntervention();
@@ -170,16 +194,8 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
             intervencija.intervetionEnded();
 
 
-        }
-        else
+        } else
             intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-
-
-
-
-
-
-
 
 
         Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);

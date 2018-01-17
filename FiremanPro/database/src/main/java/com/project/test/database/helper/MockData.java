@@ -742,7 +742,7 @@ Address nova = addressController.addNewAddress(
         cesticaPost,
         16.127483,
         46.368682
-=======
+
 
         Address nova = addressController.addNewAddress(
                 "Ulica Antuna Mihanovića",
@@ -751,7 +751,7 @@ Address nova = addressController.addNewAddress(
                 cesticaPost,
                 16.127483,
                 46.368682
->>>>>>> 79f83e29e952c63615de591705626590863c0406
+
         );
 
 
@@ -1254,7 +1254,7 @@ Address nova = addressController.addNewAddress(
                 "0995982910",
                 nova);
 
-<<<<<<< HEAD
+
         houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6",house);
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6",house);
 */

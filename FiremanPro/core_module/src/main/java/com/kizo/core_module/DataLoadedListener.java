@@ -1,13 +1,21 @@
 package com.kizo.core_module;
 
-import com.project.test.database.Entities.House;
-
-import java.util.ArrayList;
-
 /**
+ * Definira metode koje osluškuje kada će biti učitani svi podatci dohvačeni putem WS i spremni za daljnju obradu.
+ *
+ * <p>
  * Created by Zoran on 25.11.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
  */
 
 public interface DataLoadedListener {
-    void onDataLoaded(ArrayList<House> houses);
+
+    /**
+     * Osluškuje kada će biti učitani svi podatci dohvačeni putem WS i spremni za daljnju obradu.
+     *
+     * @author Zoran Hrnčić
+     */
+    void onDataLoaded();
 }

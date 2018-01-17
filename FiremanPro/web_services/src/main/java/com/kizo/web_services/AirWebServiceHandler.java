@@ -22,25 +22,30 @@ import retrofit.Response;
 import static android.R.string.ok;
 
 /**
+ *
+ * Definiraju se metode za upravljanje podatcma pristiglim od Web servisa
+ * <p>
  * Created by Zoran on 25.11.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
  */
-
 public interface AirWebServiceHandler {
+
+
+    /**
+     * Definira podatke prstigle od Web Servisa.
+     * @param result lista poštanskih ureda
+     * @param photoTypes popis tipova slika
+     * @param housesWs popis kuća sa svim podatcima
+     * @param response svi ostali podatci pristigli u odgovoru (Tipovi požara, popis vatrogasaca, popis vozila...)
+     * @author Zoran Hrnčić
+     */
     void onDataArrived(List<Post> result,
                        List<PhotoType> photoTypes,
                        List<HousesW> housesWs,
-                       Response<AirWebServiceResponse> response,
-                       /*List<SortOfInterventionW> sortOfInterventionWs,
-                       List<InterventionTypeW> interventionTypeWs,
-                       List<OutdoorTypeW> outdoorTypeWs,
-                       List<Size_of_fire> size_of_fires,
-                       List<SpatialSpreadW> spatialSpreadWs,
-                       List<SpreadingSmokeW> spreadingSmokeWs,
-                       List<TimeSpreadW> timeSpreadWs,
-                       List<TypeOfTruckW>typeOfTruckWs,
-                       List<TypeOfUnitW> typeOfUnitWs,*/
-
-                       boolean ok);
+                       Response<AirWebServiceResponse> response
+                    );
 
 
 }

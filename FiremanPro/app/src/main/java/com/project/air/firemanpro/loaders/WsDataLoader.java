@@ -1,8 +1,6 @@
 package com.project.air.firemanpro.loaders;
 
 
-import android.content.Context;
-
 import com.kizo.core_module.DataLoadedListener;
 import com.kizo.core_module.DataLoader;
 import com.kizo.web_services.AirWebServiceCaller;
@@ -27,12 +25,10 @@ import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.PhotoType;
 import com.project.test.database.Entities.Post;
-import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
-import com.project.test.database.Entities.fireman_patrol.Type_of_unit_Table;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.Entities.report.Sort_of_intervention_Table;
 import com.project.test.database.controllers.AddressController;
@@ -42,11 +38,9 @@ import com.project.test.database.controllers.HydrantsController;
 import com.project.test.database.controllers.PostController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 import com.project.test.database.helper.MockData;
-import com.project.test.database.imageSaver.ImageSaver;
 import com.project.test.database.imageSaver.SaveResourceImage;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Response;
@@ -55,88 +49,89 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 /**
- * Created by Zoran on 25.11.2017..
+ * Klasa se koristi za dohvaćanje podataka putem Web Servisa.Sadrži metode za pokretanje dohvaćanja podataka putem WS,
+ * te po primitku, obrađenih podataka, iste pomoću različitih metoda pohranjuje u bazu podataka.
+ * <p>
+ * <p>
+ * <p>
+ * Created by Zoran Hrnčić on 25.11.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
  */
+public class WsDataLoader extends DataLoader implements AirWebServiceHandler {
 
-public class WsDataLoader extends DataLoader {
-    private boolean storesArrived = false;
-    private boolean discountsArrived = false;
     java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-    //  private SaveResourceImage  saveResourceImage;
-    private Context context;
+
+
     private Types_all_Controller types_all_controller = new Types_all_Controller();
 
-    public WsDataLoader(Context context) {
-        this.context = context;
-        // saveResourceImage = new SaveResourceImage(context);
+    public WsDataLoader() {
 
     }
 
+    /**
+     * Metoda instancira  AirWebServiceCaller, te pokreće dohvaćanje podataka.
+     *
+     * @param dataLoadedListener "Implementacija" interface-a DataLoadedListener
+     * @author Zoran Hrnčić
+     */
     @Override
     public void loadData(DataLoadedListener dataLoadedListener) {
         super.loadData(dataLoadedListener);
 
         System.out.println("serviceLaravel: WSdata.loadDAta");
-        AirWebServiceCaller storesWs = new AirWebServiceCaller(storesHandler);
+        AirWebServiceCaller allEntries = new AirWebServiceCaller(this);
 
 
-        storesWs.getAll("getAll", House.class);
+        allEntries.getAll();
 
 
     }
 
-    //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
+    /**
+     * Po primitku strukturiranih podataka, pristiglih od Web Servisa, prvo se obriši svi prethodni zapisi u mobilnoj bazi podataka.
+     * Nakon brisanja se pohranjuju svi novi zapisi u bazu.
+     *
+     * @author Zoran Hrnčić
+     */
+    @Override
+    public void onDataArrived(List<Post> post, List<PhotoType> photoTypes, List<HousesW> housesWs, Response<AirWebServiceResponse> response) {
+        MockData mockData = new MockData();
+        mockData.deleteAllWhenNewDataArrived(); // delete all old data in database
 
-    AirWebServiceHandler storesHandler = new AirWebServiceHandler() {
-        @Override
-        public void onDataArrived(List<Post> post, List<PhotoType> photoTypes, List<HousesW> housesWs, Response<AirWebServiceResponse> response, boolean ok) {
-            System.out.println("serviceLaravel: WSdata.on data arived    sada ide ispis pristiglih podataka");
-            System.out.println("onDATAArrived");
+        savePosts(post);
 
-            MockData mockData = new MockData();
-            mockData.deleteAllWhenNewDataArrived(); // delete all old data in database
+        savePhotoTypes(photoTypes);
 
-            if (ok) {
-                savePosts(post);
-                    /*
-                    List<Post> posts = post;
-                    for(Post post1 : posts){
-                        System.out.println("serviceLaravel: " + post1.getName());
-                        post1.save();
-                    }*/
+        saveHouses(housesWs);
 
-                storesArrived = true;
-                savePhotoTypes(photoTypes);
-                /*
-                List<PhotoType> photoTypes1 = photoTypes;
-                for (PhotoType photoType : photoTypes1) {
-                    System.out.println("serviceLaravel: " + photoType.getType());
-                    photoType.save();
-                }*/
-                saveHouses(housesWs);
+        saveSortOfIntrevention(response.body().getSortOfInterventionWS());
+        saveinterventionType(response.body().getInterventionTypeWS());
 
+        saveOutdoorTypes(response.body().getOutdoorTypeWS());
+        saveSizeOfFire(response.body().getSizeOfFireWS());
 
-                saveSortOfIntrevention(response.body().getSortOfInterventionWS());
-                saveinterventionType(response.body().getInterventionTypeWS());
+        saveSpatiaSpreads(response.body().getSpatialSpreadWS());
+        saveSpreadingSmokes(response.body().getSpreadingSmokeWS());
+        saveTimeSpread(response.body().getTimeSpreadWS());
+        saveTypeOfTrucks(response.body().getTypeOfTruckWS());
+        saveTypeOfUnits(response.body().getTypeOfUnitWS());
 
-                saveOutdoorTypes(response.body().getOutdoorTypeWS());
-                saveSizeOfFire(response.body().getSizeOfFireWS());
+        saveHydrants(response.body().getHydrants());
 
-                saveSpatiaSpreads(response.body().getSpatialSpreadWS());
-                saveSpreadingSmokes(response.body().getSpreadingSmokeWS());
-                saveTimeSpread(response.body().getTimeSpreadWS());
-                saveTypeOfTrucks(response.body().getTypeOfTruckWS());
-                saveTypeOfUnits(response.body().getTypeOfUnitWS());
+        saveFiremanPatrol(response.body().getPatrolsWS());
 
-                saveHydrants(response.body().getHydrants());
+        setDataArrival();
 
-                saveFiremanPatrol(response.body().getPatrolsWS());
+    }
 
-                checkDataArrival();
-            }
-        }
-    };
-
+    /**
+     * Pohranjuje sve podatke o vatrogasnim postrojbama u  bazu podataka.
+     *
+     * @param patrolsWS popis vatrogasnih postrojba dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveFiremanPatrol(List<PatrolsW> patrolsWS) {
         FiremanPatrolController firemanPatrolController = new FiremanPatrolController();
         for (PatrolsW p :
@@ -163,7 +158,7 @@ public class WsDataLoader extends DataLoader {
             dvd_Cestica.addNewCosts(
 
 
-                   Double.valueOf(p.getApsorbent().toString()),
+                    Double.valueOf(p.getApsorbent().toString()),
                     Double.valueOf(p.getAutomaticLadder().toString()),
                     Double.valueOf(p.getCo2().toString()),
                     Double.valueOf(p.getCommandVehicle().toString()),
@@ -186,6 +181,12 @@ public class WsDataLoader extends DataLoader {
 
     }
 
+    /**
+     * Pohranjuje sve podatke o hidrantima u  bazu podataka.
+     *
+     * @param hydrants popis hidranata sa svim podatcima dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveHydrants(List<Hydrantw> hydrants) {
         HydrantsController hydrantsController = new HydrantsController();
 
@@ -205,6 +206,12 @@ public class WsDataLoader extends DataLoader {
     }
 
 
+    /**
+     * Pohranjuje tipove vremenskih širenja požara u  bazu podataka.
+     *
+     * @param timeSpreadWS tipovi vremenskih širenja požara dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveTimeSpread(List<TimeSpreadW> timeSpreadWS) {
 
         for (TimeSpreadW t :
@@ -216,6 +223,12 @@ public class WsDataLoader extends DataLoader {
         }
     }
 
+    /**
+     * Pohranjuje vrste vatrogasnih postrojbi (DVD, JVP..) u  bazu podataka.
+     *
+     * @param typeOfUnitWS vrste vatrogasnih postrojbi dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveTypeOfUnits(List<TypeOfUnitW> typeOfUnitWS) {
         for (TypeOfUnitW t :
                 typeOfUnitWS) {
@@ -224,6 +237,12 @@ public class WsDataLoader extends DataLoader {
         }
     }
 
+    /**
+     * Pohranjuje vrste vatrogasnih vozila (Transportno, navalno..) u  bazu podataka.
+     *
+     * @param typeOfTruckWS vrste vatrogasnih vozila dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveTypeOfTrucks(List<TypeOfTruckW> typeOfTruckWS) {
 
         for (TypeOfTruckW t :
@@ -234,6 +253,12 @@ public class WsDataLoader extends DataLoader {
 
     }
 
+    /**
+     * Pohranjuje vrste širenja dima kod požara (Bez širenja,na prostoriju...) u  bazu podataka.
+     *
+     * @param spreadingSmokeWS vrste širenja dima dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveSpreadingSmokes(List<SpreadingSmokeW> spreadingSmokeWS) {
         for (SpreadingSmokeW s :
                 spreadingSmokeWS) {
@@ -242,6 +267,12 @@ public class WsDataLoader extends DataLoader {
         }
     }
 
+    /**
+     * Pohranjuje vrste prostornog širenja požara (Bez širenja,na prostoriju...)u  bazu podataka.
+     *
+     * @param spatialSpreadWS vrste prostornog širnja požara dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveSpatiaSpreads(List<SpatialSpreadW> spatialSpreadWS) {
         for (SpatialSpreadW s :
                 spatialSpreadWS) {
@@ -250,6 +281,12 @@ public class WsDataLoader extends DataLoader {
         }
     }
 
+    /**
+     * Pohranjuje vrste veličine požara u  bazu podataka.
+     *
+     * @param sizeOfFireWS vrste veličine požara dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveSizeOfFire(List<SizeOfFireW> sizeOfFireWS) {
         for (SizeOfFireW s :
                 sizeOfFireWS) {
@@ -259,6 +296,12 @@ public class WsDataLoader extends DataLoader {
 
     }
 
+    /**
+     * Pohranjuje vrste požara na otvorenom u  bazu podataka.
+     *
+     * @param outdoorTypeWS vrste požara na otvorenom dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveOutdoorTypes(List<OutdoorTypeW> outdoorTypeWS) {
 
         for (OutdoorTypeW o :
@@ -269,6 +312,12 @@ public class WsDataLoader extends DataLoader {
 
     }
 
+    /**
+     * Pohranjuje vrste intervencija u  bazu podataka.
+     *
+     * @param interventionTypeWS vrste intervencija dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveinterventionType(List<InterventionTypeW> interventionTypeWS) {
 
         for (InterventionTypeW intp :
@@ -285,6 +334,12 @@ public class WsDataLoader extends DataLoader {
 
     }
 
+    /**
+     * Pohranjuje vrste vatrogasnih intervencija (požarna, tehnička, ostala) u  bazu podataka.
+     *
+     * @param sortOfInterventionWS vrste vatrogasnih intervencija dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveSortOfIntrevention(List<SortOfInterventionW> sortOfInterventionWS) {
 
         for (SortOfInterventionW s :
@@ -296,6 +351,12 @@ public class WsDataLoader extends DataLoader {
         }
     }
 
+    /**
+     * Pohranjuje sve kuće i  sve podatke (adresa, podatci o kučanstvu, slike tlocrta...) o istima u  bazu podataka.
+     *
+     * @param housesWs popis kučanstva sa svim podatcima dohvaćeni putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void saveHouses(List<HousesW> housesWs) {
 
         AddressController addressController = new AddressController();
@@ -343,16 +404,12 @@ public class WsDataLoader extends DataLoader {
 
 
             if (housesW.getProfilPocture() != null) {
-
-                // String name= saveResourceImage.SaveImageFromUrlToInternalStorage(housesW.getProfilPocture().getUrl());
                 String name = SaveResourceImage.sha256(housesW.getProfilPocture().getUrl());
                 houseController.AddProfilPicToHouse(name, housesW.getProfilPocture().getUrl(), house);
             }
             if (housesW.getSlikePlanova() != null)
                 for (SlikePlanova slika :
                         housesW.getSlikePlanova()) {
-
-                    //String name= saveResourceImage.SaveImageFromUrlToInternalStorage(slika.getUrl());
                     String name = SaveResourceImage.sha256(slika.getUrl());
                     houseController.AddGroundPlanPicToHouse(name, slika.getUrl(), house);
 
@@ -362,30 +419,46 @@ public class WsDataLoader extends DataLoader {
         }
     }
 
+    /**
+     * Pohranjuje tipove fotografija  (Profilna, tlocrt...) u  bazu podataka.
+     *
+     * @param photoTypes tipovi fotografija dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void savePhotoTypes(List<PhotoType> photoTypes) {
 
         List<PhotoType> photoTypes1 = photoTypes;
         for (PhotoType photoType : photoTypes1) {
-            System.out.println("serviceLaravel: " + photoType.getType());
             photoType.save();
         }
     }
 
-
+    /**
+     * Pohranjuje poštanske urede u  bazu podataka.
+     *
+     * @param post popis pošta dohvaćenih putem Web Servisa
+     * @author Zoran Hrnčić
+     */
     private void savePosts(List<Post> post) {
 
         List<Post> posts = post;
         for (Post post1 : posts) {
-            System.out.println("serviceLaravel: " + post1.getName());
             post1.save();
         }
 
     }
 
+    /**
+     * Po završetku uspješnog popunjavanja baze podataka sa pristiglim podatcima ova metoda poziva metodu iz interface-a.
+     * Daje se "signal" da je završeno dohvačanje i upisivanje podataka u bazu.
+     *
+     * @author Zoran Hrnčić
+     */
+    private void setDataArrival() {
 
-    private void checkDataArrival() {
-        if (storesArrived) {
-            mDataLoadedListener.onDataLoaded((ArrayList<House>) HouseController.getAllHouseRecords());
-        }
+        mDataLoadedListener.onDataLoaded();
+
     }
+
+
 }
