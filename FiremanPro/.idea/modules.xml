@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FiremanPro.iml" filepath="$PROJECT_DIR$/FiremanPro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apache_poi/apache_poi.iml" filepath="$PROJECT_DIR$/apache_poi/apache_poi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/core_module/core_module.iml" filepath="$PROJECT_DIR$/core_module/core_module.iml" />
       <module fileurl="file://$PROJECT_DIR$/database/database.iml" filepath="$PROJECT_DIR$/database/database.iml" />
