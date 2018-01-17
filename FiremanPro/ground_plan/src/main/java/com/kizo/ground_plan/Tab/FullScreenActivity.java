@@ -18,48 +18,40 @@ public class FullScreenActivity extends AppCompatActivity {
 
     ImageBean imageBean;
     ArrayList<ImageBean> image_list = new ArrayList<>();
-
-    ImageView close;
     ViewPager viewPager;
-    @Override    protected void onCreate(Bundle savedInstanceState) {
+    /**
+     * Kreira se lista fotografija i fokusira, tj. u prvom planu se prikaže odabrana slika prema prosljeđenoj poziciji.
+     *
+     * Svaku sliku je moguće zumirati i klizanjem pregledati sljedeću, odnosno prethosnu sliku.
+     *
+     * @param savedInstanceState potrebno prosljediti bundle varijablu "EXTRA_SESSION_ID" koja sadrži poziciju odabrane slike za prikaz
+     *
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen);
-
-       //close=(ImageView)findViewById(R.id.closeIB);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+
+
         Intent intent = getIntent();
         int position = intent.getIntExtra("EXTRA_SESSION_ID", 1);
-System.out.println("Pozicije: "+ position);
-        /* popravak
-        for (int i = 0; i < TabTlocrt.thumbnail.size(); i++) {
-            imageBean = new ImageBean();
-            imageBean.setImagePath(TabTlocrt.thumbnail.get(i));
-            image_list.add(imageBean);
-
-
-        }*/
 
         for (int i = 0; i < TabTlocrt.gnd_images.size(); i++) {
             imageBean = new ImageBean();
             imageBean.setImgBitmap(TabTlocrt.gnd_images.get(i));
             image_list.add(imageBean);
-
-
         }
 
-//System.out.println("THUMBNAIL SIZE: "+TabTlocrt.thumbnail.size());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(image_list, getBaseContext());
-
 
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(position);
-
-
     }
 
 
-
-    @Override    public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         super.onBackPressed();
     }
 }

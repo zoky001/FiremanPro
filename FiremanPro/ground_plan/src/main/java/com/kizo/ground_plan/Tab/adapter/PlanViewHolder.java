@@ -4,79 +4,69 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
-
 import com.kizo.ground_plan.R;
 import com.kizo.ground_plan.Tab.FullScreenActivity;
 import com.project.test.database.Entities.House_photos;
-import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
-import butterknife.BindView;
 import butterknife.OnClick;
 
-
 /**
+ *
+ * Holder za prikazivanje svake fotografije u listi/glariji fotografija tlocrta.
+ *
  * Created by Zoran on 27.11.2017..
  */
 
 public class PlanViewHolder extends ParentViewHolder {
-    /*
-    @BindView(R.id.store_name)
-    TextView mStoreName;
-    @BindView(R.id.store_description)
-    TextView mStoreDescription;
-    @BindView(R.id.store_image)
-    ImageView mStoreImage;
-    */
 
-    public  TextView mStoreName;
-public TextView mStoreDescription;
-    public  ImageView mStoreImage;
-
+    public TextView mImageName;
+    public TextView mImageDescription;
+    public ImageView mGroundPlanImage;
     private int position = 0;
-
-
-
     View mItemView;
 
-    // constructor binds the ButterKnife library and makes itemView available locally
+
+    /**
+     * povezivanje svakog elementa liste sa definiranim layoutom
+     *
+     * @param itemView
+     */
     public PlanViewHolder(View itemView) {
         super(itemView);
         mItemView = itemView;
-
-        mStoreName  = (TextView) itemView.findViewById(R.id.store_name);
-        mStoreImage = (ImageView) itemView.findViewById(R.id.store_image);
-        mStoreDescription = (TextView) itemView.findViewById(R.id.store_description);
-
+        mImageName = (TextView) itemView.findViewById(R.id.store_name);
+        mGroundPlanImage = (ImageView) itemView.findViewById(R.id.store_image);
+        mImageDescription = (TextView) itemView.findViewById(R.id.store_description);
         ButterKnife.bind(this, itemView);
-
-
     }
 
-    // when the adapter is implemented this method is used to bind list elements with the recycler-view, here, we populate the Views
-    public void bind(House_photos house_photos, int position){
+
+    /**
+     * Popounjavanje svakog elementa liste sa podatcima o fotografiji koja se prikazuje.
+     *
+     *
+     * @param house_photos zapis o fotografiji (podatci o lokaciji pohranjene fotografjie u memoriji) iz baze podatake
+     * @param position
+     */
+    public void bind(House_photos house_photos, int position) {
         this.position = position;
-
-        mStoreName.setText(house_photos.getPhoto().getImageName());
-        mStoreDescription.setText("opis");
-        mStoreImage.setImageBitmap(house_photos.getPhoto().getImageBitmapbyContext(itemView.getContext()));
-       // Picasso.with(itemView.getContext()).load(store.getImgUrl()).into(mStoreImage);
+        mImageName.setText(house_photos.getPhoto().getImageName());
+        mImageDescription.setText("opis");
+        mGroundPlanImage.setImageBitmap(house_photos.getPhoto().getImageBitmapbyContext(itemView.getContext()));
     }
 
+
+    /**
+     * Klikom na bilo koji elment liste/ fotografiju tlocrta, otvara se nova aktivnost koja priakzuje odabranu sliku u Full Screen modu
+     *
+     * Potrebno je prosljediti poziciju odabranje slike.
+     *
+     */
     @OnClick
     public void clikcOnItem() {
-
-        System.out.println("clikcOnItem()r: ");
-
-
-
-
-        System.out.println("clikcOnItem()r: ");
         Intent intent = new Intent(itemView.getContext(), FullScreenActivity.class);
-        intent.putExtra("EXTRA_SESSION_ID", position); // umjesto 01 prosljediš ID kuće
+        intent.putExtra("EXTRA_SESSION_ID", position);
         itemView.getContext().startActivity(intent);
-
-
     }
 }
