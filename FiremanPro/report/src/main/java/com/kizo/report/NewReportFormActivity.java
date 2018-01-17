@@ -76,20 +76,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
 
     private List<Integer> firemans_id_selected = new ArrayList<Integer> ();
-    /*
-    // Time step
-    private TextView timeTextView;
-    private TimePickerDialog timePicker;
-    private Pair<Integer, Integer> time;
-    public static final String STATE_TIME_HOUR = "time_hour";
-    public static final String STATE_TIME_MINUTES = "time_minutes";
-
-    // Week days step
-    private boolean[] weekDays;
-    private LinearLayout daysStepContent;
-    public static final String STATE_WEEK_DAYS = "week_days";
-    */
-
     private boolean confirmBack = true;
     private ProgressDialog progressDialog;
     private VerticalStepperFormLayout verticalStepperForm;
@@ -297,13 +283,6 @@ System.out.println("SEND DATA");
                     intent.putExtra(NEW_ALARM_ADDED, true);
                     intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
                     intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
-                    /*
-                    intent.putExtra(STATE_TIME_HOUR, time.first);
-                    intent.putExtra(STATE_TIME_MINUTES, time.second);
-                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
-                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
-                    intent.putExtra(STATE_WEEK_DAYS, weekDays);
-                    */
 
                     // You must set confirmBack to false before calling finish() to avoid the confirmation dialog
                     confirmBack = false;
@@ -729,11 +708,10 @@ final LinearLayout ll = v;
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
-                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
-
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
                 }
                 else {
-                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
                 }
                 validate_USED_RESOURCES();
@@ -808,11 +786,11 @@ final LinearLayout ll = v;
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
              if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
-                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
              }
              else {
-                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, ll, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
              }
                 validate_USED_RESOURCES();
@@ -902,7 +880,7 @@ final LinearLayout ll = v;
     }
 
 
-    private Spinner addSpinnerValue_listener_USED_RESOURCES_STEP(Spinner spinner, LinearLayout content, int id, ArrayAdapter<String> methodArray) {
+    private Spinner addSpinnerValue_listener_USED_RESOURCES_STEP(Spinner spinner, View content, int id, ArrayAdapter<String> methodArray) {
         spinner = (Spinner) content.findViewById(id);
         spinner.setAdapter(methodArray);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
