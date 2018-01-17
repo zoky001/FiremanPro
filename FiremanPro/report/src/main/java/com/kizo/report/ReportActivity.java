@@ -13,9 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
+import com.project.test.database.Entities.Settings;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -47,6 +49,12 @@ FloatingActionButton fab;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header=navigationView.getHeaderView(0);
+
+        TextView headerTitle = (TextView)header.findViewById(R.id.headerTitle);
+        headerTitle.setText(Settings.getSettings().getPatrolName());
+
 
         /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

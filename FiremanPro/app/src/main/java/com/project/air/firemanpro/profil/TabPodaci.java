@@ -97,6 +97,12 @@ public class TabPodaci extends TabFragment {
     @BindView(R.id.data_house_HRO_animals)
     TextView txtHouseHROAnimals;
 
+    @BindView(R.id.data_house_latitude)
+    TextView txtLatitude;
+
+    @BindView(R.id.data_house_longitude)
+    TextView txtLongitude;
+
     @BindView(R.id.data_house_telNumber)
     TextView txtHouseTEl;
 
@@ -183,6 +189,8 @@ fillTableWithContent();
         txtHouseHROContent.setText(house.getHRO_content());
 
         txtHouseHROAnimals.setText(house.isHRO_animals() ? "DA" : "NE");
+        txtLatitude.setText(String.valueOf(house.getAddress().getLatitude()));
+        txtLongitude.setText(String.valueOf(house.getAddress().getLongitude()));
 
         txtHouseTEl.setText(house.getTelNumber());
 

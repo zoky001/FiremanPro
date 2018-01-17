@@ -36,9 +36,9 @@ PhotoTypeController photoTypeController = new PhotoTypeController();
     }
 
 
-    public void addNewProfilPhotoToHouse(String photosName, String photosLocationName, House house){
+    public void addNewProfilPhotoToHouse(String photosName, String photosLocationName,String url, House house){
         check();
-        Photos photos = addNewPhotoName(photosName,photosLocationName);
+        Photos photos = addNewPhotoName(photosName,photosLocationName,url);
         House_photos noviZapis = new House_photos(photos,profil,house,CurrentDate,CurrentDate);
         noviZapis.save();
         System.out.println("TIPOVI NAKON SPREMANJA__ADD PROFIL: "+profil.getType()+
@@ -46,9 +46,9 @@ PhotoTypeController photoTypeController = new PhotoTypeController();
     }
 
 
-    public void addNewGrouondPlanPhotoToHouse(String photosName, String photosLocationName, House house){
+    public void addNewGrouondPlanPhotoToHouse(String photosName, String photosLocationName,String url, House house){
         check();
-        Photos photos = addNewPhotoName(photosName,photosLocationName);
+        Photos photos = addNewPhotoName(photosName,photosLocationName,url);
         House_photos noviZapis = new House_photos(photos,groundPlan,house,CurrentDate,CurrentDate);
         noviZapis.save();
         System.out.println("TIPOVI NAKON SPREMANJA__ADD GND: "+groundPlan.getType()+
@@ -65,9 +65,9 @@ PhotoTypeController photoTypeController = new PhotoTypeController();
 
 
 
-private Photos addNewPhotoName(String name, String locationname){
+private Photos addNewPhotoName(String name, String locationname,String url){
 
-    return photosController.addNewPhotoName(name,locationname);
+    return photosController.addNewPhotoName(name,locationname,url);
 }
 
     public List<House_photos> GetAllRecordsFromTable(){

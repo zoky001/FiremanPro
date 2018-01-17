@@ -29,6 +29,10 @@ public class Photos extends BaseModel {
 
     @Column
     String FileName;
+
+    @Column
+    String url;
+
     @Column
     java.util.Date updated_at;
     @Column
@@ -39,15 +43,24 @@ public class Photos extends BaseModel {
     public Photos() {
     }
 
-    public Photos(String imageName, String fileName, Date updated_at, Date created_at) {
+    public Photos(String imageName, String fileName, String url, Date updated_at, Date created_at) {
         ImageName = imageName;
         FileName = fileName;
+        this.url = url;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
     public int getID() {
         return ID;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setID(int ID) {

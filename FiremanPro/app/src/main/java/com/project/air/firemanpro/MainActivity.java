@@ -2,7 +2,13 @@ package com.project.air.firemanpro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
@@ -18,12 +24,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
+import com.kizo.core_module.DataLoadedListener;
+import com.kizo.core_module.DataLoader;
+import com.kizo.web_services.AirWebServiceCaller;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.kizo.core_module.tab_profile.TabFragment;
 import com.kizo.report.SavedReportFragment;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
+import com.project.air.firemanpro.loaders.WsDataLoader;
 import com.project.test.database.Entities.House;
-
+import com.project.test.database.Entities.Settings;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.helper.MockData;
 import com.project.test.database.imageSaver.SaveResourceImage;
@@ -32,16 +45,28 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements DataLoadedListener, NavigationView.OnNavigationItemSelectedListener {
+
 
     MockData mockData;
 
@@ -51,12 +76,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     AutoCompleteTextView autoCompleteTextView;
 
 
+    List<House> allHouses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //DBflow connect to database
+        FlowManager.init(new FlowConfig.Builder(this).build());
+
 
         ButterKnife.bind(this);
+
+
+
+
+
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
 
@@ -64,21 +102,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, com.kizo.report.R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
+
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(com.kizo.report.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //DBflow
-        FlowManager.init(new FlowConfig.Builder(this).build());
+        View header=navigationView.getHeaderView(0);
+
+        TextView headerTitle = (TextView)header.findViewById(R.id.headerTitle);
+        //headerTitle.setText(Settings.getSettings().getPatrolName());
+
+
+
+
+
+        //imageloader
+        // Create global configuration and initialize ImageLoader with this config
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+
+        ImageLoader.getInstance().init(config);
 
         mockData  = new MockData();
-
-
+      //  mockData.writeAll();
+//mockData.writeAll();
         // empty the entire database
-        mockData.deleteAll();
-
+        /*
+        mockData.deleteAll();*/
+       // loadFromService();
 
         // if table "House" is empty, then fill database with data
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
@@ -86,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             System.out.println("Nema zapisa u housessssss: ");
 
             //write all entries in database
-            mockData.writeAll();
+         // mockData.writeAll();
 
             //print entries from database to console (for testing)
             mockData.printAll();
@@ -224,6 +277,7 @@ saveImagesFromResourcesToInternalStorage();
     }
 
 
+
     @OnClick(R.id.buttonSearching)
     public void buttonSearchingClicked(View view) {
 
@@ -233,7 +287,71 @@ saveImagesFromResourcesToInternalStorage();
 
        startActivity(Intent);
 
+
+       // AirWebServiceCaller webServiceCaller = new AirWebServiceCaller();
+      //  webServiceCaller.getAll("getAll", House.class);
+
+
+
+
     }
+
+    private void loadFromService(){
+        DataLoader dataLoader;
+
+        if(true){
+            // empty the entire database
+            mockData.deleteAll();
+
+            System.out.println("Loading web data");
+            dataLoader = new WsDataLoader();
+        }
+
+        dataLoader.loadData(this);
+
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        List<String> autocompleteListOfStrings = new ArrayList<String>();
+        List<House> allHouses = HouseController.getAllHouseRecords();
+        for (int i = 0; i < allHouses.size(); i++) {
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
+            }
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getSurname_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
+            }
+
+            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner())) {
+                autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
+            }
+
+            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " +allHouses.get(i).getAddress().getPlaceNameIfExist()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+
+            if (allHouses.get(i).getAddress().getPlaceNameIfExist()!=""&& allHouses.get(i).getAddress().getStreetNameIfExist()!="" &&!autocompleteListOfStrings.contains(FullAddress)) {
+                autocompleteListOfStrings.add(FullAddress);
+            }
+            if(allHouses.get(i).getAddress().getPlaceNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutPlace)){
+                autocompleteListOfStrings.add(AddressWithoutPlace);
+            }
+            if(allHouses.get(i).getAddress().getStreetNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutStreet)){
+                autocompleteListOfStrings.add(AddressWithoutStreet);
+            }
+
+
+        }
+        //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
+        final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
+        List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
+        CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
+    }
+
+
 
 
 
@@ -251,13 +369,30 @@ saveImagesFromResourcesToInternalStorage();
 
 
             //save images from resource to directory in device
-            SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
-            SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
+            //SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
+           // SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
 
 
         }
     }
 
+    @Override
+    public void onDataLoaded() {
+
+        System.out.println("Data is here... ");
+
+
+       // mockData.writeAll();
+        mockData.printAll();
+
+        //SaveResourceImage saveResourceImage = new SaveResourceImage(getApplicationContext());
+
+      // saveResourceImage.SaveAllPhotoFromUrlToInternalStorage();
+
+
+
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -277,6 +412,15 @@ saveImagesFromResourcesToInternalStorage();
             startActivity(Intent);
         }
 
+        if (id == R.id.settings) {
+
+            Intent Intent = new Intent(this, SettingsActivity.class);
+
+       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
+       */
+            startActivity(Intent);
+        }
+
 
 
 
@@ -284,4 +428,10 @@ saveImagesFromResourcesToInternalStorage();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+
+
 }

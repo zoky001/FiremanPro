@@ -73,7 +73,38 @@ public class MockData {
 
     }
 
+    public void deleteAllWhenNewDataArrived() {
+
+        addressController.DeleteAllRecordsInTable();
+        house_photosController.DeleteAllRecordsInTable();
+        houseController.DeleteAllRecordsInTable();
+        photosController.DeleteAllRecordsInTable();
+        photoTypeController.DeleteAllRecordsInTable();
+        postController.DeleteAllRecordsInTable();
+
+        firemanPatrolController.DeleteAllRecordsInTable();
+        interventionController.DeleteAllRecordsInTable_Intervention_track();
+        interventionController.DeleteAllRecordsInTable_Reports();
+        hydrantsController.DeleteAllRecordsInTableHydrants();
+
+        types_all_controller.DeleteAllRecordsTable_Intervention_type();
+        types_all_controller.DeleteAllRecordsInTable_Outdoor_type();
+        types_all_controller.DeleteAllRecordsInTable_Sepatial_spread();
+        types_all_controller.DeleteAllRecordsInTable_Size_of_fire();
+        types_all_controller.DeleteAllRecordsInTable_Sort_of_intervention();
+        types_all_controller.DeleteAllRecordsInTable_Spreading_smoke();
+        types_all_controller.DeleteAllRecordsInTable_Time_spread();
+        types_all_controller.DeleteAllRecordsInTable_Type_of_truck();
+        types_all_controller.DeleteAllRecordsInTable_Type_of_unit();
+
+        firemanPatrolController.DeleteAllRecordsInTable();
+
+
+    }
+
+
     public void insertHydrants(Post post) {
+
 hydrantsController.addNewHydrant(
         "NADZEMNI",
         "Pavlović Vinko",
@@ -635,7 +666,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
         ArrayList<String> strings1 = new ArrayList<String>();
 
-        strings1.add("PRIJEVOZ VODE po nalogu)");
+        strings1.add("PRIJEVOZ VODE po nalogu");
         strings1.add("LAŽNA DOJAVA");
         strings1.add("IZVIDI");
 
@@ -675,19 +706,20 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
     }
 
-    public void writeAll() {
+    public void wrriteAll() {
 
-        deleteAll();
+       // deleteAll();
         //delete all
-        writePatrol();
-        writeCodeBook();
+
+      //  writePatrol();
+      //  writeCodeBook();
 
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
 
         Post cesticaPost = postController.addNewPost(42208, "Cestica");
 
         //write all hydrants
-       insertHydrants(cesticaPost);
+     //  insertHydrants(cesticaPost);
         /*
 
         SELA:
@@ -698,6 +730,20 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 */
 
 
+/*
+
+
+
+
+Address nova = addressController.addNewAddress(
+        "Ulica Antuna Mihanovića",
+        "Križovljan Radovečki",
+        "1",
+        cesticaPost,
+        16.127483,
+        46.368682
+
+
         Address nova = addressController.addNewAddress(
                 "Ulica Antuna Mihanovića",
                 "Križovljan Radovečki",
@@ -705,6 +751,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
                 cesticaPost,
                 16.127483,
                 46.368682
+
         );
 
 
@@ -1207,8 +1254,10 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
                 "0995982910",
                 nova);
 
-        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6", house);
-        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6", house);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6",house);
+*/
 
 /*
         //second house za testt samo
@@ -1297,7 +1346,9 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);*/
 
 
-        createMockIntervention();
+
+       // createMockIntervention();
+
     }
 
     public void printAll() {
@@ -1310,6 +1361,9 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         final List<Intervention_track> intervention_tracks = interventionController.GetAllRecordsFromTable_Intervention_track();
         final List<Reports> reportses = interventionController.GetAllRecordsFromTable_Reports();
 final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydrants();
+List<Spatial_spread> spatial_spreads = types_all_controller.GetAllRecordsFromTable_Spatial_spread();
+
+
 
         System.out.println("Obavijest primljena" +
                 " Iizlazak na intervenciju" +
@@ -1438,6 +1492,8 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
         System.out.print(" ADDRESS ID " +
                 " ulica" +
+                " latitude " +
+                " longitude " +
                 "\n");
 
         for (int i = 0; i < address.size(); i++) {
@@ -1445,8 +1501,15 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
             System.out.print("-----------------------------------------------" + "\n");
 
-            System.out.print(address.get(i).getID() + " | " +
-                    address.get(i).getStreetNameIfExist() + "\n");
+
+            System.out.print(address.get(i).getID()+" | " +
+                    address.get(i).getStreetNameIfExist()
+                    +" | " +
+                    address.get(i).getLatitude()
+                    +" | " +
+                    address.get(i).getLongitude()
+                    + "\n");
+
 
         }
 
@@ -1467,13 +1530,23 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
         System.out.print(" photo_ID " +
                 " NAME " +
-                "\n");
-        for (int i = 0; i < photos.size(); i++) {
+
+                " URL " +
+                 "\n");
+        for (int i = 0; i < photos.size();i++){
+
+
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.print(photos.get(i).getID() + " | " +
 
-                    photos.get(i).getImageName() + " | " + "\n");
+
+                    photos.get(i).getImageName()+" | " +
+
+                    photos.get(i).getUrl()+" | " +
+
+                    "\n");
+
         }
 
         System.out.print(" photo_ID " +

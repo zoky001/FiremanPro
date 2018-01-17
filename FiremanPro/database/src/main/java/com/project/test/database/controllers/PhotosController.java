@@ -23,8 +23,8 @@ public class PhotosController {
     public PhotosController() {
     }
 
-    public Photos addNewPhotoName(String photoname, String locationName){
-        Photos photo = new Photos(photoname,locationName,CurrentDate,CurrentDate);
+    public Photos addNewPhotoName(String photoname, String locationName, String url){
+        Photos photo = new Photos(photoname,locationName,url,CurrentDate,CurrentDate);
         photo.save();
 
 

@@ -18,6 +18,7 @@ public class FullScreenActivity extends AppCompatActivity {
 
     ImageBean imageBean;
     ArrayList<ImageBean> image_list = new ArrayList<>();
+
     ImageView close;
     ViewPager viewPager;
     @Override    protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,18 @@ public class FullScreenActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int position = intent.getIntExtra("EXTRA_SESSION_ID", 1);
 System.out.println("Pozicije: "+ position);
+        /* popravak
         for (int i = 0; i < TabTlocrt.thumbnail.size(); i++) {
             imageBean = new ImageBean();
             imageBean.setImagePath(TabTlocrt.thumbnail.get(i));
+            image_list.add(imageBean);
+
+
+        }*/
+
+        for (int i = 0; i < TabTlocrt.gnd_images.size(); i++) {
+            imageBean = new ImageBean();
+            imageBean.setImgBitmap(TabTlocrt.gnd_images.get(i));
             image_list.add(imageBean);
 
 
@@ -39,6 +49,8 @@ System.out.println("Pozicije: "+ position);
 
 //System.out.println("THUMBNAIL SIZE: "+TabTlocrt.thumbnail.size());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(image_list, getBaseContext());
+
+
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(position);
 
