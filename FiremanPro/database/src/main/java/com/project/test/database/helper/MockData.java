@@ -465,7 +465,7 @@ hydrantsController.addNewHydrant(
         intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 // upisano ovo izdnad
         intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
-        intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getPatrolByName("DVD Babinec"));
 
         intervencija.addDescriptionOfIntervention("opis intervencije jedan završena");//upisano
 
@@ -494,15 +494,10 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.intervetionEnded();
 
 
-
-
-
-     
-
         intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 
 
-        intervencija.getReports().addFiremanPatrolandTruck(12, 0.5, 15, 15, 21, 21, 12, Truck.getRandomTruck(), Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12, 0.5, 15, 15, 21, 21, 12, Truck.getRandomTruck(), Fireman_patrol.getPatrolByName("DVD Babinec"));
         intervencija.getReports().addFiremanPatrolandTruck(12, 12, 12, 26, 0.845, 15, 15, Truck.getRandomTruck(), Fireman_patrol.getRandomPatrol());
 
         intervencija.addDescriptionOfIntervention("opis intervencije dvaaaaaa_ završena");
@@ -545,7 +540,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
         intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 
-        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getPatrolByName("DVD Babinec"));
         intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
 
         intervencija.addDescriptionOfIntervention("opis intervencije dvaaaaaa_ NEDOVRŠENA");

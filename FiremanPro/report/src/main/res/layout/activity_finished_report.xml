@@ -347,64 +347,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vrsta i naziv postrojbe: "
                     style="@style/reportText"/>
                 <TextView
                     android:id="@+id/postrojba"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+                    android:paddingTop="5dp"
                     style="@style/reportData"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vozilo (vrsta i broj): "
-                    style="@style/reportText"/>
-                <TextView
-                    android:id="@+id/vozilo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/reportData"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prijeđeno km: "
-                    style="@style/reportText"/>
-                <TextView
-                    android:id="@+id/km"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="__"
-                    style="@style/reportData"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Utrošeno sati: "
-                    style="@style/reportText"/>
-                <TextView
-                    android:id="@+id/sati"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/reportData"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Broj vatrogasaca: "
-                    style="@style/reportText"/>
-                <TextView
-                    android:id="@+id/br_vatro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/reportData"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Utrošeno sredstva za gašenje: "
-                    style="@style/reportText"/>
-                <TextView
-                    android:id="@+id/sredstva"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/reportData"/>
+
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -750,7 +701,7 @@
                 <TableRow
                     android:layout_width="match_parent">
                     <TextView
-                        android:text="vozilo za prijevoz vatrogasaca i opreme "
+                        android:text="Vozilo za prijevoz vatrogasaca i opreme "
                         android:layout_width="wrap_content" />
                     <TextView
                         android:id="@+id/prijevoz_h"
@@ -758,7 +709,7 @@
                         android:layout_height="wrap_content" />
                 </TableRow>
 
-                <TableRow
+                <!--<TableRow
                     android:layout_width="match_parent">
                     <TextView
                         android:text="Prijeđeni kilometri "
@@ -768,7 +719,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="__"/>
-                </TableRow>
+                </TableRow>-->
 
                 <TableRow
                     android:layout_width="match_parent">
@@ -847,7 +798,7 @@
                         android:layout_height="wrap_content" />
                 </TableRow>
 
-                <TableRow
+                <!--<TableRow
                     android:layout_width="match_parent">
                     <TextView
                         android:text="Ostali troškovi "
@@ -857,7 +808,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="__" />
-                </TableRow>
+                </TableRow>-->
             </TableLayout>
         </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
