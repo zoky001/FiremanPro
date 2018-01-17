@@ -3,7 +3,9 @@ package com.kizo.report;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -41,7 +43,11 @@ import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
@@ -63,6 +69,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private static final int MEHANIZATION_STEP_NUM = 5;
     private static final int INTERVENTION_STEP_NUM =6 ;
     private static final int FIREMEN_NUM = 7;
+    private static final int END_NUM = 8;
 
 
     // Title step
@@ -154,7 +161,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDarkREPORT);
 
         String[] stepsTitles = getResources().getStringArray(R.array.steps_titles);
-        String[] stepsSubtitles = getResources().getStringArray(R.array.steps_subtitles);
+        // String[] stepsSubtitles = getResources().getStringArray(R.array.steps_subtitles);
 
         // Here we find and initialize the form
         verticalStepperForm = (VerticalStepperFormLayout) findViewById(R.id.vertical_stepper_form);
@@ -241,8 +248,44 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 save_INTERVENTION_COST();
                verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-
+            case  END_NUM:
+                sendMail();
+                verticalStepperForm.setStepAsCompleted(stepNumber);
+                break;
         }
+    }
+
+    private void sendMail() {
+        /* određujemo naslov maila tj subject */
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        String currentDateandTime = sdf.format(new Date());
+        String subjectText = "Intervencija na dan: " + currentDateandTime;
+        String bodyText = "Intervencija na dan: " + currentDateandTime + " vezan za adresu: "
+                + intervencije.getHouse().getAddress().getStreetNameIfExist().toString()
+                + " "+ intervencije.getHouse().getAddress().getStreetNumber().toString() + ", " + intervencije.getHouse().getAddress().getPlaceNameIfExist().toString()
+                + " \n  \n" + "U privitku se nalazi izvještaj. ";
+
+        /* slanje maila */
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
+                "matea.bodulusic@gmail.com"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
+
+        /*
+        File root = Environment.getExternalStorageDirectory();
+
+        String pathToMyAttachedFile = "temp/attachement.xml";
+        File file = new File(root, pathToMyAttachedFile);
+        if (!file.exists() || !file.canRead()) {
+            return;
+        }
+        Uri uri = Uri.fromFile(file);
+
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        */
+        startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
     }
 
     @Override
