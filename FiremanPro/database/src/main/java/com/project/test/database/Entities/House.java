@@ -105,7 +105,37 @@ public class House extends BaseModel{
     }
 
 
-
+    public House(Integer id_house, String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber, java.util.Date updated_at, java.util.Date created_at, Address address) {
+        this.id_house = id_house;
+        this.name_owner = name_owner;
+        this.surname_owner = surname_owner;
+        this.number_of_tenants = number_of_tenants;
+        this.number_of_floors = number_of_floors;
+        this.list_of_floors = list_of_floors;
+        this.number_of_children = number_of_children;
+        this.year_children = year_children;
+        this.number_of_adults = number_of_adults;
+        this.years_adults = years_adults;
+        this.number_of_powerless_and_elders = number_of_powerless_and_elders;
+        this.years_powerless_elders = years_powerless_elders;
+        this.disability_person = disability_person;
+        this.power_supply = power_supply;
+        this.gas_connection = gas_connection;
+        this.type_of_heating = type_of_heating;
+        this.number_of_gas_bottle = number_of_gas_bottle;
+        this.type_of_roof = type_of_roof;
+        this.hydrant_distance = hydrant_distance;
+        this.high_risk_object = high_risk_object;
+        this.HRO_type_of_roof = HRO_type_of_roof;
+        this.HRO_power_supply = HRO_power_supply;
+        this.HRO_content = HRO_content;
+        this.HRO_animals = HRO_animals;
+        this.telNumber = telNumber;
+        this.mobNumber = mobNumber;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+        this.address = address;
+    }
 
     public House() {
     }

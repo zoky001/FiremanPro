@@ -65,12 +65,12 @@ public class HouseController {
         return house;
     }
 
-    public void AddProfilPicToHouse(String pic, House house) {
-        house_photosController.addNewProfilPhotoToHouse(pic, pic, house);
+    public void AddProfilPicToHouse(String pic, String url,House house) {
+        house_photosController.addNewProfilPhotoToHouse(pic, pic,url, house);
     }
 
-    public void AddGroundPlanPicToHouse(String pic, House house) {
-        house_photosController.addNewGrouondPlanPhotoToHouse(pic, pic, house);
+    public void AddGroundPlanPicToHouse(String pic, String url,House house) {
+        house_photosController.addNewGrouondPlanPhotoToHouse(pic, pic, url,house);
     }
 
     public static House getHouse(int idHouse) {

@@ -1,9 +1,10 @@
 package com.project.test.database.controllers;
 
+import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Photos;
 import com.project.test.database.Entities.Post;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-
+import com.project.test.database.Entities.Post_Table;
 import java.util.List;
 
 /**
@@ -40,6 +41,13 @@ public class PostController {
             //delete all item in table House
         }
 
+    }
+
+    public static Post getPostByPostalCode(int postalCode){
+        List<Post> posts = SQLite.select().from(Post.class).where(Post_Table.postal_code.is(postalCode)).queryList();
+
+
+        return posts.get(0);
     }
 
 

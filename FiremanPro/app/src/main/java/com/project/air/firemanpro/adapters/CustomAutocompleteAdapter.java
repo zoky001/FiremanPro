@@ -74,7 +74,7 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
         StringBuilder normalizedString = new StringBuilder();
         for (char character:charArray
              ) {
-            if (character == 'đ' || character == 'Đ'){
+            if (character == 'd' || character == 'D'){
                 normalizedString.append('d');
                 continue;
             }

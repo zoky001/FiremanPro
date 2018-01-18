@@ -95,10 +95,24 @@ public class Sort_of_intervention extends BaseModel {
         for (String item :
                 name) {
 
-           intervention_type = new Intervention_Type(item,CurrentDate,CurrentDate,this);
+            intervention_type = new Intervention_Type(item,CurrentDate,CurrentDate,this);
             intervention_type.save();
 
         }
+
+
+    }
+
+    public void addType_of_intervention(Integer ID, String name){
+
+        Intervention_Type intervention_type;
+
+
+            intervention_type = new Intervention_Type(ID,name,CurrentDate,CurrentDate,this);
+
+            this.save();
+
+
 
 
     }
