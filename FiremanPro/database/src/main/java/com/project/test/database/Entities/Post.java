@@ -32,16 +32,13 @@ public class Post extends BaseModel {
     Date updated_at;
 
 
-
-
-
     public Post() {
     }
 
     public Post(int postal_code, String name, Date updated_at, Date created_at) {
         this.postal_code = postal_code;
 
-        this.name=name;
+        this.name = name;
 
         this.updated_at = updated_at;
         this.created_at = created_at;
@@ -80,15 +77,15 @@ public class Post extends BaseModel {
         this.created_at = created_at;
     }
 
-public static Post getPostById(int id){
+    public static Post getPostById(int id) {
 
-    Post post = SQLite.select().from(Post.class).where(Post_Table.postal_code.is(id)).querySingle();
+        Post post = SQLite.select().from(Post.class).where(Post_Table.postal_code.is(id)).querySingle();
 
-    if (post != null)
-        return post;
-    else
-        return null;
-}
+        if (post != null)
+            return post;
+        else
+            return null;
+    }
 
 
 }

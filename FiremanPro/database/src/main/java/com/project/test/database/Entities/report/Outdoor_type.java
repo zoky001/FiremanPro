@@ -32,7 +32,6 @@ public class Outdoor_type extends BaseModel {
     String description;
 
 
-
     @Column
     Date updated_at;
     @Column
@@ -91,7 +90,7 @@ public class Outdoor_type extends BaseModel {
     }
 
 
-    public static Outdoor_type getRandomType(){
+    public static Outdoor_type getRandomType() {
 
         List<Outdoor_type> house = SQLite.select().from(Outdoor_type.class).queryList();
 
@@ -99,7 +98,7 @@ public class Outdoor_type extends BaseModel {
         return house.get(0);
     }
 
-    public static Outdoor_type getByName(String name){
+    public static Outdoor_type getByName(String name) {
 
         Outdoor_type spreading_smoke = SQLite.select().from(Outdoor_type.class).where(Outdoor_type_Table.name.is(name)).querySingle();
 
