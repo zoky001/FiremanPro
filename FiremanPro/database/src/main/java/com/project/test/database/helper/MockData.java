@@ -505,7 +505,7 @@ hydrantsController.addNewHydrant(
         intervencija.addObjectSuperficies_ha(2.0); //upisano
 
 intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
-        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+        intervencija.getReports().addConsumption(21,15,12,15,12,12, 12,12,54,87,54,65,40,0,0);
 
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
@@ -540,7 +540,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.addHelpers("Nitko nije sudjelovao");
       
 
-        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+        intervencija.getReports().addConsumption(21,15,12,12,15,112,12,12,54,87,54,65,40,0,0);
 
 
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
@@ -581,7 +581,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.addObjectSuperficies_ha(2.0);
 
         intervencija.addHelpers("Nitko nije sudjelovao");
-        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+        intervencija.getReports().addConsumption(21,15,12,15, 12,15,12,12,54,87,54,65,40,0,0);
 
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());

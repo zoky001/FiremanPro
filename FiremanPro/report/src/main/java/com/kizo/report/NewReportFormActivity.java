@@ -109,6 +109,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     EditText roadTankersNumber;
     EditText specialVehicleNumber;
     EditText transportationVehicleNumber;
+    EditText insuranceVehicleNumber;
+    EditText powerPumpVehicleNumber;
+    EditText apsorbentVehicleNumber;
 
     Spinner firemanSpinner;
     EditText numberOfFiremanNumber;
@@ -132,6 +135,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     Spinner outdoorSpread;
     private Intervention_track intervencije;
     private EditText interventionDescription;
+
+    /* dio koji se popunjava u USEDRESOURCES a koristi se i kod interventionCosta
+     */
+
+    String kmText;
+    String waterText;
+    String powderText;
+    String foamText;
+    String co2Text;
+    String numberOfFiremansText;
+    String clockText;
 
 
     @Override
@@ -269,11 +283,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         /* slanje maila */
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{// intervencije.getEmailTo().toString()
+
+       // emailIntent.setType("text/plain");
+       // emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{// intervencije.getEmailTo().toString()
+
+        emailIntent.setType("message/rfc822");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
+
                 "matea.bodulusic@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
+
 
         /*
         File root = Environment.getExternalStorageDirectory();
@@ -424,7 +444,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     Time_spread.getByName(timeSpread.getSelectedItem().toString()),
                     Outdoor_type.getByName(outdoorSpread.getSelectedItem().toString()),
                     Size_of_fire.getByName(sizeOfFire.getSelectedItem().toString())
-
             );
 
             System.out.println("SAVE FIRE STEP" + intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
@@ -735,17 +754,25 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout v = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
         final LinearLayout ll = v;
+
+        /* Button koji omogućuje doavanje još resursa jer se tako traži u službenom izvještaju */
+
         final Button prvi = new Button(this);
         prvi.setText("Dodaj resurs");
 
         //addUsedResources(prvi, vehicleContent, vehicleContent);
 
+
 // pocetak
 
+
+
+        // pocetak - prvi prikaz za odabir resursa
 
         //spinnerVehicle.setVisibility(View.INVISIBLE);
         spinnerFiremanPatrol = (Spinner) v.findViewById(R.id.sort_of_unit);
         spinnerFiremanPatrol.setAdapter(getFiremanPatrols());
+
 
         spinnerFiremanPatrol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -767,7 +794,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         });
 
 
-        kmNumber = addTextChangeListenerWithValidation(v, R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+
+        //numberKeybor omogućava upisa samo brojeva i to je realizirano kroz metodu
+
+        kmNumber = addTextChangeListenerWithValidation(v,R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+
         numberKeybord(kmNumber);
 
 
@@ -825,11 +856,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
-                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
-                } else {
-                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+             if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+             }
+             else {
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+
 
                 }
                 validate_USED_RESOURCES();
@@ -890,7 +923,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             isCorrect = true;
             System.out.println("validateUSED_RESOURCES_CORRECT");
             verticalStepperForm.setActiveStepAsCompleted();
-
         } else {
             try {
                 String titleErrorString = "Niste popunili sve podatke!";
@@ -1020,27 +1052,26 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return correctInformation;
     }*/
 
-    private void save_USED_RESOURCES() {
-        if (validate_USED_RESOURCES()) {
 
-            String km = kmNumber.getText().toString();
-            String water = waterNumber.getText().toString();
-            String powder = powderNumber.getText().toString();
-            String foam = foamNumber.getText().toString();
-            String co2 = co2Number.getText().toString();
-            String numberOfFiremans = numberOfFiremanParticipated.getText().toString();
-            String clock = clockNumber.getText().toString();
-
+    public void save_USED_RESOURCES() {
+        if(validate_USED_RESOURCES()) {
+            kmText =kmNumber.getText().toString();
+            waterText = waterNumber.getText().toString();
+            powderText = powderNumber.getText().toString();
+            foamText = foamNumber.getText().toString();
+            co2Text = co2Number.getText().toString();
+            numberOfFiremansText = numberOfFiremanParticipated.getText().toString();
+            clockText = clockNumber.getText().toString();
             Fireman_patrol patrol = Fireman_patrol.getPatrolByName(spinnerFiremanPatrol.getSelectedItem().toString());
             Truck truck = patrol.getTruckByName(spinnerVehicle.getSelectedItem().toString());
 
 
             // insert in database
-            intervencije.getReports().addFiremanPatrolandTruck(Integer.parseInt(numberOfFiremans),
-                    Double.parseDouble(water),
-                    Double.parseDouble(foam), Double.parseDouble(powder),
-                    Double.parseDouble(co2), Double.parseDouble(km),
-                    Double.parseDouble(clock),
+            intervencije.getReports().addFiremanPatrolandTruck(Integer.parseInt(numberOfFiremansText),
+                    Double.parseDouble(waterText),
+                    Double.parseDouble(foamText), Double.parseDouble(powderText),
+                    Double.parseDouble(co2Text), Double.parseDouble(kmText),
+                    Double.parseDouble(clockText),
                     truck,
                     patrol
             );
@@ -1052,6 +1083,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private void addNewUsedResources(final Button prvi, final Button noviB, final LinearLayout ll, final View myView) {
         prvi.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                save_USED_RESOURCES();
                 ll.removeView(prvi);
                 ll.addView(myView);
                 addUsedResources(noviB, myView, ll);
@@ -1191,6 +1223,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         LinearLayout interventionCostContent = (LinearLayout) inflate.inflate(R.layout.step_intervention_cost, null, false);
 
+
+
         navalVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.navalVehicle);
         numberKeybord(navalVehicleNumber);
         navalVehicleNumber.addTextChangedListener(new TextWatcher() {
@@ -1324,6 +1358,63 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             }
         });
 
+        insuranceVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.insurance);
+        numberKeybord(insuranceVehicleNumber);
+        insuranceVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        powerPumpVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.powerPumpClock);
+        numberKeybord(powerPumpVehicleNumber);
+        powerPumpVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        apsorbentVehicleNumber = (EditText) interventionCostContent.findViewById(R.id.apsorbentNum );
+        numberKeybord(apsorbentVehicleNumber);
+        apsorbentVehicleNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validate_INTERVENTION_COST();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return interventionCostContent;
     }
 
@@ -1337,9 +1428,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         String roadTanker = roadTankersNumber.getText().toString();
         String specialVehicle = specialVehicleNumber.getText().toString();
         String transportVehicle = transportationVehicleNumber.getText().toString();
+        String insurance = insuranceVehicleNumber.getText().toString();
+        String powerPuump = powerPumpVehicleNumber.getText().toString();
+        String apsorbent = apsorbentVehicleNumber.getText().toString();
 
         if (navalVehicle.length() > 0 && commandVehicle.length() > 0 && technicalVehicle.length() > 0
-                && automaticLadder.length() > 0 && roadTanker.length() > 0 && specialVehicle.length() > 0 && transportVehicle.length() > 0) {
+                && automaticLadder.length() > 0 && roadTanker.length() > 0 && specialVehicle.length() > 0 && transportVehicle.length() > 0
+                && insurance.length() > 0 && powerPuump.length() > 0 && apsorbent.length() > 0) {
             isCorrect = true;
             verticalStepperForm.setActiveStepAsCompleted();
 
@@ -1361,7 +1456,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             double roadTanker = Double.valueOf(roadTankersNumber.getText().toString());
             double specialVehicle = Double.valueOf(specialVehicleNumber.getText().toString());
             double transportVehicle = Double.valueOf(transportationVehicleNumber.getText().toString());
-            intervencije.getReports().addConsumption(0, automaticLadder, 0, commandVehicle, 0, 0, 0, 0, 0, 0, navalVehicle, roadTanker, specialVehicle, technicalVehicle, transportVehicle);
+
+            double powerPump = Double.valueOf(powerPumpVehicleNumber.getText().toString());
+            double insurance = Double.valueOf(insuranceVehicleNumber.getText().toString());
+            double apsorbent = Double.valueOf(apsorbentVehicleNumber.getText().toString());
+
+            intervencije.getReports().addConsumption(apsorbent,automaticLadder,Double.parseDouble(co2Text),commandVehicle,
+                    0, //id2
+                     0,//fire_extinguisher
+                     0, //fire_fighter
+                    Double.parseDouble(foamText),
+                    insurance, navalVehicle, powerPump, roadTanker,specialVehicle,technicalVehicle,transportVehicle);
             intervencije.getReports().getConsumption().save();
             intervencije.getReports().save();
             intervencije.save();
@@ -1456,6 +1561,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
           });
 
+<<<<<<< HEAD
   /*
           RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
           for (int i = 0; i < mehanizationAll.toArray().length; i++)
@@ -1467,6 +1573,20 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
               RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
               rgp.addView(radioButton, rprms);
           }
+=======
+/*
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
+        for (int i = 0; i < mehanizationAll.toArray().length; i++)
+        {
+            Spinner vehicleSpinner = onNewIntent();
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(String.valueOf(mehanizationAll.get(i)));
+            radioButton.setId(i);
+            RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            rgp.addView(radioButton, rprms);
+        }
+
+>>>>>>> d3a5c040031224fb237c587238b5a25ee14fa5b4
 
 
 
