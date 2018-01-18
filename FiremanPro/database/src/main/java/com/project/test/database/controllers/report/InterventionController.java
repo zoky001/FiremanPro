@@ -73,6 +73,13 @@ public class InterventionController {
         return SQLite.select().from(Intervention_track.class).where(Intervention_track_Table.completed_intervention.is(false)).queryList();
     }
 
+
+    public static boolean deleteInterventionWithID(int id)
+    {
+        return getInterventionByID(id).delete();
+
+    }
+
     public List<Intervention_track> GetAllRecordsFromTable_Intervention_track() {
 
         return SQLite.select().from(Intervention_track.class).queryList();

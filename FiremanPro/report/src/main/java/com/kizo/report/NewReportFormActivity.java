@@ -66,8 +66,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private static final int FIRE_STEP_NUM = 2;
     private static final int OWNER_AND_MATERIAL_STEP_NUM = 3;
     private static final int DESCRIPTION_HELPER_STEP_NUM = 4;
-  //  private static final int MEHANIZATION_STEP_NUM = 5;
-    private static final int INTERVENTION_STEP_NUM =5;
+    //  private static final int MEHANIZATION_STEP_NUM = 5;
+    private static final int INTERVENTION_STEP_NUM = 5;
     private static final int FIREMEN_NUM = 6;
     private static final int END_NUM = 7;
 
@@ -82,7 +82,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     public static final String STATE_DESCRIPTION = "description";
 
 
-    private List<Integer> firemans_id_selected = new ArrayList<Integer> ();
+    private List<Integer> firemans_id_selected = new ArrayList<Integer>();
     private boolean confirmBack = true;
     private ProgressDialog progressDialog;
     private VerticalStepperFormLayout verticalStepperForm;
@@ -140,16 +140,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         setContentView(R.layout.activity_vertical_stepper_report_form);
 
 
-        String s = getIntent().getStringExtra("IDintervencije");
-        System.out.println("SESSION FRAGMENT_idkuce: " + s);
-        int a = Integer.parseInt(getIntent().getStringExtra("IDintervencije"));
-        if (a != -1) {
-
+        try {
+            int a = Integer.parseInt(getIntent().getStringExtra("IDintervencije"));
             intervencije = InterventionController.getInterventionByID(a);
 
-        } else {
-            intervencije = InterventionController.getInterventionByID(a);
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
         }
+
 
         System.out.println("SESSION FRAGMENT_idkuce: " + intervencije.getHouse().getName_owner());
         initializeActivity();
@@ -244,14 +242,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 break;
                 */
             case INTERVENTION_STEP_NUM:
+                save__DESCRIPTION_STEP_HELPER();
                 validate_INTERVENTION_COST();
-               // verticalStepperForm.setStepAsCompleted(stepNumber);
+                // verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case FIREMEN_NUM:
                 save_INTERVENTION_COST();
-               verticalStepperForm.setStepAsCompleted(stepNumber);
+                verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-            case  END_NUM:
+            case END_NUM:
                 sendMail();
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
@@ -265,13 +264,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         String subjectText = "Intervencija na dan: " + currentDateandTime;
         String bodyText = "Intervencija na dan: " + currentDateandTime + " vezan za adresu: "
                 + intervencije.getHouse().getAddress().getStreetNameIfExist().toString()
-                + " "+ intervencije.getHouse().getAddress().getStreetNumber().toString() + ", " + intervencije.getHouse().getAddress().getPlaceNameIfExist().toString()
+                + " " + intervencije.getHouse().getAddress().getStreetNumber().toString() + ", " + intervencije.getHouse().getAddress().getPlaceNameIfExist().toString()
                 + " \n  \n" + "U privitku se nalazi izvještaj. ";
 
         /* slanje maila */
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{// intervencije.getEmailTo().toString()
                 "matea.bodulusic@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
@@ -293,7 +292,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     @Override
     public void sendData() {
-System.out.println("SEND DATA");
+        System.out.println("SEND DATA");
 //ovo je samo za probu, treba obrisati START
         for (Integer id :
                 firemans_id_selected) {
@@ -735,14 +734,13 @@ System.out.println("SEND DATA");
         // titleEditText.setSingleLine(true);
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout v = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
-final LinearLayout ll = v;
+        final LinearLayout ll = v;
         final Button prvi = new Button(this);
         prvi.setText("Dodaj resurs");
 
         //addUsedResources(prvi, vehicleContent, vehicleContent);
 
 // pocetak
-
 
 
         //spinnerVehicle.setVisibility(View.INVISIBLE);
@@ -755,8 +753,7 @@ final LinearLayout ll = v;
 
                 if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
                     spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
-                }
-                else {
+                } else {
                     spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
                 }
@@ -770,34 +767,31 @@ final LinearLayout ll = v;
         });
 
 
-
-
-        kmNumber = addTextChangeListenerWithValidation(v,R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+        kmNumber = addTextChangeListenerWithValidation(v, R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
         numberKeybord(kmNumber);
 
 
-        clockNumber = addTextChangeListenerWithValidation(v,R.id.clock);
+        clockNumber = addTextChangeListenerWithValidation(v, R.id.clock);
         numberKeybord(clockNumber);
 
 
-        numberOfFiremanParticipated =addTextChangeListenerWithValidation (v,R.id.number_of_firemen_in_truck);
+        numberOfFiremanParticipated = addTextChangeListenerWithValidation(v, R.id.number_of_firemen_in_truck);
         numberKeybord(numberOfFiremanParticipated);
 
 
-
-        waterNumber = addTextChangeListenerWithValidation(v,R.id.water);
+        waterNumber = addTextChangeListenerWithValidation(v, R.id.water);
         numberKeybord(waterNumber);
 
 
-        foamNumber =addTextChangeListenerWithValidation (v,R.id.foam);
+        foamNumber = addTextChangeListenerWithValidation(v, R.id.foam);
         numberKeybord(foamNumber);
 
 
-        powderNumber = addTextChangeListenerWithValidation(v,R.id.powder);
+        powderNumber = addTextChangeListenerWithValidation(v, R.id.powder);
         numberKeybord(powderNumber);
 
 
-        co2Number = addTextChangeListenerWithValidation (v,R.id.CO_2);
+        co2Number = addTextChangeListenerWithValidation(v, R.id.CO_2);
         numberKeybord(co2Number);
 
 
@@ -831,14 +825,13 @@ final LinearLayout ll = v;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-             if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
-                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
-             }
-             else {
-                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                } else {
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
 
-             }
+                }
                 validate_USED_RESOURCES();
             }
 
@@ -849,34 +842,31 @@ final LinearLayout ll = v;
         });
 
 
-
-
-        kmNumber = addTextChangeListenerWithValidation(v,R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+        kmNumber = addTextChangeListenerWithValidation(v, R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
         numberKeybord(kmNumber);
 
 
-        clockNumber = addTextChangeListenerWithValidation(v,R.id.clock);
+        clockNumber = addTextChangeListenerWithValidation(v, R.id.clock);
         numberKeybord(clockNumber);
 
 
-        numberOfFiremanParticipated =addTextChangeListenerWithValidation (v,R.id.number_of_firemen_in_truck);
+        numberOfFiremanParticipated = addTextChangeListenerWithValidation(v, R.id.number_of_firemen_in_truck);
         numberKeybord(numberOfFiremanParticipated);
 
 
-
-        waterNumber = addTextChangeListenerWithValidation(v,R.id.water);
+        waterNumber = addTextChangeListenerWithValidation(v, R.id.water);
         numberKeybord(waterNumber);
 
 
-        foamNumber =addTextChangeListenerWithValidation (v,R.id.foam);
+        foamNumber = addTextChangeListenerWithValidation(v, R.id.foam);
         numberKeybord(foamNumber);
 
 
-        powderNumber = addTextChangeListenerWithValidation(v,R.id.powder);
+        powderNumber = addTextChangeListenerWithValidation(v, R.id.powder);
         numberKeybord(powderNumber);
 
 
-        co2Number = addTextChangeListenerWithValidation (v,R.id.CO_2);
+        co2Number = addTextChangeListenerWithValidation(v, R.id.CO_2);
         numberKeybord(co2Number);
 
 
@@ -906,9 +896,7 @@ final LinearLayout ll = v;
                 String titleErrorString = "Niste popunili sve podatke!";
                 verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
                 verticalStepperForm.setStepAsUncompleted(USED_RESOURCES_STEP_NUM, titleErrorString);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("GREŠKA: " + e);
 
             }
@@ -917,10 +905,10 @@ final LinearLayout ll = v;
         return isCorrect;
     }
 
-    private boolean isValidEditbox(EditText editText){
+    private boolean isValidEditbox(EditText editText) {
 
         if (editText == null || editText.getText().toString().isEmpty())
-        return false;
+            return false;
         else
             return true;
     }
@@ -936,7 +924,7 @@ final LinearLayout ll = v;
 
                 Object item = parentView.getItemAtPosition(position);
                 System.out.println("SPINNER_size of fire " + item.toString());
-               validate_USED_RESOURCES();
+                validate_USED_RESOURCES();
             }
 
             @Override
@@ -948,11 +936,11 @@ final LinearLayout ll = v;
         return spinner;
     }
 
-    private EditText addTextChangeListenerWithValidation(View view, int id){
+    private EditText addTextChangeListenerWithValidation(View view, int id) {
 
         EditText editText = (EditText) view.findViewById(id);
-       // editText.setText("0");
-       editText.addTextChangedListener(new TextWatcher() {
+        // editText.setText("0");
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -1033,9 +1021,9 @@ final LinearLayout ll = v;
     }*/
 
     private void save_USED_RESOURCES() {
-        if(validate_USED_RESOURCES()) {
+        if (validate_USED_RESOURCES()) {
 
-            String km =kmNumber.getText().toString();
+            String km = kmNumber.getText().toString();
             String water = waterNumber.getText().toString();
             String powder = powderNumber.getText().toString();
             String foam = foamNumber.getText().toString();
@@ -1091,13 +1079,13 @@ final LinearLayout ll = v;
         List<String> vehicleAll = new ArrayList<String>();
         Types_all_Controller type_all_controller = new Types_all_Controller();
         vehicleAll.add(NO_SELECTED);
-if (patrol != null)
-{List<Truck> type_of_truck = patrol.getAllTrucks();
+        if (patrol != null) {
+            List<Truck> type_of_truck = patrol.getAllTrucks();
 
-        for (Truck t : type_of_truck) {
-            vehicleAll.add(t.getName());
+            for (Truck t : type_of_truck) {
+                vehicleAll.add(t.getName());
+            }
         }
-}
         final ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicleAll);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
@@ -1373,13 +1361,13 @@ if (patrol != null)
             double roadTanker = Double.valueOf(roadTankersNumber.getText().toString());
             double specialVehicle = Double.valueOf(specialVehicleNumber.getText().toString());
             double transportVehicle = Double.valueOf(transportationVehicleNumber.getText().toString());
-            intervencije.getReports().addConsumption(0,automaticLadder,0,commandVehicle,0,0,0,0,0,0,navalVehicle,roadTanker,specialVehicle,technicalVehicle,transportVehicle);
-         intervencije.getReports().getConsumption().save();
+            intervencije.getReports().addConsumption(0, automaticLadder, 0, commandVehicle, 0, 0, 0, 0, 0, 0, navalVehicle, roadTanker, specialVehicle, technicalVehicle, transportVehicle);
+            intervencije.getReports().getConsumption().save();
             intervencije.getReports().save();
             intervencije.save();
 
 
-            System.out.println("SAVE_COST + " +intervencije.getReports().getConsumption().getNavalVehicle());
+            System.out.println("SAVE_COST + " + intervencije.getReports().getConsumption().getNavalVehicle());
 
             // insert in database
         }
@@ -1442,49 +1430,49 @@ if (patrol != null)
 
     }
 
-  /*  private View createMehanizationStep() {
-        chooseTypeAndSort = new EditText(this);
+    /*  private View createMehanizationStep() {
+          chooseTypeAndSort = new EditText(this);
 
-        final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
-        mehanizationContent = (LinearLayout) inflate.inflate(R.layout.step_mehanization, null, false);
+          final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
+          mehanizationContent = (LinearLayout) inflate.inflate(R.layout.step_mehanization, null, false);
 
-        makeMehanizationSpinnerFull(mehanizationContent, mehanizationContent);
+          makeMehanizationSpinnerFull(mehanizationContent, mehanizationContent);
 
-        /*
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View myView = factory.inflate(R.layout.step_mehanization, null);
+          /*
+          LayoutInflater factory = LayoutInflater.from(this);
+          final View myView = factory.inflate(R.layout.step_mehanization, null);
 
-        addVehicleButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                makeMehanizationSpinnerFull(v);
-                mehanizationContent.addView(myView);
+          addVehicleButton.setOnClickListener(new View.OnClickListener() {
+              public void onClick(View v) {
+                  makeMehanizationSpinnerFull(v);
+                  mehanizationContent.addView(myView);
 
-            }
-               /* Spinner vehicleSpinner = new Spinner(this);
-                RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-                rgp.addView(vehicleSpinner, rprms);
+              }
+                 /* Spinner vehicleSpinner = new Spinner(this);
+                  RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+                  rgp.addView(vehicleSpinner, rprms);
 
-            }
+              }
 
-        });
+          });
 
-/*
-        RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
-        for (int i = 0; i < mehanizationAll.toArray().length; i++)
-        {
-            Spinner vehicleSpinner = onNewIntent();
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(String.valueOf(mehanizationAll.get(i)));
-            radioButton.setId(i);
-            RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-            rgp.addView(radioButton, rprms);
-        }
-       
+  /*
+          RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
+          for (int i = 0; i < mehanizationAll.toArray().length; i++)
+          {
+              Spinner vehicleSpinner = onNewIntent();
+              RadioButton radioButton = new RadioButton(this);
+              radioButton.setText(String.valueOf(mehanizationAll.get(i)));
+              radioButton.setId(i);
+              RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+              rgp.addView(radioButton, rprms);
+          }
 
 
-        return mehanizationContent;
-    }
-*/
+
+          return mehanizationContent;
+      }
+  */
     private void addMoreMehanization(final Button b, final View myView, final LinearLayout ll) {
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -1548,8 +1536,6 @@ if (patrol != null)
         }
 
 
-
-
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, firemanList);
 
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -1571,14 +1557,14 @@ if (patrol != null)
                     Integer i = id_fireman.get(position);
                     firemans_id_selected.add(i);
                     ispis.setTextSize(18);
-                   ispis.setText(sviOdabranivatrogasci);
-                    System.out.println("SELECTED: " + selectedItemText + " ID: "+ id_fireman.get(position));
+                    ispis.setText(sviOdabranivatrogasci);
+                    System.out.println("SELECTED: " + selectedItemText + " ID: " + id_fireman.get(position));
 
-                   // firemanList.remove(parent.getItemAtPosition(position));
-                  //  id_fireman.remove(position);
+                    // firemanList.remove(parent.getItemAtPosition(position));
+                    //  id_fireman.remove(position);
                     for (Integer id_fir :
                             firemans_id_selected) {
-                        System.out.println("SELECTED: " +Fireman.getFiremanbyID(id_fir).getName());
+                        System.out.println("SELECTED: " + Fireman.getFiremanbyID(id_fir).getName());
                     }
 
                 }
