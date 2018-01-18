@@ -66,10 +66,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private static final int FIRE_STEP_NUM = 2;
     private static final int OWNER_AND_MATERIAL_STEP_NUM = 3;
     private static final int DESCRIPTION_HELPER_STEP_NUM = 4;
-    private static final int MEHANIZATION_STEP_NUM = 5;
-    private static final int INTERVENTION_STEP_NUM =6 ;
-    private static final int FIREMEN_NUM = 7;
-    private static final int END_NUM = 8;
+  //  private static final int MEHANIZATION_STEP_NUM = 5;
+    private static final int INTERVENTION_STEP_NUM =5;
+    private static final int FIREMEN_NUM = 6;
+    private static final int END_NUM = 7;
 
 
     // Title step
@@ -202,9 +202,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             case DESCRIPTION_HELPER_STEP_NUM:
                 view = createDescriptionStep();
                 break;
+            /*
             case MEHANIZATION_STEP_NUM:
               view = createMehanizationStep();
                break;
+            */
             case INTERVENTION_STEP_NUM:
                 view = createInterventionCostStep();
                 break;
@@ -236,10 +238,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 System.out.println("surface: " + intervencije.getReports().getSurface_m2());
                 //verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
-           case MEHANIZATION_STEP_NUM:
+        /*   case MEHANIZATION_STEP_NUM:
                 save__DESCRIPTION_STEP_HELPER();
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
+                */
             case INTERVENTION_STEP_NUM:
                 validate_INTERVENTION_COST();
                // verticalStepperForm.setStepAsCompleted(stepNumber);
@@ -1439,7 +1442,7 @@ if (patrol != null)
 
     }
 
-    private View createMehanizationStep() {
+  /*  private View createMehanizationStep() {
         chooseTypeAndSort = new EditText(this);
 
         final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
@@ -1476,12 +1479,12 @@ if (patrol != null)
             RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
             rgp.addView(radioButton, rprms);
         }
-        */
+       
 
 
         return mehanizationContent;
     }
-
+*/
     private void addMoreMehanization(final Button b, final View myView, final LinearLayout ll) {
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

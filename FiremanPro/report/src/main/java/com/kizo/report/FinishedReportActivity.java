@@ -191,8 +191,9 @@ public class FinishedReportActivity extends AppCompatActivity {
         Integer num = 1;
 
         for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
-            snage.add(num + "\n"
-                    + p.getFireman_patrol().getName().toString() +
+            snage.add(num + "\n" +
+                    p.getFireman_patrol().getType_of_unit().getName().toString() + " "
+                            + p.getFireman_patrol().getName().toString() +
                     "\nVozilo (vrsta i broj): " + p.getTruck().getName().toString() +
                     "\nPrijeđeno km: "+ p.getKm() +
                     "\nUtrošeno sati: " + p.getHours() +
