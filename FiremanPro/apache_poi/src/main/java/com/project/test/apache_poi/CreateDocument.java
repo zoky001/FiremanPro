@@ -1,9 +1,13 @@
 package com.project.test.apache_poi;
 
 
+import android.os.Environment;
+
 import org.apache.poi.common.usermodel.HyperlinkType;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,15 +23,26 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 public class CreateDocument {
 
-    public static void main(String[] args)throws Exception  {
+    public void a()throws Exception  {
 
         //Blank Document
         XWPFDocument document = new XWPFDocument();
+        System.out.println("Radiiii");
+        String content = "hello world";
+        File file;
+        FileOutputStream outputStream;
+        try {
 
+            file = new File(Environment.getExternalStorageDirectory(), "MyCache.docx");
+            FileOutputStream out = new FileOutputStream( file);
+           document.write(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //Write the Document in file system
-        FileOutputStream out = new FileOutputStream( new File("createdocument.docx"));
-        document.write(out);
-        out.close();
+
+        //document.write(out);
+        document.close();
         System.out.println("createdocument.docx written successully");
     }
 }
