@@ -9,7 +9,8 @@
       <module fileurl="file://$PROJECT_DIR$/ground_plan/ground_plan.iml" filepath="$PROJECT_DIR$/ground_plan/ground_plan.iml" />
       <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" />
       <module fileurl="file://$PROJECT_DIR$/web_services/web_services.iml" filepath="$PROJECT_DIR$/web_services/web_services.iml" />
-      <module fileurl="file://C:/Users/Ivica/Documents/SourceTree/FiremanPro/FiremanPro/web_services/web_services.iml" filepath="C:/Users/Ivica/Documents/SourceTree/FiremanPro/FiremanPro/web_services/web_services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web_services/web_services.iml" filepath="$PROJECT_DIR$/web_services/web_services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../../Ivica/Documents/SourceTree/FiremanPro/FiremanPro/web_services/web_services.iml" filepath="$PROJECT_DIR$/../../../../../Ivica/Documents/SourceTree/FiremanPro/FiremanPro/web_services/web_services.iml" />
     </modules>
   </component>
 </project>
