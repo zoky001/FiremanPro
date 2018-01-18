@@ -284,12 +284,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         /* slanje maila */
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-       // emailIntent.setType("text/plain");
-       // emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{// intervencije.getEmailTo().toString()
-
-        emailIntent.setType("message/rfc822");
+        emailIntent.setType("text/plain");
+        // emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
-
                 "matea.bodulusic@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
