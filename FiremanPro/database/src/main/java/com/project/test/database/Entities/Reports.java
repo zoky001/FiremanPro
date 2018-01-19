@@ -305,12 +305,12 @@ public class Reports extends BaseModel {
 
 
     public void addConsumption(double apsorbent, double automatic_ladder, double co2, double command_vehicle, double fire_extinguisher,
-                               double fire_fighter, double foam, double id2,
+                               double fire_fighter, double foam,// double id2,
                                double insurance, double navalVehicle, double powerPumpClock,
                                double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle){
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-        Consumption consumption = new Consumption( apsorbent,  automatic_ladder, co2, command_vehicle,  fire_extinguisher,fire_fighter,  foam,  id2,
+        Consumption consumption = new Consumption( apsorbent,  automatic_ladder, co2, command_vehicle,  fire_extinguisher,fire_fighter,  foam,  // id2,
                   insurance,  navalVehicle,  powerPumpClock,  roadTankers,  specialVehicle,  tehnicalVehicle,  transportationVehicle, CurrentDate, CurrentDate);
 
         consumption.save();

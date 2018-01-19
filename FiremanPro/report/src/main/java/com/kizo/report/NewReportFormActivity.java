@@ -147,6 +147,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     String numberOfFiremansText;
     String clockText;
 
+    // suma vatrogasaca i co2 koja se dobije kod dodavanja v a izračunava se koliko košta prema zbroju uz cost
+    int sumFireman = 0;
+    Double co2Sum = 0.0;
+    Double foamSum = 0.0;
+    Double powderSum = 0.0;
+
+    // selected sort
+    String selectedSort;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,7 +207,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         View view = null;
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
-                // view = createAlarmTitleStep();
                 view = createTypeAndSortStep();
                 break;
             case USED_RESOURCES_STEP_NUM:
@@ -236,15 +244,21 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             case USED_RESOURCES_STEP_NUM:
                 save_MAIN_INFORMATION();
                 break;
-
             case FIRE_STEP_NUM:
+                System.out.println("SElected sortu ušao u step fire -- SAVE: " + selectedSort);
                 save_USED_RESOURCES();
                 break;
             case OWNER_AND_MATERIAL_STEP_NUM:
-                save_FIRE_STEP();
+                System.out.println("Ušao u OWNER AND MATERIJAL STEP -- SAVE: " + selectedSort);
+
+                //if(selectedSort.toString() == types_all_controller.get_FIRE_Sort_of_intervention().getName()){
+                    System.out.println(" SAVEE selected sort u owner je : " + selectedSort);
+                    save_FIRE_STEP();
+               //  }
                 validate_OWNER_AND_MATERIAL_COST();
                 break;
             case DESCRIPTION_HELPER_STEP_NUM:
+                System.out.println("Usao u descriptionnn ");
                 save_OWNER_AND_MATERIAL_COST();
                 validate_DESCRIPTION_STEP_HELPER();
                 System.out.println("surface: " + intervencije.getReports().getSurface_m2());
@@ -365,14 +379,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout fireContent = (LinearLayout) inflate.inflate(R.layout.step_fire, null, false);
 
-        sizeOfFire = addSpinnerValue(sizeOfFire, fireContent, R.id.size_of_fire, getSizeOfFireAdapter());
-
-        repeatedSpinner = addSpinnerValue_listener_FIRE_STEP(repeatedSpinner, fireContent, R.id.repeated, getYesNo());
-        spatialSpread = addSpinnerValue_listener_FIRE_STEP(spatialSpread, fireContent, R.id.spatial_spread, getSpatialSpreadAdapter());
-        timeSpread = addSpinnerValue_listener_FIRE_STEP(timeSpread, fireContent, R.id.time_spread, getTimeSpreadAdapter());
-        smokeSpread = addSpinnerValue_listener_FIRE_STEP(smokeSpread, fireContent, R.id.smoke_spread, getSmokeSpreadAdapter());
-        outdoorSpread = addSpinnerValue_listener_FIRE_STEP(outdoorSpread, fireContent, R.id.outdoor_spread, getOutdoorSpreadAdapter());
-
         destroyedSpace = (EditText) fireContent.findViewById(R.id.destroyed_space);
         numberKeybord(destroyedSpace);
         destroyedSpace.addTextChangedListener(new TextWatcher() {
@@ -384,7 +390,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_FIRE_STEP();
-
             }
 
             @Override
@@ -392,6 +397,36 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
             }
         });
+
+        sizeOfFire = addSpinnerValue(sizeOfFire, fireContent, R.id.size_of_fire, getSizeOfFireAdapter());
+
+        repeatedSpinner = addSpinnerValue_listener_FIRE_STEP(repeatedSpinner, fireContent, R.id.repeated, getYesNo());
+        spatialSpread = addSpinnerValue_listener_FIRE_STEP(spatialSpread, fireContent, R.id.spatial_spread, getSpatialSpreadAdapter());
+        timeSpread = addSpinnerValue_listener_FIRE_STEP(timeSpread, fireContent, R.id.time_spread, getTimeSpreadAdapter());
+        smokeSpread = addSpinnerValue_listener_FIRE_STEP(smokeSpread, fireContent, R.id.smoke_spread, getSmokeSpreadAdapter());
+        outdoorSpread = addSpinnerValue_listener_FIRE_STEP(outdoorSpread, fireContent, R.id.outdoor_spread, getOutdoorSpreadAdapter());
+
+        System.out.println("Selected sort u dijelu createFireSTep: " + selectedSort + " SAVEEE ");
+
+
+        if(selectedSort != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString() ) {
+            TextView notFire = (TextView) fireContent.findViewById(R.id.nijeFire);
+            notFire.setText("Reli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
+        }
+        /*
+            System.out.println("SAVE: preskočili smo požar dio");
+            repeatedSpinner.setEnabled(false);
+            sizeOfFire.setEnabled(false);
+            spatialSpread.setEnabled(false);
+            timeSpread.setEnabled(false);
+            smokeSpread.setEnabled(false);
+            outdoorSpread.setEnabled(false);
+            destroyedSpace.setEnabled(false);
+            System.out.println("SelectedSort prvi prolaz je: " + selectedSort);
+            verticalStepperForm.setActiveStepAsCompleted();
+        }
+
+*/
 
         return fireContent;
     }
@@ -402,13 +437,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
 
-        if (destroyed.length() > 0 & validSpinner(sizeOfFire) & validSpinner(repeatedSpinner) & validSpinner(spatialSpread) & validSpinner(timeSpread) & validSpinner(smokeSpread) & validSpinner(outdoorSpread)) {
-            isCorrect = true;
-            verticalStepperForm.setActiveStepAsCompleted();
-
-        } else {
-            String titleErrorString = "Niste popunili sve podatke!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+        if(spinnerSort.toString() != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()){
+            verticalStepperForm.setStepAsCompleted(FIRE_STEP_NUM);
+        }
+        else {
+            if (destroyed.length() > 0 & validSpinner(sizeOfFire) & validSpinner(repeatedSpinner) & validSpinner(spatialSpread) & validSpinner(timeSpread) & validSpinner(smokeSpread) & validSpinner(outdoorSpread)) {
+                isCorrect = true;
+                verticalStepperForm.setActiveStepAsCompleted();
+            } else {
+                String titleErrorString = "Niste popunili sve podatke!";
+                verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+            }
         }
 
         return isCorrect;
@@ -427,6 +466,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private void save_FIRE_STEP() {
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
         java.util.Date fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
+        System.out.println("SAVE - ušao u step save FIRE STEP");
+
         if (validate_FIRE_STEP()) {
             System.out.println("SAVE FIRE STEP");
 
@@ -443,7 +484,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     Size_of_fire.getByName(sizeOfFire.getSelectedItem().toString())
             );
 
-            System.out.println("SAVE FIRE STEP" + intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
             // insert in database
         }
     }
@@ -572,6 +612,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
                 Object item = parentView.getItemAtPosition(position);
                 System.out.println("SPINNER_size of fire " + item.toString());
+                System.out.println("SPINNER: " + item.toString() + ", a selectedSort je " + selectedSort);
+
                 validate_FIRE_STEP();
             }
 
@@ -628,14 +670,36 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-
                 Object item = parentView.getItemAtPosition(position);
-                System.out.println("SPINNER" + item.toString());
+                selectedSort = item.toString();
+                System.out.println("SPINNER: " + item.toString() + ", a selectedSort je " + selectedSort);
 
+                if(selectedSort != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) {
+                    System.out.println("SAVE: preskočili smo požar dio");
+                    repeatedSpinner.setEnabled(false);
+                    sizeOfFire.setEnabled(false);
+                    spatialSpread.setEnabled(false);
+                    timeSpread.setEnabled(false);
+                    smokeSpread.setEnabled(false);
+                    outdoorSpread.setEnabled(false);
+                    destroyedSpace.setEnabled(false);
+                    System.out.println("SelectedSort prvi prolaz je: " + selectedSort);
+                    verticalStepperForm.setActiveStepAsCompleted();
+                    /*
+                    repeatedSpinner.setEnabled(true);
+                    sizeOfFire.setEnabled(true);
+                    spatialSpread.setEnabled(true);
+                    timeSpread.setEnabled(true);
+                    smokeSpread.setEnabled(true);
+                    outdoorSpread.setEnabled(true);
+                    destroyedSpace.setEnabled(true);
+                    */
+                }
 
                 spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
                 spinnerType.setVisibility(View.VISIBLE);
+
+                Types_all_Controller tac = new Types_all_Controller();
 
                 validate_MAIN_INFORMATIONA();
             }
@@ -693,19 +757,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
                 intervencije.setThisInterventionAsFire();
                 intervencije.getReports().addFireIntervention(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
-                System.out.println("SAve first step");
+                System.out.println("SAve FIRE step --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
             }
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
-
                 intervencije.setThisInterventionAsTehnical();
                 intervencije.getReports().addTehnicalInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
-                System.out.println("SAve first step");
+                System.out.println("SAve tEHNICAL step");
             }
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
-
                 intervencije.setThisInterventionAsOther();
                 intervencije.getReports().addOtherInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
-                System.out.println("SAve first step");
+                System.out.println("SAve other step");
             }
         }
     }
@@ -950,9 +1012,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-
                 Object item = parentView.getItemAtPosition(position);
-                System.out.println("SPINNER_size of fire " + item.toString());
+                System.out.println("SPINNER_size of fire: " + item.toString());
                 validate_USED_RESOURCES();
             }
 
@@ -1061,8 +1122,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             clockText = clockNumber.getText().toString();
             Fireman_patrol patrol = Fireman_patrol.getPatrolByName(spinnerFiremanPatrol.getSelectedItem().toString());
             Truck truck = patrol.getTruckByName(spinnerVehicle.getSelectedItem().toString());
-
-
+            sumFireman += Integer.parseInt(numberOfFiremansText);
+            co2Sum += Double.parseDouble(co2Text);
+            powderSum += Double.parseDouble(powderText);
+            foamSum += Double.parseDouble(foamText);
             // insert in database
             intervencije.getReports().addFiremanPatrolandTruck(Integer.parseInt(numberOfFiremansText),
                     Double.parseDouble(waterText),
@@ -1074,7 +1137,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             );
         }
 
-        System.out.println("SAVE USED RESOURCE " + intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName());
+        System.out.println("SAVE USED RESOURCE:  " + intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName());
     }
 
     private void addNewUsedResources(final Button prvi, final Button noviB, final LinearLayout ll, final View myView) {
@@ -1185,17 +1248,22 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
 
     private boolean validate_OWNER_AND_MATERIAL_COST() {
+        System.out.println("ušao u VALIDATE owner and cost - save");
         boolean isCorrect = false;
         String surface = surfaceNumber.getText().toString();
         String superficies = superficiesNumber.getText().toString();
 
         if (surface.length() > 0 && superficies.length() > 0) {
             isCorrect = true;
-            verticalStepperForm.setActiveStepAsCompleted();
+            System.out.println("surface number: " + surface + "savee");
+            System.out.println("superficies: " + superficies);
 
+            verticalStepperForm.setActiveStepAsCompleted();
         } else {
             String titleErrorString = "Potrebno je upisati površinu objekata i vanjskog prostora!";
             verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
+            System.out.println("surface number: " + surface + "savee");
+            System.out.println("superficies: " + superficies + "savee");
         }
 
         return isCorrect;
@@ -1203,13 +1271,18 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     private void save_OWNER_AND_MATERIAL_COST() {
         if (validate_OWNER_AND_MATERIAL_COST()) {
+            System.out.println("ušao u SAVE owner and cost - save");
 
             String surface = surfaceNumber.getText().toString();
             String superficies = superficiesNumber.getText().toString();
+
             // insert in database
             intervencije.addObjectSuperficies_ha(Double.parseDouble(superficies));
             intervencije.addObjectSurface_m2(Double.parseDouble(surface));
         }
+
+        System.out.println("ovner cost saved ");
+
     }
 
     private View createInterventionCostStep() {
@@ -1458,11 +1531,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             double insurance = Double.valueOf(insuranceVehicleNumber.getText().toString());
             double apsorbent = Double.valueOf(apsorbentVehicleNumber.getText().toString());
 
-            intervencije.getReports().addConsumption(apsorbent,automaticLadder,Double.parseDouble(co2Text),commandVehicle,
-                    0, //id2
-                     0,//fire_extinguisher
-                     0, //fire_fighter
-                    Double.parseDouble(foamText),
+            intervencije.getReports().addConsumption(apsorbent,automaticLadder,co2Sum,commandVehicle,
+                  //  0, id2
+                     powderSum,//fire_extinguisher
+                     sumFireman, //fire_fighter
+                    foamSum,
                     insurance, navalVehicle, powerPump, roadTanker,specialVehicle,technicalVehicle,transportVehicle);
             intervencije.getReports().getConsumption().save();
             intervencije.getReports().save();
@@ -1589,7 +1662,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
           return mehanizationContent;
       }
-  */
+
     private void addMoreMehanization(final Button b, final View myView, final LinearLayout ll) {
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -1617,7 +1690,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         addMoreMehanization(b, myView, ll);
     }
-
+*/
 
     private SpinnerAdapter getTruckAdapter() {
         List<String> truckAll = new ArrayList<String>();
