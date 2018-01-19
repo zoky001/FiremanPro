@@ -25,43 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/naslov"
-            android:text="VATROGASNA POSTROJBA DVA-A KRIŽOVLJAN CESTICA"
-            android:textSize="16dp"
+            android:textSize="18dp"
             android:textAlignment="center"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"/>
+
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dojavnica_broj"
-            android:text="Dojavnica broj: "
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            style="@style/reportText"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/dojavnica_br"
-                android:text="______________________"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="8dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/intervencija_broj"
-            android:text="Intervencija broj: "
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            style="@style/reportText"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/intervencija_br"
-                android:text="______________________"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="8dp"/>
+            android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

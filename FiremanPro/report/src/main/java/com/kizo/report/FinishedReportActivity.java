@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.project.test.database.Entities.Reports;
+import com.project.test.database.Entities.Settings;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.report.Intervention_track;
@@ -45,8 +46,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     Toolbar toolbar;
     Intervention_track intervention;
 
-    public TextView brDojavnica;
-    public TextView brIntervencija;
+    public TextView naslov;
     public TextView obavijestPrimljena;
     public TextView izlazNaInt;
     public TextView dolazakNaInt;
@@ -120,8 +120,8 @@ public class FinishedReportActivity extends AppCompatActivity {
      *
      */
     private void bindTextView() {
-        brDojavnica = (TextView) findViewById(R.id.dojavnica_br);
-        brIntervencija = (TextView) findViewById(R.id.intervencija_br);
+
+        naslov = (TextView) findViewById(R.id.naslov);
         obavijestPrimljena = (TextView) findViewById(R.id.obav_dat_time);
         izlazNaInt = (TextView) findViewById(R.id.izlaz_dat_time);
         dolazakNaInt = (TextView) findViewById(R.id.dolazak_dat_time);
@@ -167,6 +167,7 @@ public class FinishedReportActivity extends AppCompatActivity {
      *
      */
     private void fillWithData() {
+        naslov.setText(Settings.getSettings().getPatrolName().toString());
         obavijestPrimljena.setText(intervention.getReports().getTime_call_received().toString());
         izlazNaInt.setText(intervention.getReports().getTime_intervention_start().toString());
         dolazakNaInt.setText(intervention.getReports().getTime_arrival_intervention().toString());
@@ -192,8 +193,8 @@ public class FinishedReportActivity extends AppCompatActivity {
 
         for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
             snage.add(num + "\n" +
-                    p.getFireman_patrol().getType_of_unit().getName().toString() + " "
-                            + p.getFireman_patrol().getName().toString() +
+                    "Vrsta jedinice: " + p.getFireman_patrol().getType_of_unit().getName().toString() +
+                    "\n" + p.getFireman_patrol().getName().toString() +
                     "\nVozilo (vrsta i broj): " + p.getTruck().getName().toString() +
                     "\nPrijeđeno km: "+ p.getKm() +
                     "\nUtrošeno sati: " + p.getHours() +
