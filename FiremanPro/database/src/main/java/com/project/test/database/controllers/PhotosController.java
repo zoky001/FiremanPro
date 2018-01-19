@@ -39,12 +39,14 @@ public class PhotosController {
         return imageresource;
     }
 
-    public List<Photos> GetAllRecordsFromTable(){
+    public static List<Photos> GetAllRecordsFromTable(){
 
         return SQLite.select().from(Photos.class).queryList();
 
 
     }
+
+
     public void DeleteAllRecordsInTable(){
 
         final List<Photos> gndPlan = GetAllRecordsFromTable();

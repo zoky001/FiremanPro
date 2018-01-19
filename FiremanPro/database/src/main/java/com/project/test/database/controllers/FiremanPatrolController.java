@@ -65,7 +65,7 @@ return fireman_patrol;
 
 
 
-    public List<Fireman_patrol> GetAllRecordsFromTable(){
+    public static List<Fireman_patrol> GetAllRecordsFromTable(){
 
         return SQLite.select().from(Fireman_patrol.class).queryList();
 

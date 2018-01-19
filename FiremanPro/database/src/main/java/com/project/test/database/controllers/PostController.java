@@ -26,7 +26,7 @@ public class PostController {
     return post;
 }
 
-    public List<Post> GetAllRecordsFromTable(){
+    public static List<Post> GetAllRecordsFromTable(){
 
         return SQLite.select().from(Post.class).queryList();
 

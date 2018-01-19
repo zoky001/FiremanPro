@@ -68,7 +68,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements DataLoadedListener, NavigationView.OnNavigationItemSelectedListener {
 
 
-    MockData mockData;
+    MockData mockData;//= new MockData();
 
     //Test list used by autocompleteTextVie adapter
 
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         setContentView(R.layout.activity_main);
         //DBflow connect to database
         FlowManager.init(new FlowConfig.Builder(this).build());
-
-
+        mockData= new MockData();
+mockData.printAll();
         ButterKnife.bind(this);
 
 

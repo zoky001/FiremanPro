@@ -70,7 +70,7 @@ private Photos addNewPhotoName(String name, String locationname,String url){
     return photosController.addNewPhotoName(name,locationname,url);
 }
 
-    public List<House_photos> GetAllRecordsFromTable(){
+    public static List<House_photos> GetAllRecordsFromTable(){
 
         return SQLite.select().from(House_photos.class).queryList();
 

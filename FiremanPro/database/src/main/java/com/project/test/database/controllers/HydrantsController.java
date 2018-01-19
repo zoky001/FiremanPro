@@ -38,7 +38,7 @@ public class HydrantsController {
     }
 
 
-    public List<Hydrants> GetAllRecordsFromTableHydrants() {
+    public static List<Hydrants> GetAllRecordsFromTableHydrants() {
 
         return SQLite.select().from(Hydrants.class).queryList();
     }

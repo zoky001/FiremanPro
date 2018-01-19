@@ -65,13 +65,18 @@ private void check(){
         return groundPlan;
     }
 
-    public List<PhotoType> GetAllRecordsFromTable(){
+    public  List<PhotoType> GetAllRecordsFromTable(){
 check();
         System.out.print("GET ALL RECORDS PHOTO TIPE: " + SQLite.select().from(PhotoType.class).queryList().size());
         return SQLite.select().from(PhotoType.class).queryList();
 
 
     }
+
+    public static List<PhotoType> GetAllRecordsFromTable_Static(){
+        return SQLite.select().from(PhotoType.class).queryList();
+    }
+
     public void DeleteAllRecordsInTable(){
 
         final List<PhotoType> gndPlan = GetAllRecordsFromTable();
