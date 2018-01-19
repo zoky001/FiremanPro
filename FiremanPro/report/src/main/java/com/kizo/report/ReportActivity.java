@@ -28,7 +28,6 @@ public class ReportActivity extends AppCompatActivity implements ITabFragment,
     public static final int NEW_ALARM = 1;
 FloatingActionButton fab;
     Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
