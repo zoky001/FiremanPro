@@ -1,2 +1,1 @@
-include ':app', ':database', ':ground_plan', ':web_services', ':core_module',':report'
-
+include ':app', ':database', ':ground_plan', ':core_module', ':report', ':apache_poi'
