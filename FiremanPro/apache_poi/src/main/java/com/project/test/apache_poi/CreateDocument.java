@@ -1,6 +1,7 @@
 package com.project.test.apache_poi;
 
 
+import android.content.res.AssetManager;
 import android.os.Environment;
 
 import org.apache.poi.common.usermodel.HyperlinkType;
@@ -19,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-
+import android.content.res.AssetManager;
 
 public class CreateDocument {
 
@@ -31,10 +32,12 @@ public class CreateDocument {
         String content = "hello world";
         File file;
         FileOutputStream outputStream;
+        
         try {
 
-            file = new File(Environment.getExternalStorageDirectory(), "MyCache.docx");
-            FileOutputStream out = new FileOutputStream( file);
+            file = new File(Environment.getExternalStorageDirectory(), "AAAA.docx");
+
+            FileOutputStream out = new FileOutputStream(file);
            document.write(out);
         } catch (IOException e) {
             e.printStackTrace();
