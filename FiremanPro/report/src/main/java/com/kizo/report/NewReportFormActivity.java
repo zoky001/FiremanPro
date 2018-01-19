@@ -155,7 +155,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     // selected sort
     String selectedSort;
-
+    TextView notFire;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -409,9 +409,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("Selected sort u dijelu createFireSTep: " + selectedSort + " SAVEEE ");
 
 
-        if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName()) ) {
-            TextView notFire = (TextView) fireContent.findViewById(R.id.nijeFire);
-            notFire.setText("Reli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
+        if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) && spinnerSort.getSelectedItem().toString() != null  ) {
+            notFire = (TextView) fireContent.findViewById(R.id.nijeFire);
+           // notFire.setText("Rekli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
         }
 
         /*
@@ -438,7 +438,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
 
-        if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName().toString())){
+        if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) && selectedSort != null){
             verticalStepperForm.setStepAsCompleted(FIRE_STEP_NUM);
         }
         else {
@@ -676,7 +676,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 System.out.println("SPINNER: " + item.toString() + ", a selectedSort je " + selectedSort);
 
 
-                if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+                if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
                     System.out.println("SAVE: preskočili smo požar dio " + types_all_controller.get_FIRE_Sort_of_intervention().getName().toString() + types_all_controller.get_FIRE_Sort_of_intervention().getName().toString().length() +  " selected sort= " + selectedSort);
                     repeatedSpinner.setEnabled(false);
                     sizeOfFire.setEnabled(false);
@@ -686,12 +686,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     outdoorSpread.setEnabled(false);
                     destroyedSpace.setEnabled(false);
                     System.out.println("SelectedSort prvi prolaz je: " + selectedSort);
+                    notFire.setText("Rekli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
                     verticalStepperForm.setActiveStepAsCompleted();
                 }
 
                 if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())){
                     System.out.println("SAVE: je fireee");
-
+                    notFire.setText(" ");
                     repeatedSpinner.setEnabled(true);
                     sizeOfFire.setEnabled(true);
                     spatialSpread.setEnabled(true);
@@ -1745,7 +1746,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                 } else {
-
                     String selectedItemText = (String) parent.getItemAtPosition(position);
 
                     sviOdabranivatrogasci += selectedItemText + "\n";
@@ -1761,7 +1761,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                             firemans_id_selected) {
                         System.out.println("SELECTED: " + Fireman.getFiremanbyID(id_fir).getName());
                     }
-
                 }
                 brojac++;
             }
