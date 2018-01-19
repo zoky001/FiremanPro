@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
 import com.bumptech.glide.Glide;
 import com.kizo.ground_plan.R;
 import com.kizo.ground_plan.Tab.model.ImageBean;
 import com.kizo.ground_plan.Tab.utils.TouchImageView;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 

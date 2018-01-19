@@ -14,6 +14,13 @@ import com.kizo.ground_plan.Tab.model.ImageBean;
 
 import java.util.ArrayList;
 
+/**
+ * Aktivnost prikazuje odabranu sliku u Full Screen modu.
+ *
+ * Omogućuje zoomiranje, rotaciju i listanje slike (lijevo -> prethodna) (desno -> sljedeća)
+ *
+ * @author Zoran Hrnčić
+ */
 public class FullScreenActivity extends AppCompatActivity {
 
     ImageBean imageBean;

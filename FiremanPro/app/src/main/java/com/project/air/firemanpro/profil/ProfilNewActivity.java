@@ -18,6 +18,16 @@ import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
+
+/**
+ * Aktivnost  koja sadržava prikazivanje tabova.
+ * <p>
+ * Svaki tab opisuje neke informacije o odabranoj kući.
+ * <p>
+ * Prilikom kreiranja potrebno je prosljediti id koristeći Bundle, "EXTRA_SESSION_ID" = id odabrane kuce
+ *
+ * @author Zoran Hrnčić
+ */
 public class ProfilNewActivity extends AppCompatActivity {
 
     House house;
@@ -41,40 +51,30 @@ public class ProfilNewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_new);
-
-
-        int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
-        if (a != -1) {
-
-            house = HouseController.getHouse(a);
-
-        } else if (a == -1) {
-            house = HouseController.getFirstHouse();
-        } else {
-            house = HouseController.getFirstHouse();
-        }
-
-//add tab items with title..
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //set title (owner name )on toolbar
-        setTitleOnToolbar(house.getSurname_owner() + " " + house.getName_owner() + " - " + house.getPlaceName());
+        try {
+            int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
+            house = HouseController.getHouse(a);
+            //set title (owner name )on toolbar
+            setTitleOnToolbar(house.getSurname_owner() + " " + house.getName_owner() + " - " + house.getPlaceName());
 
 
-        // Create the adapter that will return a currrentDisplayedFragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            // Create the adapter that will return a currrentDisplayedFragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
 
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
+        }
 
     }
 
@@ -102,6 +102,12 @@ public class ProfilNewActivity extends AppCompatActivity {
 
         Fragment currrentDisplayedFragment;
 
+        /**
+         * Za svaki odabrani tab (1, 2 ili 3) klikom na oznaku taba on se učitava u fragemnt frame.
+         *
+         * @param position
+         * @return
+         */
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
@@ -114,30 +120,21 @@ public class ProfilNewActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     tabFragment = new TabProfil();
-
-
                     tabFragment.setArguments(bundle); //pass ID House
-
                     break;
-
 
                 case 1:
                     tabFragment = new TabPodaci();
-
-
                     tabFragment.setArguments(bundle);
                     break;
-                case 2:
 
+                case 2:
                     tabFragment = new TabTlocrt();
                     tabFragment.setArguments(bundle);
-
                     break;
 
                 default:
                     tabFragment = new TabProfil();
-
-
                     tabFragment.setArguments(bundle); //pass ID House
                     break;
             }
@@ -154,6 +151,12 @@ public class ProfilNewActivity extends AppCompatActivity {
             return 3;
         }
 
+        /**
+         * postavljanje naziva taba na gumb za odabir tab-a
+         *
+         * @param position
+         * @return
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -168,12 +171,22 @@ public class ProfilNewActivity extends AppCompatActivity {
         }
 
 
+        /**
+         * Fragment dobiven kroz interface se pohranjeuje u currrentDisplayedFragment koji se kasnije učitava u fragment frame.
+         *
+         * @param f fragment jednog tab-a
+         */
         @Override
         public void getFragment(Fragment f) {
             currrentDisplayedFragment = f;
         }
     }
 
+    /**
+     * postavljanje naslova na toolbar
+     *
+     * @param title naziv koji se postavlja na toolbar
+     */
     private void setTitleOnToolbar(String title) {
         //set title (owner name )on toolbar
         getSupportActionBar().setTitle(title); //set title on toolbar

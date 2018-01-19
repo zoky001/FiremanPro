@@ -13,7 +13,15 @@ import com.project.test.database.Entities.report.Intervention_track;
 import java.util.List;
 
 /**
+ *
+ * Adapter za priakzivanje intervencija u obliku liste.
+ *
+ * Svaki element liste je jedna kartica koja sadrži sliku kuće na kojoj je bila inezrvencija, te nekoliko osnovnih podataka.
+ *
+ * <p>
  * Created by Zoran on 27.11.2017..
+ * </p>
+ * @author Zoran Hrnčić
  */
 
 public class SavedReportRecyclerAdapter extends RecyclerView.Adapter<SavedReportHolder> {
@@ -23,19 +31,12 @@ public class SavedReportRecyclerAdapter extends RecyclerView.Adapter<SavedReport
 
     public SavedReportRecyclerAdapter(List<Intervention_track> parentList) {
         this.reports = parentList;
-
-        System.out.println("PlanAdapter - Construktor: ");
     }
-
-
 
     @Override
     public SavedReportHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View houseView = LayoutInflater.from(parent.getContext()).inflate(R.layout.saved_reports_list_item, parent, false);
-        System.out.println("PlanViewHolder onCreateViewHolder: ");
         return new SavedReportHolder(houseView);
-
     }
 
     @Override
