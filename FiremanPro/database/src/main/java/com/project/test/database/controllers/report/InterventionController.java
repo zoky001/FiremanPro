@@ -134,6 +134,25 @@ public class InterventionController {
     }
 
     /**
+     * brisanje zapisa intervencije, u bazi podataka, prema prosljeđenom ID-u
+     *
+     * @param id id intervencije koju želimo obrisati
+     *
+     * @return
+     */
+    public static boolean deleteInterventionWithID(int id)
+    {
+        try {
+            return getInterventionByID(id).delete();
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+
+
+
+    /**
      * Dohvaća iz baze podataka sve zapise kreiranih intervencija.
      *
      * @return lista svih intervencija

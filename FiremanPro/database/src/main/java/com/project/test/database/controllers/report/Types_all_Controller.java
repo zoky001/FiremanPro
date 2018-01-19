@@ -205,14 +205,12 @@ public class Types_all_Controller {
 // Type_of_unit END
 
     // Type_of_truck BEGIN
-
     /**
      *
      * @return objekt tipa "navalno vozilo"
      */
     public Type_of_truck get_naval_vehicle_type_of_truck() {
         List<Type_of_truck> type = SQLite.select().from(Type_of_truck.class).where(Type_of_truck_Table.type_name.is("NAVAL_VEHICLE")).queryList();
-
 
         if (type.size() < 1) { // provjera dali postoje upisani tipovi
             Type_of_truck type_of_truck = new Type_of_truck(100, "NAVAL VEHICLE", CurrentDate, CurrentDate);
@@ -221,7 +219,6 @@ public class Types_all_Controller {
         } else {
             return type.get(0);
         }
-
     }
 
     /**
@@ -498,12 +495,13 @@ public class Types_all_Controller {
     }
 
 
-    public Sort_of_intervention get_FIRE_Sort_of_intervention() {
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("FIRE_INTERVENTION")).queryList();
+
+    public Sort_of_intervention get_FIRE_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("Požar")).queryList();
 
 
-        if (type.size() < 1) { // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100, "FIRE INTERVENTION", "", CurrentDate, CurrentDate);
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+        Sort_of_intervention sort_of_intervention = new Sort_of_intervention(100,"Požar","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         } else {
@@ -513,12 +511,11 @@ public class Types_all_Controller {
     }
 
 
-    public Sort_of_intervention get_TRHNICAL_Sort_of_intervention() {
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("TEHNICAL_INTERVENTION")).queryList();
 
-
-        if (type.size() < 1) { // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101, "TEHNICAL INTERVENTION", "", CurrentDate, CurrentDate);
+    public Sort_of_intervention get_TRHNICAL_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("Tehnička intervencija")).queryList();
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(101,"Tehnička intervencija","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         } else {
@@ -527,12 +524,12 @@ public class Types_all_Controller {
 
     }
 
-    public Sort_of_intervention get_OTHER_Sort_of_intervention() {
-        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("OTHER_INTERVENTION")).queryList();
+    public Sort_of_intervention get_OTHER_Sort_of_intervention(){
+        List<Sort_of_intervention> type = SQLite.select().from(Sort_of_intervention.class).where(Sort_of_intervention_Table.name.is("Ostalo")).queryList();
 
 
-        if (type.size() < 1) { // provjera dali postoje upisani tipovi
-            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(102, "OTHER INTERVENTION", "", CurrentDate, CurrentDate);
+        if (type.size() < 1){ // provjera dali postoje upisani tipovi
+            Sort_of_intervention sort_of_intervention = new Sort_of_intervention(102,"Ostalo","",CurrentDate,CurrentDate);
             sort_of_intervention.save();
             return sort_of_intervention;
         } else {

@@ -1,7 +1,9 @@
 package com.kizo.report.holder;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.kizo.report.R;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.controllers.report.InterventionController;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,7 +33,6 @@ import butterknife.OnClick;
  *
  * @author Zoran Hrnčić
  */
-
 public class SavedReportHolder extends ParentViewHolder {
 
     public TextView mStoreName;
@@ -44,7 +46,7 @@ public class SavedReportHolder extends ParentViewHolder {
     View mItemView;
 
     // constructor binds the ButterKnife library and makes itemView available locally
-    public SavedReportHolder(View itemView) {
+    public SavedReportHolder(final View itemView) {
         super(itemView);
 
         try {
@@ -60,9 +62,54 @@ public class SavedReportHolder extends ParentViewHolder {
 
                 @Override
                 public void onClick(View v) {
+                    System.out.println("clickOnItem() _ ID: " + ID.getText());
                     Intent intent = new Intent(v.getContext(), FinishedReportActivity.class);
                     intent.putExtra("EXTRA_SESSION_ID", ID.getText());
                     v.getContext().startActivity(intent);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
+                    builder1.setMessage("Jeste li sigurni da želite obrisati zapisnik intervencije? ");
+                    builder1.setCancelable(true);
+
+
+                    builder1.setPositiveButton(
+                            "Da",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    if (InterventionController.deleteInterventionWithID(Integer.valueOf(ID.getText().toString()))) {
+                                        itemView.setVisibility(View.INVISIBLE);
+                                    }
+
+
+                                    dialog.cancel();
+
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "Ne",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+
+                                    dialog.cancel();
+
+                                }
+                            });
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+
+                    return false;
                 }
             });
 
@@ -78,7 +125,6 @@ public class SavedReportHolder extends ParentViewHolder {
     // when the adapter is implemented this method is used to bind list elements with the recycler-view, here, we populate the Views
     public void bind(Intervention_track intervention_track, int position) {
 
-
         this.position = position;
 
 
@@ -88,13 +134,23 @@ public class SavedReportHolder extends ParentViewHolder {
             //unfinished intervention cad has red background
             cardView.setCardBackgroundColor(Color.parseColor("#DEE93C"));
         }
-        interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName() + " - " +
-                intervention_track.getReports().getFireInterventionDetails().getIntervention_type().getName());
-        mStoreDescription.setText(intervention_track.getReports().getDescription());
-        mStoreName.setText(intervention_track.getLocation().getStreetNameIfExist() + " " + intervention_track.getLocation().getStreetNumber());
-        mStoreImage.setImageBitmap(intervention_track.getHouse().getProfilPhotos().getImageBitmapbyContext(itemView.getContext()));
-        // Picasso.with(itemView.getContext()).load(store.getImgUrl()).into(mStoreImage);
+
+
         ID.setText(String.valueOf(intervention_track.getId_intervention_track()));
+
+        try {
+            interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName() + " - " +
+                    intervention_track.getReports().getFireInterventionDetails().getIntervention_type().getName());
+            mStoreDescription.setText(intervention_track.getReports().getDescription());
+            mStoreName.setText(intervention_track.getLocation().getStreetNameIfExist() + " " + intervention_track.getLocation().getStreetNumber());
+            mStoreImage.setImageBitmap(intervention_track.getHouse().getProfilPhotos().getImageBitmapbyContext(itemView.getContext()));
+
+
+        } catch (Exception e) {
+
+            System.out.println("EXCEPTION: " + e.getMessage());
+        }
+
     }
 
 

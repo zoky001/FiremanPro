@@ -247,7 +247,6 @@ public class Intervention_track extends BaseModel {
     public void addObjectSurface_m2(double surface) {
         this.reports.setSurface_m2(surface);
         this.reports.save();
-
     }
 
     public void addObjectSuperficies_ha(double surface) {
