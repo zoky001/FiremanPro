@@ -409,10 +409,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("Selected sort u dijelu createFireSTep: " + selectedSort + " SAVEEE ");
 
 
-        if(selectedSort != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString() ) {
+        if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName()) ) {
             TextView notFire = (TextView) fireContent.findViewById(R.id.nijeFire);
             notFire.setText("Reli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
         }
+
         /*
             System.out.println("SAVE: preskočili smo požar dio");
             repeatedSpinner.setEnabled(false);
@@ -437,7 +438,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
 
-        if(spinnerSort.toString() != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()){
+        if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName().toString())){
             verticalStepperForm.setStepAsCompleted(FIRE_STEP_NUM);
         }
         else {
@@ -674,8 +675,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 selectedSort = item.toString();
                 System.out.println("SPINNER: " + item.toString() + ", a selectedSort je " + selectedSort);
 
-                if(selectedSort != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) {
-                    System.out.println("SAVE: preskočili smo požar dio");
+
+                if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+                    System.out.println("SAVE: preskočili smo požar dio " + types_all_controller.get_FIRE_Sort_of_intervention().getName().toString() + types_all_controller.get_FIRE_Sort_of_intervention().getName().toString().length() +  " selected sort= " + selectedSort);
                     repeatedSpinner.setEnabled(false);
                     sizeOfFire.setEnabled(false);
                     spatialSpread.setEnabled(false);
@@ -685,7 +687,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     destroyedSpace.setEnabled(false);
                     System.out.println("SelectedSort prvi prolaz je: " + selectedSort);
                     verticalStepperForm.setActiveStepAsCompleted();
-                    /*
+                }
+
+                if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())){
+                    System.out.println("SAVE: je fireee");
+
                     repeatedSpinner.setEnabled(true);
                     sizeOfFire.setEnabled(true);
                     spatialSpread.setEnabled(true);
@@ -693,7 +699,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     smokeSpread.setEnabled(true);
                     outdoorSpread.setEnabled(true);
                     destroyedSpace.setEnabled(true);
-                    */
                 }
 
                 spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
