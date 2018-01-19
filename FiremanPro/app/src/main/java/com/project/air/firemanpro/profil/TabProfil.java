@@ -1,5 +1,7 @@
 package com.project.air.firemanpro.profil;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
@@ -7,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,17 +183,72 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
-
     @OnClick(R.id.btn_new_report)
     public void newReport(View view) {
+
+        String buttonText = btnNewReport.getText().toString();
+        Log.d("tekst", buttonText);
+        String callRecievedText = "Poziv zaprimljen";
+        String interventionStartedText = "Započeti intervenciju";
+        String interventionArrivalText = "Dolazak na mjesto";
+        String interventionEndedText = "Kraj Intervencije";
+        String startReport = "Kreiraj izvještaj";
         Intervention_track intervencija;
-        if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
+        if (buttonText.toLowerCase().trim().equals(callRecievedText.toLowerCase().trim())) {
+            if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
+
+                intervencija = interventionController.addNewIntervention_atHouse(house);
+
+
+                intervencija.add_FIRE_ReportToIntervention();
+                intervencija.callReceived();
+
+
+                Log.d("banana", "zaprimljen");
+                btnNewReport.setText(interventionStartedText);
+
+            }
+        }
+
+            if (buttonText.toLowerCase().trim().equals(interventionStartedText.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+                Log.d("banana", "zapocet");
+                btnNewReport.setText(interventionArrivalText);
+                intervencija.intervetionStarted();
+
+            }
+            if (buttonText.toLowerCase().trim().equals(interventionArrivalText.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+                Log.d("banana", "kraj");
+                btnNewReport.setText(interventionEndedText);
+                intervencija.intervetionArrival();
+            }
+            if (buttonText.toLowerCase().trim().equals(interventionEndedText.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+                Log.d("banana", "kreiraj izvjestaj");
+                btnNewReport.setText(startReport);
+                intervencija.intervetionEnded();
+
+            }
+            if (buttonText.toLowerCase().trim().equals(startReport.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+                Log.d("banana", "pisi u izvjestaj");
+                btnNewReport.setText(startReport);
+                Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
+                intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
+                startActivityForResult(intent, NEW_ALARM);
+
+            }
+
+   /*    Intervention_track intervencija;
+        if(!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
+
             intervencija = interventionController.addNewIntervention_atHouse(house);
 
 
             intervencija.add_FIRE_ReportToIntervention();
 
-            intervencija.callReceived();
+          //  intervencija.callReceived();
             intervencija.intervetionStarted();
             intervencija.intervetionArrival();
             intervencija.intervetionEnded();
@@ -197,12 +257,11 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         } else
             intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
 
-
         Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
         intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
-        startActivityForResult(intent, NEW_ALARM);
+        startActivityForResult(intent, NEW_ALARM); */
 
-    }
+        }
 
 
     @Override
@@ -210,4 +269,32 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
