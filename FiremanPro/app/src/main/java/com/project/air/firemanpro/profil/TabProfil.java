@@ -133,6 +133,11 @@ public class TabProfil extends TabFragment {
         txtTel.setText(house.getTelNumber());
 
         return rootView;
+
+
+
+
+
     }
 
 
@@ -165,6 +170,41 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
                 .beginTransaction()
                 .replace(R.id.map_container, mapFragment)
                 .commit();
+
+
+
+        Intervention_track intervencija;
+        boolean nekaj=interventionController.checkIfExistUnfinishedInterventionAtHouse(house);
+        if (nekaj) {
+
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+            String a, b, c, d;
+            if(intervencija.getReports().getTime_call_received()!=null)
+            {
+                btnNewReport.setText("Započeti intervenciju");
+            }
+            if(intervencija.getReports().getTime_intervention_start()!=null)
+            {
+                btnNewReport.setText("Dolazak na mjesto");
+            }
+            if(intervencija.getReports().getTime_arrival_intervention()!=null)
+            {
+                btnNewReport.setText("Kraj Intervencije");
+
+            }
+            if(intervencija.getReports().getTime_intervention_ended()!=null)
+            {
+                btnNewReport.setText("Kreiraj izvještaj");
+            }
+
+        }
+        else{
+            btnNewReport.setText("Poziv zaprimljen");
+        }
+
+
+
+
     }
 
 
@@ -197,7 +237,7 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
     public void newReport(View view) {
 
         String buttonText = btnNewReport.getText().toString();
-        Log.d("tekst", buttonText);
+
         String callRecievedText = "Poziv zaprimljen";
         String interventionStartedText = "Započeti intervenciju";
         String interventionArrivalText = "Dolazak na mjesto";
@@ -214,7 +254,7 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
                 intervencija.callReceived();
 
 
-                Log.d("banana", "zaprimljen");
+
                 btnNewReport.setText(interventionStartedText);
 
             }
@@ -222,28 +262,28 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
 
             if (buttonText.toLowerCase().trim().equals(interventionStartedText.toLowerCase().trim())) {
                 intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-                Log.d("banana", "zapocet");
+
                 btnNewReport.setText(interventionArrivalText);
                 intervencija.intervetionStarted();
 
             }
             if (buttonText.toLowerCase().trim().equals(interventionArrivalText.toLowerCase().trim())) {
                 intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-                Log.d("banana", "kraj");
+
                 btnNewReport.setText(interventionEndedText);
                 intervencija.intervetionArrival();
             }
             if (buttonText.toLowerCase().trim().equals(interventionEndedText.toLowerCase().trim())) {
                 intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-                Log.d("banana", "kreiraj izvjestaj");
+
                 btnNewReport.setText(startReport);
                 intervencija.intervetionEnded();
 
             }
             if (buttonText.toLowerCase().trim().equals(startReport.toLowerCase().trim())) {
                 intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-                Log.d("banana", "pisi u izvjestaj");
-                btnNewReport.setText(startReport);
+
+                btnNewReport.setText(callRecievedText);
                 Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
                 intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
                 startActivityForResult(intent, NEW_ALARM);
