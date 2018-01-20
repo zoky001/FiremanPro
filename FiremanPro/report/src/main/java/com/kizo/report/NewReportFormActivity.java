@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.project.test.apache_poi.CreateDocument;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
@@ -47,8 +50,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.fragments.BackConfirmationFragment;
@@ -146,12 +152,22 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     String co2Text;
     String numberOfFiremansText;
     String clockText;
+    List<String> list3 = new ArrayList<String>();
+    List<String> list2 = new ArrayList<String>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_stepper_report_form);
+
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+
+
+
+
 
 
         try {
@@ -165,7 +181,19 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         System.out.println("SESSION FRAGMENT_idkuce: " + intervencije.getHouse().getName_owner());
         initializeActivity();
-    }
+
+        fillList2WithValues();
+        CreateDocument document = new CreateDocument();
+        list3.add("A");
+        list3.add("B");
+        try {
+
+            document.a(this,list3,list2);
+
+        }catch (Exception e) {
+        }
+
+        }
 
     private void initializeActivity() {
         // Vertical Stepper form vars
@@ -265,7 +293,18 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case END_NUM:
+                fillList2WithValues();
+                CreateDocument document = new CreateDocument();
+                try {
+
+                    document.a(this,list3,list2);
+
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+
                 sendMail();
+
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
         }
@@ -694,18 +733,24 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 intervencije.setThisInterventionAsFire();
                 intervencije.getReports().addFireIntervention(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
                 System.out.println("SAve first step");
+                list3.add(types_all_controller.get_FIRE_Sort_of_intervention().getName());
+                list3.add(spinnerType.getSelectedItem().toString());
             }
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
 
                 intervencije.setThisInterventionAsTehnical();
                 intervencije.getReports().addTehnicalInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
                 System.out.println("SAve first step");
+                list3.add(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName());
+                list3.add(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()).toString());
             }
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
 
                 intervencije.setThisInterventionAsOther();
                 intervencije.getReports().addOtherInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
                 System.out.println("SAve first step");
+                list3.add(types_all_controller.get_OTHER_Sort_of_intervention().getName());
+                list3.add(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()).toString());
             }
         }
     }
@@ -1878,5 +1923,41 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    public void fillList2WithValues(){
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:SS");
+        String date_call = DATE_FORMAT.format(intervencije.getReports().getTime_call_received());
+        String time_call = TIME_FORMAT.format(intervencije.getReports().getTime_call_received());
+        //Add date and time call
+        list2.add(date_call);
+        list2.add(time_call);
+        //Add intervention time and start
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_start()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_start()));
+
+
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
+
+        System.out.println(date_call.toString());
+        System.out.println(time_call.toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_call_received().toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_start().toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_arrival_intervention().toString());
+
+        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getLocalization().toString());
+        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getFireExtinguished().toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_ended().toString());
+    }
 
 }
