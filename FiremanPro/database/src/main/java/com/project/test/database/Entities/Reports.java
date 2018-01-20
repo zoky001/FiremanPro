@@ -111,7 +111,6 @@ public class Reports extends BaseModel {
 
 
 
-
     public Reports() {
     }
 
@@ -310,13 +309,14 @@ public class Reports extends BaseModel {
                                double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle){
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-        Consumption consumption = new Consumption( apsorbent,  automatic_ladder, co2, command_vehicle,  fire_extinguisher,fire_fighter,  foam,  // id2,
+        consumption = new Consumption( apsorbent,  automatic_ladder, co2, command_vehicle,  fire_extinguisher,fire_fighter,  foam,  // id2,
                   insurance,  navalVehicle,  powerPumpClock,  roadTankers,  specialVehicle,  tehnicalVehicle,  transportationVehicle, CurrentDate, CurrentDate);
 
         consumption.save();
 
         this.consumption = consumption;
     }
+
 
     public void addFireIntervention(Intervention_Type intervention_type){
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());

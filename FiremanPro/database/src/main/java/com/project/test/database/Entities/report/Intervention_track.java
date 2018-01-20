@@ -230,17 +230,16 @@ public class Intervention_track extends BaseModel {
     }
 
     public void addDescriptionOfIntervention(String opis){
-
         Reports r = this.getReports();
         r.setDescription(opis);
         r.save();
-
     }
 
     public void addObjectSurface_m2(double surface){
         this.reports.setSurface_m2(surface);
         this.reports.save();
     }
+
     public void addObjectSuperficies_ha(double surface){
         this.reports.setSuperficies_ha(surface);
         this.reports.save();
@@ -250,11 +249,13 @@ public class Intervention_track extends BaseModel {
     public void addHelpers (String helpers){
         this.reports.setHelp(helpers);
         this.reports.save();
+    }
 
+    public void deleteHelpers(String helpers){
 
     }
-    public void completeInterventionTrack(){
 
+    public void completeInterventionTrack(){
         this.completed_intervention = true;
         this.save();
     }
