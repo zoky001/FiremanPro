@@ -9,6 +9,8 @@ import com.project.test.database.Entities.fire_intervention.Tehnical_interventio
 import com.project.test.database.Entities.fire_intervention.Time_spread;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_Table;
+import com.project.test.database.Entities.fire_intervention.Tehnical_intervention;
+import com.project.test.database.Entities.fire_intervention.Tehnical_intervention_Table;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.fireman_patrol.Truck;
 import com.project.test.database.Entities.report.Consumption;
@@ -19,8 +21,10 @@ import com.project.test.database.Entities.report.Report_fireman;
 import com.project.test.database.Entities.report.Report_fireman_Table;
 import com.project.test.database.Entities.report.Report_truck_patrol;
 import com.project.test.database.Entities.report.Report_truck_patrol_Table;
+import com.project.test.database.Entities.report.Other_sort_intervention_Table;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.MainDatabase;
+import com.project.test.database.controllers.report.Types_all_Controller;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -384,6 +388,52 @@ public class Reports extends BaseModel {
 
 
         return house.get(0);
+    }
+
+    public Tehnical_intervention getTehnicalInterventionDetails(){
+        Types_all_Controller types_all_controller = new Types_all_Controller();
+
+        try{
+            if (getSort_of_intervention().getId() == types_all_controller.get_TRHNICAL_Sort_of_intervention().getId())
+            {
+                return  SQLite.select().from(Tehnical_intervention.class).where(Tehnical_intervention_Table.report_id.is(this.id)).queryList().get(0);
+            }
+            else {
+                return null;
+            }
+
+
+        }catch (Exception e){
+
+            System.out.println("EXCEPTION: " + e.getMessage());
+            return null;
+
+        }
+
+
+
+    }
+
+    public Other_sort_intervention getOtherInterventionDetails(){
+        Types_all_Controller types_all_controller = new Types_all_Controller();
+
+        try{
+            if (getSort_of_intervention().getId() == types_all_controller.get_OTHER_Sort_of_intervention().getId())
+            {
+                return  SQLite.select().from(Other_sort_intervention.class).where(Other_sort_intervention_Table.report_id.is(this.id)).queryList().get(0);
+            }
+            else {
+                return null;
+            }
+
+
+        }catch (Exception e){
+
+            System.out.println("EXCEPTION: " + e.getMessage());
+            return null;
+
+        }
+
     }
 
     public List<Report_truck_patrol> getTrucksAndPatrols(){

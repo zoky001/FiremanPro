@@ -23,8 +23,20 @@
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="8dp"
+            android:text="Javna vatrogasna postrojba"/>
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/naslov"
+            style="@style/reportText"
             android:textSize="18dp"
             android:textAlignment="center"
             android:layout_marginLeft="25dp"
