@@ -154,6 +154,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     String clockText;
     List<String> list3 = new ArrayList<String>();
     List<String> list2 = new ArrayList<String>();
+    List<String> list4 = new ArrayList<String>();
+    List<String> list5 = new ArrayList<String>();
+    List<String> list6 = new ArrayList<>();
 
 
     @Override
@@ -181,17 +184,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         System.out.println("SESSION FRAGMENT_idkuce: " + intervencije.getHouse().getName_owner());
         initializeActivity();
-
-        fillList2WithValues();
-        CreateDocument document = new CreateDocument();
-        list3.add("A");
-        list3.add("B");
-        try {
-
-            document.a(this,list3,list2);
-
-        }catch (Exception e) {
-        }
 
         }
 
@@ -293,11 +285,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
             case END_NUM:
+                fillList4WithValues();
                 fillList2WithValues();
+                fillList5WithValues();
                 CreateDocument document = new CreateDocument();
                 try {
 
-                    document.a(this,list3,list2);
+                    document.a(this,list3,list2,list4,list5);
 
                 }catch (Exception e){
                     System.out.println(e);
@@ -1958,6 +1952,41 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getLocalization().toString());
         System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getFireExtinguished().toString());
         System.out.println("Vremena"+intervencije.getReports().getTime_intervention_ended().toString());
+    }
+    public void fillList4WithValues(){
+        list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
+        list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
+        if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
+            list4.add("da");
+        }else list4.add("ne");
+        list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
+        list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
+        list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
+        list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
+
+        for (String a: list4
+             ) {
+            System.out.println("FIRE "+a);
+
+        }
+
+    }
+    public void fillList5WithValues(){
+        list5.add(intervencije.getLocation().getPost().getName().toString());
+        if (intervencije.getLocation().getPlaceNameIfExist().toString() != "") {
+            list5.add(intervencije.getLocation().getPlaceNameIfExist().toString());
+        }else {
+            list5.add("nema");
+        }
+        if (intervencije.getLocation().getStreetNameIfExist().toString() != "")
+        list5.add(intervencije.getLocation().getStreetNameIfExist().toString());
+        else {
+            list5.add("nema");
+        }
+        for (String a: list5
+             ) {
+             System.out.println("LOCATION "+a);
+        }
     }
 
 }

@@ -19,7 +19,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 public class CreateDocument {
 
-    public void a(Context context, List<String>values3 , List<String>values2)throws Exception  {
+    public void a(Context context, List<String>values3 , List<String>values2, List<String>values4, List<String> values5)throws Exception  {
 
         AssetManager am = context.getAssets();
 
@@ -30,6 +30,8 @@ public class CreateDocument {
             FileOutputStream out = new FileOutputStream(Environment.getExternalStorageDirectory()+ "/report.docx");
             replaceValuesInTable2(document,values2);
             replaceValuesInTable3(document,values3);
+            replaceValuesInTable4(document,values4);
+            replaceValuesInTable5(document,values5);
 
             document.write(out);
             document.close();
@@ -138,8 +140,64 @@ private void replaceValuesInTable3(XWPFDocument document, List<String>values){
         }
 
     }
+    private void replaceValuesInTable4(XWPFDocument document, List<String>values) {
+
+
+        XWPFTable tbl = document.getTables().get(3);
+        for (XWPFTableRow row : tbl.getRows()) {
+            for (XWPFTableCell cell : row.getTableCells()) {
+                for (XWPFParagraph p : cell.getParagraphs()) {
+                    for (XWPFRun r : p.getRuns()) {
+                        String text = r.getText(0);
+
+                        if (text != null && text.contains("Destroyed_space")) {
+                            System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
+                            text = text.replace("Destroyed_space", values.get(1));
+                            r.setText(text, 0);
+                        }
+
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    private void replaceValuesInTable5(XWPFDocument document, List<String>values) {
+
+
+        XWPFTable tbl = document.getTables().get(4);
+        for (XWPFTableRow row : tbl.getRows()) {
+            for (XWPFTableCell cell : row.getTableCells()) {
+                for (XWPFParagraph p : cell.getParagraphs()) {
+                    for (XWPFRun r : p.getRuns()) {
+                        String text = r.getText(0);
+
+                        if (text != null && text.contains("Location_city")) {
+
+                            text = text.replace("Location_city", values.get(0));
+                            r.setText(text, 0);
+                        }
+                        if (text != null && text.contains("Location_place")) {
+
+                            text = text.replace("Location_place", values.get(1));
+                            r.setText(text, 0);
+                        }
+                        if (text != null && text.contains("Location_street")) {
+
+                            text = text.replace("Location_street", values.get(2));
+                            r.setText(text, 0);
+                        }
+
+                    }
+                }
+            }
+
+
+        }
+    }
 
 
 
-
-}
+    }
