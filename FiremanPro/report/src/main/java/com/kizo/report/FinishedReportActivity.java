@@ -20,6 +20,7 @@ import com.project.test.database.Entities.Settings;
 import com.project.test.database.Entities.fireman_patrol.Costs;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
+import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Report_fireman;
 import com.project.test.database.Entities.report.Report_truck_patrol;
@@ -54,6 +55,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     Intervention_track intervention;
     Costs costs;
     Sort_of_intervention sort_of_intervention, sort_of_interventionTehn;
+    Type_of_truck type_of_truck_TRANS, type_of_truck_NAVAL;
 
     public TextView naslov;
     public TextView obavijestPrimljena;
@@ -127,6 +129,9 @@ public class FinishedReportActivity extends AppCompatActivity {
         Types_all_Controller types_all_controller = new Types_all_Controller();
         sort_of_intervention = types_all_controller.get_FIRE_Sort_of_intervention();
         sort_of_interventionTehn= types_all_controller.get_TRHNICAL_Sort_of_intervention();
+
+        type_of_truck_TRANS = types_all_controller.get_transportation_vehicle_type_of_truck();
+        type_of_truck_NAVAL = types_all_controller.get_naval_vehicle_type_of_truck();
         bindTextView();
         fillWithData();
     }
@@ -167,7 +172,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         zapovjednoSatiTr = (TextView) findViewById(R.id.zapovjedno_h);
         specijalnoSatiTr = (TextView) findViewById(R.id.specijalno_h);
         prijevozTr = (TextView) findViewById(R.id.prijevoz_h);
-        prijedeno = (TextView) findViewById(R.id.km_prijedeno);
+        //prijedeno = (TextView) findViewById(R.id.km_prijedeno);
         vatrogasacTr = (TextView) findViewById(R.id.vatrogasac);
         osiguranoTr = (TextView) findViewById(R.id.osiguran);
         elPumpaTr = (TextView) findViewById(R.id.el_pumpa_h);
@@ -244,7 +249,9 @@ public class FinishedReportActivity extends AppCompatActivity {
 
         final List<String> snage = new ArrayList<>();
         Integer num = 1;
-        final List<String> voziloUtroseno= new ArrayList<>();
+
+        Double navalno = 0.0;
+        Double transportno = 0.0;
 
         for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
                 snage.add(num + "\n" +
@@ -260,7 +267,13 @@ public class FinishedReportActivity extends AppCompatActivity {
                         "\n" + "\t" + "Prah: " + String.valueOf(p.getPowder()) +
                         "\n" + "\t" + "CO2: " + String.valueOf(p.getCo2()));
                 num++;
-                voziloUtroseno.add(p.getTruck().getType_of_truck().getType_name().toString() + "\t" + String.valueOf(p.getHours()));
+
+            if(p.getTruck().getType_of_truck().getType_name().equals(type_of_truck_NAVAL.getType_name())){
+                navalno += p.getHours();
+            }
+            if(p.getTruck().getType_of_truck().getType_name().equals(type_of_truck_TRANS.getType_name())){
+               transportno += p.getHours();
+            }
         }
 
         String ispis = "";
@@ -282,23 +295,24 @@ public class FinishedReportActivity extends AppCompatActivity {
         }
         javna.setText(sluzbeIspis.toString());
 
-        /*final List<String> mehanization = new ArrayList<>();
-        for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
-            mehanization.add(p.getTruck().getType_of_truck().toString());
-        }
-        final List<String> mehIspis = new ArrayList<>();
-        for(String m : mehanization){
-            if(mehIspis.contains(m)) {
-            }else {
-                mehIspis.add(m);
-            }
-        }*/
 
-        String voz = "";
-        for(String s: voziloUtroseno){
-            voz += s + "\n";
+        String voziloVrste1 = "";
+        String voziloVrste2 = "";
+        String naval = type_of_truck_NAVAL.getType_name();
+        String trans = type_of_truck_TRANS.getType_name();
+
+        if(navalno != 0.0){
+            voziloVrste1 = (naval + ": \t\t\t\t\t").toString() ;
+            voziloVrste1 +=  navalno.toString() + "\n";
         }
-        voziloSati.setText(voz.toString());
+        if(transportno != 0.0){
+            voziloVrste2 = (trans + ": \t\t\t\t").toString() ;
+            voziloVrste2 += transportno.toString() + "\n";
+        }
+        if(transportno == 0.0 && navalno == 0.0){
+            voziloVrste1 += voziloVrste2 += "__";
+        }
+        voziloSati.setText(voziloVrste1.toString() + voziloVrste2.toString());
         navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()*costs.getNaval_vehicle()));
         autocisternaSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getRoadTankers() * costs.getRoad_tankers()));
         tehnickoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getTehnicalVehicle() * costs.getTehnical_vehicle()));
@@ -315,7 +329,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         pjeniloTr.setText(String.valueOf(intervention.getReports().getConsumption().getFoam() * costs.getFoam()));
         apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent() * costs.getApsorbent()));
 
-        final List<String> firemanList = new ArrayList<String>();
+        final List<String> firemanList = new ArrayList<>();
         for(Report_fireman fireman: intervention.getReports().getFiremans() ){
             firemanList.add(fireman.getFireman().getName().toString() + " " + fireman.getFireman().getSurname().toString());
         }
