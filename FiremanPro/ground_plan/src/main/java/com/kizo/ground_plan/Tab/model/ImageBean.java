@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 public class ImageBean {
 
     private Integer imagePath;
-private Bitmap imgBitmap;
+    private Bitmap imgBitmap;
+
     public void setImagePath(Integer imagePath) {
         this.imagePath = imagePath;
     }

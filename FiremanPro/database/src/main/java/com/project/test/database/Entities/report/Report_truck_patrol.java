@@ -60,7 +60,6 @@ public class Report_truck_patrol extends BaseModel {
     Date created_at;
 
 
-
     public Report_truck_patrol() {
     }
 
@@ -97,7 +96,7 @@ public class Report_truck_patrol extends BaseModel {
     }
 
     public Report_truck_patrol(int numberFireman, double water, double foam, double powder, double co2, double km, double hours, Truck truck, Fireman_patrol fireman_patrol, Reports reports, Date updated_at, Date created_at) {
-this.numberOfFireman = numberFireman;
+        this.numberOfFireman = numberFireman;
         this.water = water;
         this.foam = foam;
         this.powder = powder;

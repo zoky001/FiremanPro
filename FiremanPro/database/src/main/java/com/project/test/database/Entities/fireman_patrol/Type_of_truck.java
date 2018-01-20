@@ -23,12 +23,10 @@ public class Type_of_truck extends BaseModel {
     String type_name;
 
 
-
     @Column
     Date updated_at;
     @Column
     Date created_at;
-
 
 
     public Type_of_truck() {
@@ -72,8 +70,6 @@ public class Type_of_truck extends BaseModel {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
-
-
 
 
 }

@@ -39,7 +39,7 @@ public class Fireman extends BaseModel {
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-           Fireman_patrol fireman_patrol;
+            Fireman_patrol fireman_patrol;
 
 
     public Fireman() {
@@ -110,14 +110,15 @@ public class Fireman extends BaseModel {
         this.fireman_patrol = fireman_patrol;
     }
 
-    public static Fireman getRandomType(){
+    public static Fireman getRandomType() {
 
         List<Fireman> house = SQLite.select().from(Fireman.class).queryList();
 
 
         return house.get(0);
     }
-    public static Fireman getFiremanbyID(Integer id){
+
+    public static Fireman getFiremanbyID(Integer id) {
 
         Fireman house = SQLite.select().from(Fireman.class).where(Fireman_Table.id.is(id)).querySingle();
 

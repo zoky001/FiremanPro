@@ -41,7 +41,7 @@ public class Other_sort_intervention extends BaseModel {
         this.updated_at = updated_at;
         this.created_at = created_at;
         this.intervention_type = intervention_type;
-        this.report=report;
+        this.report = report;
     }
 
     public int getID() {

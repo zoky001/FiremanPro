@@ -42,7 +42,7 @@ public class Fire_intervention extends BaseModel {
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-           Spreading_smoke spreading_smoke;
+            Spreading_smoke spreading_smoke;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Spatial_spread spatial_spread;
@@ -58,13 +58,7 @@ public class Fire_intervention extends BaseModel {
             Intervention_Type intervention_type;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-    Reports report;
-
-
-
-
-
-
+            Reports report;
 
 
     public Fire_intervention() {
@@ -72,15 +66,13 @@ public class Fire_intervention extends BaseModel {
 
     }
 
-    public Fire_intervention(Intervention_Type intervention_type, Reports report,Date updated_at, Date created_at) {
+    public Fire_intervention(Intervention_Type intervention_type, Reports report, Date updated_at, Date created_at) {
         this.intervention_type = intervention_type;
         this.report = report;
 
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
-
-
 
 
     public Fire_intervention(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Date updated_at, Date created_at, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type, Reports report) {

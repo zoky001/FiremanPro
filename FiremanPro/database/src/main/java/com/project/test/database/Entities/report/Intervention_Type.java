@@ -44,7 +44,7 @@ public class Intervention_Type extends BaseModel {
     }
 
     public Intervention_Type(Integer ID, String name, Date updated_at, Date created_at, Sort_of_intervention sort_of_intervention) {
-       this.id = ID;
+        this.id = ID;
         this.name = name;
         this.updated_at = updated_at;
         this.created_at = created_at;
@@ -92,7 +92,7 @@ public class Intervention_Type extends BaseModel {
     }
 
 
-    public static Intervention_Type getRandomType(){
+    public static Intervention_Type getRandomType() {
 
         List<Intervention_Type> house = SQLite.select().from(Intervention_Type.class).queryList();
 

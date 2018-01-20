@@ -6,56 +6,9 @@
         <item> Požar </item>
         <item> Vlasnik i šteta </item>
         <item> Sudjelovanje ostalih hitnih, javnih službi, komunalnih službi i ostalih subjekata</item>
-        <item> Vrsta mehanizacije koja je bila angažirana na intervenciji i vrijeme upotrebe </item>
+       <!-- <item> Vrsta mehanizacije koja je bila angažirana na intervenciji i vrijeme upotrebe </item> -->
         <item> Troškovi vatrogasne intervencije </item>
         <item> Sudionici vatrogasne intervencije  </item>
     </string-array>
 
-    <string-array name="steps_subtitles">
-        <item>Title of the alarm</item>
-        <item>Description of the alarm</item>
-        <item>Time when the alarm will go off</item>
-        <item>Week schedule of the alarm</item>
-    </string-array>
-
-    <string-array name="week_days">
-        <item>M</item>
-        <item>T</item>
-        <item>W</item>
-        <item>T</item>
-        <item>F</item>
-        <item>S</item>
-        <item>S</item>
-    </string-array>
-
-    <string-array name="sort_of_intervention">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
-
-    <string-array name="sort_of_unit">
-        <item>JVP</item>
-        <item>DIP</item>
-        <item>DVD</item>
-        <item>PVP</item>
-        <item> HV </item>
-    </string-array>
-
-
-    <string-array name="type_of_intervention">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
 </resources>

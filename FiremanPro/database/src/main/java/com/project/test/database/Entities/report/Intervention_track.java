@@ -41,11 +41,10 @@ public class Intervention_track extends BaseModel {
             House house;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-    Address location;
+            Address location;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-    Reports reports;
-
+            Reports reports;
 
 
     @Column
@@ -148,7 +147,7 @@ public class Intervention_track extends BaseModel {
     }
 
 
-    public void add_FIRE_ReportToIntervention(){
+    public void add_FIRE_ReportToIntervention() {
         Types_all_Controller types_all_controller = new Types_all_Controller();
 
         Reports reports = new Reports();
@@ -159,25 +158,29 @@ public class Intervention_track extends BaseModel {
         this.save();
 
     }
-    public void setThisInterventionAsFire(){
+
+    public void setThisInterventionAsFire() {
         Types_all_Controller types_all_controller = new Types_all_Controller();
         reports.setSort_of_intervention(types_all_controller.get_FIRE_Sort_of_intervention());
         reports.save();
         this.save();
     }
-    public void setThisInterventionAsTehnical(){
+
+    public void setThisInterventionAsTehnical() {
         Types_all_Controller types_all_controller = new Types_all_Controller();
         reports.setSort_of_intervention(types_all_controller.get_TRHNICAL_Sort_of_intervention());
         reports.save();
         this.save();
     }
-    public void setThisInterventionAsOther(){
+
+    public void setThisInterventionAsOther() {
         Types_all_Controller types_all_controller = new Types_all_Controller();
         reports.setSort_of_intervention(types_all_controller.get_OTHER_Sort_of_intervention());
         reports.save();
         this.save();
     }
-    public void add_OTHER_ReportToIntervention(){
+
+    public void add_OTHER_ReportToIntervention() {
         Types_all_Controller types_all_controller = new Types_all_Controller();
 
         Reports reports = new Reports();
@@ -188,7 +191,8 @@ public class Intervention_track extends BaseModel {
         this.save();
 
     }
-    public void add_TEHNICAL_ReportToIntervention(){
+
+    public void add_TEHNICAL_ReportToIntervention() {
         Types_all_Controller types_all_controller = new Types_all_Controller();
 
         Reports reports = new Reports();
@@ -200,28 +204,31 @@ public class Intervention_track extends BaseModel {
 
     }
 
-    public void callReceived(){
-    java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+    public void callReceived() {
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-    this.reports.setTime_call_received(CurrentDate);
-    this.reports.save();
+        this.reports.setTime_call_received(CurrentDate);
+        this.reports.save();
 
-}
-    public void intervetionStarted(){
+    }
+
+    public void intervetionStarted() {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
         this.reports.setTime_intervention_start(CurrentDate);
         this.reports.save();
 
     }
-    public void intervetionArrival(){
+
+    public void intervetionArrival() {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
         this.reports.setTime_arrival_intervention(CurrentDate);
         this.reports.save();
 
     }
-    public void intervetionEnded(){
+
+    public void intervetionEnded() {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
         this.reports.setTime_intervention_ended(CurrentDate);
@@ -229,7 +236,7 @@ public class Intervention_track extends BaseModel {
 
     }
 
-    public void addDescriptionOfIntervention(String opis){
+    public void addDescriptionOfIntervention(String opis) {
 
         Reports r = this.getReports();
         r.setDescription(opis);
@@ -237,24 +244,25 @@ public class Intervention_track extends BaseModel {
 
     }
 
-    public void addObjectSurface_m2(double surface){
+    public void addObjectSurface_m2(double surface) {
         this.reports.setSurface_m2(surface);
         this.reports.save();
-
     }
-    public void addObjectSuperficies_ha(double surface){
+
+    public void addObjectSuperficies_ha(double surface) {
         this.reports.setSuperficies_ha(surface);
         this.reports.save();
 
     }
 
-    public void addHelpers (String helpers){
+    public void addHelpers(String helpers) {
         this.reports.setHelp(helpers);
         this.reports.save();
 
 
     }
-    public void completeInterventionTrack(){
+
+    public void completeInterventionTrack() {
 
         this.completed_intervention = true;
         this.save();

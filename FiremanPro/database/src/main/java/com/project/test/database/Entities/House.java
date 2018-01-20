@@ -35,56 +35,77 @@ import static android.app.PendingIntent.getActivity;
  */
 
 @Table(database = MainDatabase.class)
-public class House extends BaseModel{
+public class House extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Column
     int id_house;
-    @Column String name_owner;
-    @Column String surname_owner;
-    @Column int number_of_tenants;
-    @Column int number_of_floors;
-    @Column String list_of_floors;
-    @Column int number_of_children;
-    @Column String year_children;
-    @Column int number_of_adults;
-    @Column String years_adults;
-    @Column int number_of_powerless_and_elders;
-    @Column String years_powerless_elders;
-    @Column boolean disability_person;
-    @Column String power_supply; //type of connection
-    @Column boolean gas_connection;
-    @Column String type_of_heating;
+    @Column
+    String name_owner;
+    @Column
+    String surname_owner;
+    @Column
+    int number_of_tenants;
+    @Column
+    int number_of_floors;
+    @Column
+    String list_of_floors;
+    @Column
+    int number_of_children;
+    @Column
+    String year_children;
+    @Column
+    int number_of_adults;
+    @Column
+    String years_adults;
+    @Column
+    int number_of_powerless_and_elders;
+    @Column
+    String years_powerless_elders;
+    @Column
+    boolean disability_person;
+    @Column
+    String power_supply; //type of connection
+    @Column
+    boolean gas_connection;
+    @Column
+    String type_of_heating;
 
-    @Column int number_of_gas_bottle;
-    @Column String type_of_roof;
-    @Column int hydrant_distance;
-    @Column boolean high_risk_object;
-    @Column String HRO_type_of_roof;
-    @Column boolean HRO_power_supply;
-    @Column String HRO_content;
-    @Column boolean HRO_animals;
-    @Column String telNumber;
-    @Column String mobNumber;
-    @Column java.util.Date updated_at;
-    @Column java.util.Date created_at;
-//do ovdje sve valja
+    @Column
+    int number_of_gas_bottle;
+    @Column
+    String type_of_roof;
+    @Column
+    int hydrant_distance;
+    @Column
+    boolean high_risk_object;
+    @Column
+    String HRO_type_of_roof;
+    @Column
+    boolean HRO_power_supply;
+    @Column
+    String HRO_content;
+    @Column
+    boolean HRO_animals;
+    @Column
+    String telNumber;
+    @Column
+    String mobNumber;
+    @Column
+    java.util.Date updated_at;
+    @Column
+    java.util.Date created_at;
 
-    //novo
-
-    // photos
     List<House_photos> photos;
 
-    //address
     @ForeignKey(saveForeignKeyModel = true)
     Address address;
-
 
 
     @OneToMany(methods = OneToMany.Method.ALL, variableName = "photos")
     public List<House_photos> oneToManyPhotos() {
         if (photos == null) {
-            photos= SQLite.select()
+            photos = SQLite.select()
                     .from(House_photos.class)
                     .where(House_photos_Table.house_id_house.eq(id_house))
                     .queryList();
@@ -175,10 +196,10 @@ public class House extends BaseModel{
     public Photos getProfilPhotos() {
 
         return SQLite.select()
-                    .from(House_photos.class)
-                    .where(House_photos_Table.house_id_house.eq(id_house))
+                .from(House_photos.class)
+                .where(House_photos_Table.house_id_house.eq(id_house))
                 .and(House_photos_Table.photoType_ID.eq(100)) //id of profil
-                    .querySingle().getPhoto();
+                .querySingle().getPhoto();
 
 
     }
@@ -208,13 +229,12 @@ public class House extends BaseModel{
     }
 
 
-
     public int getId_house() {
         return id_house;
     }
 
-    public String getPlaceName(){
-return getAddress().getPlaceNameIfExist();
+    public String getPlaceName() {
+        return getAddress().getPlaceNameIfExist();
 
     }
 
@@ -226,7 +246,6 @@ return getAddress().getPlaceNameIfExist();
     public String getSurname_owner() {
         return surname_owner;
     }
-
 
 
     public int getNumber_of_tenants() {
@@ -282,7 +301,6 @@ return getAddress().getPlaceNameIfExist();
     }
 
 
-
     public int getNumber_of_gas_bottle() {
         return number_of_gas_bottle;
     }
@@ -316,7 +334,6 @@ return getAddress().getPlaceNameIfExist();
     }
 
 
-
     public java.util.Date getUpdated_at() {
         return updated_at;
     }
@@ -327,15 +344,12 @@ return getAddress().getPlaceNameIfExist();
     }
 
 
-
-    public Bitmap getProfilImageBitmapbyContext (Context contextItem) {
+    public Bitmap getProfilImageBitmapbyContext(Context contextItem) {
 
         Bitmap bitmap = new ImageSaver(contextItem).
-                setFileName(getProfilPhotos().getFileName()+".png").
+                setFileName(getProfilPhotos().getFileName() + ".png").
                 setDirectoryName("Images").
                 load();
-
-
 
 
         return bitmap;
@@ -344,11 +358,7 @@ return getAddress().getPlaceNameIfExist();
     }
 
 
-
-
-
-
-    public ArrayList<String> getListGroundPlansIDResource(Context contextItem){
+    public ArrayList<String> getListGroundPlansIDResource(Context contextItem) {
 
 
         List<House_photos> gnd = getGroundPlanPhotos();
@@ -356,12 +366,12 @@ return getAddress().getPlaceNameIfExist();
         ArrayList<String> image_list = new ArrayList<>();
 
         String imageR;
-        for (House_photos g:gnd
-             ) {
+        for (House_photos g : gnd
+                ) {
 
             imageR = String.valueOf(
-            contextItem.getResources().getIdentifier("@drawable/"+g.getPhoto().getFileName(), "drawable", contextItem.getPackageName()));
-image_list.add(imageR);
+                    contextItem.getResources().getIdentifier("@drawable/" + g.getPhoto().getFileName(), "drawable", contextItem.getPackageName()));
+            image_list.add(imageR);
         }
 
         return image_list;
@@ -377,7 +387,8 @@ image_list.add(imageR);
     public Address getAddress() {
         return address;
     }
-    public String getAddressStreet(){
+
+    public String getAddressStreet() {
         return getAddress().getStreetNameIfExist();
     }
 

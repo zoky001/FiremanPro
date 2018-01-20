@@ -39,8 +39,8 @@ public class Consumption extends BaseModel {
     @Column
     double foam;
 
-    @Column
-    double id2;
+   // @Column
+   // double id2;
 
     @Column
     double insurance;
@@ -72,7 +72,9 @@ public class Consumption extends BaseModel {
     public Consumption() {
     }
 
-    public Consumption(double apsorbent, double automatic_ladder, double co2, double command_vehicle, double fire_extinguisher, double fire_fighter, double foam, double id2, double insurance, double navalVehicle, double powerPumpClock, double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle, Date updated_at, Date created_at) {
+    public Consumption(double apsorbent, double automatic_ladder, double co2, double command_vehicle, double fire_extinguisher, double fire_fighter, double foam,
+                      // double id2,
+                       double insurance, double navalVehicle, double powerPumpClock, double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle, Date updated_at, Date created_at) {
         this.apsorbent = apsorbent;
         this.automatic_ladder = automatic_ladder;
         this.co2 = co2;
@@ -80,7 +82,7 @@ public class Consumption extends BaseModel {
         this.fire_extinguisher = fire_extinguisher;
         this.fire_fighter = fire_fighter;
         this.foam = foam;
-        this.id2 = id2;
+    //    this.id2 = id2;
         this.insurance = insurance;
         this.navalVehicle = navalVehicle;
         this.powerPumpClock = powerPumpClock;
@@ -148,13 +150,10 @@ public class Consumption extends BaseModel {
         this.foam = foam;
     }
 
-    public double getId2() {
-        return id2;
-    }
+ //  public double getId2() { return id2; }
 
-    public void setId2(double id2) {
-        this.id2 = id2;
-    }
+ //   public void setId2(double id2) { this.id2 = id2;}
+
 
     public double getInsurance() {
         return insurance;

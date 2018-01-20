@@ -30,7 +30,6 @@ public class Time_spread extends BaseModel {
     String description;
 
 
-
     @Column
     Date updated_at;
     @Column
@@ -88,7 +87,7 @@ public class Time_spread extends BaseModel {
         this.created_at = created_at;
     }
 
-    public static Time_spread getRandomType(){
+    public static Time_spread getRandomType() {
 
         List<Time_spread> house = SQLite.select().from(Time_spread.class).queryList();
 
@@ -96,7 +95,7 @@ public class Time_spread extends BaseModel {
         return house.get(0);
     }
 
-    public static Time_spread getByName(String name){
+    public static Time_spread getByName(String name) {
 
         Time_spread spreading_smoke = SQLite.select().from(Time_spread.class).where(Time_spread_Table.name.is(name)).querySingle();
 
