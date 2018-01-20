@@ -251,10 +251,6 @@ public class Intervention_track extends BaseModel {
         this.reports.save();
     }
 
-    public void deleteHelpers(String helpers){
-
-    }
-
     public void completeInterventionTrack(){
         this.completed_intervention = true;
         this.save();

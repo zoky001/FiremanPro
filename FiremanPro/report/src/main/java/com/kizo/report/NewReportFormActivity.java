@@ -251,10 +251,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return view;
     }
 
+
     @Override
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
+                prviUlaz_MAIN = true;
                     break;
             case USED_RESOURCES_STEP_NUM:
                 if(prviUlaz_MAIN) {
@@ -264,17 +266,20 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 }
                 else {
                     System.out.println("NIJEEEE PRVI ULAZ MAIn -- SAVE: " + selectedSort);
-
                     break;
                 }
             case FIRE_STEP_NUM:
                 if(prviUlaz_USED_RESOURCES_STEP_NUM) {
                     System.out.println("SElected sortu ušao u step fire PRVI ULAZZ-- SAVE: " + selectedSort);
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
                     save_USED_RESOURCES();
                     break;
                 }
                 else {
                     System.out.println("nije prvi ulaz fire step  -- SAVE: " + selectedSort);
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    prviUlaz_FIRE_STEP_NUM = true;
+                    // save_USED_RESOURCES();
                     break;
                 }
             case OWNER_AND_MATERIAL_STEP_NUM:
@@ -286,6 +291,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     break;
                 }
                 else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = true;
                     verticalStepperForm.setStepAsCompleted(OWNER_AND_MATERIAL_STEP_NUM);
                     break;
                 }
@@ -298,35 +306,57 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     break;
                 }
                 else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                    prviUlaz_DESCRIPTION_HELPER_STEP_NUM = true;
                     verticalStepperForm.setStepAsCompleted(DESCRIPTION_HELPER_STEP_NUM);
                     break;
                 }
             case INTERVENTION_STEP_NUM:
                 if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) {
-                    prviUlaz_DESCRIPTION_HELPER_STEP_NUM = false;
                     save__DESCRIPTION_STEP_HELPER();
                     validate_INTERVENTION_COST();
                     break;
                 }
                 else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                    if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                    prviUlaz_INTERVENTION_STEP_NUM = true;
+                    save__DESCRIPTION_STEP_HELPER();
                     break;
                 }
             case FIREMEN_NUM:
                 if(prviUlaz_INTERVENTION_STEP_NUM) {
-                    prviUlaz_INTERVENTION_STEP_NUM = false;
                     save_INTERVENTION_COST();
                     verticalStepperForm.setStepAsCompleted(stepNumber);
                     break;
                 }
                 else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                    if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                    if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
+                    prviUlaz_FIREMEN_NUM = true;
                     break;
                 }
             case END_NUM:
+                if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
+                if(prviUlaz_FIREMEN_NUM) save_FIRE_STEP();
                 sendMail();
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 break;
         }
     }
+
+
 
     private void sendMail() {
         /* određujemo naslov maila tj subject */
@@ -367,16 +397,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     @Override
     public void sendData() {
         System.out.println("SEND DATA");
-//ovo je samo za probu, treba obrisati START
-        for (Integer id :
-                firemans_id_selected) {
-
-            intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
-
-        }
-        intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
-        intervencije.completeInterventionTrack();
-//sve do ovdje START
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
@@ -1533,11 +1553,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                      sumFireman, //fire_fighter
                     foamSum,
                     insurance, navalVehicle, powerPump, roadTanker,specialVehicle,technicalVehicle,transportVehicle);
-            intervencije.getReports().getConsumption().save();
-            intervencije.getReports().save();
-            intervencije.save();
-
-
             System.out.println("SAVE_COST + " + intervencije.getReports().getConsumption().getNavalVehicle());
 
             // insert in database
@@ -1594,7 +1609,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
     private void save__DESCRIPTION_STEP_HELPER() {
-
         intervencije.addHelpers(descriptionEditText.getText().toString());
 
         System.out.println("HELPERS: " + intervencije.getReports().getHelp());
@@ -1790,11 +1804,52 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             savedInstanceState.putString(STATE_TITLE, titleEditText.getText().toString());
         }
 */
+        if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+            intervencije.getReports().saveFireInterventionDetails();
+            //intervencije.setThisInterventionAsFire();
+            System.out.println("SAve FIRE step u ONSAVEEE --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
+        }
+
+        if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
+            intervencije.getReports().saveTehnicalInterventionDetails();
+           // intervencije.setThisInterventionAsTehnical();
+            System.out.println("SAve tEHNICAL step u ONSAVEEE ");
+        }
+
+        if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
+            intervencije.getReports().saveOtherInterventionDetails();
+          //  intervencije.setThisInterventionAsOther();
+            System.out.println("SAve other step u ONSAVEEE ");
+        }
+
+        intervencije.getReports().getConsumption().save();
+        intervencije.getReports().save();
+        intervencije.save();
+
+
+//ovo je samo za probu, treba obrisati START
+        for (Integer id :
+                firemans_id_selected) {
+
+            intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
+
+        }
+        intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+        intervencije.completeInterventionTrack();
+//sve do ovdje START
+
+
+        System.out.println("Spremamm - save u save instancestate");
+
+        // dodavanje
+
+        /*
         // Saving description field
         if (descriptionEditText != null) {
             savedInstanceState.putString(STATE_DESCRIPTION, descriptionEditText.getText().toString());
         }
 
+*(
         /*
         // Saving time field
         if(time != null) {
@@ -1813,6 +1868,49 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        System.out.println("Ušao u restoree - save");
+
+        if(!prviUlaz_MAIN){
+            if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+                intervencije.getReports().saveFireInterventionDetails();
+                //intervencije.setThisInterventionAsFire();
+                System.out.println("SAve FIRE step u ONSAVEEE --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
+            }
+
+            if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
+                intervencije.getReports().saveTehnicalInterventionDetails();
+                // intervencije.setThisInterventionAsTehnical();
+                System.out.println("SAve tEHNICAL step u ONSAVEEE ");
+            }
+
+            if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
+                intervencije.getReports().saveOtherInterventionDetails();
+                //  intervencije.setThisInterventionAsOther();
+                System.out.println("SAve other step u ONSAVEEE ");
+            }
+        }
+
+
+       if(prviUlaz_INTERVENTION_STEP_NUM){
+           intervencije.getReports().getConsumption().save();
+           intervencije.getReports().save();
+           intervencije.save();
+       }
+
+       if(prviUlaz_FIREMEN_NUM){
+
+//ovo je samo za probu, treba obrisati START
+           for (Integer id :
+                   firemans_id_selected) {
+
+               intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
+
+           }
+           intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+           intervencije.completeInterventionTrack();
+//sve do ovdje START
+       }
 
         // Restoration of title field
         if (savedInstanceState.containsKey(STATE_TITLE)) {
