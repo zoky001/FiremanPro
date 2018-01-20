@@ -148,13 +148,6 @@ public class Fireman_patrol extends BaseModel {
 
     }
 
-    public static Fireman_patrol getRandomPatrol(){
-
-        List<Fireman_patrol> house = SQLite.select().from(Fireman_patrol.class).queryList();
-
-
-        return house.get(0);
-    }
     public Costs getCost(){
 
         Cost_fireman_patrol house = SQLite.select().from(Cost_fireman_patrol.class).where(Cost_fireman_patrol_Table.fireman_patrol_ID.is(this.getID())).queryList().get(0);
@@ -169,6 +162,13 @@ public class Fireman_patrol extends BaseModel {
 
         return house;
 
+    }
+
+    public static Fireman_patrol getRandomPatrol(){
+
+        List<Fireman_patrol> house = SQLite.select().from(Fireman_patrol.class).queryList();
+
+        return house.get(0);
     }
 
     public static Fireman_patrol getPatrolByName (String name){

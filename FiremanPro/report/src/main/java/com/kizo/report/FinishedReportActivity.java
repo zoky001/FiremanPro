@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,17 +16,21 @@ import android.widget.TextView;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.Settings;
+import com.project.test.database.Entities.fireman_patrol.Costs;
 import com.project.test.database.Entities.fireman_patrol.Fireman;
 import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Report_fireman;
 import com.project.test.database.Entities.report.Report_truck_patrol;
+import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.controllers.report.Types_all_Controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 
@@ -45,11 +50,14 @@ public class FinishedReportActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     Intervention_track intervention;
+    Costs costs;
+
 
     public TextView naslov;
     public TextView obavijestPrimljena;
     public TextView izlazNaInt;
     public TextView dolazakNaInt;
+    public TextView zavrsetak;
     public TextView vrstaTip;
     public TextView velPoz;
     public TextView brGradevinaPoz;
@@ -67,8 +75,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     public TextView povObjekta;
     public TextView vanjskoPr;
     public TextView javna;
-    public TextView navalnoVoz;
-    public TextView kombiVoz;
+    public TextView voziloSati;
     public TextView navalnoSatiTr;
     public TextView autocisternaSatiTr;
     public TextView tehnickoSatiTr;
@@ -76,6 +83,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     public TextView zapovjednoSatiTr;
     public TextView specijalnoSatiTr;
     public TextView prijevozTr;
+    public TextView prijedeno;
     public TextView vatrogasacTr;
     public TextView osiguranoTr;
     public TextView elPumpaTr;
@@ -111,8 +119,12 @@ public class FinishedReportActivity extends AppCompatActivity {
         }
        System.out.println("ID intervencije _ "+ intervention.getId_intervention_track());
 
+        FiremanPatrolController firemanPatrolController = new FiremanPatrolController();
+        costs = firemanPatrolController.GetAllRecordsFromTable().get(0).getCost();
+
         bindTextView();
         fillWithData();
+
     }
 
     /**
@@ -125,6 +137,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         obavijestPrimljena = (TextView) findViewById(R.id.obav_dat_time);
         izlazNaInt = (TextView) findViewById(R.id.izlaz_dat_time);
         dolazakNaInt = (TextView) findViewById(R.id.dolazak_dat_time);
+        zavrsetak = (TextView) findViewById(R.id.kraj_dat_time);
         vrstaTip = (TextView) findViewById(R.id.vrsta_tip);
         velPoz = (TextView) findViewById(R.id.vel_pozara);
         brGradevinaPoz = (TextView) findViewById(R.id.zbroj);
@@ -142,8 +155,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         povObjekta = (TextView) findViewById(R.id.pov_obj);
         vanjskoPr = (TextView) findViewById(R.id.vanjski);
         javna = (TextView) findViewById(R.id.javne);
-        navalnoVoz = (TextView) findViewById(R.id.navalno_sati);
-        kombiVoz = (TextView) findViewById(R.id.kombi_sati);
+        voziloSati = (TextView) findViewById(R.id.vozilo_sati);
         navalnoSatiTr = (TextView)findViewById(R.id.navalno_h);
         autocisternaSatiTr = (TextView) findViewById(R.id.autocisterna_h);
         tehnickoSatiTr = (TextView) findViewById(R.id.tehnicko_h);
@@ -151,6 +163,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         zapovjednoSatiTr = (TextView) findViewById(R.id.zapovjedno_h);
         specijalnoSatiTr = (TextView) findViewById(R.id.specijalno_h);
         prijevozTr = (TextView) findViewById(R.id.prijevoz_h);
+        prijedeno = (TextView) findViewById(R.id.km_prijedeno);
         vatrogasacTr = (TextView) findViewById(R.id.vatrogasac);
         osiguranoTr = (TextView) findViewById(R.id.osiguran);
         elPumpaTr = (TextView) findViewById(R.id.el_pumpa_h);
@@ -167,10 +180,19 @@ public class FinishedReportActivity extends AppCompatActivity {
      *
      */
     private void fillWithData() {
+
         naslov.setText(Settings.getSettings().getPatrolName().toString());
-        obavijestPrimljena.setText(intervention.getReports().getTime_call_received().toString());
-        izlazNaInt.setText(intervention.getReports().getTime_intervention_start().toString());
-        dolazakNaInt.setText(intervention.getReports().getTime_arrival_intervention().toString());
+
+        String obavijest, izlazak, dolazak, kraj;
+        obavijest = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.MEDIUM).format(intervention.getReports().getTime_call_received());
+        izlazak = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.MEDIUM).format(intervention.getReports().getTime_intervention_start());
+        dolazak = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.MEDIUM).format(intervention.getReports().getTime_arrival_intervention());
+        kraj = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.MEDIUM).format(intervention.getReports().getTime_intervention_ended());
+        obavijestPrimljena.setText(obavijest);
+        izlazNaInt.setText(izlazak);
+        dolazakNaInt.setText(dolazak);
+        zavrsetak.setText(kraj);
+
         vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getFireInterventionDetails().getIntervention_type().getName().toString());
         velPoz.setText(intervention.getReports().getFireInterventionDetails().getSize_of_fire().getName().toString());
         brGradevinaPoz.setText(String.valueOf(intervention.getReports().getFireInterventionDetails().getDestroyed_space()));
@@ -190,12 +212,13 @@ public class FinishedReportActivity extends AppCompatActivity {
 
         final List<String> snage = new ArrayList<>();
         Integer num = 1;
+        final List<String> voziloUtroseno= new ArrayList<>();
 
         for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
             snage.add(num + "\n" +
                     "Vrsta jedinice: " + p.getFireman_patrol().getType_of_unit().getName().toString() +
-                    "\n" + p.getFireman_patrol().getName().toString() +
-                    "\nVozilo (vrsta i broj): " + p.getTruck().getName().toString() +
+                    "\n" + "\t" + p.getFireman_patrol().getName().toString() +
+                    "\nVozilo: " + p.getTruck().getName().toString() +
                     "\nPrijeđeno km: "+ p.getKm() +
                     "\nUtrošeno sati: " + p.getHours() +
                     "\nBroj vatrogasaca: " + p.getNumberOfFireman() +
@@ -205,6 +228,7 @@ public class FinishedReportActivity extends AppCompatActivity {
                     "\n" + "\t" + "Prah: " + String.valueOf(p.getPowder()) +
                     "\n" + "\t" + "CO2: " + String.valueOf(p.getCo2()));
             num++;
+            voziloUtroseno.add(p.getTruck().getType_of_truck().getType_name().toString() + " " + String.valueOf(p.getHours()));
 
         }
 
@@ -219,7 +243,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         povObjekta.setText(String.valueOf(intervention.getReports().getSurface_m2()));
         vanjskoPr.setText(String.valueOf(intervention.getReports().getSuperficies_ha()));
 
-        final List<String> sluzbe = new ArrayList<String>();
+        final List<String> sluzbe = new ArrayList<>();
         sluzbe.add(intervention.getReports().getHelp().toString());
         String sluzbeIspis = "";
 
@@ -228,24 +252,38 @@ public class FinishedReportActivity extends AppCompatActivity {
         }
         javna.setText(sluzbeIspis.toString());
 
-        navalnoVoz.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
-        //kombiVoz.setText(intervention.getReports().getConsumption());
-        navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
-        autocisternaSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getRoadTankers()));
-        tehnickoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getTehnicalVehicle()));
-        ljestveTr.setText(String.valueOf(intervention.getReports().getConsumption().getAutomatic_ladder()));
-        zapovjednoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getCommand_vehicle()));
-        specijalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getSpecialVehicle()));
-        prijevozTr.setText(String.valueOf(intervention.getReports().getConsumption().getTransportationVehicle()));
-        //KmTr.setText(intervention.getReports().getConsumption());
-        vatrogasacTr.setText(String.valueOf(intervention.getReports().getConsumption().getFire_fighter()));
-        osiguranoTr.setText(String.valueOf(intervention.getReports().getConsumption().getInsurance()));
-        elPumpaTr.setText(String.valueOf(intervention.getReports().getConsumption().getPowerPumpClock()));
-        prahTr.setText(String.valueOf(intervention.getReports().getPowden_kg()));
-        co2Tr.setText(String.valueOf(intervention.getReports().getCo2_kg()));
-        pjeniloTr.setText(String.valueOf(intervention.getReports().getFoam_l()));
-        apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent()));
-       // ostaliTr.setText(intervention.getReports().getConsumption());
+        /*final List<String> mehanization = new ArrayList<>();
+        for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
+            mehanization.add(p.getTruck().getType_of_truck().toString());
+        }
+        final List<String> mehIspis = new ArrayList<>();
+        for(String m : mehanization){
+            if(mehIspis.contains(m)) {
+            }else {
+                mehIspis.add(m);
+            }
+        }*/
+
+        String voz = "";
+        for(String s: voziloUtroseno){
+            voz += s + "\n";
+        }
+        voziloSati.setText(voz.toString());
+        navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()*costs.getNaval_vehicle()));
+        autocisternaSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getRoadTankers() * costs.getRoad_tankers()));
+        tehnickoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getTehnicalVehicle() * costs.getTehnical_vehicle()));
+        ljestveTr.setText(String.valueOf(intervention.getReports().getConsumption().getAutomatic_ladder() * costs.getAutomatic_Ladder()));
+        zapovjednoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getCommand_vehicle() * costs.getCommand_Vehicle()));
+        specijalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getSpecialVehicle() * costs.getSpecial_vehicle()));
+        prijevozTr.setText(String.valueOf(intervention.getReports().getConsumption().getTransportationVehicle() * costs.getTransportation_vehicle()));
+        //prijedeno.setText(intervention.getReports().getConsumption());
+        vatrogasacTr.setText(String.valueOf(intervention.getReports().getConsumption().getFire_fighter() * costs.getFire_fighter()));
+        osiguranoTr.setText(String.valueOf(intervention.getReports().getConsumption().getInsurance() * costs.getInsurance()));
+        elPumpaTr.setText(String.valueOf(intervention.getReports().getConsumption().getPowerPumpClock() * costs.getPower_pump_clock()));
+        prahTr.setText(String.valueOf(intervention.getReports().getConsumption().getFire_extinguisher() * costs.getFire_extinguisher()));
+        co2Tr.setText(String.valueOf(intervention.getReports().getConsumption().getCo2() * costs.getCo2()));
+        pjeniloTr.setText(String.valueOf(intervention.getReports().getConsumption().getFoam() * costs.getFoam()));
+        apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent() * costs.getApsorbent()));
 
         final List<String> firemanList = new ArrayList<String>();
         for(Report_fireman fireman: intervention.getReports().getFiremans() ){

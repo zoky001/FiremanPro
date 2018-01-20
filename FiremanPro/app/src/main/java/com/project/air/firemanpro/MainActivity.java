@@ -90,21 +90,6 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         ButterKnife.bind(this);
 
 
-        FiremanPatrolController firemanPatrolController = new FiremanPatrolController();
-
-        Costs costs = firemanPatrolController.GetAllRecordsFromTable().get(0).getCost();
-
-        System.out.println("COSTS: \n "+
-        costs.getApsorbent() + "\n" +
-                costs.getAutomatic_Ladder() + "\n"+
-                costs.getCommand_Vehicle() + "\n"
-
-        );
-
-
-
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
 

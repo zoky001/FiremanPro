@@ -93,6 +93,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/reportData"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Završetak itervencije: "
+                    style="@style/reportText"/>
+                <TextView
+                    android:id="@+id/kraj_dat_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reportData"/>
         </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -534,25 +544,9 @@
                     <TableRow
                         android:layout_width="match_parent">
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Navalno vozilo  " />
-                        <TextView
-                            android:id="@+id/navalno_sati"
+                            android:id="@+id/vozilo_sati"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
-                    </TableRow>
-                    <TableRow
-                        android:layout_width="match_parent">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kombi vozilo  " />
-                        <TextView
-                            android:id="@+id/kombi_sati"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="__"/>
                     </TableRow>
 
                 </TableLayout>
@@ -682,7 +676,7 @@
                         android:layout_height="wrap_content" />
                 </TableRow>
 
-                <!--<TableRow
+                <TableRow
                     android:layout_width="match_parent">
                     <TextView
                         android:text="Prijeđeni kilometri "
@@ -692,7 +686,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="__"/>
-                </TableRow>-->
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent">
@@ -771,17 +765,6 @@
                         android:layout_height="wrap_content" />
                 </TableRow>
 
-                <!--<TableRow
-                    android:layout_width="match_parent">
-                    <TextView
-                        android:text="Ostali troškovi "
-                        android:layout_width="wrap_content" />
-                    <TextView
-                        android:id="@+id/ostali"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="__" />
-                </TableRow>-->
             </TableLayout>
         </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
