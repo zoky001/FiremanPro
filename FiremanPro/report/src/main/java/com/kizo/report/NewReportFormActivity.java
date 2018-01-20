@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spatial_spread;
@@ -350,8 +352,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
                 if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
                 if(prviUlaz_FIREMEN_NUM) save_FIRE_STEP();
-                sendMail();
                 verticalStepperForm.setStepAsCompleted(stepNumber);
+                sendMail();
                 break;
         }
     }
@@ -369,6 +371,42 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 + " \n  \n" + "U privitku se nalazi izvještaj. ";
 
         /* slanje maila */
+        System.out.println("Send email SAVEE");
+
+        String[] TO = {"someone@gmail.com"};
+        // String[] CC = {"xyz@gmail.com"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("message/rfc822");
+
+/*
+        File root = Environment.getExternalStorageDirectory();
+
+        String pathToMyAttachedFile = "SD card/Download/zapisnik-intervencije-MojiKomentari.com";
+        File file = new File(root, pathToMyAttachedFile);
+        if (!file.exists() || !file.canRead()) {
+            return;
+        }
+        Uri uri = Uri.fromFile(file);
+
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+*/
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        // emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
+
+       try {
+            startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
+
+            // finish();
+            System.out.println("Finished sending email. SAVEE");
+        } catch (android.content.ActivityNotFoundException ex) {
+            System.out.println("There is no email client installed. SAVEE");
+        }
+    }
+    /*
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
         // emailIntent.setType("text/plain");
@@ -379,7 +417,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
 
 
-        /*
+
         File root = Environment.getExternalStorageDirectory();
 
         String pathToMyAttachedFile = "temp/attachement.xml";
@@ -390,13 +428,27 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         Uri uri = Uri.fromFile(file);
 
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        */
+
         startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
+
     }
+    */
 
     @Override
     public void sendData() {
         System.out.println("SEND DATA");
+
+
+//ovo je samo za probu, treba obrisati START
+        for (Integer id :
+                firemans_id_selected) {
+
+            intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
+
+        }
+        intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
+        intervencije.completeInterventionTrack();
+//sve do ovdje START
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
@@ -1806,19 +1858,19 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 */
         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
             intervencije.getReports().saveFireInterventionDetails();
-            //intervencije.setThisInterventionAsFire();
+            intervencije.setThisInterventionAsFire();
             System.out.println("SAve FIRE step u ONSAVEEE --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
         }
 
         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
             intervencije.getReports().saveTehnicalInterventionDetails();
-           // intervencije.setThisInterventionAsTehnical();
+            intervencije.setThisInterventionAsTehnical();
             System.out.println("SAve tEHNICAL step u ONSAVEEE ");
         }
 
         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
             intervencije.getReports().saveOtherInterventionDetails();
-          //  intervencije.setThisInterventionAsOther();
+           intervencije.setThisInterventionAsOther();
             System.out.println("SAve other step u ONSAVEEE ");
         }
 
@@ -1827,16 +1879,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         intervencije.save();
 
 
-//ovo je samo za probu, treba obrisati START
-        for (Integer id :
-                firemans_id_selected) {
-
-            intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
-
-        }
-        intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
-        intervencije.completeInterventionTrack();
-//sve do ovdje START
 
 
         System.out.println("Spremamm - save u save instancestate");
@@ -1863,6 +1905,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
         */
         // The call to super method must be at the end here
+
+
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -1898,19 +1942,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
            intervencije.save();
        }
 
-       if(prviUlaz_FIREMEN_NUM){
 
-//ovo je samo za probu, treba obrisati START
-           for (Integer id :
-                   firemans_id_selected) {
-
-               intervencije.getReports().addFiremanToIntervention(Fireman.getFiremanbyID(id));
-
-           }
-           intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
-           intervencije.completeInterventionTrack();
-//sve do ovdje START
-       }
 
         // Restoration of title field
         if (savedInstanceState.containsKey(STATE_TITLE)) {
