@@ -155,6 +155,12 @@ public class Fireman_patrol extends BaseModel {
 
         return house.get(0);
     }
+    public Costs getCost(){
+
+        Cost_fireman_patrol house = SQLite.select().from(Cost_fireman_patrol.class).where(Cost_fireman_patrol_Table.fireman_patrol_ID.is(this.getID())).queryList().get(0);
+
+        return house.getCosts();
+    }
 
 
     public List<Truck> getAllTrucks(){

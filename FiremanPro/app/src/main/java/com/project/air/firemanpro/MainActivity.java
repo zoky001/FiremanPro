@@ -37,6 +37,8 @@ import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.loaders.WsDataLoader;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Settings;
+import com.project.test.database.Entities.fireman_patrol.Costs;
+import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.helper.MockData;
 import com.project.test.database.imageSaver.SaveResourceImage;
@@ -88,8 +90,16 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         ButterKnife.bind(this);
 
 
+        FiremanPatrolController firemanPatrolController = new FiremanPatrolController();
 
+        Costs costs = firemanPatrolController.GetAllRecordsFromTable().get(0).getCost();
 
+        System.out.println("COSTS: \n "+
+        costs.getApsorbent() + "\n" +
+                costs.getAutomatic_Ladder() + "\n"+
+                costs.getCommand_Vehicle() + "\n"
+
+        );
 
 
 
