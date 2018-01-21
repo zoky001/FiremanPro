@@ -229,6 +229,7 @@ public class FinishedReportActivity extends AppCompatActivity {
 
         navalnoVoz.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
         //kombiVoz.setText(intervention.getReports().getConsumption());
+
         navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()));
         autocisternaSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getRoadTankers()));
         tehnickoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getTehnicalVehicle()));

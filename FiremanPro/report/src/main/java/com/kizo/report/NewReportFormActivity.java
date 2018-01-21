@@ -156,7 +156,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     List<String> list2 = new ArrayList<String>();
     List<String> list4 = new ArrayList<String>();
     List<String> list5 = new ArrayList<String>();
-    List<String> list6 = new ArrayList<>();
+    String list7 = "";
+    List<String> list8 = new ArrayList<String>();
+    List<String> list9 = new ArrayList<String>();
+    List<String> list10 = new ArrayList<String>();
+    List<String> list11= new ArrayList<String>();
+    List<String> list12 = new ArrayList<String>();
+
 
 
     @Override
@@ -288,10 +294,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 fillList4WithValues();
                 fillList2WithValues();
                 fillList5WithValues();
+                list7 = intervencije.getReports().getDescription().toString();
+                fillList8WithValues();
+                list9.add(intervencije.getReports().getHelp());
+                fillList10WithValues();
+                fillList11WithValues();
+                fillList12WithValues();
+                System.out.println("HELP "+intervencije.getReports().getHelp());
                 CreateDocument document = new CreateDocument();
                 try {
 
-                    document.a(this,list3,list2,list4,list5);
+                    document.a(this,list3,list2,list4,list5,list7,list8,list9,list10,list11,list12);
 
                 }catch (Exception e){
                     System.out.println(e);
@@ -320,23 +333,23 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         emailIntent.setType("text/plain");
         // emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
-                "matea.bodulusic@gmail.com"});
+                "airreport0@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
 
 
-        /*
-        File root = Environment.getExternalStorageDirectory();
 
-        String pathToMyAttachedFile = "temp/attachement.xml";
-        File file = new File(root, pathToMyAttachedFile);
+        
+
+        String pathToMyAttachedFile = Environment.getExternalStorageDirectory()+ "/report.docx";
+        File file = new File(pathToMyAttachedFile);
         if (!file.exists() || !file.canRead()) {
             return;
         }
         Uri uri = Uri.fromFile(file);
 
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        */
+
         startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
     }
 
@@ -572,7 +585,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return dataAdapter;
     }
-
     private Spinner addSpinnerValue(Spinner spinner, LinearLayout content, int id, ArrayAdapter<String> methodArray) {
         spinner = (Spinner) content.findViewById(id);
         spinner.setAdapter(methodArray);
@@ -1987,6 +1999,47 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
              ) {
              System.out.println("LOCATION "+a);
         }
+
     }
+    public void fillList8WithValues(){
+        list8.add(Double.toString(intervencije.getReports().getSurface_m2()));
+        list8.add(Double.toString(intervencije.getReports().getSuperficies_ha()));
+
+    }
+    public void fillList10WithValues(){
+        list10.add("Navalno vozilo");
+        list10.add(Double.toString(intervencije.getReports().getConsumption().getNavalVehicle()));
+        list10.add("Kombi vozilo");
+        list10.add(Double.toString(intervencije.getReports().getConsumption().getTransportationVehicle()));
+
+
+    }
+    public void fillList11WithValues(){
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getNavalVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getRoadTankers()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getTehnicalVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getAutomatic_ladder()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getRoadTankers()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getSpecialVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getTransportationVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getTransportationVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getFire_fighter()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getInsurance()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getPowerPumpClock()));
+        list11.add(Double.toString(intervencije.getReports().getPowden_kg()));
+        list11.add(Double.toString(intervencije.getReports().getCo2_kg()));
+        list11.add(Double.toString(intervencije.getReports().getFoam_l()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getApsorbent()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getNavalVehicle()));
+
+    }
+
+    public void fillList12WithValues(){
+        list12.add("Mirko_Test");
+
+
+    }
+
+
 
 }
