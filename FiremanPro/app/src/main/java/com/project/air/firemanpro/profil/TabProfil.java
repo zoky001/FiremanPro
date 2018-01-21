@@ -128,9 +128,6 @@ public class TabProfil extends TabFragment {
         return rootView;
 
 
-
-
-
     }
 
 
@@ -159,47 +156,44 @@ public class TabProfil extends TabFragment {
 
         }
 
-        String IDHouse = "" + house.getId_house();
-/*
-zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
-        bundle.putString("IDkuce", IDHouse);
-        Fragment mapFragment = new MapFragment();
-        mapFragment.setArguments(bundle);
+        try {
+            String IDHouse = "" + house.getId_house();
 
-//*  ruši mi se na virtualki KIZO
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.map_container, mapFragment)
-                .commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("IDkuce", IDHouse);
+            Fragment mapFragment = new MapFragment();
+            mapFragment.setArguments(bundle);
 
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.map_container, mapFragment)
+                    .commit();
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
+        }
 
 
         Intervention_track intervencija;
-        boolean nekaj=interventionController.checkIfExistUnfinishedInterventionAtHouse(house);
+        boolean nekaj = interventionController.checkIfExistUnfinishedInterventionAtHouse(house);
         if (nekaj) {
 
             intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
             String a, b, c, d;
-            if(intervencija.getReports().getTime_call_received()!=null)
-            {
+            if (intervencija.getReports().getTime_call_received() != null) {
                 btnNewReport.setText("Započeti intervenciju");
             }
-            if(intervencija.getReports().getTime_intervention_start()!=null)
-            {
+            if (intervencija.getReports().getTime_intervention_start() != null) {
                 btnNewReport.setText("Dolazak na mjesto");
             }
-            if(intervencija.getReports().getTime_arrival_intervention()!=null)
-            {
+            if (intervencija.getReports().getTime_arrival_intervention() != null) {
                 btnNewReport.setText("Kraj Intervencije");
 
             }
-            if(intervencija.getReports().getTime_intervention_ended()!=null)
-            {
+            if (intervencija.getReports().getTime_intervention_ended() != null) {
                 btnNewReport.setText("Kreiraj izvještaj");
             }
 
-        }
-        else{
+        } else {
             btnNewReport.setText("Poziv zaprimljen");
         }
 
@@ -207,10 +201,7 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
 
 
     /**
-     *
-     * @param view
-     *
-     * Zoran Grđan
+     * @param view Zoran Grđan
      */
     @OnClick(R.id.buttonMax)
     public void buttonMaxClicked(View view) {
@@ -221,10 +212,7 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
     }
 
     /**
-     *
-     * @param view
-     *
-     * Zoran Grđan
+     * @param view Zoran Grđan
      */
     @OnClick(R.id.leadMeButton)
     public void leadMeButton(View view) {
@@ -236,6 +224,7 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
+
     @OnClick(R.id.btn_new_report)
     public void newReport(View view) {
 
@@ -257,43 +246,42 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
                 intervencija.callReceived();
 
 
-
                 btnNewReport.setText(interventionStartedText);
 
             }
         }
 
-            if (buttonText.toLowerCase().trim().equals(interventionStartedText.toLowerCase().trim())) {
-                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+        if (buttonText.toLowerCase().trim().equals(interventionStartedText.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
 
-                btnNewReport.setText(interventionArrivalText);
-                intervencija.intervetionStarted();
-
-            }
-            if (buttonText.toLowerCase().trim().equals(interventionArrivalText.toLowerCase().trim())) {
-                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-
-                btnNewReport.setText(interventionEndedText);
-                intervencija.intervetionArrival();
-            }
-            if (buttonText.toLowerCase().trim().equals(interventionEndedText.toLowerCase().trim())) {
-                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-
-                btnNewReport.setText(startReport);
-                intervencija.intervetionEnded();
-
-            }
-            if (buttonText.toLowerCase().trim().equals(startReport.toLowerCase().trim())) {
-                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-
-                btnNewReport.setText(callRecievedText);
-                Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
-                intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
-                startActivityForResult(intent, NEW_ALARM);
-
-            }
+            btnNewReport.setText(interventionArrivalText);
+            intervencija.intervetionStarted();
 
         }
+        if (buttonText.toLowerCase().trim().equals(interventionArrivalText.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+            btnNewReport.setText(interventionEndedText);
+            intervencija.intervetionArrival();
+        }
+        if (buttonText.toLowerCase().trim().equals(interventionEndedText.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+            btnNewReport.setText(startReport);
+            intervencija.intervetionEnded();
+
+        }
+        if (buttonText.toLowerCase().trim().equals(startReport.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+            btnNewReport.setText(callRecievedText);
+            Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
+            intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
+            startActivityForResult(intent, NEW_ALARM);
+
+        }
+
+    }
 
     /**
      * omogućuje učitavanje ovog fragmenta u metodu interface-a
