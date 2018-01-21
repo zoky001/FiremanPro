@@ -70,7 +70,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     private static final String NO_SELECTED = "Odaberite..";
     Types_all_Controller types_all_controller = new Types_all_Controller();
-    public static final String NEW_ALARM_ADDED = "new_alarm_added";
 
     // Information about the steps/fields of the form
     private static final int MAIN_INFORMATION_NUM = 0;
@@ -137,7 +136,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     Spinner usedTruck;
 
-    //fire
+    /*
+    Atributi požara
+     */
     Spinner sizeOfFire;
     EditText destroyedSpace;
     Spinner repeatedSpinner;
@@ -148,7 +149,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     private Intervention_track intervencije;
     private EditText interventionDescription;
 
-    /* dio koji se popunjava u USEDRESOURCES a koristi se i kod interventionCosta
+    /*
+    dio koji se popunjava u USEDRESOURCES a koristi se i kod interventionCosta
      */
 
     String kmText;
@@ -170,7 +172,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     List<String> list12 = new ArrayList<String>();
 
 
-    // suma vatrogasaca i co2 koja se dobije kod dodavanja v a izračunava se koliko košta prema zbroju uz cost
+    /*
+     suma vatrogasaca i co2 koja se dobije kod dodavanja v a izračunava se koliko košta prema zbroju uz cost
+      */
     int sumFireman = 0;
     Double co2Sum = 0.0;
     Double foamSum = 0.0;
@@ -180,11 +184,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     String selectedSort;
     TextView notFire;
 
-    // ukoliko je izbrisan resurs ne radi validacijuu
+    /*
+    ukoliko je izbrisan resurs ne radi validacijuu
+     */
     boolean spremljenResrs = false;
 
-    // ako je korisnik već bio na ovom koraku i sad promijeni nešto spremiti promijene
-    // Information about the steps/fields of the form
+    /*
+    ako je korisnik već bio na ovom koraku i sad promijeni nešto spremiti promijene
+     Information about the steps/fields of the form
+     */
     boolean prviUlaz_MAIN = true;
     boolean prviUlaz_USED_RESOURCES_STEP_NUM = true; // NA NE SPREMLJENI ULAZ SPREMAJ INAĆE PRESKOČI
     boolean prviUlaz_FIRE_STEP_NUM = true;
@@ -428,7 +436,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("Send email SAVEE");
 
         String[] TO = {"airreports0@gmail.com"};
-        // String[] CC = {"xyz@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("message/rfc822");
@@ -447,53 +454,21 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
 
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        // emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
 
        try {
             startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
-
-            // finish();
             System.out.println("Finished sending email. SAVEE");
         } catch (android.content.ActivityNotFoundException ex) {
             System.out.println("There is no email client installed. SAVEE");
         }
     }
-    /*
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-
-        // emailIntent.setType("text/plain");
-        emailIntent.setType("message/rfc822");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
-                "airreport0@gmail.com"});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
-
-
-
-        
-
-        String pathToMyAttachedFile = Environment.getExternalStorageDirectory()+ "/report.docx";
-        File file = new File(pathToMyAttachedFile);
-        if (!file.exists() || !file.canRead()) {
-            return;
-        }
-        Uri uri = Uri.fromFile(file);
-
-        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-
-        startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
-
-    }
-    */
 
     @Override
     public void sendData() {
         System.out.println("SEND DATA");
 
-
-//ovo je samo za probu, treba obrisati START
         for (Integer id :
                 firemans_id_selected) {
 
@@ -502,7 +477,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
         intervencije.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
         intervencije.completeInterventionTrack();
-//sve do ovdje START
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
@@ -511,7 +485,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         executeDataSending();
     }
 
-    // OTHER METHODS USED TO MAKE THIS EXAMPLE WORK
+
 
     private void executeDataSending() {
 
@@ -525,7 +499,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     Thread.sleep(1000);
                     Intent intent = getIntent();
                     setResult(RESULT_OK, intent);
-                    intent.putExtra(NEW_ALARM_ADDED, true);
+                  //  intent.putExtra(NEW_ALARM_ADDED, true);
                     intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
                     intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
                     confirmBack = false;
@@ -586,7 +560,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     /**
      * Methoda  koja provjerava mo želi se nastaviti dalje odnosno spremiti upisani podaci vezani za požar
-     */    private boolean validate_FIRE_STEP() {
+     */
+    private boolean validate_FIRE_STEP() {
         boolean isCorrect = false;
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
@@ -639,7 +614,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     Outdoor_type.getByName(outdoorSpread.getSelectedItem().toString()),
                     Size_of_fire.getByName(sizeOfFire.getSelectedItem().toString())
             );
-            // insert in database
+            /*
+            podaci spremljeni za spremanje
+              */
         }
         prviUlaz_FIRE_STEP_NUM = false;
     }
@@ -1000,7 +977,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         prvi.setText("Dodaj resurs");
         prvi.setEnabled(false);
 
-        // pocetak - prvi prikaz za odabir resursa
+        /*
+        pocetak - prvi prikaz za odabir resursa
+
+         */
 
         spinnerFiremanPatrol = (Spinner) v.findViewById(R.id.sort_of_unit);
         spinnerFiremanPatrol.setAdapter(getFiremanPatrols());
@@ -1027,9 +1007,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
 
 
-        //numberKeybor omogućava upisa samo brojeva i to je realizirano kroz metodu
+        /*
+        numberKeybor omogućava upisa samo brojeva i to je realizirano kroz metodu
+         */
 
-        kmNumber = addTextChangeListenerWithValidation(v,R.id.km, prvi);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+        kmNumber = addTextChangeListenerWithValidation(v,R.id.km, prvi);
 
         numberKeybord(kmNumber);
 
@@ -1070,7 +1052,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         Button neporebniResurs = new Button(this);
 
         addNewUsedResources(prvi, b, ll, myView, neporebniResurs, v);
-//kraj
         return v;
     }
 
@@ -1196,7 +1177,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 spinnerType.setVisibility(View.INVISIBLE);
-                // your code here
             }
         });
         return spinner;
@@ -1834,6 +1814,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
+
     /**
      * Methoda koja ima smpinner iz kojeg se biraju vvatrogasci koji su sudjelovali u intervenciji i dodaju se u bazu
      */
@@ -1879,8 +1860,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     ispis.setText(sviOdabranivatrogasci);
                     System.out.println("SELECTED: " + selectedItemText + " ID: " + id_fireman.get(position));
 
-                    // firemanList.remove(parent.getItemAtPosition(position));
-                    //  id_fireman.remove(position);
+                    firemanList.remove(parent.getItemAtPosition(position));
+                    id_fireman.remove(position);
+
+                    firemanSpinner.setAdapter(prikaziDopusteneVatrogasce(firemanList));
+
                     for (Integer id_fir :
                             firemans_id_selected) {
                         System.out.println("SELECTED: " + Fireman.getFiremanbyID(id_fir).getName());
@@ -1897,6 +1881,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return firemenContent;
     }
 
+    private  ArrayAdapter<String>  prikaziDopusteneVatrogasce(List<String> dopusteni) {
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dopusteni);
+        return dataAdapter2;
+    }
 
 
     /**
