@@ -143,13 +143,9 @@ public class MapFragment extends Fragment implements
     }
 
     /**
-     * Activity for loading layout resources
      *
      * Metoda koja pita za pristup lokacije koju smo odredili dodati kao početnu točku
      *
-     * @author - nepoznat, izmijenila: Matea
-     * @version 2010.1105
-     * @return  false/ true
      */
     public  boolean checkLocationPermission() {
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
@@ -276,10 +272,6 @@ public class MapFragment extends Fragment implements
     /**
      * Methoda s kojom se dodaju markeri na kartu s time da je jedan u obliku bitmape, a to je onaj koji će se pomicati
      *
-     * @param googleMap mapa na koju stavljamonaše arkere
-     * @param lat latitude trenutne pozicije
-     * @param lon longitude trenutne lokacije
-     * @return The resulting sum of a and b
      */
 
     private void addMarker(GoogleMap googleMap, double lat, double lon) {
@@ -307,9 +299,6 @@ public class MapFragment extends Fragment implements
     /**
      * Methoda koja se poziva kako bi se pokazala trenutna lokacija tijekom pomicanja i njegova rotacija
      *
-     * @param destination oderedište
-     * @param marker trenutna pozicija
-     * @return The resulting sum of a and b
      */
 
     public static void animateMarker(final Location destination, final Marker marker) {
@@ -371,7 +360,6 @@ public class MapFragment extends Fragment implements
      * Methoda koja traži najkraći put među sadašjom i slljedećom nađenom točkom
      *
      *
-     * @return LatLng(lat, lng) koji je najbliži sljedećoj točki (pomičemo se od jede do druge)
      */
 
     private interface LatLngInterpolator {

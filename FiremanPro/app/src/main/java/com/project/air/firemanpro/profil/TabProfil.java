@@ -290,27 +290,6 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
 
             }
 
-   /*    Intervention_track intervencija;
-        if(!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
-
-            intervencija = interventionController.addNewIntervention_atHouse(house);
-
-
-            intervencija.add_FIRE_ReportToIntervention();
-
-          //  intervencija.callReceived();
-            intervencija.intervetionStarted();
-            intervencija.intervetionArrival();
-            intervencija.intervetionEnded();
-
-
-        } else
-            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
-
-        Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
-        intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
-        startActivityForResult(intent, NEW_ALARM); */
-
         }
 
 
