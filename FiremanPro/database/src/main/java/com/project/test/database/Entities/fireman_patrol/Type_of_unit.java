@@ -23,12 +23,10 @@ public class Type_of_unit extends BaseModel {
     String name;
 
 
-
     @Column
     Date updated_at;
     @Column
     Date created_at;
-
 
 
     public Type_of_unit(int id, String name, Date updated_at, Date created_at) {
@@ -64,8 +62,6 @@ public class Type_of_unit extends BaseModel {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
-
-
 
 
 }

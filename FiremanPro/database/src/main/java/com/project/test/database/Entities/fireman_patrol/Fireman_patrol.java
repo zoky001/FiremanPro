@@ -31,15 +31,13 @@ public class Fireman_patrol extends BaseModel {
     String name;
 
 
-
-
     @Column
     Date updated_at;
     @Column
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-           Type_of_unit type_of_unit;
+            Type_of_unit type_of_unit;
 
 
     public Fireman_patrol() {
@@ -93,71 +91,72 @@ public class Fireman_patrol extends BaseModel {
     }
 
 
-    public Fireman addFiremenToPatrol(String name, String surname, String active){
+    public Fireman addFiremenToPatrol(String name, String surname, String active) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-        Fireman fireman = new Fireman(name,surname,active,CurrentDate,CurrentDate,this);
+        Fireman fireman = new Fireman(name, surname, active, CurrentDate, CurrentDate, this);
         fireman.save();
         return fireman;
 
     }
 
-    public Truck add_SPECIAL_TruckToPatrol(String name){
+    public Truck add_SPECIAL_TruckToPatrol(String name) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
         Types_all_Controller types_all_controller = new Types_all_Controller();
-        Truck truck = new Truck(name,CurrentDate,CurrentDate,types_all_controller.get_SPECIAL_vehicle_type_of_truck(),this);
+        Truck truck = new Truck(name, CurrentDate, CurrentDate, types_all_controller.get_SPECIAL_vehicle_type_of_truck(), this);
         truck.save();
 
-        return  truck;
+        return truck;
 
     }
 
-    public Truck add_NAVAL_TruckToPatrol(String name){
+    public Truck add_NAVAL_TruckToPatrol(String name) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
         Types_all_Controller types_all_controller = new Types_all_Controller();
-        Truck truck = new Truck(name,CurrentDate,CurrentDate,types_all_controller.get_naval_vehicle_type_of_truck(),this);
+        Truck truck = new Truck(name, CurrentDate, CurrentDate, types_all_controller.get_naval_vehicle_type_of_truck(), this);
         truck.save();
 
-        return  truck;
+        return truck;
 
     }
 
-    public Truck add_TRANSPORT_TruckToPatrol(String name){
+    public Truck add_TRANSPORT_TruckToPatrol(String name) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
         Types_all_Controller types_all_controller = new Types_all_Controller();
-        Truck truck = new Truck(name,CurrentDate,CurrentDate,types_all_controller.get_transportation_vehicle_type_of_truck(),this);
+        Truck truck = new Truck(name, CurrentDate, CurrentDate, types_all_controller.get_transportation_vehicle_type_of_truck(), this);
         truck.save();
 
-        return  truck;
+        return truck;
 
     }
 
 
-    public void addNewCosts(double apsorbent, double automatic_Ladder, double co2, double command_Vehicle, double fire_extinguisher, double fire_fighter, double foam, double insurance, double naval_vehicle, double power_pump_clock, double road_tankers, double special_vehicle, double tehnical_vehicle, double transportation_vehicle){
+    public void addNewCosts(double apsorbent, double automatic_Ladder, double co2, double command_Vehicle, double fire_extinguisher, double fire_fighter, double foam, double insurance, double naval_vehicle, double power_pump_clock, double road_tankers, double special_vehicle, double tehnical_vehicle, double transportation_vehicle) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-        Costs costs = new Costs(apsorbent,automatic_Ladder,co2,command_Vehicle,fire_extinguisher,fire_fighter,foam
-        ,insurance,naval_vehicle,power_pump_clock,road_tankers, special_vehicle,tehnical_vehicle, transportation_vehicle,CurrentDate,CurrentDate);
-  costs.save();
+        Costs costs = new Costs(apsorbent, automatic_Ladder, co2, command_Vehicle, fire_extinguisher, fire_fighter, foam
+                , insurance, naval_vehicle, power_pump_clock, road_tankers, special_vehicle, tehnical_vehicle, transportation_vehicle, CurrentDate, CurrentDate);
+        costs.save();
 
-        Cost_fireman_patrol cost_fireman_patrol = new Cost_fireman_patrol(CurrentDate,costs,this,CurrentDate,CurrentDate);
+        Cost_fireman_patrol cost_fireman_patrol = new Cost_fireman_patrol(CurrentDate, costs, this, CurrentDate, CurrentDate);
         cost_fireman_patrol.save();
 
     }
 
-    public static Fireman_patrol getRandomPatrol(){
 
-        List<Fireman_patrol> house = SQLite.select().from(Fireman_patrol.class).queryList();
+    public Costs getCost(){
 
 
-        return house.get(0);
+        Cost_fireman_patrol house = SQLite.select().from(Cost_fireman_patrol.class).where(Cost_fireman_patrol_Table.fireman_patrol_ID.is(this.getID())).queryList().get(0);
+
+        return house.getCosts();
     }
 
 
-    public List<Truck> getAllTrucks(){
+    public List<Truck> getAllTrucks() {
         List<Truck> house = SQLite.select().from(Truck.class).where(Truck_Table.fireman_patrol_ID.is(this.getID())).queryList();
 
 
@@ -165,18 +164,26 @@ public class Fireman_patrol extends BaseModel {
 
     }
 
-    public static Fireman_patrol getPatrolByName (String name){
 
-       return SQLite.select().from(Fireman_patrol.class).where(Fireman_patrol_Table.name.is(name)).querySingle();
+    public static Fireman_patrol getRandomPatrol(){
+
+        List<Fireman_patrol> house = SQLite.select().from(Fireman_patrol.class).queryList();
+
+        return house.get(0);
     }
 
-    public  Truck getTruckByName (String name){
+    public static Fireman_patrol getPatrolByName (String name){
+
+
+        return SQLite.select().from(Fireman_patrol.class).where(Fireman_patrol_Table.name.is(name)).querySingle();
+    }
+
+    public Truck getTruckByName(String name) {
         List<Truck> trucks = getAllTrucks();
 
         for (Truck t :
                 trucks) {
-            if (t.getName().equals(name))
-            {
+            if (t.getName().equals(name)) {
                 return t;
             }
         }

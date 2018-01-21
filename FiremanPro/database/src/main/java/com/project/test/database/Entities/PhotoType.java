@@ -33,8 +33,8 @@ public class PhotoType extends BaseModel {
     public PhotoType() {
     }
 
-    public PhotoType(int ID,String type, String description, Date updated_at, Date created_at) {
-        this.ID=ID;
+    public PhotoType(int ID, String type, String description, Date updated_at, Date created_at) {
+        this.ID = ID;
         Type = type;
         Description = description;
         this.updated_at = updated_at;
@@ -80,8 +80,6 @@ public class PhotoType extends BaseModel {
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
-
-
 
 
 }

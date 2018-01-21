@@ -30,7 +30,6 @@ public class Spreading_smoke extends BaseModel {
     String description;
 
 
-
     @Column
     Date updated_at;
     @Column
@@ -89,7 +88,7 @@ public class Spreading_smoke extends BaseModel {
         this.created_at = created_at;
     }
 
-    public static Spreading_smoke getRandomType(){
+    public static Spreading_smoke getRandomType() {
 
         List<Spreading_smoke> house = SQLite.select().from(Spreading_smoke.class).queryList();
 
@@ -97,7 +96,7 @@ public class Spreading_smoke extends BaseModel {
         return house.get(0);
     }
 
-    public static Spreading_smoke getByName(String name){
+    public static Spreading_smoke getByName(String name) {
 
         Spreading_smoke spreading_smoke = SQLite.select().from(Spreading_smoke.class).where(Spreading_smoke_Table.name.is(name)).querySingle();
 

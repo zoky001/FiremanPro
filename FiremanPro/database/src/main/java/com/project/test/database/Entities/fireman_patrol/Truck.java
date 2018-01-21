@@ -33,10 +33,10 @@ public class Truck extends BaseModel {
     Date created_at;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-           Type_of_truck type_of_truck;
+            Type_of_truck type_of_truck;
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-          Fireman_patrol fireman_patrol;
+            Fireman_patrol fireman_patrol;
 
 
     public Truck() {
@@ -76,7 +76,6 @@ public class Truck extends BaseModel {
     }
 
 
-
     public Date getUpdated_at() {
         return updated_at;
     }
@@ -101,13 +100,12 @@ public class Truck extends BaseModel {
         this.fireman_patrol = fireman_patrol;
     }
 
-    public static Truck getRandomTruck(){
+    public static Truck getRandomTruck() {
 
         List<Truck> house = SQLite.select().from(Truck.class).queryList();
 
         return house.get(0);
     }
-
 
 
 }

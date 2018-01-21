@@ -39,7 +39,6 @@ public class Photos extends BaseModel {
     java.util.Date created_at;
 
 
-
     public Photos() {
     }
 
@@ -99,14 +98,12 @@ public class Photos extends BaseModel {
         this.created_at = created_at;
     }
 
-    public Bitmap getImageBitmapbyContext (Context contextItem) {
+    public Bitmap getImageBitmapbyContext(Context contextItem) {
 
         Bitmap bitmap = new ImageSaver(contextItem).
-                setFileName(getFileName()+".png").
+                setFileName(getFileName() + ".png").
                 setDirectoryName("Images").
                 load();
-
-
 
 
         return bitmap;

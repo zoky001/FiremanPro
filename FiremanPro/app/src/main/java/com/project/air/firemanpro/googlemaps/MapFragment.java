@@ -83,6 +83,10 @@ public class MapFragment extends Fragment implements
             house = HouseController.getFirstHouse();
         }
 
+        /**
+         * adresa odredišta se određuje
+         */
+
         end_latitude=house.getAddress().getLatitude();
         end_longitude=house.getAddress().getLongitude();
 
@@ -104,10 +108,15 @@ public class MapFragment extends Fragment implements
         }
 
 
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkLocationPermission();
         }
+
+        /**
+         * Stvara se bitmapa kako bi se prikazala ikonica vozila, nažalost stavlja bijelu pozadinu
+         */
         BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hydrant);
         Bitmap b = bitmapdraw.getBitmap();
         final Bitmap hydrantMarker =Bitmap.createScaledBitmap(b, 45, 80, false);
@@ -133,6 +142,11 @@ public class MapFragment extends Fragment implements
         return rootView;
     }
 
+    /**
+     *
+     * Metoda koja pita za pristup lokacije koju smo odredili dodati kao početnu točku
+     *
+     */
     public  boolean checkLocationPermission() {
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -200,6 +214,13 @@ public class MapFragment extends Fragment implements
 
     }
 
+    /**
+     * Metoda kod koje se azurira prikaz koji pokazuje nšu poziciju
+     *
+     * Ova metoda briše trenutni marker i prikazuje trenutnu poziciju metodom displayLocation()
+     *
+     */
+
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
@@ -216,20 +237,24 @@ public class MapFragment extends Fragment implements
         displayLocation();
     }
 
+    /**
+     * Metoda kod koje se dodaje marker na trenutnu lokaciju (last location je zapravo nasa lokacija iz koje čitamo lat i longitude te stavljamo na kartu marker)
+     *
+     */
     private void displayLocation() {
         if (lastLocation != null) {
             double latitude = lastLocation.getLatitude();
             double longitude = lastLocation.getLongitude();
             String loc = "" + latitude + " ," + longitude + " ";
-            //Toast.makeText(this,loc, Toast.LENGTH_SHORT).show();
 
-            //Add pointer to the map at location
+            //dodavanje markera na kartu
             addMarker(mMap,latitude,longitude);
 
 
             Object dataTransfer[] = new Object[2];
 
 
+            // podaci potrebni kako bi mogli doći do podataka na kojoj karti kako spojiti polyline uz slanje zadje llokacije
             dataTransfer = new Object[3];
             String url = getDirectionsUrl();
             GetDirectionsData getDirectionsData = new GetDirectionsData();
@@ -243,13 +268,17 @@ public class MapFragment extends Fragment implements
         }
     }
 
+
+    /**
+     * Methoda s kojom se dodaju markeri na kartu s time da je jedan u obliku bitmape, a to je onaj koji će se pomicati
+     *
+     */
+
     private void addMarker(GoogleMap googleMap, double lat, double lon) {
-        // Add A Map Pointer To The MAp
         if(markerCount==1){
             animateMarker(lastLocation,currentLocationMarker);
         }
         else if (markerCount==0){
-            //Set Custom BitMap for Pointer
             int height = 80;
             int width = 45;
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.fireman_truck);
@@ -267,6 +296,10 @@ public class MapFragment extends Fragment implements
         }
     }
 
+    /**
+     * Methoda koja se poziva kako bi se pokazala trenutna lokacija tijekom pomicanja i njegova rotacija
+     *
+     */
 
     public static void animateMarker(final Location destination, final Marker marker) {
         if (marker != null) {
@@ -323,6 +356,12 @@ public class MapFragment extends Fragment implements
         }
     }
 
+    /**
+     * Methoda koja traži najkraći put među sadašjom i slljedećom nađenom točkom
+     *
+     *
+     */
+
     private interface LatLngInterpolator {
         LatLng interpolate(float fraction, LatLng a, LatLng b);
 
@@ -341,6 +380,14 @@ public class MapFragment extends Fragment implements
         }
     }
 
+    /**
+     * Method koja priprema link s kojeg se primaju jsqon podaci tako što stavlja početnu i krajnju točku(u obliku lat i lng
+     * sa linka se čitaju podaci s kojima se stvara polyline
+     *
+     *
+     *
+     * @return The resulting sum of a and b
+     */
     private String getDirectionsUrl()
     {
         latitude = currentLocationMarker.getPosition().latitude;
@@ -353,6 +400,8 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
+
+
     //Function to calculate 2 nearest hydrants relative to house
     private LatLng[] closestHydrants (LatLng houseLatLng){
 

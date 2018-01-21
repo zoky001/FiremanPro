@@ -31,38 +31,38 @@ public class ViewPagerAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @Override    public int getCount() {
+    @Override
+    public int getCount() {
         return image_list.size();
     }
 
-    @Override    public boolean isViewFromObject(View view, Object object) {
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
         return view == ((RelativeLayout) object);
     }
 
-    @Override    public Object instantiateItem(ViewGroup container, int position) {
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
         View viewLayout = layoutInflater.inflate(R.layout.image_slider, container, false);
 
         imageDisplay = (TouchImageView) viewLayout.findViewById(R.id.full_image);
 
-       // Glide.with(context).load(image_list.get(position).getImgBitmap()).placeholder(R.drawable.wait).into(imageDisplay);
-
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         image_list.get(position).getImgBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+
         Glide.with(context)
                 .load(stream.toByteArray())
                 .asBitmap()
                 .placeholder(R.drawable.wait)
-
                 .into(imageDisplay);
 
-
-        // Glide.with(context).load(image_list.get(position).getImagePath()).placeholder(R.drawable.wait).into(imageDisplay);
         ((ViewPager) container).addView(viewLayout);
 
         return viewLayout;
     }
 
-    @Override    public void destroyItem(ViewGroup container, int position, Object object) {
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
         ((ViewPager) container).removeView((RelativeLayout) object);
     }
 }

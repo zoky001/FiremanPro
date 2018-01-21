@@ -29,7 +29,6 @@ public class Spatial_spread extends BaseModel {
     String description;
 
 
-
     @Column
     Date updated_at;
     @Column
@@ -87,14 +86,15 @@ public class Spatial_spread extends BaseModel {
         this.created_at = created_at;
     }
 
-    public static Spatial_spread getRandomType(){
+    public static Spatial_spread getRandomType() {
 
         List<Spatial_spread> house = SQLite.select().from(Spatial_spread.class).queryList();
 
 
         return house.get(0);
     }
-    public static Spatial_spread getByName(String name){
+
+    public static Spatial_spread getByName(String name) {
 
         Spatial_spread spreading_smoke = SQLite.select().from(Spatial_spread.class).where(Spatial_spread_Table.name.is(name)).querySingle();
 
