@@ -427,17 +427,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         /* slanje maila */
         System.out.println("Send email SAVEE");
 
-        String[] TO = {"someone@gmail.com"};
+        String[] TO = {"airreports0@gmail.com"};
         // String[] CC = {"xyz@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("message/rfc822");
 
-/*
-        File root = Environment.getExternalStorageDirectory();
 
-        String pathToMyAttachedFile = "SD card/Download/zapisnik-intervencije-MojiKomentari.com";
-        File file = new File(root, pathToMyAttachedFile);
+
+
+        String pathToMyAttachedFile = Environment.getExternalStorageDirectory()+ "/report.docx";
+        File file = new File(pathToMyAttachedFile);
         if (!file.exists() || !file.canRead()) {
             return;
         }
@@ -445,7 +445,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
-*/
+
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         // emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
