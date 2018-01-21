@@ -1,11 +1,13 @@
 package com.project.air.firemanpro;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,11 +21,14 @@ import android.widget.AutoCompleteTextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
+import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Settings;
 import com.project.test.database.Entities.fireman_patrol.Costs;
+import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.report.InterventionController;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         //DBflow connect to database
         FlowManager.init(new FlowConfig.Builder(this).build());
+
 
         ButterKnife.bind(this);
 
@@ -200,6 +206,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void checkIfExistUnfinishedIntervention() {
+        InterventionController interventionController = new InterventionController();
+
+
+        if (InterventionController.getUnfinishedIntervention().size() > 0)
+        {
+            final Intervention_track unfinshed = InterventionController.getInterventionByID(InterventionController.getUnfinishedIntervention().get(0).getId_intervention_track());
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Postoji započeta intervencija. Želite li je dovršiti? ");
+            builder1.setCancelable(true);
+
+
+            builder1.setPositiveButton(
+                    "Da",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            System.out.println("clikcOnItem()r: ");
+                            Intent intent = new Intent(getBaseContext(), ProfilNewActivity.class);
+                            intent.putExtra("EXTRA_SESSION_ID",String.valueOf(unfinshed.getHouse().getId_house())); // umjesto 01 prosljediš ID kuće
+                            getBaseContext().startActivity(intent);
+
+
+
+                            dialog.cancel();
+
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "Ne",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+
+                            dialog.cancel();
+
+                        }
+                    });
+
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+
+
+
+        }
+
+
+
+
+
+
+    }
 
 
     @OnClick(R.id.buttonSearching)
@@ -287,5 +349,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkIfExistUnfinishedIntervention();
+    }
 }

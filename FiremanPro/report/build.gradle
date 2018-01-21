@@ -28,6 +28,7 @@ dependencies {
     })
     compile project(':database')
     compile project(':core_module')
+    compile project(path: ':apache_poi')
 
     // expandable recycler
     compile 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
@@ -52,5 +53,5 @@ dependencies {
 
 
 
-    compile project(path: ':apache_poi')
+
 }

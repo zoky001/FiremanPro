@@ -8,10 +8,12 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
 
 import com.kizo.report.FinishedReportActivity;
+import com.kizo.report.NewReportFormActivity;
 import com.kizo.report.R;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Reports;
@@ -43,6 +45,7 @@ public class SavedReportHolder extends ParentViewHolder {
     private int position = 0;
     public CardView cardView;
     public TextView ID;
+    private InterventionController interventionController = new InterventionController();
 
     View mItemView;
 
@@ -63,10 +66,58 @@ public class SavedReportHolder extends ParentViewHolder {
 
                 @Override
                 public void onClick(View v) {
-                    System.out.println("clickOnItem() _ ID: " + ID.getText());
-                    Intent intent = new Intent(v.getContext(), FinishedReportActivity.class);
-                    intent.putExtra("EXTRA_SESSION_ID", ID.getText());
-                    v.getContext().startActivity(intent);
+
+                    try {
+                        if (InterventionController.getInterventionByID(Integer.valueOf(ID.getText().toString())).isCompleted_intervention()) {
+                            System.out.println("clickOnItem() _ ID: " + ID.getText());
+                            Intent intent = new Intent(v.getContext(), FinishedReportActivity.class);
+                            intent.putExtra("EXTRA_SESSION_ID", ID.getText());
+                            v.getContext().startActivity(intent);
+                        } else {
+
+                            Toast.makeText(itemView.getContext(), "Nedovršenu intervenciju nije moguće prikazati!!", Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(itemView.getContext());
+                            builder1.setMessage("Nemoguće pregleda nedovršenu intervenciju!! Želite li je dovršiti? ");
+                            builder1.setCancelable(true);
+
+
+                            builder1.setPositiveButton(
+                                    "Da",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                            Intent intent = new Intent(itemView.getContext(), NewReportFormActivity.class);
+                                            intent.putExtra("IDintervencije", String.valueOf(ID.getText())); // umjesto 01 prosljediš ID kuće
+                                            itemView.getContext().startActivity(intent);
+
+                                            dialog.cancel();
+
+                                        }
+                                    });
+
+                            builder1.setNegativeButton(
+                                    "Ne",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+
+                                            dialog.cancel();
+
+                                        }
+                                    });
+
+
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
+
+
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("EXCEPTION: " + e.getMessage());
+                    }
+
+
                 }
             });
 
@@ -122,6 +173,8 @@ public class SavedReportHolder extends ParentViewHolder {
         }
 
     }
+
+
 
     // when the adapter is implemented this method is used to bind list elements with the recycler-view, here, we populate the Views
     public void bind(Intervention_track intervention_track, int position) {
