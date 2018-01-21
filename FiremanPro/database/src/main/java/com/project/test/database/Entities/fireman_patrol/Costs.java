@@ -62,13 +62,10 @@ public class Costs extends BaseModel {
     double transportation_vehicle;
 
 
-
-
     @Column
     Date updated_at;
     @Column
     Date created_at;
-
 
 
     public Costs() {

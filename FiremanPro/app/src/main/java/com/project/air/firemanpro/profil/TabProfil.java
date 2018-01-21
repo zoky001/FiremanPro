@@ -103,34 +103,27 @@ public class TabProfil extends TabFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_profil, container, false);
         ButterKnife.bind(this, rootView);
-        String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: " + s);
-        int a = Integer.parseInt(getArguments().getString("IDkuce"));
-        if (a != -1) {
 
+        try {
+            String s = getArguments().getString("IDkuce");
+            System.out.println("SESSION FRAGMENT_idkuce: " + s);
+            int a = Integer.parseInt(getArguments().getString("IDkuce"));
             house = HouseController.getHouse(a);
 
-        } else {
-            house = HouseController.getFirstHouse();
+            //set profil image
+            profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
+
+            //set owner data
+            txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
+            txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
+            txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
+            txtPlace.setText(house.getPlaceName());
+            txtMobitel.setText(house.getMobNumber());
+            txtTel.setText(house.getTelNumber());
+
+        } catch (Exception e) {
+            System.out.println("EXCEPTON: " + e.getMessage());
         }
-
-
-        System.out.println("LOKACIJAAA ACTT: " + getActivity().getPackageName());
-        //set profil image
-
-
-        profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
-
-        //set owner data
-        txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
-
-        txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
-
-
-        txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
-        txtPlace.setText(house.getPlaceName());
-        txtMobitel.setText(house.getMobNumber());
-        txtTel.setText(house.getTelNumber());
 
         return rootView;
 
@@ -141,13 +134,9 @@ public class TabProfil extends TabFragment {
     }
 
 
-
     /**
      * Nakon kriranja View-a se ID kuće stavlja u Bundel.
      * U fragment frame se učitava Map fragment koji prikazije put do kuče od trenutne lokacije.
-     *
-     *
-     *
      *
      * @author Zoran Hrnčić
      */
@@ -155,8 +144,20 @@ public class TabProfil extends TabFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        try {
+            Bundle bundle = new Bundle();
+            String IDHouse = "" + house.getId_house();
+            bundle.putString("IDkuce", IDHouse);
+            Fragment mapFragment = new MapFragment();
+            mapFragment.setArguments(bundle);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.map_container, mapFragment)
+                    .commit();
+        } catch (Exception e) {
+            System.out.println("EXCEPTON: " + e.getMessage());
 
-        Bundle bundle = new Bundle();
+        }
 
         String IDHouse = "" + house.getId_house();
 /*
@@ -202,29 +203,31 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
             btnNewReport.setText("Poziv zaprimljen");
         }
 
-
-
-
     }
 
 
-
+    /**
+     *
+     * @param view
+     *
+     * Zoran Grđan
+     */
     @OnClick(R.id.buttonMax)
     public void buttonMaxClicked(View view) {
-
-
         String IDHouse = "" + house.getId_house();
         Intent intent = new Intent(view.getContext(), GoogleMapActivity.class);
         intent.putExtra("IDkuce", IDHouse);
-
-
         startActivity(intent);
-
     }
 
+    /**
+     *
+     * @param view
+     *
+     * Zoran Grđan
+     */
     @OnClick(R.id.leadMeButton)
     public void leadMeButton(View view) {
-
         double latitude, longitude;
         latitude = house.getAddress().getLatitude();
         longitude = house.getAddress().getLongitude();
@@ -292,7 +295,11 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
 
         }
 
-
+    /**
+     * omogućuje učitavanje ovog fragmenta u metodu interface-a
+     *
+     * @param iTabFragment imaplementacija interface-a ITabFragment
+     */
     @Override
     public void loadFrag(ITabFragment iTabFragment) {
         super.loadFrag(iTabFragment);

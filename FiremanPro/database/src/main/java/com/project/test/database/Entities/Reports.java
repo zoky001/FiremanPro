@@ -92,9 +92,6 @@ public class Reports extends BaseModel {
     double mehanization_hour;
 
 
-
-
-
     @Column
     java.util.Date updated_at;
     @Column
@@ -108,14 +105,14 @@ public class Reports extends BaseModel {
             Sort_of_intervention sort_of_intervention;
 
 
-
-
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
+
     Fireman signed;
 
 
     Tehnical_intervention NEWtehnical_intervention;
     Other_sort_intervention NEWother_sort_intervention;
+
     public Reports() {
     }
 
@@ -305,15 +302,16 @@ public class Reports extends BaseModel {
     }
 
 
-
     public void addConsumption(double apsorbent, double automatic_ladder, double co2, double command_vehicle, double fire_extinguisher,
                                double fire_fighter, double foam,// double id2,
                                double insurance, double navalVehicle, double powerPumpClock,
-                               double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle){
+                               double roadTankers, double specialVehicle, double tehnicalVehicle, double transportationVehicle) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
 
         consumption = new Consumption( apsorbent,  automatic_ladder, co2, command_vehicle,  fire_extinguisher,fire_fighter,  foam,  // id2,
                   insurance,  navalVehicle,  powerPumpClock,  roadTankers,  specialVehicle,  tehnicalVehicle,  transportationVehicle, CurrentDate, CurrentDate);
+
 
        // consumption.save();
 
@@ -322,73 +320,82 @@ public class Reports extends BaseModel {
 
 
     public void addFireIntervention(Intervention_Type intervention_type){
+
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-        Fire_intervention fire_intervention = new Fire_intervention(intervention_type,this,CurrentDate,CurrentDate);
+        Fire_intervention fire_intervention = new Fire_intervention(intervention_type, this, CurrentDate, CurrentDate);
         fire_intervention.save();
     }
 
-    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type){
+    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire, Intervention_Type intervention_type) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
         Fire_intervention fire_intervention = new Fire_intervention(localization,fireExtinguished,destroyed_space,repeated,CurrentDate,CurrentDate,spreading_smoke, spatial_spread,time_spread,outdoor_type,size_of_fire,intervention_type,this);
         // fire_intervention.save();
+
     }
 
-    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire){
+    public void addFireInterventionDetails(Date localization, Date fireExtinguished, int destroyed_space, boolean repeated, Spreading_smoke spreading_smoke, Spatial_spread spatial_spread, Time_spread time_spread, Outdoor_type outdoor_type, Size_of_fire size_of_fire) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
         this.getFireInterventionDetails().addDetails(localization,fireExtinguished,destroyed_space,repeated,spreading_smoke, spatial_spread,time_spread,outdoor_type,size_of_fire);
     }
 
     public void saveFireInterventionDetails(){
+
         this.getFireInterventionDetails().save();
     }
 
-    public void addTehnicalInterventionDetails(Intervention_Type intervention_type){
+    public void addTehnicalInterventionDetails(Intervention_Type intervention_type) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+
         NEWtehnical_intervention = new Tehnical_intervention(CurrentDate,CurrentDate,intervention_type,this);
     }
+
 
     public void saveTehnicalInterventionDetails(){
         NEWtehnical_intervention.save();
     }
 
-    public void addOtherInterventionDetails(Intervention_Type intervention_type){
+    public void addOtherInterventionDetails(Intervention_Type intervention_type) {
 
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
+
         NEWother_sort_intervention = new Other_sort_intervention(CurrentDate,CurrentDate,intervention_type,this);
     }
+
 
     public void saveOtherInterventionDetails(){
         NEWother_sort_intervention.save();
     }
 
-    public void addFiremanToIntervention(Fireman fireman){
+    public void addFiremanToIntervention(Fireman fireman) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-        Report_fireman report_fireman = new Report_fireman(fireman,this,CurrentDate,CurrentDate);
+        Report_fireman report_fireman = new Report_fireman(fireman, this, CurrentDate, CurrentDate);
         report_fireman.save();
     }
 
-    public void addFiremanPatrolandTruck(int numberOfFireman,double water, double foam, double powder,double co2, double km, double hours, Truck truck, Fireman_patrol fireman_patrol){
+    public void addFiremanPatrolandTruck(int numberOfFireman, double water, double foam, double powder, double co2, double km, double hours, Truck truck, Fireman_patrol fireman_patrol) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-        Report_truck_patrol report_truck_patrol = new Report_truck_patrol(numberOfFireman,water,foam,powder,co2,km,hours,truck,fireman_patrol,this,CurrentDate,CurrentDate);
+        Report_truck_patrol report_truck_patrol = new Report_truck_patrol(numberOfFireman, water, foam, powder, co2, km, hours, truck, fireman_patrol, this, CurrentDate, CurrentDate);
         report_truck_patrol.save();
     }
 
-    public void addFiremanSignedToIntervention(Fireman fireman){
+    public void addFiremanSignedToIntervention(Fireman fireman) {
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-      this.signed = fireman;
+        this.signed = fireman;
         this.save();
     }
 
-    public Fire_intervention getFireInterventionDetails(){
+    public Fire_intervention getFireInterventionDetails() {
 
         List<Fire_intervention> house = SQLite.select().from(Fire_intervention.class).where(Fire_intervention_Table.report_id.is(this.id)).queryList();
 
 
         return house.get(0);
     }
+
 
     public Tehnical_intervention getTehnicalInterventionDetails(){
         Types_all_Controller types_all_controller = new Types_all_Controller();
@@ -438,21 +445,20 @@ public class Reports extends BaseModel {
 
     public List<Report_truck_patrol> getTrucksAndPatrols(){
 
+
         List<Report_truck_patrol> house = SQLite.select().from(Report_truck_patrol.class).where(Report_truck_patrol_Table.reports_id.is(this.id)).queryList();
 
 
         return house;
     }
 
-    public List<Report_fireman> getFiremans(){
+    public List<Report_fireman> getFiremans() {
 
         List<Report_fireman> house = SQLite.select().from(Report_fireman.class).where(Report_fireman_Table.reports_id.is(this.id)).queryList();
 
 
         return house;
     }
-
-
 
 
 }

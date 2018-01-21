@@ -112,7 +112,7 @@ public class Settings extends BaseModel {
     }
 
 
-    private static Settings setDefaultSettings(){
+    private static Settings setDefaultSettings() {
 
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
         List<Settings> settings = SQLite.select()
@@ -121,18 +121,17 @@ public class Settings extends BaseModel {
 
         if (settings.size() < 1) {
 
-            Settings settings1 = new Settings(1,"DVD Križovljan Cestica", "zoky001@gmail.com",CurrentDate,"http://fireman-pro.ddns.net/FiremanPro-laravel/",CurrentDate,CurrentDate);
+            Settings settings1 = new Settings(1, "DVD Križovljan Cestica", "zoky001@gmail.com", CurrentDate, "http://fireman-pro.ddns.net/FiremanPro-laravel/", CurrentDate, CurrentDate);
             settings1.save();
             return settings1;
-        }
-        else {
+        } else {
             return settings.get(0);
         }
 
 
     }
 
-    public static Settings getSettings(){
+    public static Settings getSettings() {
 
         return setDefaultSettings();
     }
