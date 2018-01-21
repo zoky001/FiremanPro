@@ -1,6 +1,8 @@
 package com.project.air.firemanpro.profil;
 
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -9,7 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
@@ -17,6 +21,7 @@ import com.kizo.ground_plan.Tab.TabTlocrt;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.controllers.report.InterventionController;
 
 
 /**
@@ -195,4 +200,62 @@ public class ProfilNewActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         } //toolbar
     }
+
+
+    private boolean close = true;
+    private boolean postavljeno = false;
+
+    @Override
+    public void onBackPressed() {
+
+        final InterventionController in = new InterventionController();
+
+        if (!postavljeno && in.checkIfExistUnfinishedInterventionAtHouse(house)) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Jeste li sigurni da želite obrisati zapisnik intervencije? ");
+            builder1.setCancelable(false);
+
+
+            builder1.setPositiveButton(
+                    "Da",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            InterventionController.deleteInterventionWithID(in.getUnfinishedInterventionAtHouse(house).getId_intervention_track());
+                            close = true;
+                            postavljeno=true;
+                            onBackPressed();
+                            dialog.cancel();
+
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "Ne",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            close = true;
+                            postavljeno=true;
+                            onBackPressed();
+                            dialog.cancel();
+
+                        }
+                    });
+
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }else {
+            postavljeno = false;
+            if (close)
+                super.onBackPressed();
+
+        }
+
+        Log.d("KLIK:", "onBackPressed: ");
+
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package com.project.air.firemanpro.profil;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
@@ -7,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +27,19 @@ import com.project.air.firemanpro.googlemaps.GoogleMapActivity;
 import com.project.air.firemanpro.googlemaps.MapFragment;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.fire_intervention.Size_of_fire;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
+import com.project.test.database.Entities.fire_intervention.Time_spread;
+import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
+import com.project.test.database.Entities.fireman_patrol.Truck;
+import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
+import com.project.test.database.helper.MockData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +126,11 @@ public class TabProfil extends TabFragment {
         }
 
         return rootView;
+
+
+
+
+
     }
 
 
@@ -137,6 +157,50 @@ public class TabProfil extends TabFragment {
         } catch (Exception e) {
             System.out.println("EXCEPTON: " + e.getMessage());
 
+        }
+
+        String IDHouse = "" + house.getId_house();
+/*
+zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
+        bundle.putString("IDkuce", IDHouse);
+        Fragment mapFragment = new MapFragment();
+        mapFragment.setArguments(bundle);
+
+//*  ruši mi se na virtualki KIZO
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.map_container, mapFragment)
+                .commit();
+
+
+
+        Intervention_track intervencija;
+        boolean nekaj=interventionController.checkIfExistUnfinishedInterventionAtHouse(house);
+        if (nekaj) {
+
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+            String a, b, c, d;
+            if(intervencija.getReports().getTime_call_received()!=null)
+            {
+                btnNewReport.setText("Započeti intervenciju");
+            }
+            if(intervencija.getReports().getTime_intervention_start()!=null)
+            {
+                btnNewReport.setText("Dolazak na mjesto");
+            }
+            if(intervencija.getReports().getTime_arrival_intervention()!=null)
+            {
+                btnNewReport.setText("Kraj Intervencije");
+
+            }
+            if(intervencija.getReports().getTime_intervention_ended()!=null)
+            {
+                btnNewReport.setText("Kreiraj izvještaj");
+            }
+
+        }
+        else{
+            btnNewReport.setText("Poziv zaprimljen");
         }
 
     }
@@ -172,31 +236,64 @@ public class TabProfil extends TabFragment {
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
-
     @OnClick(R.id.btn_new_report)
     public void newReport(View view) {
+
+        String buttonText = btnNewReport.getText().toString();
+
+        String callRecievedText = "Poziv zaprimljen";
+        String interventionStartedText = "Započeti intervenciju";
+        String interventionArrivalText = "Dolazak na mjesto";
+        String interventionEndedText = "Kraj Intervencije";
+        String startReport = "Kreiraj izvještaj";
         Intervention_track intervencija;
-        if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
-            intervencija = interventionController.addNewIntervention_atHouse(house);
+        if (buttonText.toLowerCase().trim().equals(callRecievedText.toLowerCase().trim())) {
+            if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
+
+                intervencija = interventionController.addNewIntervention_atHouse(house);
 
 
-            intervencija.add_FIRE_ReportToIntervention();
-
-            intervencija.callReceived();
-            intervencija.intervetionStarted();
-            intervencija.intervetionArrival();
-            intervencija.intervetionEnded();
+                intervencija.add_FIRE_ReportToIntervention();
+                intervencija.callReceived();
 
 
-        } else
-            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
 
+                btnNewReport.setText(interventionStartedText);
 
-        Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
-        intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
-        startActivityForResult(intent, NEW_ALARM);
+            }
+        }
 
-    }
+            if (buttonText.toLowerCase().trim().equals(interventionStartedText.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+                btnNewReport.setText(interventionArrivalText);
+                intervencija.intervetionStarted();
+
+            }
+            if (buttonText.toLowerCase().trim().equals(interventionArrivalText.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+                btnNewReport.setText(interventionEndedText);
+                intervencija.intervetionArrival();
+            }
+            if (buttonText.toLowerCase().trim().equals(interventionEndedText.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+                btnNewReport.setText(startReport);
+                intervencija.intervetionEnded();
+
+            }
+            if (buttonText.toLowerCase().trim().equals(startReport.toLowerCase().trim())) {
+                intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+                btnNewReport.setText(callRecievedText);
+                Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
+                intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
+                startActivityForResult(intent, NEW_ALARM);
+
+            }
+
+        }
 
     /**
      * omogućuje učitavanje ovog fragmenta u metodu interface-a
@@ -208,4 +305,32 @@ public class TabProfil extends TabFragment {
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

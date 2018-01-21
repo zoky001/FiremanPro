@@ -22,7 +22,6 @@
             />
     </LinearLayout>
 
-
     <LinearLayout
         style="@style/NumberArea"
         >
@@ -30,11 +29,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
-            android:text="Sat rada autocisterne: "
+            android:text="Sat rada autocisterne:"
             android:layout_gravity="center"
             />
         <EditText
-            android:id="@+id/commandVehicle"
+            android:id="@+id/roadTankers"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -78,11 +77,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
-            android:text="Sat rada zapovjednog vozila:"
+            android:text="Sat rada zapovjednog vozila: "
             android:layout_gravity="center"
             />
         <EditText
-            android:id="@+id/roadTankers"
+            android:id="@+id/commandVehicle"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -151,6 +150,7 @@
             />
     </LinearLayout>
 
+
     <LinearLayout
         style="@style/NumberArea"
         >
@@ -158,7 +158,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
-            android:text="Sat rada autocisterne: "
+            android:text="Apsorbent: "
             android:layout_gravity="center"
             />
         <EditText
@@ -166,5 +166,8 @@
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
+
+
+
 
 </LinearLayout>

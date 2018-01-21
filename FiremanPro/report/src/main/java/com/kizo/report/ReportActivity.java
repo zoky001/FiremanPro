@@ -35,7 +35,6 @@ public class ReportActivity extends AppCompatActivity implements ITabFragment,
 
 
     Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

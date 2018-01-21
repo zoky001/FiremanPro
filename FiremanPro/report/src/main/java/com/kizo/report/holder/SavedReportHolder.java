@@ -17,6 +17,7 @@ import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Reports;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.report.InterventionController;
+import com.project.test.database.controllers.report.Types_all_Controller;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -139,12 +140,28 @@ public class SavedReportHolder extends ParentViewHolder {
         ID.setText(String.valueOf(intervention_track.getId_intervention_track()));
 
         try {
-            interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName() + " - " +
-                    intervention_track.getReports().getFireInterventionDetails().getIntervention_type().getName());
+
+            Types_all_Controller types_all_controller = new Types_all_Controller();
+
+            if (intervention_track.getReports().getSort_of_intervention().getId() == types_all_controller.get_FIRE_Sort_of_intervention().getId()) {
+
+                interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName() + " - " +
+
+                        intervention_track.getReports().getFireInterventionDetails().getIntervention_type().getName());
+            } else if (intervention_track.getReports().getSort_of_intervention().getId() == types_all_controller.get_TRHNICAL_Sort_of_intervention().getId()) {
+
+                interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName());
+            } else if (intervention_track.getReports().getSort_of_intervention().getId() == types_all_controller.get_OTHER_Sort_of_intervention().getId()) {
+
+                interventionType.setText(intervention_track.getReports().getSort_of_intervention().getName());
+            }
+
+
             mStoreDescription.setText(intervention_track.getReports().getDescription());
             mStoreName.setText(intervention_track.getLocation().getStreetNameIfExist() + " " + intervention_track.getLocation().getStreetNumber());
             mStoreImage.setImageBitmap(intervention_track.getHouse().getProfilPhotos().getImageBitmapbyContext(itemView.getContext()));
 
+            // Picasso.with(itemView.getContext()).load(store.getImgUrl()).into(mStoreImage);
 
         } catch (Exception e) {
 

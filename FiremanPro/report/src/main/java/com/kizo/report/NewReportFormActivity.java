@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.BoolRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spatial_spread;
@@ -155,7 +159,25 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     // selected sort
     String selectedSort;
+    TextView notFire;
 
+    // ukoliko je izbrisan resurs ne radi validacijuu
+    boolean spremljenResrs = false;
+
+    // ako je korisnik već bio na ovom koraku i sad promijeni nešto spremiti promijene
+    // Information about the steps/fields of the form
+    boolean prviUlaz_MAIN = true;
+    boolean prviUlaz_USED_RESOURCES_STEP_NUM = true; // NA NE SPREMLJENI ULAZ SPREMAJ INAĆE PRESKOČI
+    boolean prviUlaz_FIRE_STEP_NUM = true;
+    boolean prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = true;
+    boolean prviUlaz_DESCRIPTION_HELPER_STEP_NUM = true;
+    boolean prviUlaz_INTERVENTION_STEP_NUM = true;
+    boolean prviUlaz_FIREMEN_NUM = true;
+
+
+    boolean promijenaINTERVENTION_STEP_NUM = true;
+
+    Button prvi ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,34 +198,32 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         initializeActivity();
     }
 
+    /**
+     * Methoda kkoja postavlja vertical stepper form
+     */
+
     private void initializeActivity() {
         // Vertical Stepper form vars
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.glavna);
         int colorPrimaryDark = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDarkREPORT);
 
         String[] stepsTitles = getResources().getStringArray(R.array.steps_titles);
-        // String[] stepsSubtitles = getResources().getStringArray(R.array.steps_subtitles);
 
-        // Here we find and initialize the form
         verticalStepperForm = (VerticalStepperFormLayout) findViewById(R.id.vertical_stepper_form);
         VerticalStepperFormLayout.Builder.newInstance(verticalStepperForm, stepsTitles, this, this)
-                //.stepsSubtitles(stepsSubtitles)
                 .materialDesignInDisabledSteps(false)// false by default
                 .showVerticalLineWhenStepsAreCollapsed(true) // false by default
                 .primaryColor(colorPrimary)
-                // .primaryDarkColor(colorPrimaryDark)
                 .displayBottomNavigation(true)
                 .init();
     }
 
-    // METHODS THAT HAVE TO BE IMPLEMENTED TO MAKE THE LIBRARY WORK
-    // (Implementation of the interface "VerticalStepperForm")
-
+    /**
+     * Methoda s kojom se omogućava(/ dopupta korištenje steppera
+     * automatski se zbog switcha popunjava sve i ako se vratimo na prethodni korak
+     */
     @Override
     public View createStepContentView(int stepNumber) {
-        // Here we generate the content view of the correspondent step and we return it so it gets
-        // automatically added to the step layout (AKA stepContent)
-
         View view = null;
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
@@ -216,17 +236,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 view = createFireStep();
                 break;
             case OWNER_AND_MATERIAL_STEP_NUM:
-                // view = createUsedResources();
                 view = createOwnerAndMaterialCostStep();
                 break;
             case DESCRIPTION_HELPER_STEP_NUM:
                 view = createDescriptionStep();
                 break;
-            /*
-            case MEHANIZATION_STEP_NUM:
-              view = createMehanizationStep();
-               break;
-            */
             case INTERVENTION_STEP_NUM:
                 view = createInterventionCostStep();
                 break;
@@ -236,54 +250,118 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return view;
     }
 
+
+    /**
+     * Methoda u kojoj se zadaju radnje kod otvaranja stepa
+     * to su provjere i spremanja/updatanja podatakoa koji se budu spremili
+     */
     @Override
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
-                break;
+                prviUlaz_MAIN = true;
+                    break;
             case USED_RESOURCES_STEP_NUM:
-                save_MAIN_INFORMATION();
-                break;
+                if(prviUlaz_MAIN) {
+                    System.out.println("PRVI ULAZ MAIn -- SAVE: " + selectedSort);
+                    save_MAIN_INFORMATION();
+                    break;
+                }
+                else {
+                    System.out.println("NIJEEEE PRVI ULAZ MAIn -- SAVE: " + selectedSort);
+                    break;
+                }
             case FIRE_STEP_NUM:
-                System.out.println("SElected sortu ušao u step fire -- SAVE: " + selectedSort);
-                save_USED_RESOURCES();
-                break;
+                if(prviUlaz_USED_RESOURCES_STEP_NUM) {
+                    System.out.println("SElected sortu ušao u step fire PRVI ULAZZ-- SAVE: " + selectedSort);
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    save_USED_RESOURCES();
+                    break;
+                }
+                else {
+                    System.out.println("nije prvi ulaz fire step  -- SAVE: " + selectedSort);
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    prviUlaz_FIRE_STEP_NUM = true;
+                    // save_USED_RESOURCES();
+                    break;
+                }
             case OWNER_AND_MATERIAL_STEP_NUM:
-                System.out.println("Ušao u OWNER AND MATERIJAL STEP -- SAVE: " + selectedSort);
-
-                //if(selectedSort.toString() == types_all_controller.get_FIRE_Sort_of_intervention().getName()){
+                if(prviUlaz_FIRE_STEP_NUM) {
+                    System.out.println("Ušao u OWNER AND MATERIJAL STEP -- SAVE: " + selectedSort);
                     System.out.println(" SAVEE selected sort u owner je : " + selectedSort);
                     save_FIRE_STEP();
-               //  }
-                validate_OWNER_AND_MATERIAL_COST();
-                break;
+                    validate_OWNER_AND_MATERIAL_COST();
+                    break;
+                }
+                else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = true;
+                    verticalStepperForm.setStepAsCompleted(OWNER_AND_MATERIAL_STEP_NUM);
+                    break;
+                }
             case DESCRIPTION_HELPER_STEP_NUM:
-                System.out.println("Usao u descriptionnn ");
-                save_OWNER_AND_MATERIAL_COST();
-                validate_DESCRIPTION_STEP_HELPER();
-                System.out.println("surface: " + intervencije.getReports().getSurface_m2());
-                //verticalStepperForm.setStepAsCompleted(stepNumber);
-                break;
-        /*   case MEHANIZATION_STEP_NUM:
-                save__DESCRIPTION_STEP_HELPER();
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-                break;
-                */
+                if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) {
+                    System.out.println("Usao u descriptionnn ");
+                    save_OWNER_AND_MATERIAL_COST();
+                    validate_DESCRIPTION_STEP_HELPER();
+                    System.out.println("surface: " + intervencije.getReports().getSurface_m2());
+                    break;
+                }
+                else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                    prviUlaz_DESCRIPTION_HELPER_STEP_NUM = true;
+                    verticalStepperForm.setStepAsCompleted(DESCRIPTION_HELPER_STEP_NUM);
+                    break;
+                }
             case INTERVENTION_STEP_NUM:
-                save__DESCRIPTION_STEP_HELPER();
-                validate_INTERVENTION_COST();
-                // verticalStepperForm.setStepAsCompleted(stepNumber);
-                break;
+                if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) {
+                    save__DESCRIPTION_STEP_HELPER();
+                    validate_INTERVENTION_COST();
+                    break;
+                }
+                else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                    if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                    prviUlaz_INTERVENTION_STEP_NUM = true;
+                    save__DESCRIPTION_STEP_HELPER();
+                    break;
+                }
             case FIREMEN_NUM:
-                save_INTERVENTION_COST();
-                verticalStepperForm.setStepAsCompleted(stepNumber);
-                break;
+                if(prviUlaz_INTERVENTION_STEP_NUM) {
+                    save_INTERVENTION_COST();
+                    verticalStepperForm.setStepAsCompleted(stepNumber);
+                    break;
+                }
+                else {
+                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                    if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                    if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                    if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
+                    prviUlaz_FIREMEN_NUM = true;
+                    break;
+                }
             case END_NUM:
-                sendMail();
+                if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
+                if(prviUlaz_FIREMEN_NUM) save_FIRE_STEP();
                 verticalStepperForm.setStepAsCompleted(stepNumber);
+                sendMail();
                 break;
         }
     }
+
+    /**
+     * Methoda oja omogućava slanje na mail
+     */
 
     private void sendMail() {
         /* određujemo naslov maila tj subject */
@@ -296,17 +374,53 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 + " \n  \n" + "U privitku se nalazi izvještaj. ";
 
         /* slanje maila */
+        System.out.println("Send email SAVEE");
+
+        String[] TO = {"someone@gmail.com"};
+        // String[] CC = {"xyz@gmail.com"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("message/rfc822");
+
+/*
+        File root = Environment.getExternalStorageDirectory();
+
+        String pathToMyAttachedFile = "SD card/Download/zapisnik-intervencije-MojiKomentari.com";
+        File file = new File(root, pathToMyAttachedFile);
+        if (!file.exists() || !file.canRead()) {
+            return;
+        }
+        Uri uri = Uri.fromFile(file);
+
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+*/
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        // emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
+
+       try {
+            startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
+
+            // finish();
+            System.out.println("Finished sending email. SAVEE");
+        } catch (android.content.ActivityNotFoundException ex) {
+            System.out.println("There is no email client installed. SAVEE");
+        }
+    }
+    /*
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        emailIntent.setType("text/plain");
-        // emailIntent.setType("message/rfc822");
+        // emailIntent.setType("text/plain");
+        emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
                 "matea.bodulusic@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
 
 
-        /*
+
         File root = Environment.getExternalStorageDirectory();
 
         String pathToMyAttachedFile = "temp/attachement.xml";
@@ -317,13 +431,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         Uri uri = Uri.fromFile(file);
 
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        */
+
         startActivity(Intent.createChooser(emailIntent, "Odaberite email providera: "));
+
     }
+    */
 
     @Override
     public void sendData() {
         System.out.println("SEND DATA");
+
+
 //ovo je samo za probu, treba obrisati START
         for (Integer id :
                 firemans_id_selected) {
@@ -359,22 +477,22 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     intent.putExtra(NEW_ALARM_ADDED, true);
                     intent.putExtra(STATE_TITLE, chooseTypeAndSort.getText().toString());
                     intent.putExtra(STATE_DESCRIPTION, descriptionEditText.getText().toString());
-
-                    // You must set confirmBack to false before calling finish() to avoid the confirmation dialog
                     confirmBack = false;
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }).start(); // You should delete this code and add yours
-
+        }).start();
     }
+
+    /**
+     * Methoda koja zadaje i popunjava fire step
+     * koliko srt nije fire onda se ovaj step preskače i polja nisu enabla
+     */
 
     private View createFireStep() {
         chooseTypeAndSort = new EditText(this);
-        // titleEditText.setHint(R.string.form_hint_title);
-        // titleEditText.setSingleLine(true);
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout fireContent = (LinearLayout) inflate.inflate(R.layout.step_fire, null, false);
@@ -409,35 +527,20 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("Selected sort u dijelu createFireSTep: " + selectedSort + " SAVEEE ");
 
 
-        if(selectedSort != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString() ) {
-            TextView notFire = (TextView) fireContent.findViewById(R.id.nijeFire);
-            notFire.setText("Reli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
+        if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) && spinnerSort.getSelectedItem().toString() != null  ) {
+            notFire = (TextView) fireContent.findViewById(R.id.nijeFire);
         }
-        /*
-            System.out.println("SAVE: preskočili smo požar dio");
-            repeatedSpinner.setEnabled(false);
-            sizeOfFire.setEnabled(false);
-            spatialSpread.setEnabled(false);
-            timeSpread.setEnabled(false);
-            smokeSpread.setEnabled(false);
-            outdoorSpread.setEnabled(false);
-            destroyedSpace.setEnabled(false);
-            System.out.println("SelectedSort prvi prolaz je: " + selectedSort);
-            verticalStepperForm.setActiveStepAsCompleted();
-        }
-
-*/
-
         return fireContent;
     }
 
-    // -- need to add validation for spinners !!!
-    private boolean validate_FIRE_STEP() {
+    /**
+     * Methoda  koja provjerava mo želi se nastaviti dalje odnosno spremiti upisani podaci vezani za požar
+     */    private boolean validate_FIRE_STEP() {
         boolean isCorrect = false;
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
 
-        if(spinnerSort.toString() != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()){
+        if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) && selectedSort != null){
             verticalStepperForm.setStepAsCompleted(FIRE_STEP_NUM);
         }
         else {
@@ -462,7 +565,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     }
 
-
+    /**
+     * Methoda kkoja priprema fire d za spremanje, a on se sprema kod dodavanja intervencije na zadnjem koraku
+     */
     private void save_FIRE_STEP() {
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
         java.util.Date fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
@@ -483,9 +588,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     Outdoor_type.getByName(outdoorSpread.getSelectedItem().toString()),
                     Size_of_fire.getByName(sizeOfFire.getSelectedItem().toString())
             );
-
             // insert in database
         }
+        prviUlaz_FIRE_STEP_NUM = false;
     }
 
     private ArrayAdapter<String> getOutdoorSpreadAdapter() {
@@ -620,18 +725,16 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 spinnerType.setVisibility(View.INVISIBLE);
-                // your code here
             }
         });
         return spinner;
     }
 
-
+    /**
+     * Methoda koja sprema view na kojemu su popunjeni spinneri s potrebnim podaima i oni edittextovi kojima ograničenja atributa baze ograničavaju brojeve ommoguće samo takav odabir
+     */
     private View createTypeAndSortStep() {
         chooseTypeAndSort = new EditText(this);
-        // titleEditText.setHint(R.string.form_hint_title);
-        // titleEditText.setSingleLine(true);
-        // verticalStepperForm.setActiveStepAsUncompleted("Potrebno je upisani opis intervencije");
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.type_and_sort_of_intervention, null, false);
 
@@ -660,10 +763,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
             }
         });
-/*
-        spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
-        spinnerType.setAdapter(getTypeOfInterventionAdapter());
-*/
+
         spinnerType = (Spinner) typeAndSortContent.findViewById(R.id.type_of_intervention);
         spinnerType.setVisibility(View.INVISIBLE);
 
@@ -674,8 +774,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 selectedSort = item.toString();
                 System.out.println("SPINNER: " + item.toString() + ", a selectedSort je " + selectedSort);
 
-                if(selectedSort != types_all_controller.get_FIRE_Sort_of_intervention().getName().toString()) {
-                    System.out.println("SAVE: preskočili smo požar dio");
+
+                if(!spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+                    System.out.println("SAVE: preskočili smo požar dio " + types_all_controller.get_FIRE_Sort_of_intervention().getName().toString() + types_all_controller.get_FIRE_Sort_of_intervention().getName().toString().length() +  " selected sort= " + selectedSort);
                     repeatedSpinner.setEnabled(false);
                     sizeOfFire.setEnabled(false);
                     spatialSpread.setEnabled(false);
@@ -684,8 +785,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     outdoorSpread.setEnabled(false);
                     destroyedSpace.setEnabled(false);
                     System.out.println("SelectedSort prvi prolaz je: " + selectedSort);
+                    notFire.setText("Rekli ste da ova intervencija nema veze s požarom stoga nije potrebno popuniti podatke o ovom koraku u izvještaju!");
                     verticalStepperForm.setActiveStepAsCompleted();
-                    /*
+                }
+
+                if(spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())){
+                    System.out.println("SAVE: je fireee");
+                    notFire.setText(" ");
                     repeatedSpinner.setEnabled(true);
                     sizeOfFire.setEnabled(true);
                     spatialSpread.setEnabled(true);
@@ -693,13 +799,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     smokeSpread.setEnabled(true);
                     outdoorSpread.setEnabled(true);
                     destroyedSpace.setEnabled(true);
-                    */
                 }
 
                 spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
                 spinnerType.setVisibility(View.VISIBLE);
-
-                Types_all_Controller tac = new Types_all_Controller();
 
                 validate_MAIN_INFORMATIONA();
             }
@@ -707,7 +810,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 spinnerType.setVisibility(View.INVISIBLE);
-                // your code here
             }
         });
 
@@ -725,26 +827,29 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return typeAndSortContent;
     }
 
-
+    /**
+     * Methoda koja provjerava da li su odabrani sor, type i upisan text(više od 3 slova)
+     */
     private boolean validate_MAIN_INFORMATIONA() {
         boolean titleIsCorrect = false;
-        String title = interventionDescription.getText().toString();
+        String description = interventionDescription.getText().toString();
 
-        if (title.length() > 3 && !spinnerSort.getSelectedItem().toString().equals(NO_SELECTED) && !spinnerType.getSelectedItem().toString().equals(NO_SELECTED)) {
+        if (description.length() > 3 && !spinnerSort.getSelectedItem().toString().equals(NO_SELECTED) && !spinnerType.getSelectedItem().toString().equals(NO_SELECTED)) {
             titleIsCorrect = true;
 
             verticalStepperForm.setActiveStepAsCompleted();
-            // Equivalent to: verticalStepperForm.setStepAsCompleted(TITLE_STEP_NUM);
 
         } else {
             String titleErrorString = "Potrebno je upisati opis intervencije  i odabrati vrstu i tip intervencije";
             verticalStepperForm.setActiveStepAsUncompleted(titleErrorString);
-            // Equivalent to: verticalStepperForm.setStepAsUncompleted(TITLE_STEP_NUM, titleError);
-
         }
 
         return titleIsCorrect;
     }
+
+    /**
+     * Methoda koja sprema sort požara
+     */
 
     private void save_MAIN_INFORMATION() {
         if (validate_MAIN_INFORMATIONA()) {
@@ -754,7 +859,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             intervencije.addDescriptionOfIntervention(title);
 
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
-
                 intervencije.setThisInterventionAsFire();
                 intervencije.getReports().addFireIntervention(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
                 System.out.println("SAve FIRE step --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
@@ -769,8 +873,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 intervencije.getReports().addOtherInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
                 System.out.println("SAve other step");
             }
+            prviUlaz_MAIN = false;
         }
     }
+
+    /**
+     * Methode za dohvačanje podataka za adapter kako bi se punili spinneri
+     */
 
     private ArrayAdapter<String> getTypeOfInterventionAdapter(String sortName) {
         List<String> typeAll = new ArrayList<String>();
@@ -806,29 +915,25 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return dataAdapter;
     }
 
+    /**
+     * Methoda koja popunjava sa spinerima i zadaje uvijete biranja broja na stepu used resources
+     */
+
     private View createUsedResourcesStep() {
         chooseTypeAndSort = new EditText(this);
-        // titleEditText.setHint(R.string.form_hint_title);
-        // titleEditText.setSingleLine(true);
+
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         final LinearLayout v = (LinearLayout) inflate.inflate(R.layout.step_used_resources, null, false);
         final LinearLayout ll = v;
 
         /* Button koji omogućuje doavanje još resursa jer se tako traži u službenom izvještaju */
 
-        final Button prvi = new Button(this);
+        prvi = new Button(this);
         prvi.setText("Dodaj resurs");
-
-        //addUsedResources(prvi, vehicleContent, vehicleContent);
-
-
-// pocetak
-
-
+        prvi.setEnabled(false);
 
         // pocetak - prvi prikaz za odabir resursa
 
-        //spinnerVehicle.setVisibility(View.INVISIBLE);
         spinnerFiremanPatrol = (Spinner) v.findViewById(R.id.sort_of_unit);
         spinnerFiremanPatrol.setAdapter(getFiremanPatrols());
 
@@ -838,12 +943,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
-                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())), prvi);
                 } else {
-                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                    spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())), prvi);
 
                 }
-                validate_USED_RESOURCES();
+                cotrolButtonAddAndValidate(prvi);
             }
 
             @Override
@@ -856,32 +961,32 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         //numberKeybor omogućava upisa samo brojeva i to je realizirano kroz metodu
 
-        kmNumber = addTextChangeListenerWithValidation(v,R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+        kmNumber = addTextChangeListenerWithValidation(v,R.id.km, prvi);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
 
         numberKeybord(kmNumber);
 
 
-        clockNumber = addTextChangeListenerWithValidation(v, R.id.clock);
+        clockNumber = addTextChangeListenerWithValidation(v, R.id.clock, prvi);
         numberKeybord(clockNumber);
 
 
-        numberOfFiremanParticipated = addTextChangeListenerWithValidation(v, R.id.number_of_firemen_in_truck);
+        numberOfFiremanParticipated = addTextChangeListenerWithValidation(v, R.id.number_of_firemen_in_truck, prvi);
         numberKeybord(numberOfFiremanParticipated);
 
 
-        waterNumber = addTextChangeListenerWithValidation(v, R.id.water);
+        waterNumber = addTextChangeListenerWithValidation(v, R.id.water, prvi);
         numberKeybord(waterNumber);
 
 
-        foamNumber = addTextChangeListenerWithValidation(v, R.id.foam);
+        foamNumber = addTextChangeListenerWithValidation(v, R.id.foam, prvi);
         numberKeybord(foamNumber);
 
 
-        powderNumber = addTextChangeListenerWithValidation(v, R.id.powder);
+        powderNumber = addTextChangeListenerWithValidation(v, R.id.powder, prvi);
         numberKeybord(powderNumber);
 
 
-        co2Number = addTextChangeListenerWithValidation(v, R.id.CO_2);
+        co2Number = addTextChangeListenerWithValidation(v, R.id.CO_2, prvi);
         numberKeybord(co2Number);
 
 
@@ -894,37 +999,37 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         Button b = new Button(this);
         b.setText("Dodaj resurs");
 
+        Button neporebniResurs = new Button(this);
 
-        addNewUsedResources(prvi, b, ll, myView);
+        addNewUsedResources(prvi, b, ll, myView, neporebniResurs, v);
 //kraj
         return v;
     }
 
 
-    private void addUsedResources(Button prvi, final View v, final LinearLayout ll) {
+    /**
+     * Methoda koja popunjava sa spinerima i zadaje uvijete biranja broja na stepu used resources nakon PRVOGG UPISANOG
+     */
+
+    private void addUsedResources(final Button prvi, final View v, final LinearLayout ll) {
+        prviUlaz_USED_RESOURCES_STEP_NUM = true;
 
         LayoutInflater factory = LayoutInflater.from(this);
         final View myView = factory.inflate(R.layout.step_used_resources, null);
 
-
-        //spinnerVehicle.setVisibility(View.INVISIBLE);
         spinnerFiremanPatrol = (Spinner) v.findViewById(R.id.sort_of_unit);
         spinnerFiremanPatrol.setAdapter(getFiremanPatrols());
 
         spinnerFiremanPatrol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
              if (!parent.getSelectedItem().toString().equals(NO_SELECTED)) {
-                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())), prvi);
              }
              else {
-                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())));
-
-
+                 spinnerVehicle = addSpinnerValue_listener_USED_RESOURCES_STEP(spinnerVehicle, v, R.id.vehicle, getVehicleAdapter(Fireman_patrol.getPatrolByName(parent.getSelectedItem().toString())), prvi);
                 }
-                validate_USED_RESOURCES();
+                cotrolButtonAddAndValidate(prvi);
             }
 
             @Override
@@ -934,31 +1039,31 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         });
 
 
-        kmNumber = addTextChangeListenerWithValidation(v, R.id.km);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
+        kmNumber = addTextChangeListenerWithValidation(v, R.id.km, prvi);//v.findViewById(R.id.km);// addTextChangeListenerWithValidation (kmNumber, v, R.id.km);
         numberKeybord(kmNumber);
 
 
-        clockNumber = addTextChangeListenerWithValidation(v, R.id.clock);
+        clockNumber = addTextChangeListenerWithValidation(v, R.id.clock, prvi);
         numberKeybord(clockNumber);
 
 
-        numberOfFiremanParticipated = addTextChangeListenerWithValidation(v, R.id.number_of_firemen_in_truck);
+        numberOfFiremanParticipated = addTextChangeListenerWithValidation(v, R.id.number_of_firemen_in_truck,  prvi);
         numberKeybord(numberOfFiremanParticipated);
 
 
-        waterNumber = addTextChangeListenerWithValidation(v, R.id.water);
+        waterNumber = addTextChangeListenerWithValidation(v, R.id.water,  prvi);
         numberKeybord(waterNumber);
 
 
-        foamNumber = addTextChangeListenerWithValidation(v, R.id.foam);
+        foamNumber = addTextChangeListenerWithValidation(v, R.id.foam,  prvi);
         numberKeybord(foamNumber);
 
 
-        powderNumber = addTextChangeListenerWithValidation(v, R.id.powder);
+        powderNumber = addTextChangeListenerWithValidation(v, R.id.powder,  prvi);
         numberKeybord(powderNumber);
 
 
-        co2Number = addTextChangeListenerWithValidation(v, R.id.CO_2);
+        co2Number = addTextChangeListenerWithValidation(v, R.id.CO_2,  prvi);
         numberKeybord(co2Number);
 
 
@@ -970,15 +1075,20 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         Button b = new Button(this);
         b.setText("Dodaj resurs");
-        addNewUsedResources(prvi, b, ll, myView);
+
+        Button neporebniResurs = new Button(this);
+        neporebniResurs.setText("Nepotrebni resurs");
+        ll.addView(neporebniResurs);
+
+        addNewUsedResources(prvi, b, ll, myView, neporebniResurs, v);
     }
 
-    private boolean validate_USED_RESOURCES() {
+    private boolean validate_USED_RESOURCES(Button gumbDodavanja) {
         boolean isCorrect = false;
         System.out.println("validateUSED_RESOURCES");
 
 
-        if (validSpinner(spinnerVehicle) & validSpinner(spinnerFiremanPatrol) & isValidEditbox(co2Number) & isValidEditbox(powderNumber) & isValidEditbox(foamNumber) & isValidEditbox(waterNumber) & isValidEditbox(numberOfFiremanParticipated) & isValidEditbox(clockNumber) & isValidEditbox(kmNumber)) {
+        if (validSpinner(spinnerVehicle) & validSpinner(spinnerFiremanPatrol) & isValidEditbox(co2Number) & isValidEditbox(powderNumber) & isValidEditbox(foamNumber) & isValidEditbox(waterNumber) & isValidEditbox(numberOfFiremanParticipated) & isValidEditbox(clockNumber) & isValidEditbox(kmNumber) ) {
             isCorrect = true;
             System.out.println("validateUSED_RESOURCES_CORRECT");
             verticalStepperForm.setActiveStepAsCompleted();
@@ -989,7 +1099,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 verticalStepperForm.setStepAsUncompleted(USED_RESOURCES_STEP_NUM, titleErrorString);
             } catch (Exception e) {
                 System.out.println("GREŠKA: " + e);
-
             }
         }
 
@@ -1005,16 +1114,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
-    private Spinner addSpinnerValue_listener_USED_RESOURCES_STEP(Spinner spinner, View content, int id, ArrayAdapter<String> methodArray) {
+    private Spinner addSpinnerValue_listener_USED_RESOURCES_STEP(Spinner spinner, View content, int id, ArrayAdapter<String> methodArray, final Button gumbBrisanja) {
         spinner = (Spinner) content.findViewById(id);
         spinner.setAdapter(methodArray);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
                 Object item = parentView.getItemAtPosition(position);
                 System.out.println("SPINNER_size of fire: " + item.toString());
-                validate_USED_RESOURCES();
+                cotrolButtonAddAndValidate(gumbBrisanja);
             }
 
             @Override
@@ -1026,10 +1134,25 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return spinner;
     }
 
-    private EditText addTextChangeListenerWithValidation(View view, int id) {
+    /**
+     * Methoda koja onemogućuje spriječavanje predomišljanja u vezi resursa
+     */
+
+    private void cotrolButtonAddAndValidate(Button gumbBrisanja) {
+        if(!validate_USED_RESOURCES(gumbBrisanja)){
+            gumbBrisanja.setEnabled(false);
+        }
+        else {
+            gumbBrisanja.setEnabled(true);
+        }
+    }
+
+    /**
+     * Methoda koja za određeni edittext određuje promijenu kada dođe do promijene texta
+     */
+    private EditText addTextChangeListenerWithValidation(View view, int id, final Button gumbBrisanja) {
 
         EditText editText = (EditText) view.findViewById(id);
-        // editText.setText("0");
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1038,7 +1161,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validate_USED_RESOURCES();
+                cotrolButtonAddAndValidate(gumbBrisanja);
             }
 
             @Override
@@ -1050,69 +1173,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return editText;
     }
 
-/*
-    private boolean validate_USED_RESOURCES() {
-        boolean correctInformation = true; //all together
-
-        boolean correct = true;
-        if(spinnerVehicle.getSelectedItem().toString().equals(NO_SELECTED)) {
-            String titleErrorVehicle = "Potrebno je odabrati vozilo!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorVehicle);
-            correct = false;
-        }
-        if (spinnerFiremanPatrol.getSelectedItem().toString().equals(NO_SELECTED)) {
-            String titleErrorUnit = "Potrebno je odabrati vrstu i naziv postrojbe!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorUnit);
-            correct = false;
-        }
-        if(kmNumber.getText().toString().length() == 0){
-            String titleErrorKm = "Potrebno je unjeti broj kilometara!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorKm);
-            correct = false;
-        }
-        if(clockNumber.getText().toString().length() == 0){
-            String titleErrorClock = "Potrebno je unjeti broj sati!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorClock);
-            correct = false;
-        }
-        if(numberOfFiremanParticipated.getText().toString().length() == 0){
-            String titleErrorFiremans = "Potrebno je unjeti broj vatrogasaca!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorFiremans);
-            correct = false;
-        }
-        if(waterNumber.getText().toString().length() == 0){
-            String titleErrorWater = "Potrebno je unjeti količinu vode!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorWater);
-            correct = false;
-        }
-        if(foamNumber.getText().toString().length() == 0){
-            String titleErrorFoam = "Potrebno je unjeti količinu pjenila!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorFoam);
-            correct = false;
-        }
-        if(powderNumber.getText().toString().length() == 0){
-            String titleErrorPowder = "Potrebno je unjeti količinu praha!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorPowder);
-            correct = false;
-        }
-        if(co2Number.getText().toString().length() == 0){
-            String titleErrorco2 = "Potrebno je unjeti količinu co2!";
-            verticalStepperForm.setActiveStepAsUncompleted(titleErrorco2);
-            correct = false;
-        }
-
-        if(correct == true ){
-            verticalStepperForm.setActiveStepAsCompleted();
-        } else{
-            verticalStepperForm.setActiveStepAsUncompleted("Niste unjeli sve podatke!");
-        }
-
-        return correctInformation;
-    }*/
-
+    /**
+     * Methoda koja spema količinu utrošenih resursa (korigirano stepoima)
+     */
 
     public void save_USED_RESOURCES() {
-        if(validate_USED_RESOURCES()) {
             kmText =kmNumber.getText().toString();
             waterText = waterNumber.getText().toString();
             powderText = powderNumber.getText().toString();
@@ -1135,21 +1200,43 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     truck,
                     patrol
             );
-        }
-
         System.out.println("SAVE USED RESOURCE:  " + intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName());
+
+        prviUlaz_USED_RESOURCES_STEP_NUM = false;
     }
 
-    private void addNewUsedResources(final Button prvi, final Button noviB, final LinearLayout ll, final View myView) {
+    /**
+     * Methoda koja sprema resurs, zatim  briše gumb za dodavanje i dodaje novi view za popunjvavanje novog resussa ,
+     * a ukoliko se klikne na gumb za poništavanje briše view za dodavanje resursa ukoliko se korisnik predomisli(skuži da mu ne treba još jedan)
+     */
+    private void addNewUsedResources(final Button prvi, final Button noviB, final LinearLayout ll, final View myView, final Button nepotrebni, final View stari) {
         prvi.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                prviUlaz_USED_RESOURCES_STEP_NUM = false;
                 save_USED_RESOURCES();
+                ll.removeView(nepotrebni);
                 ll.removeView(prvi);
                 ll.addView(myView);
                 addUsedResources(noviB, myView, ll);
+                spremljenResrs = true;
+            }
+        });
+
+
+        nepotrebni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll.removeView(stari);
+                ll.removeView(nepotrebni);
+                verticalStepperForm.setActiveStepAsUncompleted(" ");
+                verticalStepperForm.setActiveStepAsCompleted();
             }
         });
     }
+
+    /**
+     * Methode koje dohvaćaju potrebne podatke i stavljaju ih u adapter tako da se popune spinneri
+     */
 
     private ArrayAdapter<String> getFiremanPatrols() {
         List<String> typeAll = new ArrayList<String>();
@@ -1184,6 +1271,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return dataAdapter2;
     }
 
+    /**
+     * Methode koje omogućuju samo brojeve na tipkovnici kod popunjavanja editText-a
+     */
+
     private void numberKeybord(EditText et) {
         et.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         et.setTransformationMethod(new NumericKeyBoardTransformationMethod());
@@ -1196,10 +1287,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
     }
 
+    /**
+     * Methoda koja puni spinnere potrebnim podacima i omogućuje prikaz sao brojeva na tipkovnici za izbor
+     */
     private View createOwnerAndMaterialCostStep() {
         chooseTypeAndSort = new EditText(this);
-        // titleEditText.setHint(R.string.form_hint_title);
-        // titleEditText.setSingleLine(true);
 
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         LinearLayout ownerAndCostContent = (LinearLayout) inflate.inflate(R.layout.step_owner_and_cost, null, false);
@@ -1246,7 +1338,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return ownerAndCostContent;
     }
 
-
+    /**
+     * Methoda koja provjerava da li su upisani surface and superficies
+     */
     private boolean validate_OWNER_AND_MATERIAL_COST() {
         System.out.println("ušao u VALIDATE owner and cost - save");
         boolean isCorrect = false;
@@ -1269,6 +1363,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return isCorrect;
     }
 
+    /**
+     * Methoda koja sprema surface and superficies u report (dodaje se odmah jer su atributi)
+     */
     private void save_OWNER_AND_MATERIAL_COST() {
         if (validate_OWNER_AND_MATERIAL_COST()) {
             System.out.println("ušao u SAVE owner and cost - save");
@@ -1282,8 +1379,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
 
         System.out.println("ovner cost saved ");
-
+        prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = false;
     }
+
+    /**
+     * Methoda koja priprema prikaz za popunjavanje posta intervencije
+     */
 
     private View createInterventionCostStep() {
         chooseTypeAndSort = new EditText(this);
@@ -1306,6 +1407,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1325,6 +1429,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1344,6 +1451,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1363,6 +1473,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1382,6 +1495,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1401,6 +1517,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1420,6 +1539,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1439,6 +1561,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1458,6 +1583,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1477,6 +1605,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validate_INTERVENTION_COST();
+                if(!prviUlaz_INTERVENTION_STEP_NUM){
+                    promijenaINTERVENTION_STEP_NUM = true;
+                }
             }
 
             @Override
@@ -1487,6 +1618,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return interventionCostContent;
     }
+
+    /**
+     * Methoda koja provjerava dali su upisani cos-ovi (ne provjerava brojeve jer je već omogućen upis samo brojeva kroz tipkovnicu)
+     */
 
     private boolean validate_INTERVENTION_COST() {
         boolean isCorrect = false;
@@ -1516,9 +1651,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return isCorrect;
     }
 
-    private void save_INTERVENTION_COST() {
-        if (validate_INTERVENTION_COST()) {
+    /**
+     * Methoda koja priprema za spremanje količinu potrošenih resursa kako bi se ukupni trošak izračunao množnjem koje je predviđeno za tu godinu te jvatrogasne edinice
+     */
 
+    private void save_INTERVENTION_COST() {
             double navalVehicle = Double.valueOf(navalVehicleNumber.getText().toString());
             double commandVehicle = Double.valueOf(commandVehicleNumber.getText().toString());
             double technicalVehicle = Double.valueOf(tehnicalVehicleNumber.getText().toString());
@@ -1531,23 +1668,23 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             double insurance = Double.valueOf(insuranceVehicleNumber.getText().toString());
             double apsorbent = Double.valueOf(apsorbentVehicleNumber.getText().toString());
 
+        if (validate_INTERVENTION_COST()) {
             intervencije.getReports().addConsumption(apsorbent,automaticLadder,co2Sum,commandVehicle,
                   //  0, id2
                      powderSum,//fire_extinguisher
                      sumFireman, //fire_fighter
                     foamSum,
                     insurance, navalVehicle, powerPump, roadTanker,specialVehicle,technicalVehicle,transportVehicle);
-            intervencije.getReports().getConsumption().save();
-            intervencije.getReports().save();
-            intervencije.save();
-
-
             System.out.println("SAVE_COST + " + intervencije.getReports().getConsumption().getNavalVehicle());
 
             // insert in database
+            prviUlaz_INTERVENTION_STEP_NUM = false;
         }
     }
 
+    /**
+     * Methoda koja kreira dio za dodavanje opisa reporta i omogućuje vaidaciju nakon upisa u edit text
+     */
     private View createDescriptionStep() {
         descriptionEditText = new EditText(this);
         descriptionEditText.setHint(R.string.form_hint_description);
@@ -1578,12 +1715,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return descriptionEditText;
     }
 
+    /**
+     * Methoda koja provjerava dal opis ima više od 5 slova i nakon više od 5 slova omogućuje kretanje dalje
+     */
     private boolean validate_DESCRIPTION_STEP_HELPER() {
         boolean isCorrect = false;
         String surface = surfaceNumber.getText().toString();
         String superficies = superficiesNumber.getText().toString();
 
-        if (descriptionEditText.length() > 0) {
+        if (descriptionEditText.length() > 5) {
             isCorrect = true;
             verticalStepperForm.setActiveStepAsCompleted();
 
@@ -1596,101 +1736,20 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     }
 
+    /**
+     * Methoda koja sprema atribut opisa u report (nije potrebno spremati kasnije jer je sa samim dodavanjem reporta ok spemiti i opis, kod novog spremanja se upsata samo)
+     *
+     */
     private void save__DESCRIPTION_STEP_HELPER() {
-
-
         intervencije.addHelpers(descriptionEditText.getText().toString());
 
         System.out.println("HELPERS: " + intervencije.getReports().getHelp());
-
+        prviUlaz_DESCRIPTION_HELPER_STEP_NUM = false;
     }
 
-    /*  private View createMehanizationStep() {
-          chooseTypeAndSort = new EditText(this);
-
-          final LayoutInflater inflate = LayoutInflater.from(getBaseContext());
-          mehanizationContent = (LinearLayout) inflate.inflate(R.layout.step_mehanization, null, false);
-
-          makeMehanizationSpinnerFull(mehanizationContent, mehanizationContent);
-
-          /*
-          LayoutInflater factory = LayoutInflater.from(this);
-          final View myView = factory.inflate(R.layout.step_mehanization, null);
-
-          addVehicleButton.setOnClickListener(new View.OnClickListener() {
-              public void onClick(View v) {
-                  makeMehanizationSpinnerFull(v);
-                  mehanizationContent.addView(myView);
-
-              }
-                 /* Spinner vehicleSpinner = new Spinner(this);
-                  RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-                  rgp.addView(vehicleSpinner, rprms);
-
-              }
-
-          });
-
-<<<<<<< HEAD
-  /*
-          RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
-          for (int i = 0; i < mehanizationAll.toArray().length; i++)
-          {
-              Spinner vehicleSpinner = onNewIntent();
-              RadioButton radioButton = new RadioButton(this);
-              radioButton.setText(String.valueOf(mehanizationAll.get(i)));
-              radioButton.setId(i);
-              RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-              rgp.addView(radioButton, rprms);
-          }
-=======
-/*
-        RadioGroup rgp = (RadioGroup) findViewById(R.id.mehanizationRadio);
-        for (int i = 0; i < mehanizationAll.toArray().length; i++)
-        {
-            Spinner vehicleSpinner = onNewIntent();
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(String.valueOf(mehanizationAll.get(i)));
-            radioButton.setId(i);
-            RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-            rgp.addView(radioButton, rprms);
-        }
-
->>>>>>> d3a5c040031224fb237c587238b5a25ee14fa5b4
-
-
-
-          return mehanizationContent;
-      }
-
-    private void addMoreMehanization(final Button b, final View myView, final LinearLayout ll) {
-        b.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ll.removeView(b);
-                ll.addView(myView);
-                makeMehanizationSpinnerFull(ll, myView);
-            }
-        });
-    }
-
-
-    private void makeMehanizationSpinnerFull(LinearLayout ll, View v) {
-        usedTruck = (Spinner) v.findViewById(R.id.vehicleUsed);
-        usedTruck.setAdapter(getTruckAdapter());
-
-        EditText kmOdabrano = (EditText) v.findViewById(R.id.km);
-        numberKeybord(kmOdabrano);
-
-        final Button b = new Button(this);
-        ll.addView(b);
-        b.setText("noviii");
-
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View myView = factory.inflate(R.layout.step_mehanization, null);
-
-        addMoreMehanization(b, myView, ll);
-    }
-*/
+    /**
+     * Method  koja stvara SpinnerAdaper uz omoć kojeć će se u spinneru prikazati svi truckovi
+     */
 
     private SpinnerAdapter getTruckAdapter() {
         List<String> truckAll = new ArrayList<String>();
@@ -1707,6 +1766,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
+    /**
+     * Methoda koja ima smpinner iz kojeg se biraju vvatrogasci koji su sudjelovali u intervenciji i dodaju se u bazu
+     */
     private View createFiremenStep() {
         chooseTypeAndSort = new EditText(this);
 
@@ -1740,7 +1802,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                 } else {
-
                     String selectedItemText = (String) parent.getItemAtPosition(position);
 
                     sviOdabranivatrogasci += selectedItemText + "\n";
@@ -1756,7 +1817,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                             firemans_id_selected) {
                         System.out.println("SELECTED: " + Fireman.getFiremanbyID(id_fir).getName());
                     }
-
                 }
                 brojac++;
             }
@@ -1770,28 +1830,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
-    private boolean checkTitleStep(String title) {
-        boolean titleIsCorrect = false;
 
-        if (title.length() >= MIN_CHARACTERS_TITLE) {
-            titleIsCorrect = true;
-
-            verticalStepperForm.setActiveStepAsCompleted();
-            // Equivalent to: verticalStepperForm.setStepAsCompleted(TITLE_STEP_NUM);
-
-        } else {
-            String titleErrorString = getResources().getString(R.string.error_title_min_characters);
-            String titleError = String.format(titleErrorString, MIN_CHARACTERS_TITLE);
-
-            verticalStepperForm.setActiveStepAsUncompleted(titleError);
-            // Equivalent to: verticalStepperForm.setStepAsUncompleted(TITLE_STEP_NUM, titleError);
-
-        }
-
-        return titleIsCorrect;
-    }
-
-
+    /**
+     * Methoda koja kreira korak kod kojega se
+     *
+     */
     private View createSortOfUnitStep() {
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.sort_of_unit_report, null, false);
@@ -1816,8 +1859,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return typeAndSortContent;
     }
 
-    // CONFIRMATION DIALOG WHEN USER TRIES TO LEAVE WITHOUT SUBMITTING
-
+    /**
+     * Method  koja pita da li zbilja želi osoba izaći bezkakvog spremanja
+     */
     private void confirmBack() {
         if (confirmBack && verticalStepperForm.isAnyStepCompleted()) {
             BackConfirmationFragment backConfirmation = new BackConfirmationFragment();
@@ -1874,82 +1918,82 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         dismissDialog();
     }
 
-    // SAVING AND RESTORING THE STATE
-
+    /**
+     * Methoda koja omogućuje spremanje svih stavaka u report (ne sprema se ranije jer sam na ovaj način omogućila update svih polja
+     *
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        /*
-        // Saving title field
-        if(titleEditText != null) {
-            savedInstanceState.putString(STATE_TITLE, titleEditText.getText().toString());
-        }
-*/
-        // Saving description field
-        if (descriptionEditText != null) {
-            savedInstanceState.putString(STATE_DESCRIPTION, descriptionEditText.getText().toString());
+        if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+            intervencije.getReports().saveFireInterventionDetails();
+            intervencije.setThisInterventionAsFire();
+            System.out.println("SAve FIRE step u ONSAVEEE --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
         }
 
-        /*
-        // Saving time field
-        if(time != null) {
-            savedInstanceState.putInt(STATE_TIME_HOUR, time.first);
-            savedInstanceState.putInt(STATE_TIME_MINUTES, time.second);
+        if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
+            intervencije.getReports().saveTehnicalInterventionDetails();
+            intervencije.setThisInterventionAsTehnical();
+            System.out.println("SAve tEHNICAL step u ONSAVEEE ");
         }
 
-        // Saving week days field
-        if(weekDays != null) {
-            savedInstanceState.putBooleanArray(STATE_WEEK_DAYS, weekDays);
+        if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
+            intervencije.getReports().saveOtherInterventionDetails();
+           intervencije.setThisInterventionAsOther();
+            System.out.println("SAve other step u ONSAVEEE ");
         }
-        */
-        // The call to super method must be at the end here
+
+        intervencije.getReports().getConsumption().save();
+        intervencije.getReports().save();
+        intervencije.save();
+
+        System.out.println("Spremamm - save u save instancestate");
+
         super.onSaveInstanceState(savedInstanceState);
-
     }
 
+    /*
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
 
-        // Restoration of title field
-        if (savedInstanceState.containsKey(STATE_TITLE)) {
-            String title = savedInstanceState.getString(STATE_TITLE);
-            // titleEditText.setText(title);
+        System.out.println("Ušao u restoree - save");
+
+        if(!prviUlaz_MAIN){
+            if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
+                intervencije.getReports().saveFireInterventionDetails();
+                System.out.println("SAve FIRE step u ONSAVEEE --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
+            }
+
+            if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
+                intervencije.getReports().saveTehnicalInterventionDetails();
+                System.out.println("SAve tEHNICAL step u ONSAVEEE ");
+            }
+
+            if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
+                intervencije.getReports().saveOtherInterventionDetails();
+                System.out.println("SAve other step u ONSAVEEE ");
+            }
         }
 
-        // Restoration of description field
+
+       if(prviUlaz_INTERVENTION_STEP_NUM){
+           intervencije.getReports().getConsumption().save();
+           intervencije.getReports().save();
+           intervencije.save();
+       }
+
+
+
+        if (savedInstanceState.containsKey(STATE_TITLE)) {
+            String title = savedInstanceState.getString(STATE_TITLE);
+        }
+
         if (savedInstanceState.containsKey(STATE_DESCRIPTION)) {
             String description = savedInstanceState.getString(STATE_DESCRIPTION);
             descriptionEditText.setText(description);
         }
 
-        /*
-        // Restoration of time field
-        if(savedInstanceState.containsKey(STATE_TIME_HOUR)
-                && savedInstanceState.containsKey(STATE_TIME_MINUTES)) {
-            int hour = savedInstanceState.getInt(STATE_TIME_HOUR);
-            int minutes = savedInstanceState.getInt(STATE_TIME_MINUTES);
-            time = new Pair<>(hour, minutes);
-            if(timePicker == null) {
-            } else {
-                timePicker.updateTime(hour, minutes);
-            }
-        }
-
-        // Restoration of week days field
-        if(savedInstanceState.containsKey(STATE_WEEK_DAYS)) {
-            weekDays = savedInstanceState.getBooleanArray(STATE_WEEK_DAYS);
-            if (weekDays != null) {
-                for (int i = 0; i < weekDays.length; i++) {
-                    if (weekDays[i]) {
-                    } else {
-                    }
-                }
-            }
-        }
-        */
-
-        // The call to super method must be at the end here
         super.onRestoreInstanceState(savedInstanceState);
     }
-
+*/
 
 }
