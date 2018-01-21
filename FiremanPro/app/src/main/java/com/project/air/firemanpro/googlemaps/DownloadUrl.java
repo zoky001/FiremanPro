@@ -34,11 +34,9 @@ public class DownloadUrl {
             while((line = br.readLine()) != null)
             {
                 sb.append(line);
-
             }
 
             data = sb.toString();
-            Log.d("downloadUrl", data.toString());
 
             br.close();
 
@@ -52,8 +50,6 @@ public class DownloadUrl {
                 inputStream.close();
             urlConnection.disconnect();
         }
-
-        Log.d("data downlaod",data);
         return data;
 
     }

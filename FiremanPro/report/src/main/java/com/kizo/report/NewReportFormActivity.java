@@ -174,13 +174,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     boolean prviUlaz_INTERVENTION_STEP_NUM = true;
     boolean prviUlaz_FIREMEN_NUM = true;
 
-    boolean promijenaMAIN = true;
-    boolean promijenaUSED_RESOURCES_STEP_NUM = true; // NA NE SPREMLJENI ULAZ SPREMAJ INAĆE PRESKOČI
-    boolean promijenaFIRE_STEP_NUM = true;
-    boolean promijenaOWNER_AND_MATERIAL_STEP_NUM = true;
-    boolean promijenaDESCRIPTION_HELPER_STEP_NUM = true;
+
     boolean promijenaINTERVENTION_STEP_NUM = true;
-    boolean promijenaFIREMEN_NUM = true;
 
     Button prvi ;
 
@@ -203,6 +198,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         initializeActivity();
     }
 
+    /**
+     * Methoda kkoja postavlja vertical stepper form
+     */
+
     private void initializeActivity() {
         // Vertical Stepper form vars
         int colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.glavna);
@@ -219,14 +218,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 .init();
     }
 
-    // METHODS THAT HAVE TO BE IMPLEMENTED TO MAKE THE LIBRARY WORK
-    // (Implementation of the interface "VerticalStepperForm")
-
+    /**
+     * Methoda s kojom se omogućava(/ dopupta korištenje steppera
+     * automatski se zbog switcha popunjava sve i ako se vratimo na prethodni korak
+     */
     @Override
     public View createStepContentView(int stepNumber) {
-        // Here we generate the content view of the correspondent step and we return it so it gets
-        // automatically added to the step layout (AKA stepContent)
-
         View view = null;
         switch (stepNumber) {
             case MAIN_INFORMATION_NUM:
@@ -254,6 +251,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
+    /**
+     * Methoda u kojoj se zadaju radnje kod otvaranja stepa
+     * to su provjere i spremanja/updatanja podatakoa koji se budu spremili
+     */
     @Override
     public void onStepOpening(int stepNumber) {
         switch (stepNumber) {
@@ -358,7 +359,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
     }
 
-
+    /**
+     * Methoda oja omogućava slanje na mail
+     */
 
     private void sendMail() {
         /* određujemo naslov maila tj subject */
@@ -483,6 +486,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }).start();
     }
 
+    /**
+     * Methoda koja zadaje i popunjava fire step
+     * koliko srt nije fire onda se ovaj step preskače i polja nisu enabla
+     */
+
     private View createFireStep() {
         chooseTypeAndSort = new EditText(this);
 
@@ -525,8 +533,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return fireContent;
     }
 
-    // -- need to add validation for spinners !!!
-    private boolean validate_FIRE_STEP() {
+    /**
+     * Methoda  koja provjerava mo želi se nastaviti dalje odnosno spremiti upisani podaci vezani za požar
+     */    private boolean validate_FIRE_STEP() {
         boolean isCorrect = false;
         System.out.println("validateFIRE");
         String destroyed = destroyedSpace.getText().toString();
@@ -556,7 +565,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     }
 
-
+    /**
+     * Methoda kkoja priprema fire d za spremanje, a on se sprema kod dodavanja intervencije na zadnjem koraku
+     */
     private void save_FIRE_STEP() {
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
         java.util.Date fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
@@ -714,13 +725,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 spinnerType.setVisibility(View.INVISIBLE);
-                // your code here
             }
         });
         return spinner;
     }
 
-
+    /**
+     * Methoda koja sprema view na kojemu su popunjeni spinneri s potrebnim podaima i oni edittextovi kojima ograničenja atributa baze ograničavaju brojeve ommoguće samo takav odabir
+     */
     private View createTypeAndSortStep() {
         chooseTypeAndSort = new EditText(this);
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
@@ -792,8 +804,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 spinnerType.setAdapter(getTypeOfInterventionAdapter(item.toString()));
                 spinnerType.setVisibility(View.VISIBLE);
 
-                Types_all_Controller tac = new Types_all_Controller();
-
                 validate_MAIN_INFORMATIONA();
             }
 
@@ -817,12 +827,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return typeAndSortContent;
     }
 
-
+    /**
+     * Methoda koja provjerava da li su odabrani sor, type i upisan text(više od 3 slova)
+     */
     private boolean validate_MAIN_INFORMATIONA() {
         boolean titleIsCorrect = false;
-        String title = interventionDescription.getText().toString();
+        String description = interventionDescription.getText().toString();
 
-        if (title.length() > 3 && !spinnerSort.getSelectedItem().toString().equals(NO_SELECTED) && !spinnerType.getSelectedItem().toString().equals(NO_SELECTED)) {
+        if (description.length() > 3 && !spinnerSort.getSelectedItem().toString().equals(NO_SELECTED) && !spinnerType.getSelectedItem().toString().equals(NO_SELECTED)) {
             titleIsCorrect = true;
 
             verticalStepperForm.setActiveStepAsCompleted();
@@ -834,6 +846,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return titleIsCorrect;
     }
+
+    /**
+     * Methoda koja sprema sort požara
+     */
 
     private void save_MAIN_INFORMATION() {
         if (validate_MAIN_INFORMATIONA()) {
@@ -860,6 +876,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             prviUlaz_MAIN = false;
         }
     }
+
+    /**
+     * Methode za dohvačanje podataka za adapter kako bi se punili spinneri
+     */
 
     private ArrayAdapter<String> getTypeOfInterventionAdapter(String sortName) {
         List<String> typeAll = new ArrayList<String>();
@@ -894,6 +914,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return dataAdapter;
     }
+
+    /**
+     * Methoda koja popunjava sa spinerima i zadaje uvijete biranja broja na stepu used resources
+     */
 
     private View createUsedResourcesStep() {
         chooseTypeAndSort = new EditText(this);
@@ -982,6 +1006,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return v;
     }
 
+
+    /**
+     * Methoda koja popunjava sa spinerima i zadaje uvijete biranja broja na stepu used resources nakon PRVOGG UPISANOG
+     */
 
     private void addUsedResources(final Button prvi, final View v, final LinearLayout ll) {
         prviUlaz_USED_RESOURCES_STEP_NUM = true;
@@ -1106,6 +1134,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return spinner;
     }
 
+    /**
+     * Methoda koja onemogućuje spriječavanje predomišljanja u vezi resursa
+     */
+
     private void cotrolButtonAddAndValidate(Button gumbBrisanja) {
         if(!validate_USED_RESOURCES(gumbBrisanja)){
             gumbBrisanja.setEnabled(false);
@@ -1115,6 +1147,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
     }
 
+    /**
+     * Methoda koja za određeni edittext određuje promijenu kada dođe do promijene texta
+     */
     private EditText addTextChangeListenerWithValidation(View view, int id, final Button gumbBrisanja) {
 
         EditText editText = (EditText) view.findViewById(id);
@@ -1138,6 +1173,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return editText;
     }
 
+    /**
+     * Methoda koja spema količinu utrošenih resursa (korigirano stepoima)
+     */
 
     public void save_USED_RESOURCES() {
             kmText =kmNumber.getText().toString();
@@ -1167,6 +1205,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         prviUlaz_USED_RESOURCES_STEP_NUM = false;
     }
 
+    /**
+     * Methoda koja sprema resurs, zatim  briše gumb za dodavanje i dodaje novi view za popunjvavanje novog resussa ,
+     * a ukoliko se klikne na gumb za poništavanje briše view za dodavanje resursa ukoliko se korisnik predomisli(skuži da mu ne treba još jedan)
+     */
     private void addNewUsedResources(final Button prvi, final Button noviB, final LinearLayout ll, final View myView, final Button nepotrebni, final View stari) {
         prvi.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -1191,6 +1233,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             }
         });
     }
+
+    /**
+     * Methode koje dohvaćaju potrebne podatke i stavljaju ih u adapter tako da se popune spinneri
+     */
 
     private ArrayAdapter<String> getFiremanPatrols() {
         List<String> typeAll = new ArrayList<String>();
@@ -1225,6 +1271,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return dataAdapter2;
     }
 
+    /**
+     * Methode koje omogućuju samo brojeve na tipkovnici kod popunjavanja editText-a
+     */
+
     private void numberKeybord(EditText et) {
         et.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         et.setTransformationMethod(new NumericKeyBoardTransformationMethod());
@@ -1237,6 +1287,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
     }
 
+    /**
+     * Methoda koja puni spinnere potrebnim podacima i omogućuje prikaz sao brojeva na tipkovnici za izbor
+     */
     private View createOwnerAndMaterialCostStep() {
         chooseTypeAndSort = new EditText(this);
 
@@ -1285,7 +1338,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return ownerAndCostContent;
     }
 
-
+    /**
+     * Methoda koja provjerava da li su upisani surface and superficies
+     */
     private boolean validate_OWNER_AND_MATERIAL_COST() {
         System.out.println("ušao u VALIDATE owner and cost - save");
         boolean isCorrect = false;
@@ -1308,6 +1363,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return isCorrect;
     }
 
+    /**
+     * Methoda koja sprema surface and superficies u report (dodaje se odmah jer su atributi)
+     */
     private void save_OWNER_AND_MATERIAL_COST() {
         if (validate_OWNER_AND_MATERIAL_COST()) {
             System.out.println("ušao u SAVE owner and cost - save");
@@ -1323,6 +1381,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         System.out.println("ovner cost saved ");
         prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = false;
     }
+
+    /**
+     * Methoda koja priprema prikaz za popunjavanje posta intervencije
+     */
 
     private View createInterventionCostStep() {
         chooseTypeAndSort = new EditText(this);
@@ -1557,6 +1619,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return interventionCostContent;
     }
 
+    /**
+     * Methoda koja provjerava dali su upisani cos-ovi (ne provjerava brojeve jer je već omogućen upis samo brojeva kroz tipkovnicu)
+     */
+
     private boolean validate_INTERVENTION_COST() {
         boolean isCorrect = false;
 
@@ -1585,6 +1651,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return isCorrect;
     }
 
+    /**
+     * Methoda koja priprema za spremanje količinu potrošenih resursa kako bi se ukupni trošak izračunao množnjem koje je predviđeno za tu godinu te jvatrogasne edinice
+     */
+
     private void save_INTERVENTION_COST() {
             double navalVehicle = Double.valueOf(navalVehicleNumber.getText().toString());
             double commandVehicle = Double.valueOf(commandVehicleNumber.getText().toString());
@@ -1612,6 +1682,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         }
     }
 
+    /**
+     * Methoda koja kreira dio za dodavanje opisa reporta i omogućuje vaidaciju nakon upisa u edit text
+     */
     private View createDescriptionStep() {
         descriptionEditText = new EditText(this);
         descriptionEditText.setHint(R.string.form_hint_description);
@@ -1642,12 +1715,15 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return descriptionEditText;
     }
 
+    /**
+     * Methoda koja provjerava dal opis ima više od 5 slova i nakon više od 5 slova omogućuje kretanje dalje
+     */
     private boolean validate_DESCRIPTION_STEP_HELPER() {
         boolean isCorrect = false;
         String surface = surfaceNumber.getText().toString();
         String superficies = superficiesNumber.getText().toString();
 
-        if (descriptionEditText.length() > 0) {
+        if (descriptionEditText.length() > 5) {
             isCorrect = true;
             verticalStepperForm.setActiveStepAsCompleted();
 
@@ -1660,6 +1736,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     }
 
+    /**
+     * Methoda koja sprema atribut opisa u report (nije potrebno spremati kasnije jer je sa samim dodavanjem reporta ok spemiti i opis, kod novog spremanja se upsata samo)
+     *
+     */
     private void save__DESCRIPTION_STEP_HELPER() {
         intervencije.addHelpers(descriptionEditText.getText().toString());
 
@@ -1667,6 +1747,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         prviUlaz_DESCRIPTION_HELPER_STEP_NUM = false;
     }
 
+    /**
+     * Method  koja stvara SpinnerAdaper uz omoć kojeć će se u spinneru prikazati svi truckovi
+     */
 
     private SpinnerAdapter getTruckAdapter() {
         List<String> truckAll = new ArrayList<String>();
@@ -1683,6 +1766,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
+    /**
+     * Methoda koja ima smpinner iz kojeg se biraju vvatrogasci koji su sudjelovali u intervenciji i dodaju se u bazu
+     */
     private View createFiremenStep() {
         chooseTypeAndSort = new EditText(this);
 
@@ -1744,25 +1830,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
 
-    private boolean checkTitleStep(String title) {
-        boolean titleIsCorrect = false;
 
-        if (title.length() >= MIN_CHARACTERS_TITLE) {
-            titleIsCorrect = true;
-
-            verticalStepperForm.setActiveStepAsCompleted();
-
-        } else {
-            String titleErrorString = getResources().getString(R.string.error_title_min_characters);
-            String titleError = String.format(titleErrorString, MIN_CHARACTERS_TITLE);
-
-            verticalStepperForm.setActiveStepAsUncompleted(titleError);
-        }
-
-        return titleIsCorrect;
-    }
-
-
+    /**
+     * Methoda koja kreira korak kod kojega se
+     *
+     */
     private View createSortOfUnitStep() {
         LayoutInflater inflate = LayoutInflater.from(getBaseContext());
         LinearLayout typeAndSortContent = (LinearLayout) inflate.inflate(R.layout.sort_of_unit_report, null, false);
@@ -1787,8 +1859,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         return typeAndSortContent;
     }
 
-    // CONFIRMATION DIALOG WHEN USER TRIES TO LEAVE WITHOUT SUBMITTING
-
+    /**
+     * Method  koja pita da li zbilja želi osoba izaći bezkakvog spremanja
+     */
     private void confirmBack() {
         if (confirmBack && verticalStepperForm.isAnyStepCompleted()) {
             BackConfirmationFragment backConfirmation = new BackConfirmationFragment();
@@ -1845,17 +1918,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         dismissDialog();
     }
 
-    // SAVING AND RESTORING THE STATE
-
+    /**
+     * Methoda koja omogućuje spremanje svih stavaka u report (ne sprema se ranije jer sam na ovaj način omogućila update svih polja
+     *
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-
-        /*
-        // Saving title field
-        if(titleEditText != null) {
-            savedInstanceState.putString(STATE_TITLE, titleEditText.getText().toString());
-        }
-*/
         if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
             intervencije.getReports().saveFireInterventionDetails();
             intervencije.setThisInterventionAsFire();
@@ -1878,38 +1946,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         intervencije.getReports().save();
         intervencije.save();
 
-
-
-
         System.out.println("Spremamm - save u save instancestate");
-
-        // dodavanje
-
-        /*
-        // Saving description field
-        if (descriptionEditText != null) {
-            savedInstanceState.putString(STATE_DESCRIPTION, descriptionEditText.getText().toString());
-        }
-
-*(
-        /*
-        // Saving time field
-        if(time != null) {
-            savedInstanceState.putInt(STATE_TIME_HOUR, time.first);
-            savedInstanceState.putInt(STATE_TIME_MINUTES, time.second);
-        }
-
-        // Saving week days field
-        if(weekDays != null) {
-            savedInstanceState.putBooleanArray(STATE_WEEK_DAYS, weekDays);
-        }
-        */
-        // The call to super method must be at the end here
-
 
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    /*
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
 
@@ -1918,19 +1960,16 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         if(!prviUlaz_MAIN){
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
                 intervencije.getReports().saveFireInterventionDetails();
-                //intervencije.setThisInterventionAsFire();
                 System.out.println("SAve FIRE step u ONSAVEEE --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
             }
 
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
                 intervencije.getReports().saveTehnicalInterventionDetails();
-                // intervencije.setThisInterventionAsTehnical();
                 System.out.println("SAve tEHNICAL step u ONSAVEEE ");
             }
 
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
                 intervencije.getReports().saveOtherInterventionDetails();
-                //  intervencije.setThisInterventionAsOther();
                 System.out.println("SAve other step u ONSAVEEE ");
             }
         }
@@ -1944,47 +1983,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
 
 
-        // Restoration of title field
         if (savedInstanceState.containsKey(STATE_TITLE)) {
             String title = savedInstanceState.getString(STATE_TITLE);
-            // titleEditText.setText(title);
         }
 
-        // Restoration of description field
         if (savedInstanceState.containsKey(STATE_DESCRIPTION)) {
             String description = savedInstanceState.getString(STATE_DESCRIPTION);
             descriptionEditText.setText(description);
         }
 
-        /*
-        // Restoration of time field
-        if(savedInstanceState.containsKey(STATE_TIME_HOUR)
-                && savedInstanceState.containsKey(STATE_TIME_MINUTES)) {
-            int hour = savedInstanceState.getInt(STATE_TIME_HOUR);
-            int minutes = savedInstanceState.getInt(STATE_TIME_MINUTES);
-            time = new Pair<>(hour, minutes);
-            if(timePicker == null) {
-            } else {
-                timePicker.updateTime(hour, minutes);
-            }
-        }
-
-        // Restoration of week days field
-        if(savedInstanceState.containsKey(STATE_WEEK_DAYS)) {
-            weekDays = savedInstanceState.getBooleanArray(STATE_WEEK_DAYS);
-            if (weekDays != null) {
-                for (int i = 0; i < weekDays.length; i++) {
-                    if (weekDays[i]) {
-                    } else {
-                    }
-                }
-            }
-        }
-        */
-
-        // The call to super method must be at the end here
         super.onRestoreInstanceState(savedInstanceState);
     }
-
+*/
 
 }

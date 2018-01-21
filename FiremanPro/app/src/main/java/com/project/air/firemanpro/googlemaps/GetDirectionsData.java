@@ -25,6 +25,15 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
     String googleDirectionsData;
     String duration, distance;
     LatLng latLng;
+
+    /**
+     * Metoda kod omogućuje downlodanje url-a
+     *
+     * @param  objects - - poslali smko 3 jer nam oni trebaju ( a to su naša karta, url koji je  LINK na stranicu na kojoj je u jsonu ispisan put,
+     *                 odnosno podaci za sasstavljanje polyline kako bi class Download url mogao downloadati put,
+     *                 latlng koji nam treba kod dodavanja markera u displayDirection
+     */
+
     @Override
     protected String doInBackground(Object... objects) {
         mMap = (GoogleMap)objects[0];
@@ -50,6 +59,12 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
         displayDirection(directionsList);
     }
 
+    /**
+     * Methoda koja stilizira polyli
+     *
+     * @param directionsList string[] koja dodaje markere i polylin tako da prikazu put(polyline)
+     */
+
     public void displayDirection(String[] directionsList)
     {
         int count = directionsList.length;
@@ -61,6 +76,7 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
             options.addAll(PolyUtil.decode(directionsList[i]));
 
             mMap.addPolyline(options);
+
             mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)));
 
         }

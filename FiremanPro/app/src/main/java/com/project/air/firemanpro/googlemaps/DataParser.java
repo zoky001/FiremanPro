@@ -154,6 +154,16 @@ class DataParser {
         return polylines;
     }
 
+    /**
+     * Metoda koja stvara polyline
+     *
+     *
+     * U ovoj metodi se poyline dodaje kako bi pokazoo put
+     *
+     * @since     11/13/2017.
+     * @return polyline (prikaz puta od zadanih adresa)
+     */
+
     public String getPath(JSONObject googlePathJson)
     {
         String polyline = "";
@@ -164,7 +174,4 @@ class DataParser {
         }
         return polyline;
     }
-
-
-
 }
