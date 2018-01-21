@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+
+import android.support.annotation.NonNull;
+
 import android.support.annotation.BoolRes;
+
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ThemedSpinnerAdapter;
@@ -31,6 +35,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.test.apache_poi.CreateDocument;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
@@ -51,8 +56,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout;
 import ernestoyaquello.com.verticalstepperform.fragments.BackConfirmationFragment;
@@ -150,6 +158,17 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     String co2Text;
     String numberOfFiremansText;
     String clockText;
+    List<String> list3 = new ArrayList<String>();
+    List<String> list2 = new ArrayList<String>();
+    List<String> list4 = new ArrayList<String>();
+    List<String> list5 = new ArrayList<String>();
+    String list7 = "";
+    List<String> list8 = new ArrayList<String>();
+    List<String> list9 = new ArrayList<String>();
+    List<String> list10 = new ArrayList<String>();
+    List<String> list11= new ArrayList<String>();
+    List<String> list12 = new ArrayList<String>();
+
 
     // suma vatrogasaca i co2 koja se dobije kod dodavanja v a izračunava se koliko košta prema zbroju uz cost
     int sumFireman = 0;
@@ -184,6 +203,14 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_stepper_report_form);
 
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+
+
+
+
+
 
         try {
             int a = Integer.parseInt(getIntent().getStringExtra("IDintervencije"));
@@ -196,7 +223,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         System.out.println("SESSION FRAGMENT_idkuce: " + intervencije.getHouse().getName_owner());
         initializeActivity();
-    }
+
+        }
 
     /**
      * Methoda kkoja postavlja vertical stepper form
@@ -347,12 +375,35 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     break;
                 }
             case END_NUM:
+
+                fillList4WithValues();
+                fillList2WithValues();
+                fillList5WithValues();
+                list7 = intervencije.getReports().getDescription().toString();
+                fillList8WithValues();
+                list9.add(intervencije.getReports().getHelp());
+                fillList10WithValues();
+                fillList11WithValues();
+                fillList12WithValues();
+                System.out.println("HELP "+intervencije.getReports().getHelp());
+                CreateDocument document = new CreateDocument();
+                try {
+
+                    document.a(this,list3,list2,list4,list5,list7,list8,list9,list10,list11,list12);
+
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+
+
+
                 if(prviUlaz_MAIN) save_MAIN_INFORMATION();
                 if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
                 if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
                 if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
                 if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
                 if(prviUlaz_FIREMEN_NUM) save_FIRE_STEP();
+
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 sendMail();
                 break;
@@ -415,16 +466,16 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         // emailIntent.setType("text/plain");
         emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {// intervencije.getEmailTo().toString()
-                "matea.bodulusic@gmail.com"});
+                "airreport0@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
         emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
 
 
 
-        File root = Environment.getExternalStorageDirectory();
+        
 
-        String pathToMyAttachedFile = "temp/attachement.xml";
-        File file = new File(root, pathToMyAttachedFile);
+        String pathToMyAttachedFile = Environment.getExternalStorageDirectory()+ "/report.docx";
+        File file = new File(pathToMyAttachedFile);
         if (!file.exists() || !file.canRead()) {
             return;
         }
@@ -684,7 +735,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         return dataAdapter;
     }
-
     private Spinner addSpinnerValue(Spinner spinner, LinearLayout content, int id, ArrayAdapter<String> methodArray) {
         spinner = (Spinner) content.findViewById(id);
         spinner.setAdapter(methodArray);
@@ -861,17 +911,35 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_FIRE_Sort_of_intervention().getName())) {
                 intervencije.setThisInterventionAsFire();
                 intervencije.getReports().addFireIntervention(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
+
+                System.out.println("SAve first step");
+                list3.add(types_all_controller.get_FIRE_Sort_of_intervention().getName());
+                list3.add(spinnerType.getSelectedItem().toString());
+
                 System.out.println("SAve FIRE step --> provjera: " + types_all_controller.get_FIRE_Sort_of_intervention().getName());
+
             }
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName())) {
                 intervencije.setThisInterventionAsTehnical();
                 intervencije.getReports().addTehnicalInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
+
+                System.out.println("SAve first step");
+                list3.add(types_all_controller.get_TRHNICAL_Sort_of_intervention().getName());
+                list3.add(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()).toString());
+
                 System.out.println("SAve tEHNICAL step");
+
             }
             if (spinnerSort.getSelectedItem().toString().equals(types_all_controller.get_OTHER_Sort_of_intervention().getName())) {
                 intervencije.setThisInterventionAsOther();
                 intervencije.getReports().addOtherInterventionDetails(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()));
+
+                System.out.println("SAve first step");
+                list3.add(types_all_controller.get_OTHER_Sort_of_intervention().getName());
+                list3.add(Types_all_Controller.get_Intervention_typeByName(spinnerType.getSelectedItem().toString()).toString());
+
                 System.out.println("SAve other step");
+
             }
             prviUlaz_MAIN = false;
         }
@@ -1994,6 +2062,121 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         super.onRestoreInstanceState(savedInstanceState);
     }
-*/
+    */
+
+
+    public void fillList2WithValues(){
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:SS");
+        String date_call = DATE_FORMAT.format(intervencije.getReports().getTime_call_received());
+        String time_call = TIME_FORMAT.format(intervencije.getReports().getTime_call_received());
+        //Add date and time call
+        list2.add(date_call);
+        list2.add(time_call);
+        //Add intervention time and start
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_start()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_start()));
+
+
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+
+        list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
+        list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
+
+        System.out.println(date_call.toString());
+        System.out.println(time_call.toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_call_received().toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_start().toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_arrival_intervention().toString());
+
+        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getLocalization().toString());
+        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getFireExtinguished().toString());
+        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_ended().toString());
+    }
+    public void fillList4WithValues(){
+        list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
+        list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
+        if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
+            list4.add("da");
+        }else list4.add("ne");
+        list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
+        list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
+        list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
+        list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
+
+        for (String a: list4
+             ) {
+            System.out.println("FIRE "+a);
+
+        }
+
+    }
+    public void fillList5WithValues(){
+        list5.add(intervencije.getLocation().getPost().getName().toString());
+        if (intervencije.getLocation().getPlaceNameIfExist().toString() != "") {
+            list5.add(intervencije.getLocation().getPlaceNameIfExist().toString());
+        }else {
+            list5.add("nema");
+        }
+        if (intervencije.getLocation().getStreetNameIfExist().toString() != "")
+        list5.add(intervencije.getLocation().getStreetNameIfExist().toString());
+        else {
+            list5.add("nema");
+        }
+        for (String a: list5
+             ) {
+             System.out.println("LOCATION "+a);
+        }
+
+    }
+    public void fillList8WithValues(){
+        list8.add(Double.toString(intervencije.getReports().getSurface_m2()));
+        list8.add(Double.toString(intervencije.getReports().getSuperficies_ha()));
+
+    }
+    public void fillList10WithValues(){
+        list10.add("Navalno vozilo");
+        list10.add(Double.toString(intervencije.getReports().getConsumption().getNavalVehicle()));
+        list10.add("Kombi vozilo");
+        list10.add(Double.toString(intervencije.getReports().getConsumption().getTransportationVehicle()));
+
+
+    }
+    public void fillList11WithValues(){
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getNavalVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getRoadTankers()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getTehnicalVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getAutomatic_ladder()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getRoadTankers()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getSpecialVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getTransportationVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getTransportationVehicle()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getFire_fighter()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getInsurance()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getPowerPumpClock()));
+        list11.add(Double.toString(intervencije.getReports().getPowden_kg()));
+        list11.add(Double.toString(intervencije.getReports().getCo2_kg()));
+        list11.add(Double.toString(intervencije.getReports().getFoam_l()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getApsorbent()));
+        list11.add(Double.toString(intervencije.getReports().getConsumption().getNavalVehicle()));
+
+    }
+
+    public void fillList12WithValues(){
+        list12.add("Mirko_Test");
+
+
+    }
+
+
+
 
 }

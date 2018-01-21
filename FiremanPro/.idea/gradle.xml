@@ -8,12 +8,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/apache_poi" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core_module" />
             <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/ground_plan" />
-            <option value="$PROJECT_DIR$/web_services" />
             <option value="$PROJECT_DIR$/report" />
+            <option value="$PROJECT_DIR$/web_services" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

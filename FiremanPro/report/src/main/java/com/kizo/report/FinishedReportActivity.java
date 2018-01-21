@@ -330,6 +330,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent() * costs.getApsorbent()));
 
         final List<String> firemanList = new ArrayList<>();
+
         for(Report_fireman fireman: intervention.getReports().getFiremans() ){
             firemanList.add(fireman.getFireman().getName().toString() + " " + fireman.getFireman().getSurname().toString());
         }
