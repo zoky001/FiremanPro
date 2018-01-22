@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.is;
  */
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class WebServiceUnitTest_1 {
+public class WebServiceInstrumentedTest {
 
     private static final String FAKE_STRING = "HELLO WORLD";
 
@@ -54,7 +54,5 @@ public class WebServiceUnitTest_1 {
         System.out.println("Počezak testa");
         airWebServiceCaller.getAll();
 
-
-        assertThat(true, is(false));
     }
 }
