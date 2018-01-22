@@ -384,7 +384,13 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     break;
                 }
             case END_NUM:
-
+                if(prviUlaz_MAIN) save_MAIN_INFORMATION();
+                if(prviUlaz_USED_RESOURCES_STEP_NUM) save_USED_RESOURCES();
+                if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
+                if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
+                if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
+                if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
+                if(prviUlaz_FIREMEN_NUM) save_FIRE_STEP();
                 fillList4WithValues();
                 fillList2WithValues();
                 fillList5WithValues();
@@ -404,13 +410,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     System.out.println(e);
                 }
 
-                if(prviUlaz_MAIN) save_MAIN_INFORMATION();
-                if(prviUlaz_USED_RESOURCES_STEP_NUM) save_USED_RESOURCES();
-                if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
-                if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
-                if(prviUlaz_DESCRIPTION_HELPER_STEP_NUM) save__DESCRIPTION_STEP_HELPER();
-                if(promijenaINTERVENTION_STEP_NUM) save_INTERVENTION_COST();
-                if(prviUlaz_FIREMEN_NUM) save_FIRE_STEP();
+
 
                 verticalStepperForm.setStepAsCompleted(stepNumber);
                 sendMail();
@@ -2078,7 +2078,11 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
         list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+<<<<<<< HEAD
         if(list3.get(0)=="Požar") {
+=======
+        if(list3.get(0).contains("Požar")) {
+>>>>>>> 159e181f3e9e885ea61d76b8a3652e811e88648e
             list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
             list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
 
@@ -2094,6 +2098,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
         list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
 
+<<<<<<< HEAD
         
     }
     public void fillList4WithValues(){
@@ -2112,6 +2117,27 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     ) {
                 System.out.println("FIRE " + a);
 
+=======
+
+    }
+    public void fillList4WithValues(){
+        if(list3.get(0).contains("Požar")) {
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
+
+            list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
+            if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
+                list4.add("da");
+            } else list4.add("ne");
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
+
+            for (String a : list4
+                    ) {
+                System.out.println("FIRE " + a);
+
+>>>>>>> 159e181f3e9e885ea61d76b8a3652e811e88648e
             }
         }
     }
@@ -2167,8 +2193,12 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
     }
 
     public void fillList12WithValues(){
+<<<<<<< HEAD
         list12.add("Mirko_Test");
         //intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getCost().;
+=======
+        list12.add("Mirko Mirkić"); //intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getCost().;
+>>>>>>> 159e181f3e9e885ea61d76b8a3652e811e88648e
 
     }
 
