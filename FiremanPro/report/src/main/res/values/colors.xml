@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryREPORT">#3F51B5</color>
-    <color name="colorPrimaryDarkREPORT">#303F9F</color>
+    <color name="colorPrimaryGreenREPORT">#379f30</color>
+    <color name="colorDarkGreen"> #074f02 </color>
     <color name="colorRed">#c1000d</color>
     <color name="glavna">#c1000d</color>
 </resources>

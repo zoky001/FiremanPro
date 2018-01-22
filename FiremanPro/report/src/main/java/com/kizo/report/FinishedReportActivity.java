@@ -39,12 +39,11 @@ import butterknife.ButterKnife;
 
 /**
  * Aktivnost koja popunjava završeni izvještaj
- *
+ * <p>
  * Ova aktivnost služi za popunjavanje elemenata forme podacima o odabranom izvještaju iz baze
  *
  * @author Nikolina Bukovec
  * @version 2018.0117
- *
  */
 public class FinishedReportActivity extends AppCompatActivity {
 
@@ -100,7 +99,6 @@ public class FinishedReportActivity extends AppCompatActivity {
     public Boolean repeat;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,13 +120,13 @@ public class FinishedReportActivity extends AppCompatActivity {
         } else {
             intervention = InterventionController.getInterventionByID(a);
         }
-       System.out.println("ID intervencije _ "+ intervention.getId_intervention_track());
+        System.out.println("ID intervencije _ " + intervention.getId_intervention_track());
 
         FiremanPatrolController firemanPatrolController = new FiremanPatrolController();
         costs = firemanPatrolController.GetAllRecordsFromTable().get(0).getCost();
         Types_all_Controller types_all_controller = new Types_all_Controller();
         sort_of_intervention = types_all_controller.get_FIRE_Sort_of_intervention();
-        sort_of_interventionTehn= types_all_controller.get_TRHNICAL_Sort_of_intervention();
+        sort_of_interventionTehn = types_all_controller.get_TRHNICAL_Sort_of_intervention();
 
         type_of_truck_TRANS = types_all_controller.get_transportation_vehicle_type_of_truck();
         type_of_truck_NAVAL = types_all_controller.get_naval_vehicle_type_of_truck();
@@ -138,7 +136,6 @@ public class FinishedReportActivity extends AppCompatActivity {
 
     /**
      * Metoda koja dohvaća elemente iz layouta koristeći @Bind
-     *
      */
     private void bindTextView() {
 
@@ -165,7 +162,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         vanjskoPr = (TextView) findViewById(R.id.vanjski);
         javna = (TextView) findViewById(R.id.javne);
         voziloSati = (TextView) findViewById(R.id.vozilo_sati);
-        navalnoSatiTr = (TextView)findViewById(R.id.navalno_h);
+        navalnoSatiTr = (TextView) findViewById(R.id.navalno_h);
         autocisternaSatiTr = (TextView) findViewById(R.id.autocisterna_h);
         tehnickoSatiTr = (TextView) findViewById(R.id.tehnicko_h);
         ljestveTr = (TextView) findViewById(R.id.ljestve_h);
@@ -179,7 +176,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         prahTr = (TextView) findViewById(R.id.prah);
         co2Tr = (TextView) findViewById(R.id.co2);
         pjeniloTr = (TextView) findViewById(R.id.pjenilo);
-        apsorbentTr = (TextView)findViewById(R.id.apsorbent);
+        apsorbentTr = (TextView) findViewById(R.id.apsorbent);
         sudionik1 = (TextView) findViewById(R.id.sud1);
         zapovjednik = (TextView) findViewById(R.id.zap);
 
@@ -188,7 +185,6 @@ public class FinishedReportActivity extends AppCompatActivity {
 
     /**
      * Metoda koja popunjava elemente sučelja sa podacima iz baze
-     *
      */
     private void fillWithData() {
 
@@ -204,9 +200,16 @@ public class FinishedReportActivity extends AppCompatActivity {
         zavrsetak.setText(kraj);
 
         //pozarna
-        if(intervention.getReports().getSort_of_intervention().getId() == sort_of_intervention.getId()) {
-            vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getFireInterventionDetails().getIntervention_type().getName().toString());
-            velPoz.setText(intervention.getReports().getFireInterventionDetails().getSize_of_fire().getName().toString());
+        if (intervention.getReports().getSort_of_intervention().getId() == sort_of_intervention.getId()) {
+
+            try {
+                vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getFireInterventionDetails().getIntervention_type().getName().toString());
+                velPoz.setText(intervention.getReports().getFireInterventionDetails().getSize_of_fire().getName().toString());
+            } catch (Exception e) {
+
+                System.out.println("EXCEPTION: " + e.getMessage());
+            }
+
             brGradevinaPoz.setText(String.valueOf(intervention.getReports().getFireInterventionDetails().getDestroyed_space()));
             repeat = intervention.getReports().getFireInterventionDetails().isRepeated();
             if (repeat == null) {
@@ -219,21 +222,32 @@ public class FinishedReportActivity extends AppCompatActivity {
             dimPoz.setText(intervention.getReports().getFireInterventionDetails().getSpreading_smoke().getName().toString());
             vrstaOtvorenoPoz.setText(intervention.getReports().getFireInterventionDetails().getOutdoor_type().getName().toString());
         }//tehnicka
-        else if (intervention.getReports().getSort_of_intervention().getId() == sort_of_interventionTehn.getId()){
+        else if (intervention.getReports().getSort_of_intervention().getId() == sort_of_interventionTehn.getId()) {
             int colorValue = Color.parseColor("#fcfcfc");
             expandableLayout3.setBackgroundColor(colorValue);
+            try {
                 vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getTehnicalInterventionDetails().getIntervention_type().getName().toString());
-                velPoz.setText("/");
-                brGradevinaPoz.setText("/");
-                ponovioPoz.setText("/");
-                prostornoPoz.setText("/");
-                vremenskoPoz.setText("/");
-                dimPoz.setText("/");
-                vrstaOtvorenoPoz.setText("/");
-        }else{//other
+            } catch (Exception e) {
+
+                System.out.println("EXCEPTION: " + e.getMessage());
+            }
+
+            velPoz.setText("/");
+            brGradevinaPoz.setText("/");
+            ponovioPoz.setText("/");
+            prostornoPoz.setText("/");
+            vremenskoPoz.setText("/");
+            dimPoz.setText("/");
+            vrstaOtvorenoPoz.setText("/");
+        } else {//other
             int colorValue = Color.parseColor("#fcfcfc");
             expandableLayout3.setBackgroundColor(colorValue);
-            vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getOtherInterventionDetails().getIntervention_type().getName().toString());
+            try {
+                vrstaTip.setText(intervention.getReports().getSort_of_intervention().getName().toString() + "\n" + intervention.getReports().getOtherInterventionDetails().getIntervention_type().getName().toString());
+            } catch (Exception e) {
+
+                System.out.println("EXCEPTION: " + e.getMessage());
+            }
             velPoz.setText("/");
             brGradevinaPoz.setText("/");
             ponovioPoz.setText("/");
@@ -253,31 +267,31 @@ public class FinishedReportActivity extends AppCompatActivity {
         Double navalno = 0.0;
         Double transportno = 0.0;
 
-        for(Report_truck_patrol p: intervention.getReports().getTrucksAndPatrols()){
-                snage.add(num + "\n" +
-                        "Vrsta jedinice: " + p.getFireman_patrol().getType_of_unit().getName().toString() +
-                        "\n" + "\t" + p.getFireman_patrol().getName().toString() +
-                        "\nVozilo: " + p.getTruck().getName().toString() +
-                        "\nPrijeđeno km: " + p.getKm() +
-                        "\nUtrošeno sati: " + p.getHours() +
-                        "\nBroj vatrogasaca: " + p.getNumberOfFireman() +
-                        "\nUtrošeno sredstva za gašenje: " +
-                        "\n" + "\t" + "Voda: " + p.getWater() +
-                        "\n" + "\t" + "Pjenilo: " + String.valueOf(p.getFoam()) +
-                        "\n" + "\t" + "Prah: " + String.valueOf(p.getPowder()) +
-                        "\n" + "\t" + "CO2: " + String.valueOf(p.getCo2()));
-                num++;
+        for (Report_truck_patrol p : intervention.getReports().getTrucksAndPatrols()) {
+            snage.add(num + "\n" +
+                    "Vrsta jedinice: " + p.getFireman_patrol().getType_of_unit().getName().toString() +
+                    "\n" + "\t" + p.getFireman_patrol().getName().toString() +
+                    "\nVozilo: " + p.getTruck().getName().toString() +
+                    "\nPrijeđeno km: " + p.getKm() +
+                    "\nUtrošeno sati: " + p.getHours() +
+                    "\nBroj vatrogasaca: " + p.getNumberOfFireman() +
+                    "\nUtrošeno sredstva za gašenje: " +
+                    "\n" + "\t" + "Voda: " + p.getWater() +
+                    "\n" + "\t" + "Pjenilo: " + String.valueOf(p.getFoam()) +
+                    "\n" + "\t" + "Prah: " + String.valueOf(p.getPowder()) +
+                    "\n" + "\t" + "CO2: " + String.valueOf(p.getCo2()));
+            num++;
 
-            if(p.getTruck().getType_of_truck().getType_name().equals(type_of_truck_NAVAL.getType_name())){
+            if (p.getTruck().getType_of_truck().getType_name().equals(type_of_truck_NAVAL.getType_name())) {
                 navalno += p.getHours();
             }
-            if(p.getTruck().getType_of_truck().getType_name().equals(type_of_truck_TRANS.getType_name())){
-               transportno += p.getHours();
+            if (p.getTruck().getType_of_truck().getType_name().equals(type_of_truck_TRANS.getType_name())) {
+                transportno += p.getHours();
             }
         }
 
         String ispis = "";
-        for(String s: snage){
+        for (String s : snage) {
             ispis += s + "\n\n";
         }
         postrojba.setText(ispis.toString());
@@ -290,30 +304,38 @@ public class FinishedReportActivity extends AppCompatActivity {
         sluzbe.add(intervention.getReports().getHelp().toString());
         String sluzbeIspis = "";
 
-        for(String s: sluzbe){
+        for (String s : sluzbe) {
             sluzbeIspis += s + "\n";
         }
         javna.setText(sluzbeIspis.toString());
 
 
+        String ispisVoz = "";
         String voziloVrste1 = "";
         String voziloVrste2 = "";
         String naval = type_of_truck_NAVAL.getType_name();
-        String trans = type_of_truck_TRANS.getType_name();
-
-        if(navalno != 0.0){
-            voziloVrste1 = (naval + ": \t\t\t\t\t").toString() ;
-            voziloVrste1 +=  navalno.toString() + "\n";
+        String navalnoVozilo = "NAVAL VEHICLE";
+        String transVozilo = "TRANSPORTATION VEHICLE";
+        if (naval.equals(navalnoVozilo)) {
+            ispisVoz = "Navalno";
         }
-        if(transportno != 0.0){
-            voziloVrste2 = (trans + ": \t\t\t\t").toString() ;
+        String trans = type_of_truck_TRANS.getType_name();
+        if (trans.equals(transVozilo)) {
+            ispisVoz = "Transportno";
+        }
+        if (navalno != 0.0) {
+            voziloVrste1 = (ispisVoz + ": \t\t\t").toString();
+            voziloVrste1 += navalno.toString() + "\n";
+        }
+        if (transportno != 0.0) {
+            voziloVrste2 = (ispisVoz + ": \t\t\t").toString();
             voziloVrste2 += transportno.toString() + "\n";
         }
-        if(transportno == 0.0 && navalno == 0.0){
+        if (transportno == 0.0 && navalno == 0.0) {
             voziloVrste1 += voziloVrste2 += "__";
         }
         voziloSati.setText(voziloVrste1.toString() + voziloVrste2.toString());
-        navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle()*costs.getNaval_vehicle()));
+        navalnoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getNavalVehicle() * costs.getNaval_vehicle()));
         autocisternaSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getRoadTankers() * costs.getRoad_tankers()));
         tehnickoSatiTr.setText(String.valueOf(intervention.getReports().getConsumption().getTehnicalVehicle() * costs.getTehnical_vehicle()));
         ljestveTr.setText(String.valueOf(intervention.getReports().getConsumption().getAutomatic_ladder() * costs.getAutomatic_Ladder()));
@@ -330,13 +352,14 @@ public class FinishedReportActivity extends AppCompatActivity {
         apsorbentTr.setText(String.valueOf(intervention.getReports().getConsumption().getApsorbent() * costs.getApsorbent()));
 
         final List<String> firemanList = new ArrayList<>();
-        for(Report_fireman fireman: intervention.getReports().getFiremans() ){
+
+        for (Report_fireman fireman : intervention.getReports().getFiremans()) {
             firemanList.add(fireman.getFireman().getName().toString() + " " + fireman.getFireman().getSurname().toString());
         }
 
         String firemanIspis = "";
 
-        for(String f: firemanList){
+        for (String f : firemanList) {
             firemanIspis += f + "\n";
         }
         sudionik1.setText(firemanIspis.toString());
@@ -344,7 +367,7 @@ public class FinishedReportActivity extends AppCompatActivity {
         zapovjednik.setText(intervention.getReports().getSigned().getName().toString() + " " + intervention.getReports().getSigned().getSurname().toString());
     }
 
-    private void setTitleOnToolbar(String title){
+    private void setTitleOnToolbar(String title) {
         getSupportActionBar().setTitle(title);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -362,8 +385,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb1
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton1(View view) {
         expandableLayout1 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout1);
@@ -373,8 +395,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb2
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton2(View view) {
         expandableLayout2 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout2);
@@ -384,8 +405,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb3
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton3(View view) {
         expandableLayout3 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout3);
@@ -395,8 +415,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb4
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton4(View view) {
         expandableLayout4 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout4);
@@ -406,8 +425,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb5
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton5(View view) {
         expandableLayout5 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout5);
@@ -417,8 +435,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb6
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton6(View view) {
         expandableLayout6 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout6);
@@ -428,8 +445,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb7
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton7(View view) {
         expandableLayout7 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout7);
@@ -439,8 +455,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb8
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton8(View view) {
         expandableLayout8 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout8);
@@ -450,8 +465,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb9
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton9(View view) {
         expandableLayout9 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout9);
@@ -461,8 +475,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb10
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton10(View view) {
         expandableLayout10 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout10);
@@ -472,8 +485,7 @@ public class FinishedReportActivity extends AppCompatActivity {
     /**
      * Metoda koja upravlja akcijom na Gumb11
      *
-     *@param 'view' element layouta koji se prikazuje
-     *
+     * @param 'view' element layouta koji se prikazuje
      */
     public void expandableButton11(View view) {
         expandableLayout11 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout11);

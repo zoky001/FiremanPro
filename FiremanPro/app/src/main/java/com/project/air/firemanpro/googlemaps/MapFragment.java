@@ -107,8 +107,6 @@ public class MapFragment extends Fragment implements
             e.printStackTrace();
         }
 
-
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkLocationPermission();
@@ -160,8 +158,6 @@ public class MapFragment extends Fragment implements
         }else
             return true;
     }
-
-
 
     protected synchronized void buildGoogleApiClient(){
         client = new GoogleApiClient.Builder(context)
@@ -250,9 +246,7 @@ public class MapFragment extends Fragment implements
             //dodavanje markera na kartu
             addMarker(mMap,latitude,longitude);
 
-
             Object dataTransfer[] = new Object[2];
-
 
             // podaci potrebni kako bi mogli doći do podataka na kojoj karti kako spojiti polyline uz slanje zadje llokacije
             dataTransfer = new Object[3];
@@ -267,7 +261,6 @@ public class MapFragment extends Fragment implements
             Toast.makeText(context, "Couldn't get the location. Make sure location is enabled on the device", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     /**
      * Methoda s kojom se dodaju markeri na kartu s time da je jedan u obliku bitmape, a to je onaj koji će se pomicati
@@ -352,7 +345,6 @@ public class MapFragment extends Fragment implements
                     }
                     return;
                 }
-
         }
     }
 
@@ -400,7 +392,6 @@ public class MapFragment extends Fragment implements
 
         return googleDirectionsUrl.toString();
     }
-
 
     //Function to calculate 2 nearest hydrants relative to house
     private LatLng[] closestHydrants (LatLng houseLatLng){
@@ -458,8 +449,6 @@ public class MapFragment extends Fragment implements
                 if( houseLocation.distanceTo(currentHydrant) > houseLocation.distanceTo(closestHydrants0) &&  houseLocation.distanceTo(currentHydrant) < houseLocation.distanceTo(closestHydrants1)){
                     closestHydrants[1] = new LatLng(currentHydrant.getLatitude(),currentHydrant.getLongitude());
                 }
-
-
             }
         }
 

@@ -103,16 +103,6 @@ public class SavedReportFragment extends TabFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK && requestCode == NEW_ALARM && data != null) {
-            if (data.hasExtra(NewReportFormActivity.NEW_ALARM_ADDED)
-                    && data.getExtras().getBoolean(NewReportFormActivity.NEW_ALARM_ADDED, false)) {
-
-                // Handling the data received from the stepper form
-                dataReceived = true;
-                String title = data.getExtras().getString(NewReportFormActivity.STATE_TITLE);
-
-            }
-        }
     }
 
 
@@ -121,6 +111,7 @@ public class SavedReportFragment extends TabFragment {
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
 
 
 }
