@@ -39,7 +39,9 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.project.test.apache_poi.CreateDocument;
+import com.project.test.database.Entities.Settings;
 import com.project.test.database.Entities.fire_intervention.Size_of_fire;
 import com.project.test.database.Entities.fire_intervention.Spatial_spread;
 import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
@@ -436,7 +438,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         /* slanje maila */
         System.out.println("Send email SAVEE");
 
-        String[] TO = {"airreports0@gmail.com"};
+
+        String[] TO = {Settings.getSettings().getEmailToSendReport()};
+
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("message/rfc822");
