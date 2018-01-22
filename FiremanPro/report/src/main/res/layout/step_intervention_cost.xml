@@ -3,6 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <LinearLayout
         style="@style/NumberArea"
         >
@@ -20,7 +22,6 @@
             />
     </LinearLayout>
 
-
     <LinearLayout
         style="@style/NumberArea"
         >
@@ -28,11 +29,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
-            android:text="Sat rada autocisterne: "
+            android:text="Sat rada autocisterne:"
             android:layout_gravity="center"
             />
         <EditText
-            android:id="@+id/commandVehicle"
+            android:id="@+id/roadTankers"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -76,11 +77,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
-            android:text="Sat rada zapovjednog vozila:"
+            android:text="Sat rada zapovjednog vozila: "
             android:layout_gravity="center"
             />
         <EditText
-            android:id="@+id/roadTankers"
+            android:id="@+id/commandVehicle"
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
@@ -116,5 +117,57 @@
             style="@style/numberPickerFireman"
             />
     </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Osiguranje s vozilom i 3 vatrogasca: " />
+
+        <EditText
+            android:id="@+id/insurance"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:text="Sat rada elektro pumpe:  " />
+
+        <EditText
+            android:id="@+id/powerPumpClock"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/NumberArea"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Apsorbent: "
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/apsorbentNum"
+            style="@style/numberPickerFireman"
+            />
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

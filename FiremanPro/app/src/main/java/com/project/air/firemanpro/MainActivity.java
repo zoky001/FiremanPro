@@ -1,19 +1,13 @@
 package com.project.air.firemanpro;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,59 +18,41 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
-
-import com.kizo.core_module.DataLoadedListener;
-import com.kizo.core_module.DataLoader;
-import com.kizo.web_services.AirWebServiceCaller;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.kizo.core_module.tab_profile.TabFragment;
-import com.kizo.report.SavedReportFragment;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
-import com.project.air.firemanpro.loaders.WsDataLoader;
+import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Settings;
+import com.project.test.database.Entities.fireman_patrol.Costs;
+import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.HouseController;
-import com.project.test.database.helper.MockData;
-import com.project.test.database.imageSaver.SaveResourceImage;
+import com.project.test.database.controllers.report.InterventionController;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
+import java.util.List;;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity implements DataLoadedListener, NavigationView.OnNavigationItemSelectedListener {
+/**
+ * Glavna aktivnost koja se prva pokreće po pokretanu aplikacije. Sadrži navigation drawer, toolbar, te textbox i button.
+ *
+ * Omogućuje pretraživanje pohranjenih kuća.
+ *
+ *
+ */
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    MockData mockData;//= new MockData();
-
-    //Test list used by autocompleteTextVie adapter
-
+MockData mockData;
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
 
-
-    List<House> allHouses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,14 +62,6 @@ public class MainActivity extends AppCompatActivity implements DataLoadedListene
         mockData= new MockData();
 mockData.printAll();
         ButterKnife.bind(this);
-
-
-
-
-
-
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
@@ -109,41 +77,12 @@ mockData.printAll();
         NavigationView navigationView = (NavigationView) findViewById(com.kizo.report.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        View header=navigationView.getHeaderView(0);
-
-        TextView headerTitle = (TextView)header.findViewById(R.id.headerTitle);
-        //headerTitle.setText(Settings.getSettings().getPatrolName());
-
-
-
-
-
-        //imageloader
-        // Create global configuration and initialize ImageLoader with this config
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
 
         ImageLoader.getInstance().init(config);
 
-        mockData  = new MockData();
-      //  mockData.writeAll();
-//mockData.writeAll();
-        // empty the entire database
-        /*
-        mockData.deleteAll();*/
-       // loadFromService();
 
-        // if table "House" is empty, then fill database with data
         if (SQLite.select().from(House.class).queryList().isEmpty()) {
-
-            System.out.println("Nema zapisa u housessssss: ");
-
-            //write all entries in database
-         // mockData.writeAll();
-
-            //print entries from database to console (for testing)
-            mockData.printAll();
-
 
             autoCompleteTextView.setSingleLine();
             autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
@@ -160,13 +99,6 @@ mockData.printAll();
 
 
         }
-        //save images from resource to directory in device (only at first startup)
-saveImagesFromResourcesToInternalStorage();
-
-
-
-
-        TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.til_autocompleteWithLabel);
 
 
         //Saving items in list needed for autoComplete control
@@ -276,6 +208,62 @@ saveImagesFromResourcesToInternalStorage();
 
     }
 
+    private void checkIfExistUnfinishedIntervention() {
+        InterventionController interventionController = new InterventionController();
+
+
+        if (InterventionController.getUnfinishedIntervention().size() > 0)
+        {
+            final Intervention_track unfinshed = InterventionController.getInterventionByID(InterventionController.getUnfinishedIntervention().get(0).getId_intervention_track());
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Postoji započeta intervencija. Želite li je dovršiti? ");
+            builder1.setCancelable(true);
+
+
+            builder1.setPositiveButton(
+                    "Da",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            System.out.println("clikcOnItem()r: ");
+                            Intent intent = new Intent(getBaseContext(), ProfilNewActivity.class);
+                            intent.putExtra("EXTRA_SESSION_ID",String.valueOf(unfinshed.getHouse().getId_house())); // umjesto 01 prosljediš ID kuće
+                            getBaseContext().startActivity(intent);
+
+
+
+                            dialog.cancel();
+
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "Ne",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+
+                            dialog.cancel();
+
+                        }
+                    });
+
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+
+
+
+        }
+
+
+
+
+
+
+    }
 
 
     @OnClick(R.id.buttonSearching)
@@ -287,29 +275,8 @@ saveImagesFromResourcesToInternalStorage();
 
        startActivity(Intent);
 
-
-       // AirWebServiceCaller webServiceCaller = new AirWebServiceCaller();
-      //  webServiceCaller.getAll("getAll", House.class);
-
-
-
-
     }
 
-    private void loadFromService(){
-        DataLoader dataLoader;
-
-        if(true){
-            // empty the entire database
-            mockData.deleteAll();
-
-            System.out.println("Loading web data");
-            dataLoader = new WsDataLoader();
-        }
-
-        dataLoader.loadData(this);
-
-    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -352,63 +319,23 @@ saveImagesFromResourcesToInternalStorage();
     }
 
 
-
-
-
-    private void saveImagesFromResourcesToInternalStorage () {
-
-        File mydir = this.getApplicationContext().getDir("Images", Context.MODE_PRIVATE);
-        File lister = mydir.getAbsoluteFile();
-
-        System.out.println("PIPIS U DIREKTORIJUJU PROFILA: ");
-
-        //check if image exist in folder "Images"
-        if (true) {
-
-            System.out.println("PIPIS U DIREKTORIJUJU PROFILA je prazan: ");
-
-
-            //save images from resource to directory in device
-            //SaveResourceImage SaveRimg = new SaveResourceImage(this.getApplicationContext());
-           // SaveRimg.SaveImageFromResourceToInternalStorage(); //profli and gnd plan images
-
-
-        }
-    }
-
-    @Override
-    public void onDataLoaded() {
-
-        System.out.println("Data is here... ");
-
-
-       // mockData.writeAll();
-        mockData.printAll();
-
-        //SaveResourceImage saveResourceImage = new SaveResourceImage(getApplicationContext());
-
-      // saveResourceImage.SaveAllPhotoFromUrlToInternalStorage();
-
-
-
-
-    }
-
+    /**
+     * ovisno o odabranome iz navigation drawer-a, pokreće se nova aktivnost.
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         System.out.println("item selected");
 
-        TabFragment tabFragment;
-
 
        if (id == R.id.nav_app_report) {
 
             Intent Intent = new Intent(this, com.kizo.report.ReportActivity.class);
 
-       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
-       */
             startActivity(Intent);
         }
 
@@ -416,22 +343,17 @@ saveImagesFromResourcesToInternalStorage();
 
             Intent Intent = new Intent(this, SettingsActivity.class);
 
-       /* Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
-       */
             startActivity(Intent);
         }
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-
-
-
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkIfExistUnfinishedIntervention();
+    }
 }

@@ -57,36 +57,27 @@ public class SavedReportFragment extends TabFragment {
 
         // fill list
         List<Intervention_track> interventions;
-        if(getArguments().getString("showFinishedReports") == "TRUE")
-        {
+        if (getArguments().getString("showFinishedReports") == "TRUE") {
             interventions = InterventionController.getCompletedIntervention();
             showFinishedReports = true;
-        }
-        else if (getArguments().getString("showFinishedReports") == "FALSE")
-        {
+        } else if (getArguments().getString("showFinishedReports") == "FALSE") {
             interventions = InterventionController.getUnfinishedIntervention();
             showFinishedReports = false;
-        }
-        else if (getArguments().getString("showFinishedReports") == "ALL") {
+        } else if (getArguments().getString("showFinishedReports") == "ALL") {
             interventions = InterventionController.getAllIntervention();
 
-        }
-        else {
+        } else {
             interventions = InterventionController.getAllIntervention();
         }
 
 
-
-        if(interventions != null) {
+        if (interventions != null) {
 
             RecyclerView mRecycler = (RecyclerView) rootView.findViewById(R.id.report_saved_recycler);
-            if(mRecycler != null) {
+            if (mRecycler != null) {
                 SavedReportRecyclerAdapter planRecyclerAdapter = new SavedReportRecyclerAdapter(interventions);
                 mRecycler.setAdapter(planRecyclerAdapter);
-
                 mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-
             }
 
         }
@@ -96,20 +87,6 @@ public class SavedReportFragment extends TabFragment {
 
     }
 
-
-    /*
-    @Override
-    public void onViewStateRestored (Bundle savedInstanceState){
-        super.onViewStateRestored(savedInstanceState);
-
-        dataReceived = savedInstanceState.getBoolean(DATA_RECEIVED, false);
-        if(dataReceived) {
-            disclaimer.setVisibility(View.VISIBLE);
-            information.setText(savedInstanceState.getString(INFORMATION));
-            disclaimer.setText(savedInstanceState.getString(DISCLAIMER));
-        }
-    }
-*/
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -126,27 +103,6 @@ public class SavedReportFragment extends TabFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK && requestCode == NEW_ALARM && data != null) {
-            if(data.hasExtra(NewReportFormActivity.NEW_ALARM_ADDED)
-                    && data.getExtras().getBoolean(NewReportFormActivity.NEW_ALARM_ADDED, false)) {
-
-                // Handling the data received from the stepper form
-                dataReceived = true;
-                String title = data.getExtras().getString(NewReportFormActivity.STATE_TITLE);
-                /*
-                //String description = data.getExtras().getString(NewReportFormActivity.STATE_DESCRIPTION);
-                int hour = data.getExtras().getInt(NewReportFormActivity.STATE_TIME_HOUR);
-                int minutes = data.getExtras().getInt(NewReportFormActivity.STATE_TIME_MINUTES);
-
-                String time = ((hour > 9) ? hour : ("0" + hour))
-                        + ":" + ((minutes > 9) ? minutes : ("0" + minutes));
-                //boolean[] weekDays = data.getExtras().getBooleanArray(NewReportFormActivity.STATE_WEEK_DAYS);
-                information.setText("Alarm \"" + title + "\" set up at " + time);
-                disclaimer.setVisibility(View.VISIBLE);
-                Snackbar.make(fab, getString(R.string.new_alarm_added), Snackbar.LENGTH_LONG).show();
-                */
-            }
-        }
     }
 
 

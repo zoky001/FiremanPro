@@ -16,7 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Kontrolira dodavanje novih hidranata u bazu podataka
+ *
+ * @see Hydrants
+ * <p>
  * Created by Zoran on 24.10.2017..
+ * </p>
+ * @author Zoran Hrnčić
  */
 
 public class HydrantsController {
@@ -26,23 +32,52 @@ public class HydrantsController {
     public HydrantsController() {
     }
 
-    public void addNewHydrant(String type_of_hydrant, String description, String streetName, String place, String streentNumber, Post post, Double lonngitude, Double latitude){
+
+    /**
+     * Dodavanje novog hidranta u bazu podataka.
+     *
+     * Svi podatci o lokaciji i vrsti hidranta.
+     *
+     * @param type_of_hydrant
+     * @param description
+     * @param streetName
+     * @param place
+     * @param streentNumber
+     * @param post
+     * @param lonngitude
+     * @param latitude
+     */
+    public void addNewHydrant(String type_of_hydrant, String description, String streetName, String place, String streentNumber, Post post, Double lonngitude, Double latitude) {
 
 
-       Address address = new Address(streetName,place,streentNumber,post,lonngitude,latitude,CurrentDate,CurrentDate);
+        Address address = new Address(streetName, place, streentNumber, post, lonngitude, latitude, CurrentDate, CurrentDate);
         address.save();
 
-        Hydrants hydrants = new Hydrants(type_of_hydrant,description,address,CurrentDate,CurrentDate);
+        Hydrants hydrants = new Hydrants(type_of_hydrant, description, address, CurrentDate, CurrentDate);
         hydrants.save();
 
     }
 
 
+
     public static List<Hydrants> GetAllRecordsFromTableHydrants() {
+      return SQLite.select().from(Hydrants.class).queryList();
+    }
+
+    /**
+     *
+     * @return svi zapisi iz tablice Hydrants
+     */
+    public List<Hydrants> GetAllRecordsFromTableHydrants() {
+
 
         return SQLite.select().from(Hydrants.class).queryList();
     }
 
+
+    /**
+     * brisanje svih zapisa u tablici Hydrants
+     */
     public void DeleteAllRecordsInTableHydrants() {
 
         final List<Hydrants> gndPlan = GetAllRecordsFromTableHydrants();

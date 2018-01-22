@@ -22,7 +22,6 @@ class DataParser {
         String duration = "";
         String distance ="";
 
-
         try {
 
             duration = googleDirectionsJson.getJSONObject(0).getJSONObject("duration").getString("text");
@@ -34,8 +33,6 @@ class DataParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
         return googleDirectionsMap;
     }
 
@@ -49,7 +46,6 @@ class DataParser {
         String longitude = "";
         String reference = "";
         Log.d("getPlace", "Entered");
-
 
         try {
             if(!googlePlaceJson.isNull("name"))
@@ -100,9 +96,7 @@ class DataParser {
                 e.printStackTrace();
             }
         }
-
         return placesList;
-
     }
 
     public List<HashMap<String,String>> parse(String jsonData)
@@ -154,6 +148,16 @@ class DataParser {
         return polylines;
     }
 
+    /**
+     * Metoda koja stvara polyline
+     *
+     *
+     * U ovoj metodi se poyline dodaje kako bi pokazoo put
+     *
+     * @since     11/13/2017.
+     * @return polyline (prikaz puta od zadanih adresa)
+     */
+
     public String getPath(JSONObject googlePathJson)
     {
         String polyline = "";
@@ -164,7 +168,4 @@ class DataParser {
         }
         return polyline;
     }
-
-
-
 }

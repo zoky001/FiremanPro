@@ -1,5 +1,7 @@
 package com.project.air.firemanpro.profil;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
@@ -7,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +27,19 @@ import com.project.air.firemanpro.googlemaps.GoogleMapActivity;
 import com.project.air.firemanpro.googlemaps.MapFragment;
 import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.fire_intervention.Size_of_fire;
+import com.project.test.database.Entities.fire_intervention.Spatial_spread;
+import com.project.test.database.Entities.fire_intervention.Spreading_smoke;
+import com.project.test.database.Entities.fire_intervention.Time_spread;
+import com.project.test.database.Entities.fireman_patrol.Fireman;
+import com.project.test.database.Entities.fireman_patrol.Fireman_patrol;
+import com.project.test.database.Entities.fireman_patrol.Truck;
+import com.project.test.database.Entities.report.Intervention_Type;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
+import com.project.test.database.helper.MockData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,46 +103,37 @@ public class TabProfil extends TabFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_profil, container, false);
         ButterKnife.bind(this, rootView);
-        String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: " + s);
-        int a = Integer.parseInt(getArguments().getString("IDkuce"));
-        if (a != -1) {
 
+        try {
+            String s = getArguments().getString("IDkuce");
+            System.out.println("SESSION FRAGMENT_idkuce: " + s);
+            int a = Integer.parseInt(getArguments().getString("IDkuce"));
             house = HouseController.getHouse(a);
 
-        } else {
-            house = HouseController.getFirstHouse();
+            //set profil image
+            profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
+
+            //set owner data
+            txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
+            txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
+            txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
+            txtPlace.setText(house.getPlaceName());
+            txtMobitel.setText(house.getMobNumber());
+            txtTel.setText(house.getTelNumber());
+
+        } catch (Exception e) {
+            System.out.println("EXCEPTON: " + e.getMessage());
         }
 
-
-        System.out.println("LOKACIJAAA ACTT: " + getActivity().getPackageName());
-        //set profil image
-
-
-        profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
-
-        //set owner data
-        txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
-
-        txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
-
-
-        txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
-        txtPlace.setText(house.getPlaceName());
-        txtMobitel.setText(house.getMobNumber());
-        txtTel.setText(house.getTelNumber());
-
         return rootView;
-    }
 
+
+    }
 
 
     /**
      * Nakon kriranja View-a se ID kuće stavlja u Bundel.
      * U fragment frame se učitava Map fragment koji prikazije put do kuče od trenutne lokacije.
-     *
-     *
-     *
      *
      * @author Zoran Hrnčić
      */
@@ -135,41 +141,81 @@ public class TabProfil extends TabFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        try {
+            Bundle bundle = new Bundle();
+            String IDHouse = "" + house.getId_house();
+            bundle.putString("IDkuce", IDHouse);
+            Fragment mapFragment = new MapFragment();
+            mapFragment.setArguments(bundle);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.map_container, mapFragment)
+                    .commit();
+        } catch (Exception e) {
+            System.out.println("EXCEPTON: " + e.getMessage());
 
-        Bundle bundle = new Bundle();
+        }
 
-        String IDHouse = "" + house.getId_house();
-/*
-zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
-        bundle.putString("IDkuce", IDHouse);
-        Fragment mapFragment = new MapFragment();
-        mapFragment.setArguments(bundle);
+        try {
+            String IDHouse = "" + house.getId_house();
 
-//*  ruši mi se na virtualki KIZO
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.map_container, mapFragment)
-                .commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("IDkuce", IDHouse);
+            Fragment mapFragment = new MapFragment();
+            mapFragment.setArguments(bundle);
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.map_container, mapFragment)
+                    .commit();
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
+        }
+
+
+        Intervention_track intervencija;
+        boolean nekaj = interventionController.checkIfExistUnfinishedInterventionAtHouse(house);
+        if (nekaj) {
+
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+            String a, b, c, d;
+            if (intervencija.getReports().getTime_call_received() != null) {
+                btnNewReport.setText("Započeti intervenciju");
+            }
+            if (intervencija.getReports().getTime_intervention_start() != null) {
+                btnNewReport.setText("Dolazak na mjesto");
+            }
+            if (intervencija.getReports().getTime_arrival_intervention() != null) {
+                btnNewReport.setText("Kraj Intervencije");
+
+            }
+            if (intervencija.getReports().getTime_intervention_ended() != null) {
+                btnNewReport.setText("Kreiraj izvještaj");
+            }
+
+        } else {
+            btnNewReport.setText("Poziv zaprimljen");
+        }
+
     }
 
 
-
+    /**
+     * @param view Zoran Grđan
+     */
     @OnClick(R.id.buttonMax)
     public void buttonMaxClicked(View view) {
-
-
         String IDHouse = "" + house.getId_house();
         Intent intent = new Intent(view.getContext(), GoogleMapActivity.class);
         intent.putExtra("IDkuce", IDHouse);
-
-
         startActivity(intent);
-
     }
 
+    /**
+     * @param view Zoran Grđan
+     */
     @OnClick(R.id.leadMeButton)
     public void leadMeButton(View view) {
-
         double latitude, longitude;
         latitude = house.getAddress().getLatitude();
         longitude = house.getAddress().getLongitude();
@@ -181,33 +227,98 @@ zbog rušenja mape u emulatoru,, ovo je zakomentirano*/
 
     @OnClick(R.id.btn_new_report)
     public void newReport(View view) {
+
+        String buttonText = btnNewReport.getText().toString();
+
+        String callRecievedText = "Poziv zaprimljen";
+        String interventionStartedText = "Započeti intervenciju";
+        String interventionArrivalText = "Dolazak na mjesto";
+        String interventionEndedText = "Kraj Intervencije";
+        String startReport = "Kreiraj izvještaj";
         Intervention_track intervencija;
-        if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
-            intervencija = interventionController.addNewIntervention_atHouse(house);
+        if (buttonText.toLowerCase().trim().equals(callRecievedText.toLowerCase().trim())) {
+            if (!interventionController.checkIfExistUnfinishedInterventionAtHouse(house)) {
+
+                intervencija = interventionController.addNewIntervention_atHouse(house);
 
 
-            intervencija.add_FIRE_ReportToIntervention();
-
-            intervencija.callReceived();
-            intervencija.intervetionStarted();
-            intervencija.intervetionArrival();
-            intervencija.intervetionEnded();
+                intervencija.add_FIRE_ReportToIntervention();
+                intervencija.callReceived();
 
 
-        } else
+                btnNewReport.setText(interventionStartedText);
+
+            }
+        }
+
+        if (buttonText.toLowerCase().trim().equals(interventionStartedText.toLowerCase().trim())) {
             intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
 
+            btnNewReport.setText(interventionArrivalText);
+            intervencija.intervetionStarted();
 
-        Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
-        intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
-        startActivityForResult(intent, NEW_ALARM);
+        }
+        if (buttonText.toLowerCase().trim().equals(interventionArrivalText.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+            btnNewReport.setText(interventionEndedText);
+            intervencija.intervetionArrival();
+        }
+        if (buttonText.toLowerCase().trim().equals(interventionEndedText.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+            btnNewReport.setText(startReport);
+            intervencija.intervetionEnded();
+
+        }
+        if (buttonText.toLowerCase().trim().equals(startReport.toLowerCase().trim())) {
+            intervencija = interventionController.getUnfinishedInterventionAtHouse(house);
+
+            btnNewReport.setText(callRecievedText);
+            Intent intent = new Intent(view.getContext(), NewReportFormActivity.class);
+            intent.putExtra("IDintervencije", String.valueOf(intervencija.getId_intervention_track())); // umjesto 01 prosljediš ID kuće
+            startActivityForResult(intent, NEW_ALARM);
+
+        }
 
     }
 
-
+    /**
+     * omogućuje učitavanje ovog fragmenta u metodu interface-a
+     *
+     * @param iTabFragment imaplementacija interface-a ITabFragment
+     */
     @Override
     public void loadFrag(ITabFragment iTabFragment) {
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
