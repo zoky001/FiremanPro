@@ -151,7 +151,7 @@ private void replaceValuesInTable3(XWPFDocument document, List<String>values){
     }
     private void replaceValuesInTable4(XWPFDocument document, List<String>values) {
 
-
+    if (values.size() > 0) {
         XWPFTable tbl = document.getTables().get(3);
         for (XWPFTableRow row : tbl.getRows()) {
             for (XWPFTableCell cell : row.getTableCells()) {
@@ -194,13 +194,13 @@ private void replaceValuesInTable3(XWPFDocument document, List<String>values){
                         }
 
 
-
                     }
                 }
             }
 
 
         }
+    }
     }
 
     private void replaceValuesInTable5(XWPFDocument document, List<String>values) {
