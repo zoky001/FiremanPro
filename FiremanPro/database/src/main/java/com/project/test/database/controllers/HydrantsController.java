@@ -68,11 +68,7 @@ public class HydrantsController {
      *
      * @return svi zapisi iz tablice Hydrants
      */
-    public List<Hydrants> GetAllRecordsFromTableHydrants() {
 
-
-        return SQLite.select().from(Hydrants.class).queryList();
-    }
 
 
     /**

@@ -1400,7 +1400,7 @@ Address nova = addressController.addNewAddress(
                 "\n");
         for (int i = 0; i < intervention_tracks.size(); i++) {
 
-
+/*
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.println(
@@ -1456,7 +1456,7 @@ Address nova = addressController.addNewAddress(
 
                             "\n");
 
-
+*/
         }
 
         System.out.print(" HIDRANT ID " +

@@ -62,13 +62,7 @@ public class PhotosController {
     /**
      * @return svi zapisi iz tablise Photos
      */
-    public List<Photos> GetAllRecordsFromTable() {
 
-
-        return SQLite.select().from(Photos.class).queryList();
-
-
-    }
 
 
 

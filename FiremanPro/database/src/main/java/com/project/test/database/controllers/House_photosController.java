@@ -90,14 +90,9 @@ public class House_photosController {
 
 
 
-private Photos addNewPhotoName(String name, String locationname,String url){
-
-    return photosController.addNewPhotoName(name,locationname,url);
-}
 
     public static List<House_photos> GetAllRecordsFromTable(){
           return SQLite.select().from(House_photos.class).queryList();
-
 
     }
 
@@ -109,13 +104,7 @@ private Photos addNewPhotoName(String name, String locationname,String url){
      * @return
      * @see House_photos
      */
-    public List<House_photos> GetAllRecordsFromTable() {
 
-
-        return SQLite.select().from(House_photos.class).queryList();
-
-
-    }
 
     /**
      * Brisanj svih zapisa u tablisi House_photos
