@@ -87,34 +87,6 @@ public class SavedReportFragment extends TabFragment {
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putBoolean(DATA_RECEIVED, dataReceived);
-        if (dataReceived) {
-            savedInstanceState.putString(INFORMATION, information.getText().toString());
-            savedInstanceState.putString(DISCLAIMER, disclaimer.getText().toString());
-        }
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK && requestCode == NEW_ALARM && data != null) {
-            if (data.hasExtra(NewReportFormActivity.NEW_ALARM_ADDED)
-                    && data.getExtras().getBoolean(NewReportFormActivity.NEW_ALARM_ADDED, false)) {
-
-                // Handling the data received from the stepper form
-                dataReceived = true;
-                String title = data.getExtras().getString(NewReportFormActivity.STATE_TITLE);
-
-            }
-        }
-    }
-
 
     @Override
     public void loadFrag(ITabFragment iTabFragment) {
