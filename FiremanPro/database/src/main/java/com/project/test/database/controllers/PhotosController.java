@@ -52,15 +52,24 @@ public class PhotosController {
     }
 
 
+    public static List<Photos> GetAllRecordsFromTable(){
+    return SQLite.select().from(Photos.class).queryList();
+
+
+    }
+
+
     /**
      * @return svi zapisi iz tablise Photos
      */
     public List<Photos> GetAllRecordsFromTable() {
 
+
         return SQLite.select().from(Photos.class).queryList();
 
 
     }
+
 
 
     /**
@@ -69,6 +78,7 @@ public class PhotosController {
      * @see Photos
      */
     public void DeleteAllRecordsInTable() {
+
 
         final List<Photos> gndPlan = GetAllRecordsFromTable();
         for (int i = 0; i < gndPlan.size(); i++) {

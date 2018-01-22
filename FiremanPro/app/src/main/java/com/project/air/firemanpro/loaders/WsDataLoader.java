@@ -80,7 +80,7 @@ public class WsDataLoader extends DataLoader implements AirWebServiceHandler {
     public void loadData(DataLoadedListener dataLoadedListener) {
         super.loadData(dataLoadedListener);
 
-        System.out.println("serviceLaravel: WSdata.loadDAta");
+        System.out.println("serviceLaravel: WSdata.loadDAta0");
         AirWebServiceCaller allEntries = new AirWebServiceCaller(this);
 
 
@@ -99,6 +99,7 @@ public class WsDataLoader extends DataLoader implements AirWebServiceHandler {
     public void onDataArrived(List<Post> post, List<PhotoType> photoTypes, List<HousesW> housesWs, Response<AirWebServiceResponse> response) {
         MockData mockData = new MockData();
         mockData.deleteAllWhenNewDataArrived(); // delete all old data in database
+        System.out.println("serviceLaravel: WSdata.loadDAta1");
 
         savePosts(post);
 

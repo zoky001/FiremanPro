@@ -68,16 +68,25 @@ public class PhotoTypeController {
         return groundPlan;
     }
 
+
     /**
      *
      * @return svi zapisi iz tablice PhotoType
      */
     public List<PhotoType> GetAllRecordsFromTable() {
         check();
+
         return SQLite.select().from(PhotoType.class).queryList();
 
 
     }
+
+
+    public static List<PhotoType> GetAllRecordsFromTable_Static(){
+        return SQLite.select().from(PhotoType.class).queryList();
+    }
+
+   
 
     /**
      * Brisanje svih zapisa u tablici   PhotoType
@@ -85,6 +94,7 @@ public class PhotoTypeController {
      * @see PhotoType
      */
     public void DeleteAllRecordsInTable() {
+
 
         final List<PhotoType> gndPlan = GetAllRecordsFromTable();
         for (int i = 0; i < gndPlan.size(); i++) {

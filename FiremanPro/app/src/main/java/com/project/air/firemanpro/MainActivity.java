@@ -39,6 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 /**
  * Glavna aktivnost koja se prva pokreće po pokretanu aplikacije. Sadrži navigation drawer, toolbar, te textbox i button.
  *
@@ -48,6 +49,7 @@ import butterknife.OnClick;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+MockData mockData;
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
 
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         //DBflow connect to database
         FlowManager.init(new FlowConfig.Builder(this).build());
-
-
+        mockData= new MockData();
+mockData.printAll();
         ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);

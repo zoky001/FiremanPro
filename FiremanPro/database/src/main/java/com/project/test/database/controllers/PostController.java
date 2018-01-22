@@ -41,10 +41,18 @@ public class PostController {
         return post;
     }
 
+
+    public static List<Post> GetAllRecordsFromTable(){
+     return SQLite.select().from(Post.class).queryList();
+
+
+    }
+
     /**
      * @return svi zapisi iztablice Post
      */
     public List<Post> GetAllRecordsFromTable() {
+
 
         return SQLite.select().from(Post.class).queryList();
 

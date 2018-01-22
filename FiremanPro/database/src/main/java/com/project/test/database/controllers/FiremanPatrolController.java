@@ -104,6 +104,15 @@ public class FiremanPatrolController {
     }
 
 
+
+
+    public static List<Fireman_patrol> GetAllRecordsFromTable(){
+
+
+        return SQLite.select().from(Fireman_patrol.class).queryList();
+
+
+    }
     /**
      * Popis svih vatrogasnih postrojbi.
      *
@@ -111,6 +120,7 @@ public class FiremanPatrolController {
      * @see Fireman_patrol
      */
     public List<Fireman_patrol> GetAllRecordsFromTable() {
+
 
         return SQLite.select().from(Fireman_patrol.class).queryList();
 

@@ -34,12 +34,30 @@ public class AirWebServiceCaller {
     // retrofit object
     Retrofit retrofit;
     // base URL of the web service
-    private final String baseUrl = Settings.getSettings().getWebServicesAddress();
+
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    private String baseUrl;
+
 
     // constructor
     public AirWebServiceCaller(AirWebServiceHandler airWebServiceHandler) {
 
-        System.out.println("serviceLaravel: airservice caller");
+        try {
+
+            setBaseUrl(Settings.getSettings().getWebServicesAddress());
+
+        } catch (Exception e) {
+            setBaseUrl("http://fireman-pro.ddns.net/FiremanPro-laravel/api/");
+        }
+
         this.mAirWebServiceHandler = airWebServiceHandler;
         //todo: implement retrofit object creation
 
@@ -50,7 +68,7 @@ public class AirWebServiceCaller {
         //client.interceptors().add(new HttpInterceptor());
 
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -61,9 +79,9 @@ public class AirWebServiceCaller {
      * Dohvaća sve zapise iz kompletne baze podataka.
      */
     public void getAll() {
-
         AirWebService serviceCaller = retrofit.create(AirWebService.class);
         Call<AirWebServiceResponse> call = serviceCaller.getAllEntries();
+        System.out.println("TEST LOADED");
 
         if (call != null) {
 
@@ -76,6 +94,7 @@ public class AirWebServiceCaller {
                  */
                 @Override
                 public void onResponse(Response<AirWebServiceResponse> response, Retrofit retrofit) {
+
                     try {
                         if (response.isSuccess()) {
                             handleAllEntries(response);
@@ -90,6 +109,7 @@ public class AirWebServiceCaller {
 
                 @Override
                 public void onFailure(Throwable t) {
+
                     t.printStackTrace();
                 }
             });
@@ -100,13 +120,11 @@ public class AirWebServiceCaller {
 
     /**
      * Upravlja svim zapisima pristiglom kao odgovor od WS.
-     *
-     *
+     * <p>
+     * <p>
      * Prosljeđuje podatke dalje na obradu putem metode onDataArrived iz interface-a mAirWebServiceHandler
      *
      * @param response odgovor sa svim zapisima iz baze podataka
-     *
-     *
      */
     private void handleAllEntries(Response<AirWebServiceResponse> response) {
 

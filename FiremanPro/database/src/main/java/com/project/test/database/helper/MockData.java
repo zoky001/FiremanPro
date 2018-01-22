@@ -1340,7 +1340,7 @@ Address nova = addressController.addNewAddress(
 
     }
 
-    public void printAll() {
+    public  void printAll() {
         final List<House> house = houseController.GetAllRecordsFromTable();
         final List<Photos> photos = photosController.GetAllRecordsFromTable();
         final List<Address> address = addressController.GetAllRecordsFromTable();
