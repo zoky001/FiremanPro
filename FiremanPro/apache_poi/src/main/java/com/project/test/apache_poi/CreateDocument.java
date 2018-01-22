@@ -165,7 +165,7 @@ private void replaceValuesInTable3(XWPFDocument document, List<String>values){
                             r.setText(text, 0);
 
                         }
-                        if (text != null && text.contains(values.get(0))) {
+                        if (text != null && text.startsWith(values.get(0))) {
                             System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
 
 
