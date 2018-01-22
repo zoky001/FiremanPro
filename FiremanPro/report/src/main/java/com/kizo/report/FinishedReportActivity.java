@@ -296,17 +296,25 @@ public class FinishedReportActivity extends AppCompatActivity {
         javna.setText(sluzbeIspis.toString());
 
 
+        String ispisVoz = "";
         String voziloVrste1 = "";
         String voziloVrste2 = "";
         String naval = type_of_truck_NAVAL.getType_name();
+        String navalnoVozilo = "NAVAL VEHICLE";
+        String transVozilo = "TRANSPORTATION VEHICLE";
+        if(naval.equals(navalnoVozilo)){
+            ispisVoz = "Navalno";
+        }
         String trans = type_of_truck_TRANS.getType_name();
-
+        if(trans.equals(transVozilo)){
+            ispisVoz = "Transportno";
+        }
         if(navalno != 0.0){
-            voziloVrste1 = (naval + ": \t\t\t\t\t").toString() ;
+            voziloVrste1 = (ispisVoz + ": \t\t\t").toString() ;
             voziloVrste1 +=  navalno.toString() + "\n";
         }
         if(transportno != 0.0){
-            voziloVrste2 = (trans + ": \t\t\t\t").toString() ;
+            voziloVrste2 = (ispisVoz + ": \t\t\t").toString() ;
             voziloVrste2 += transportno.toString() + "\n";
         }
         if(transportno == 0.0 && navalno == 0.0){

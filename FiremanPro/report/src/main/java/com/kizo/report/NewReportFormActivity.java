@@ -316,15 +316,9 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                 if(prviUlaz_USED_RESOURCES_STEP_NUM) {
                     save_USED_RESOURCES();
                 }
-                    System.out.println("SElected sortu ušao u step fire PRVI ULAZZ-- SAVE: " + selectedSort);
-                    if(prviUlaz_MAIN) save_MAIN_INFORMATION();
-
                     System.out.println("nije prvi ulaz fire step  -- SAVE: " + selectedSort);
-                    if(prviUlaz_USED_RESOURCES_STEP_NUM) save_USED_RESOURCES();
                     if(prviUlaz_MAIN) save_MAIN_INFORMATION();
-                   //  prviUlaz_FIRE_STEP_NUM = true;
                 break;
-            // save_USED_RESOURCES()
             case OWNER_AND_MATERIAL_STEP_NUM:
                 if(prviUlaz_FIRE_STEP_NUM) {
                     System.out.println("Ušao u OWNER AND MATERIJAL STEP -- SAVE: " + selectedSort);
@@ -337,7 +331,6 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     if(prviUlaz_USED_RESOURCES_STEP_NUM) save_USED_RESOURCES();
                     if(prviUlaz_MAIN) save_MAIN_INFORMATION();
                     if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
-                    prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = true;
                     verticalStepperForm.setStepAsCompleted(OWNER_AND_MATERIAL_STEP_NUM);
                     break;
                 }
@@ -350,10 +343,10 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
                     break;
                 }
                 else {
+                    prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = true;
                     if(prviUlaz_USED_RESOURCES_STEP_NUM) save_USED_RESOURCES();
                     if(prviUlaz_MAIN) save_MAIN_INFORMATION();
                     if(prviUlaz_FIRE_STEP_NUM) save_FIRE_STEP();
-                    if(prviUlaz_OWNER_AND_MATERIAL_STEP_NUM) save_OWNER_AND_MATERIAL_COST();
                     prviUlaz_DESCRIPTION_HELPER_STEP_NUM = true;
                     verticalStepperForm.setStepAsCompleted(DESCRIPTION_HELPER_STEP_NUM);
                     break;
@@ -1277,9 +1270,8 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
         try {
             prvi.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if(prviUlaz_USED_RESOURCES_STEP_NUM) {
-                        save_USED_RESOURCES();
-                    }
+                    System.out.println("U prvom sam - save ");
+                    save_USED_RESOURCES();
                     ll.removeView(nepotrebni);
                     ll.removeView(prvi);
                     ll.addView(myView);
@@ -1437,7 +1429,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
             isCorrect = true;
             System.out.println("surface number: " + surface + "savee");
             System.out.println("superficies: " + superficies);
-            prviUlaz_OWNER_AND_MATERIAL_STEP_NUM = false;
+
             verticalStepperForm.setActiveStepAsCompleted();
         } else {
             String titleErrorString = "Potrebno je upisati površinu objekata i vanjskog prostora!";
@@ -2086,43 +2078,42 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
         list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+        if(list3.get(0)=="Požar") {
+            list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
+            list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
 
-        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
-        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
-
-        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
-        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
-
+            list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+            list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+        }else
+        {
+            list2.add(" ");
+            list2.add(" ");
+            list2.add(" ");
+            list2.add(" ");
+        }
         list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
         list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
 
-        System.out.println(date_call.toString());
-        System.out.println(time_call.toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_call_received().toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_start().toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_arrival_intervention().toString());
-
-        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getLocalization().toString());
-        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getFireExtinguished().toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_ended().toString());
+        
     }
     public void fillList4WithValues(){
-        list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
-        list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
-        if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
-            list4.add("da");
-        }else list4.add("ne");
-        list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
-        list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
-        list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
-        list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
+        if(list3.get(0) == "Požar") {
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
+            list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
+            if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
+                list4.add("da");
+            } else list4.add("ne");
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
 
-        for (String a: list4
-             ) {
-            System.out.println("FIRE "+a);
+            for (String a : list4
+                    ) {
+                System.out.println("FIRE " + a);
 
+            }
         }
-
     }
     public void fillList5WithValues(){
         list5.add(intervencije.getLocation().getPost().getName().toString());
@@ -2177,7 +2168,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     public void fillList12WithValues(){
         list12.add("Mirko_Test");
-
+        //intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getCost().;
 
     }
 
