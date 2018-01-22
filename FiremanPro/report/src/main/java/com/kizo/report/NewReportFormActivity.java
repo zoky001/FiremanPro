@@ -2086,43 +2086,42 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
         list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
         list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_arrival_intervention()));
+        if(list3.get(0)=="Požar") {
+            list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
+            list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
 
-        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
-        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getLocalization()));
-
-        list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
-        list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
-
+            list2.add(DATE_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+            list2.add(TIME_FORMAT.format(intervencije.getReports().getFireInterventionDetails().getFireExtinguished()));
+        }else
+        {
+            list2.add(" ");
+            list2.add(" ");
+            list2.add(" ");
+            list2.add(" ");
+        }
         list2.add(DATE_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
         list2.add(TIME_FORMAT.format(intervencije.getReports().getTime_intervention_ended()));
 
-        System.out.println(date_call.toString());
-        System.out.println(time_call.toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_call_received().toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_start().toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_arrival_intervention().toString());
-
-        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getLocalization().toString());
-        System.out.println("Vremena"+intervencije.getReports().getFireInterventionDetails().getFireExtinguished().toString());
-        System.out.println("Vremena"+intervencije.getReports().getTime_intervention_ended().toString());
+        
     }
     public void fillList4WithValues(){
-        list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
-        list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
-        if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
-            list4.add("da");
-        }else list4.add("ne");
-        list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
-        list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
-        list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
-        list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
+        if(list3.get(0) == "Požar") {
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSize_of_fire().getName());
+            list4.add(Integer.toString(intervencije.getReports().getFireInterventionDetails().getDestroyed_space()));
+            if (intervencije.getReports().getFireInterventionDetails().isRepeated()) {
+                list4.add("da");
+            } else list4.add("ne");
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSpatial_spread().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getTime_spread().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getSpreading_smoke().getName());
+            list4.add(intervencije.getReports().getFireInterventionDetails().getOutdoor_type().getName());
 
-        for (String a: list4
-             ) {
-            System.out.println("FIRE "+a);
+            for (String a : list4
+                    ) {
+                System.out.println("FIRE " + a);
 
+            }
         }
-
     }
     public void fillList5WithValues(){
         list5.add(intervencije.getLocation().getPost().getName().toString());
@@ -2177,7 +2176,7 @@ public class NewReportFormActivity extends AppCompatActivity implements Vertical
 
     public void fillList12WithValues(){
         list12.add("Mirko_Test");
-
+        //intervencije.getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getCost().;
 
     }
 
