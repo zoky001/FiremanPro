@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorButtonReport"
-                android:text="Kreiraj izvještaj" />
+                android:text="Poziv zaprimljen" />
 
             <ImageView
                 android:id="@+id/imageViewProfilHouse"

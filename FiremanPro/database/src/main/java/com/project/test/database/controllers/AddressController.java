@@ -10,7 +10,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Konrolira dodavanje novih zapisa adresa u tablicu "Adderess"
+ * <p>
+ * <p>
  * Created by Zoran on 24.10.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
+ * @see Address
  */
 
 public class AddressController {
@@ -21,24 +28,47 @@ public class AddressController {
     public AddressController() {
     }
 
-    public Address addNewAddress(String streetName,String place, String streetNumber, Post post, double longitude, double latitude){
 
-Address address = new Address(streetName,place,streetNumber,post,longitude,latitude,CurrentDate,CurrentDate);
-address.save();
+    /**
+     * Kriranje novog zapisa u tablici
+     * @param streetName
+     * @param place
+     * @param streetNumber
+     * @param post Objekt pošte kojemu pripada adresa
+     * @param longitude
+     * @param latitude
+     *
+     * @return novokreirani objek/zapis adrese
+     */
+    public Address addNewAddress(String streetName, String place, String streetNumber, Post post, double longitude, double latitude) {
 
-    return address;
-}
+        Address address = new Address(streetName, place, streetNumber, post, longitude, latitude, CurrentDate, CurrentDate);
+        address.save();
 
-    public List<Address> GetAllRecordsFromTable(){
+        return address;
+    }
+
+    /**
+     * popis svih zapisa iz tablice Address
+     * @return lista svih zapisa iz tablice Address
+
+     */
+    public static List<Address> GetAllRecordsFromTable() {
 
         return SQLite.select().from(Address.class).queryList();
 
 
     }
-    public void DeleteAllRecordsInTable(){
+
+    /**
+     * brisanje svih zapisa u tablici Address
+     *
+     * @see Address
+     */
+    public void DeleteAllRecordsInTable() {
 
         final List<Address> gndPlan = GetAllRecordsFromTable();
-        for(int i = 0; i < gndPlan.size(); i++){
+        for (int i = 0; i < gndPlan.size(); i++) {
 
             gndPlan.get(i).delete();
             //delete all item in table House

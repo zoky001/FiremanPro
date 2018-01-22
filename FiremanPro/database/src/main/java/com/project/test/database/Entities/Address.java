@@ -60,14 +60,25 @@ public class Address extends BaseModel {
     public Address() {
     }
 
-    public Address(String streetName,String place, String streetNumber, Post post,  double longitude, double latitude, Date updated_at, Date created_at) {
-        this.streetName = streetName+";"+place;
+    public Address(String streetName, String place, String streetNumber, Post post, double longitude, double latitude, Date updated_at, Date created_at) {
+        this.streetName = streetName + ";" + place;
         this.streetNumber = streetNumber;
-        this.post =post;
+        this.post = post;
         this.longitude = longitude;
         this.latitude = latitude;
         this.updated_at = updated_at;
         this.created_at = created_at;
+    }
+
+    public Address(Integer ID, String streetName, String streetNumber, double longitude, double latitude, Date updated_at, Date created_at, Post post) {
+        this.ID = ID;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+        this.post = post;
     }
 
     public Post getPost() {
@@ -88,21 +99,22 @@ public class Address extends BaseModel {
 
     public String getStreetNameIfExist() {
         //zapis u polju "streetName" je oblika "ime_ulice;ime_sela"
-        String s1=this.streetName;
+        String s1 = this.streetName;
         String[] street = s1.split(";");
 
-        if (street.length == 2 && street[0].length()>0 && !street[0].contains("null"))
-             return street[0];
+        if (street.length == 2 && street[0].length() > 0 && !street[0].contains("null"))
+            return street[0];
         else
             return "";
     }
+
     public String getPlaceNameIfExist() {
 
         //zapis u polju "streetName" je oblika "ime_ulice;ime_sela"
-        String s1=this.streetName;
+        String s1 = this.streetName;
         String[] street = s1.split(";");
 
-        if (street.length == 2 && street[1].length()>0 && !street[1].contains("null"))
+        if (street.length == 2 && street[1].length() > 0 && !street[1].contains("null"))
             return street[1];
         else
             return "";
@@ -111,11 +123,12 @@ public class Address extends BaseModel {
     public void setStreetName(String streetName) {
 
 
-        this.streetName = streetName+";"+this.getPlaceNameIfExist();
+        this.streetName = streetName + ";" + this.getPlaceNameIfExist();
     }
+
     public void setPlaceName(String placeName) {
 
-        this.streetName = this.getStreetNameIfExist()+";"+placeName;
+        this.streetName = this.getStreetNameIfExist() + ";" + placeName;
     }
 
 
@@ -126,16 +139,6 @@ public class Address extends BaseModel {
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
-
-
-
-
-
-
-
-
-
-
 
 
     public Date getUpdated_at() {

@@ -9,77 +9,112 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 /**
+ * Kontrolira dodavanje novih slika i pridruživanje istih kučama.
+ *
+ * Profilne slike, Slike planova...
+ *
+ * <p>
  * Created by Zoran on 24.10.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
+ *
  */
 
 public class House_photosController {
 
     java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
 
-PhotoTypeController photoTypeController = new PhotoTypeController();
+    PhotoTypeController photoTypeController = new PhotoTypeController();
 
     PhotosController photosController = new PhotosController();
 
-
-
-    PhotoType profil ;
+    PhotoType profil;
     PhotoType groundPlan;
 
-
-
-
     public House_photosController() {
-        System.out.print("CONSTRUCTORRR: "+photoTypeController.getProfil().getType());
-     check();
-
-
-    }
-
-
-    public void addNewProfilPhotoToHouse(String photosName, String photosLocationName, House house){
         check();
-        Photos photos = addNewPhotoName(photosName,photosLocationName);
-        House_photos noviZapis = new House_photos(photos,profil,house,CurrentDate,CurrentDate);
-        noviZapis.save();
-        System.out.println("TIPOVI NAKON SPREMANJA__ADD PROFIL: "+profil.getType()+
-                "\n" + profil.getID());
     }
 
 
-    public void addNewGrouondPlanPhotoToHouse(String photosName, String photosLocationName, House house){
+    /**
+     * Dodavanje nove profilne slika odabranoj kući.
+     *
+     * @param photosName naziv slike npr. (Slika profila Marijine kuće)
+     * @param photosLocationName nahiv datoteke slike npr (slika_profila.png)
+     * @param url link odakle se preuzima slika (WebService)
+     * @param house objekt kuće kojoj se pridružuje navedena fotografija
+     */
+    public void addNewProfilPhotoToHouse(String photosName, String photosLocationName, String url, House house) {
         check();
-        Photos photos = addNewPhotoName(photosName,photosLocationName);
-        House_photos noviZapis = new House_photos(photos,groundPlan,house,CurrentDate,CurrentDate);
+        Photos photos = addNewPhotoName(photosName, photosLocationName, url);
+        House_photos noviZapis = new House_photos(photos, profil, house, CurrentDate, CurrentDate);
         noviZapis.save();
-        System.out.println("TIPOVI NAKON SPREMANJA__ADD GND: "+groundPlan.getType()+
-        "\n" + groundPlan.getID());
     }
 
-    private void check(){
+
+    /**
+     * Dodavanje nove slike tlocrta odabranoj kući.
+     *
+     * @param photosName naziv slike npr. (Slika tlocrta prvi kat)
+     * @param photosLocationName nahiv datoteke slike npr (slika_prvi_kat.png)
+     * @param url link odakle se preuzima slika (WebService)
+     * @param house objekt kuće kojoj se pridružuje navedena fotografija
+     */
+    public void addNewGrouondPlanPhotoToHouse(String photosName, String photosLocationName, String url, House house) {
+        check();
+        Photos photos = addNewPhotoName(photosName, photosLocationName, url);
+        House_photos noviZapis = new House_photos(photos, groundPlan, house, CurrentDate, CurrentDate);
+        noviZapis.save();
+    }
+
+
+    private void check() {
         this.profil = photoTypeController.getProfil();
         this.groundPlan = photoTypeController.getGroundPlan();
     }
 
 
+    /**
+     * pohranjivanje nove fotografije/podatke za pristupanje fotografiji u bazu podataka.
+     * @param name
+     * @param locationname
+     * @param url
+     * @return
+     */
+    private Photos addNewPhotoName(String name, String locationname, String url) {
+
+        return photosController.addNewPhotoName(name, locationname, url);
+    }
 
 
 
 
-private Photos addNewPhotoName(String name, String locationname){
 
-    return photosController.addNewPhotoName(name,locationname);
-}
-
-    public List<House_photos> GetAllRecordsFromTable(){
-
-        return SQLite.select().from(House_photos.class).queryList();
-
+    public static List<House_photos> GetAllRecordsFromTable(){
+          return SQLite.select().from(House_photos.class).queryList();
 
     }
-    public void DeleteAllRecordsInTable(){
+
+    /**
+     * Vraćanje svih zapisa iz tablice  House_photos
+     *
+     * Ova tablica povezuje slike sa kućama.
+     *
+     * @return
+     * @see House_photos
+     */
+
+
+    /**
+     * Brisanj svih zapisa u tablisi House_photos
+     *
+     * @see House_photos
+     */
+    public void DeleteAllRecordsInTable() {
 
         final List<House_photos> gndPlan = GetAllRecordsFromTable();
-        for(int i = 0; i < gndPlan.size(); i++){
+        for (int i = 0; i < gndPlan.size(); i++) {
 
             gndPlan.get(i).delete();
             //delete all item in table House

@@ -27,7 +27,7 @@ public class Report_fireman extends BaseModel {
 
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
-    Fireman fireman;
+            Fireman fireman;
 
 
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
@@ -37,7 +37,6 @@ public class Report_fireman extends BaseModel {
     Date updated_at;
     @Column
     Date created_at;
-
 
 
     public Report_fireman() {
@@ -50,7 +49,6 @@ public class Report_fireman extends BaseModel {
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
-
 
 
     public Fireman getFireman() {

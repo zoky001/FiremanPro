@@ -19,7 +19,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Kontrolira dodavanje nove kuće u bazu, te sve aktivnosti vezane za objekt {@link House}
+ * <p>
+ * <p>
  * Created by Zoran on 24.10.2017..
+ * </p>
+ *
+ * @author Zoran Hrnčić
  */
 
 public class HouseController {
@@ -29,7 +35,37 @@ public class HouseController {
     public HouseController() {
     }
 
-
+    /**
+     * Dodavanje nove kuće u bazu podataka.
+     *
+     * @param name_owner
+     * @param surname_owner
+     * @param number_of_tenants
+     * @param number_of_floors
+     * @param list_of_floors
+     * @param number_of_children
+     * @param year_children
+     * @param number_of_adults
+     * @param years_adults
+     * @param number_of_powerless_and_elders
+     * @param years_powerless_elders
+     * @param disability_person
+     * @param power_supply
+     * @param gas_connection
+     * @param type_of_heating
+     * @param number_of_gas_bottle
+     * @param type_of_roof
+     * @param hydrant_distance
+     * @param high_risk_object
+     * @param HRO_type_of_roof
+     * @param HRO_power_supply
+     * @param HRO_content
+     * @param HRO_animals
+     * @param telNumber
+     * @param mobNumber
+     * @param address
+     * @return novokreirani objekt/zapis kuće
+     */
     public House AddNewHouse(String name_owner, String surname_owner, int number_of_tenants, int number_of_floors, String list_of_floors, int number_of_children, String year_children, int number_of_adults, String years_adults, int number_of_powerless_and_elders, String years_powerless_elders, boolean disability_person, String power_supply, boolean gas_connection, String type_of_heating, int number_of_gas_bottle, String type_of_roof, int hydrant_distance, boolean high_risk_object, String HRO_type_of_roof, boolean HRO_power_supply, String HRO_content, boolean HRO_animals, String telNumber, String mobNumber, Address address) {
 
         House house = new House(name_owner,
@@ -65,40 +101,82 @@ public class HouseController {
         return house;
     }
 
-    public void AddProfilPicToHouse(String pic, House house) {
-        house_photosController.addNewProfilPhotoToHouse(pic, pic, house);
+    /**
+     * Dodavanje profilne slike kući.
+     *
+     * @param pic   - naziv slike
+     * @param url   - link za preuzimanje slike
+     * @param house - kuća kojoj se dodaje slika
+     */
+    public void AddProfilPicToHouse(String pic, String url, House house) {
+        house_photosController.addNewProfilPhotoToHouse(pic, pic, url, house);
     }
 
-    public void AddGroundPlanPicToHouse(String pic, House house) {
-        house_photosController.addNewGrouondPlanPhotoToHouse(pic, pic, house);
+    /**
+     * Dodavanje slike tlocrta kući.
+     *
+     * @param pic   - naziv slike
+     * @param url   - link za preuzimanje slike
+     * @param house - kuća kojoj se dodaje slika
+     */
+    public void AddGroundPlanPicToHouse(String pic, String url, House house) {
+        house_photosController.addNewGrouondPlanPhotoToHouse(pic, pic, url, house);
     }
 
+
+    /**
+     * Dohvaćanje objkta kuće za prosljeđeni ID.
+     *
+     * @param idHouse - id kuće
+     * @return objekt kuće ili NULL ako ne postoji
+     */
     public static House getHouse(int idHouse) {
-        List<House> house = SQLite.select().from(House.class).where(House_Table.id_house.is(idHouse)).queryList();
 
+        try {
+            List<House> house = SQLite.select().from(House.class).where(House_Table.id_house.is(idHouse)).queryList();
+            return house.get(0);
 
-        return house.get(0);
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
+            return null;
+        }
 
     }
 
+    /**
+     * TEST method
+     *
+     * @return
+     */
     public static House getFirstHouse() {
-        List<House> house = SQLite.select().from(House.class).queryList();
+        try {
+            List<House> house = SQLite.select().from(House.class).queryList();
+            return house.get(0);
 
-
-        return house.get(0);
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
+            return null;
+        }
 
     }
 
+    /**
+     * @return svi zapisi iz tablice House
+     */
     public static List<House> getAllHouseRecords() {
 
-
         List<House> house = SQLite.select().from(House.class).queryList();
-
 
         return house;
     }
 
 
+    /**
+     * Traženje kuće prema imenu  i prezimenu vlasnika
+     *
+     * @param text ime i prezime vlasnika kuće
+     * @return lista kuća čiji se vlasnici podudaraju sa traženim unosom
+     */
     public static List<House> serachByNameAndSurnameQuery(String text) {
 
         //Fetching all houses from database and empty list (type house)
@@ -190,29 +268,19 @@ public class HouseController {
         return house;
     }
 
-    public Bitmap getProfilImageBitmapbyContext(Context contextItem) {
-/*
-        Bitmap bitmap = new ImageSaver(contextItem).
-                setFileName(getHouse_image()+".png").
-                setDirectoryName("ProfilImages").
-                load();
-
-
-        return bitmap;
-        */
-        Bitmap bitmap = new ImageSaver(contextItem).
-                setFileName("slika_TTEST" + ".png").
-                setDirectoryName("ProfilImages").
-                load();
-
-        return bitmap;
-    }
-
+    /**
+     * @return svi zapisi iz tablice House
+     */
     public List<House> GetAllRecordsFromTable() {
 
         return SQLite.select().from(House.class).queryList();
     }
 
+    /**
+     * brisanje svih zapisa u tablici House
+     *
+     * @see House
+     */
     public void DeleteAllRecordsInTable() {
 
         final List<House> gndPlan = GetAllRecordsFromTable();

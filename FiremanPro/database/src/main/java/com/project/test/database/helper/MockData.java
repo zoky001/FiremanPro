@@ -68,21 +68,52 @@ public class MockData {
         interventionController.DeleteAllRecordsInTable_Intervention_track();
         interventionController.DeleteAllRecordsInTable_Reports();
         hydrantsController.DeleteAllRecordsInTableHydrants();
-      
-       types_all_controller.DeleteAllRecordsTable_Intervention_type();
+
+        types_all_controller.DeleteAllRecordsTable_Intervention_type();
 
     }
 
+    public void deleteAllWhenNewDataArrived() {
+
+        addressController.DeleteAllRecordsInTable();
+        house_photosController.DeleteAllRecordsInTable();
+        houseController.DeleteAllRecordsInTable();
+        photosController.DeleteAllRecordsInTable();
+        photoTypeController.DeleteAllRecordsInTable();
+        postController.DeleteAllRecordsInTable();
+
+        firemanPatrolController.DeleteAllRecordsInTable();
+        interventionController.DeleteAllRecordsInTable_Intervention_track();
+        interventionController.DeleteAllRecordsInTable_Reports();
+        hydrantsController.DeleteAllRecordsInTableHydrants();
+
+        types_all_controller.DeleteAllRecordsTable_Intervention_type();
+        types_all_controller.DeleteAllRecordsInTable_Outdoor_type();
+        types_all_controller.DeleteAllRecordsInTable_Sepatial_spread();
+        types_all_controller.DeleteAllRecordsInTable_Size_of_fire();
+        types_all_controller.DeleteAllRecordsInTable_Sort_of_intervention();
+        types_all_controller.DeleteAllRecordsInTable_Spreading_smoke();
+        types_all_controller.DeleteAllRecordsInTable_Time_spread();
+        types_all_controller.DeleteAllRecordsInTable_Type_of_truck();
+        types_all_controller.DeleteAllRecordsInTable_Type_of_unit();
+
+        firemanPatrolController.DeleteAllRecordsInTable();
+
+
+    }
+
+
     public void insertHydrants(Post post) {
-hydrantsController.addNewHydrant(
-        "NADZEMNI",
-        "Pavlović Vinko",
-        "Varaždinska ulica",
-        "Cestica",
-        "14",
-        post,
-        16.1264209,
-        46.3691463
+
+        hydrantsController.addNewHydrant(
+                "NADZEMNI",
+                "Pavlović Vinko",
+                "Varaždinska ulica",
+                "Cestica",
+                "14",
+                post,
+                16.1264209,
+                46.3691463
         );
 
         hydrantsController.addNewHydrant(
@@ -117,7 +148,7 @@ hydrantsController.addNewHydrant(
                 post,
                 16.1240723,
                 46.3697927
-                );
+        );
 
         hydrantsController.addNewHydrant(
                 "NADZEMNI",
@@ -128,7 +159,7 @@ hydrantsController.addNewHydrant(
                 post,
                 16.1233729,
                 46.3703401
-                );
+        );
 
         hydrantsController.addNewHydrant(
                 "NADZEMNI",
@@ -158,7 +189,7 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 "48",
                 post,
-               16.1216236,
+                16.1216236,
                 46.3712662
         );
 
@@ -249,7 +280,7 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 "10A",
                 post,
-               16.1275197,
+                16.1275197,
                 46.3742366
         );
 
@@ -271,9 +302,9 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 "35",
                 post,
-               16.127814,
+                16.127814,
                 46.377352
-                );
+        );
 //ulica stjepana radića
         hydrantsController.addNewHydrant(
                 "PODZEMNI",
@@ -369,7 +400,7 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 " ",
                 post,
-               16.1308732,
+                16.1308732,
                 46.363455
         );
 
@@ -380,7 +411,7 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 "31",
                 post,
-               16.1288076,
+                16.1288076,
                 46.363796
         );
 
@@ -394,9 +425,6 @@ hydrantsController.addNewHydrant(
                 16.13213,
                 46.3639227
         );
-
-
-      
 
 
         //gajeva ulica
@@ -417,7 +445,7 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 " ",
                 post,
-               16.133081,
+                16.133081,
                 46.3748613
         );
 
@@ -439,7 +467,7 @@ hydrantsController.addNewHydrant(
                 "Cestica",
                 "40",
                 post,
-               16.1316846,
+                16.1316846,
                 46.3751713
         );
 
@@ -458,23 +486,23 @@ hydrantsController.addNewHydrant(
         intervencija.intervetionEnded();//
 
 
-
         java.util.Date localzationTime = new java.util.Date(System.currentTimeMillis());
-        java.util.Date fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
+        java.util.Date fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
 
-        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+        intervencija.getReports().addFireInterventionDetails(localzationTime, fire_extinguished_time, 1, false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(), Intervention_Type.getRandomType());
 // upisano ovo izdnad
-        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
-        intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
 
+        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getPatrolByName("DVD Babinec"));
         intervencija.addDescriptionOfIntervention("opis intervencije jedan završena");//upisano
 
         intervencija.addObjectSurface_m2(55); // upisano
 
         intervencija.addObjectSuperficies_ha(2.0); //upisano
 
+
 intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
-        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+        intervencija.getReports().addConsumption(21,15,12,15,12, 12,12,54,87,54,65,40,0,0);
 
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
@@ -495,14 +523,10 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
 
 
-
-
-     
-
         intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
 
 
-        intervencija.getReports().addFiremanPatrolandTruck(12, 0.5, 15, 15, 21, 21, 12, Truck.getRandomTruck(), Fireman_patrol.getRandomPatrol());
+        intervencija.getReports().addFiremanPatrolandTruck(12, 0.5, 15, 15, 21, 21, 12, Truck.getRandomTruck(), Fireman_patrol.getPatrolByName("DVD Babinec"));
         intervencija.getReports().addFiremanPatrolandTruck(12, 12, 12, 26, 0.845, 15, 15, Truck.getRandomTruck(), Fireman_patrol.getRandomPatrol());
 
         intervencija.addDescriptionOfIntervention("opis intervencije dvaaaaaa_ završena");
@@ -512,9 +536,9 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.addObjectSuperficies_ha(2.0);
 
         intervencija.addHelpers("Nitko nije sudjelovao");
-      
 
-        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+
+        intervencija.getReports().addConsumption(21,15,12,15,112,12,12,54,87,54,65,40,0,0);
 
 
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
@@ -522,7 +546,6 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
 
         intervencija.completeInterventionTrack();
-
 
 
         //treca intervencija
@@ -538,14 +561,13 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.intervetionEnded();
 
 
-
-
         localzationTime = new java.util.Date(System.currentTimeMillis());
-        fire_extinguished_time= new java.util.Date(System.currentTimeMillis());
+        fire_extinguished_time = new java.util.Date(System.currentTimeMillis());
 
-        intervencija.getReports().addFireInterventionDetails(localzationTime,fire_extinguished_time,1,false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(),Intervention_Type.getRandomType());
+        intervencija.getReports().addFireInterventionDetails(localzationTime, fire_extinguished_time, 1, false, Spreading_smoke.getRandomType(), Spatial_spread.getRandomType(), Time_spread.getRandomType(), Outdoor_type.getRandomType(), Size_of_fire.getRandomType(), Intervention_Type.getRandomType());
 
-        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
+
+        intervencija.getReports().addFiremanPatrolandTruck(12,0.5,15,15,21,21,12, Truck.getRandomTruck(),Fireman_patrol.getPatrolByName("DVD Babinec"));
         intervencija.getReports().addFiremanPatrolandTruck(12,12,12,26,0.845,15,15, Truck.getRandomTruck(),Fireman_patrol.getRandomPatrol());
 
         intervencija.addDescriptionOfIntervention("opis intervencije dvaaaaaa_ NEDOVRŠENA");
@@ -555,30 +577,30 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         intervencija.addObjectSuperficies_ha(2.0);
 
         intervencija.addHelpers("Nitko nije sudjelovao");
-        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,12,54,87,54,65,40,0,0);
+
+        intervencija.getReports().addConsumption(21,15,12,15,15,12,12,54,87,54,65,40,0,0);
 
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
         intervencija.getReports().addFiremanToIntervention(Fireman.getRandomType());
         intervencija.getReports().addFiremanSignedToIntervention(Fireman.getRandomType());
 
-       // unfinished intervention intervencija.completeInterventionTrack();
+        // unfinished intervention intervencija.completeInterventionTrack();
     }
-
 
 
     public void writeCodeBook() {
 
 
-        types_all_controller.addNewSize_of_fire_Type(100, "mali požar", "jedan aparat za gašenje požara");
-        types_all_controller.addNewSize_of_fire_Type(101, "mali požar", "1  \" C \" mlaz");
+        types_all_controller.addNewSize_of_fire_Type(100, "mali požar-aparat", "jedan aparat za gašenje požara");
+        types_all_controller.addNewSize_of_fire_Type(101, "mali požar-mlaz", "1  \" C \" mlaz");
         types_all_controller.addNewSize_of_fire_Type(102, "srednji požar", "2-3  \" C \" mlaz");
         types_all_controller.addNewSize_of_fire_Type(103, "veliki požar", "više od 3  \" C \" mlaza");
 
 
-        types_all_controller.addNewSpatial_spread_Type(100,"bez širenja iz prostora u kojem je nastao","");
-        types_all_controller.addNewSpatial_spread_Type(101,"na prostoriju/okno","");
-        types_all_controller.addNewSpatial_spread_Type(102,"na grupu prostorija","");
-        types_all_controller.addNewSpatial_spread_Type(103,"na kat-etažu kao odsječak","");
+        types_all_controller.addNewSpatial_spread_Type(100, "bez širenja iz prostora u kojem je nastao", "");
+        types_all_controller.addNewSpatial_spread_Type(101, "na prostoriju/okno", "");
+        types_all_controller.addNewSpatial_spread_Type(102, "na grupu prostorija", "");
+        types_all_controller.addNewSpatial_spread_Type(103, "na kat-etažu kao odsječak", "");
 
         types_all_controller.addNewSpatial_spread_Type(104, "dio kata-etaže", "");
         types_all_controller.addNewSpatial_spread_Type(105, "stubište", "");
@@ -592,7 +614,6 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         types_all_controller.addNewSpatial_spread_Type(112, "susjednu zgradu ili građevinu", "");
         types_all_controller.addNewSpatial_spread_Type(113, "pročelje građevine (fasadu)", "");
         types_all_controller.addNewSpatial_spread_Type(114, "cijelu građevinu", "");
-
 
 
         types_all_controller.addNewTime_spread_Type(100, "normalan tijek požara", "");
@@ -635,7 +656,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
         ArrayList<String> strings1 = new ArrayList<String>();
 
-        strings1.add("PRIJEVOZ VODE po nalogu)");
+        strings1.add("PRIJEVOZ VODE po nalogu");
         strings1.add("LAŽNA DOJAVA");
         strings1.add("IZVIDI");
 
@@ -675,19 +696,20 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 
     }
 
-    public void writeAll() {
+    public void wrriteAll() {
 
-        deleteAll();
+        // deleteAll();
         //delete all
-        writePatrol();
-        writeCodeBook();
+
+        //  writePatrol();
+        //  writeCodeBook();
 
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
 
         Post cesticaPost = postController.addNewPost(42208, "Cestica");
 
         //write all hydrants
-       insertHydrants(cesticaPost);
+        //  insertHydrants(cesticaPost);
         /*
 
         SELA:
@@ -698,6 +720,20 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
 */
 
 
+/*
+
+
+
+
+Address nova = addressController.addNewAddress(
+        "Ulica Antuna Mihanovića",
+        "Križovljan Radovečki",
+        "1",
+        cesticaPost,
+        16.127483,
+        46.368682
+
+
         Address nova = addressController.addNewAddress(
                 "Ulica Antuna Mihanovića",
                 "Križovljan Radovečki",
@@ -705,6 +741,7 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
                 cesticaPost,
                 16.127483,
                 46.368682
+
         );
 
 
@@ -1207,8 +1244,10 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
                 "0995982910",
                 nova);
 
-        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6", house);
-        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6", house);
+
+        houseController.AddProfilPicToHouse("profil_krizovljan_radovecki_antuna_mihanovica_6",house);
+        houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_6",house);
+*/
 
 /*
         //second house za testt samo
@@ -1297,10 +1336,11 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         houseController.AddGroundPlanPicToHouse("gnd_krizovljan_radovecki_antuna_mihanovica_5",house);*/
 
 
-        createMockIntervention();
+        // createMockIntervention();
+
     }
 
-    public void printAll() {
+    public  void printAll() {
         final List<House> house = houseController.GetAllRecordsFromTable();
         final List<Photos> photos = photosController.GetAllRecordsFromTable();
         final List<Address> address = addressController.GetAllRecordsFromTable();
@@ -1309,7 +1349,9 @@ intervencija.addHelpers("Nitko nije sudjelovao"); // upisano
         final List<Post> posts = postController.GetAllRecordsFromTable();
         final List<Intervention_track> intervention_tracks = interventionController.GetAllRecordsFromTable_Intervention_track();
         final List<Reports> reportses = interventionController.GetAllRecordsFromTable_Reports();
-final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydrants();
+        final List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydrants();
+        List<Spatial_spread> spatial_spreads = types_all_controller.GetAllRecordsFromTable_Spatial_spread();
+
 
         System.out.println("Obavijest primljena" +
                 " Iizlazak na intervenciju" +
@@ -1358,42 +1400,42 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
                 "\n");
         for (int i = 0; i < intervention_tracks.size(); i++) {
 
-
+/*
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.println(
 
-                    intervention_tracks.get(i).getReports().getTime_call_received()+" | " +
-                    intervention_tracks.get(i).getReports().getTime_intervention_start()+" | " +
-                    intervention_tracks.get(i).getReports().getTime_arrival_intervention() + " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getLocalization()+ " | " +
+                    intervention_tracks.get(i).getReports().getTime_call_received() + " | " +
+                            intervention_tracks.get(i).getReports().getTime_intervention_start() + " | " +
+                            intervention_tracks.get(i).getReports().getTime_arrival_intervention() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getLocalization() + " | " +
 
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getFireExtinguished()+ " | " +
-                    intervention_tracks.get(i).getReports().getSort_of_intervention().getName()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getIntervention_type().getName()+ " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getFireExtinguished() + " | " +
+                            intervention_tracks.get(i).getReports().getSort_of_intervention().getName() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getIntervention_type().getName() + " | " +
 
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getDestroyed_space()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().isRepeated()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getSpatial_spread().getName()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getTime_spread().getName()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getSpreading_smoke().getName()+ " | " +
-                    intervention_tracks.get(i).getReports().getFireInterventionDetails().getOutdoor_type().getName()+ " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getDestroyed_space() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().isRepeated() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getSpatial_spread().getName() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getTime_spread().getName() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getSpreading_smoke().getName() + " | " +
+                            intervention_tracks.get(i).getReports().getFireInterventionDetails().getOutdoor_type().getName() + " | " +
 
-                    intervention_tracks.get(i).getLocation().getPost().getName()+ " | " +
-                    intervention_tracks.get(i).getLocation().getPlaceNameIfExist()+ " | " +
-                    intervention_tracks.get(i).getLocation().getStreetNameIfExist()+ " | " +
+                            intervention_tracks.get(i).getLocation().getPost().getName() + " | " +
+                            intervention_tracks.get(i).getLocation().getPlaceNameIfExist() + " | " +
+                            intervention_tracks.get(i).getLocation().getStreetNameIfExist() + " | " +
 
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName()+ " | " +
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getTruck().getName()+ " | " + "   |  "+
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getKm()+ " | " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getFireman_patrol().getName() + " | " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getTruck().getName() + " | " + "   |  " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getKm() + " | " +
 
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getHours()+ " | " +
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getNumberOfFireman()+ " | " + "   |  "+
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getWater()+ " | " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getHours() + " | " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getNumberOfFireman() + " | " + "   |  " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getWater() + " | " +
 
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getFoam()+ " | " +
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getPowder()+ " | " +
-                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getCo2()+ " | " + "   |  "+
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getFoam() + " | " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getPowder() + " | " +
+                            intervention_tracks.get(i).getReports().getTrucksAndPatrols().get(0).getCo2() + " | " + "   |  " +
 
 
                             intervention_tracks.get(i).getReports().getDescription() + " | " +
@@ -1414,7 +1456,7 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
                             "\n");
 
-
+*/
         }
 
         System.out.print(" HIDRANT ID " +
@@ -1428,16 +1470,16 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
             System.out.print(hydrantses.get(i).getId_hydrant() + " | " +
                     hydrantses.get(i).getDescription() + " | " +
-                    hydrantses.get(i).getAddress().getLatitude()+ " | " +
-                    hydrantses.get(i).getAddress().getLongitude() +"\n");
+                    hydrantses.get(i).getAddress().getLatitude() + " | " +
+                    hydrantses.get(i).getAddress().getLongitude() + "\n");
 
         }
 
 
-
-
         System.out.print(" ADDRESS ID " +
                 " ulica" +
+                " latitude " +
+                " longitude " +
                 "\n");
 
         for (int i = 0; i < address.size(); i++) {
@@ -1445,8 +1487,15 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
             System.out.print("-----------------------------------------------" + "\n");
 
+
             System.out.print(address.get(i).getID() + " | " +
-                    address.get(i).getStreetNameIfExist() + "\n");
+                    address.get(i).getStreetNameIfExist()
+                    + " | " +
+                    address.get(i).getLatitude()
+                    + " | " +
+                    address.get(i).getLongitude()
+                    + "\n");
+
 
         }
 
@@ -1467,13 +1516,23 @@ final  List<Hydrants> hydrantses = hydrantsController.GetAllRecordsFromTableHydr
 
         System.out.print(" photo_ID " +
                 " NAME " +
+
+                " URL " +
                 "\n");
         for (int i = 0; i < photos.size(); i++) {
+
+
             System.out.print("-----------------------------------------------" + "\n");
 
             System.out.print(photos.get(i).getID() + " | " +
 
-                    photos.get(i).getImageName() + " | " + "\n");
+
+                    photos.get(i).getImageName() + " | " +
+
+                    photos.get(i).getUrl() + " | " +
+
+                    "\n");
+
         }
 
         System.out.print(" photo_ID " +

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion 22
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -32,6 +32,10 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
+    // picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    //image saver
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
 
 }

@@ -17,6 +17,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * Tab koji se učitava u obliku fragmenta unutar ProfilNewActivity
+ * <p>
+ * Sadrži sve podatke o odabranoj kući.
+ * <p>
+ * Prilikom kreiranja potrebno je prosljediti id koristeći Bundle, "IDkuce" = id odabrane kuce
+ * <p>
+ * <p>
  * Created by Zoran on 27.10.2017..
  */
 
@@ -97,6 +104,12 @@ public class TabPodaci extends TabFragment {
     @BindView(R.id.data_house_HRO_animals)
     TextView txtHouseHROAnimals;
 
+    @BindView(R.id.data_house_latitude)
+    TextView txtLatitude;
+
+    @BindView(R.id.data_house_longitude)
+    TextView txtLongitude;
+
     @BindView(R.id.data_house_telNumber)
     TextView txtHouseTEl;
 
@@ -106,89 +119,106 @@ public class TabPodaci extends TabFragment {
 
     House house;
 
+    /**
+     * Prilikom kriranja View-a se iz argumenata/Bundle dohvaća ID odabrane kuće.
+     * Pomoću navedenog ID-a se dohvaća kuća iu baze podataka, te pohranjuje u varijablu "house" za daljnje korištenje.
+     *
+     * @author Zoran Hrnčić
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         System.out.println("Tabpodaci");
         View rootView = inflater.inflate(R.layout.tab_podaci_, container, false);
-       ButterKnife.bind(this, rootView);
+        ButterKnife.bind(this, rootView);
 
-        String s = getArguments().getString("IDkuce");
-        System.out.println("SESSION FRAGMENT_idkuce: " + s);
-        int a = Integer.parseInt(getArguments().getString("IDkuce"));
-        if (a != -1) {
-
+        try {
+            int a = Integer.parseInt(getArguments().getString("IDkuce"));
             house = HouseController.getHouse(a);
 
-        } else {
-            house = HouseController.getFirstHouse();
+            //set contetn of table
+            fillTableWithContent();
+
+        } catch (Exception e) {
+            System.out.println("EXCEPTON: " + e.getMessage());
         }
-        //set contetn of table
-fillTableWithContent();
 
         return rootView;
     }
 
-    private void fillTableWithContent(){
+    /**
+     * popounjavanje tablice sa podatcima iz baze podataka.
+     */
+    private void fillTableWithContent() {
+        try {
+            //set contetn of table
+            txtHouseOwnerName.setText(house.getSurname_owner() + " " + house.getName_owner());
 
-        //set contetn of table
-        txtHouseOwnerName.setText(house.getSurname_owner() + " " + house.getName_owner());
+            txtHousePost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
 
-        txtHousePost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
+            txtHouseAddress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
 
-        txtHouseAddress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
+            txtHousePlace.setText(house.getPlaceName());
 
-        txtHousePlace.setText(house.getPlaceName());
+            txtHouseTeenants.setText(String.valueOf(house.getNumber_of_tenants()));
 
-        txtHouseTeenants.setText(String.valueOf(house.getNumber_of_tenants()));
-
-        txtHouseFloors.setText(house.getList_of_floors());
+            txtHouseFloors.setText(house.getList_of_floors());
 
 
-        txtHouseNumChild.setText(String.valueOf(house.getNumber_of_children()));
+            txtHouseNumChild.setText(String.valueOf(house.getNumber_of_children()));
 
-        txtHouseYearsChild.setText(house.getYear_children());
+            txtHouseYearsChild.setText(house.getYear_children());
 
-        txtHouseNumAdults.setText(String.valueOf(house.getNumber_of_adults()));
+            txtHouseNumAdults.setText(String.valueOf(house.getNumber_of_adults()));
 
-        txtHouseYearsAdults.setText(house.getYears_adults());
+            txtHouseYearsAdults.setText(house.getYears_adults());
 
-        txtHouseNumElders.setText(String.valueOf(house.getNumber_of_powerless_and_elders()));
+            txtHouseNumElders.setText(String.valueOf(house.getNumber_of_powerless_and_elders()));
 
-        txtHouseYearsElders.setText(house.getYears_powerless_elders());
+            txtHouseYearsElders.setText(house.getYears_powerless_elders());
 
-        txtHouseDisability.setText(house.isDisability_person() ? "DA" : "NE");
+            txtHouseDisability.setText(house.isDisability_person() ? "DA" : "NE");
 
-        txtHousePowerSupply.setText(house.isHRO_power_supply() ? "DA" : "NE");
+            txtHousePowerSupply.setText(house.isHRO_power_supply() ? "DA" : "NE");
 
-        txtHouseGasConnection.setText(house.isGas_connection() ? "DA" : "NE");
+            txtHouseGasConnection.setText(house.isGas_connection() ? "DA" : "NE");
 
-        txtHouseTypeHeating.setText(house.getType_of_heating());
+            txtHouseTypeHeating.setText(house.getType_of_heating());
 
-        txtHouseGasBottle.setText(house.isGas_bottle() ? "DA" : "NE");
+            txtHouseGasBottle.setText(house.isGas_bottle() ? "DA" : "NE");
 
-        txtHouseNumGasBottle.setText(String.valueOf(house.getNumber_of_gas_bottle()));
+            txtHouseNumGasBottle.setText(String.valueOf(house.getNumber_of_gas_bottle()));
 
-        txtHouseTypeRoof.setText(house.getType_of_roof());
+            txtHouseTypeRoof.setText(house.getType_of_roof());
 
-        txtHouseHydrantDistance.setText(String.valueOf(house.getHydrant_distance()));
+            txtHouseHydrantDistance.setText(String.valueOf(house.getHydrant_distance()));
 
-        txtHouseHRO.setText(house.isHigh_risk_object() ? "DA" : "NE");
+            txtHouseHRO.setText(house.isHigh_risk_object() ? "DA" : "NE");
 
-        txtHouseHROroof.setText(house.getHRO_type_of_roof());
+            txtHouseHROroof.setText(house.getHRO_type_of_roof());
 
-        txtHouseHROpowerSupply.setText(house.isHRO_power_supply() ? "DA" : "NE");
+            txtHouseHROpowerSupply.setText(house.isHRO_power_supply() ? "DA" : "NE");
 
-        txtHouseHROContent.setText(house.getHRO_content());
+            txtHouseHROContent.setText(house.getHRO_content());
 
-        txtHouseHROAnimals.setText(house.isHRO_animals() ? "DA" : "NE");
+            txtHouseHROAnimals.setText(house.isHRO_animals() ? "DA" : "NE");
+            txtLatitude.setText(String.valueOf(house.getAddress().getLatitude()));
+            txtLongitude.setText(String.valueOf(house.getAddress().getLongitude()));
 
-        txtHouseTEl.setText(house.getTelNumber());
+            txtHouseTEl.setText(house.getTelNumber());
 
-        txtHouseMOB.setText(house.getMobNumber());
+            txtHouseMOB.setText(house.getMobNumber());
+        } catch (Exception e) {
+            System.out.println("EXCEPTON: " + e.getMessage());
+        }
     }
 
+    /**
+     * omogućuje učitavanje ovog fragmenta u metodu interface-a
+     *
+     * @param iTabFragment imaplementacija interface-a ITabFragment
+     */
     @Override
     public void loadFrag(ITabFragment iTabFragment) {
         super.loadFrag(iTabFragment);

@@ -18,7 +18,9 @@ import com.project.test.database.controllers.HouseController;
 import butterknife.ButterKnife;
 
 /**
- * Created by Nikol on 22.11.2017..
+ * Ativnost koja prikauje Google kartu preko cijelog ekrana, sa označenim odrdištima, putem između njih i lokacijama hidranata.
+ * @author Nikolina Bukovec
+ * @version  22.11.2017.
  */
 
 public class GoogleMapActivity extends AppCompatActivity {
@@ -31,8 +33,6 @@ public class GoogleMapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_google_maps);
 
         ButterKnife.bind(this);
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProfil);
-      //  setSupportActionBar(toolbar);
 
         int a = Integer.parseInt(getIntent().getStringExtra("IDkuce"));
         System.out.println("MAPACTIVITY_idkuce kartaaaaaaaa: " + a);
@@ -40,19 +40,15 @@ public class GoogleMapActivity extends AppCompatActivity {
 
             house = HouseController.getHouse(a);
         }
-catch ( Exception e){
+        catch ( Exception e){
 
-    System.out.println("GREŠKA: "+e);
-            }
-
+        System.out.println("GREŠKA: "+e);
+                }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMap);
         setSupportActionBar(toolbar);
 
-        //set title (owner name )on toolbar
         setTitleOnToolbar(house.getAddressStreet()+ " "+ house.getAddress().getStreetNumber()+", " +house.getAddress().getPlaceNameIfExist());
-
-
 
         Bundle bundle = new Bundle();
 
@@ -61,21 +57,23 @@ catch ( Exception e){
         Fragment mapFragment=new com.project.air.firemanpro.googlemaps.MapFragment();
         mapFragment.setArguments(bundle);
 
-
         getSupportFragmentManager().beginTransaction()
 
                 .replace(R.id.mapView_container, mapFragment)
                 .commit();
-
     }
 
+    /**
+     * Metoda koja postavlja naslov na Toolbar
+     *
+     */
     private void setTitleOnToolbar(String title){
-        //set title (owner name )on toolbar
-        getSupportActionBar().setTitle(title); //set title on toolbar
+
+        getSupportActionBar().setTitle(title);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-        } //toolbar
+        }
     }
 
     @Override

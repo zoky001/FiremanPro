@@ -34,7 +34,6 @@ public class Size_of_fire extends BaseModel {
     String description;
 
 
-
     @Column
     Date updated_at;
     @Column
@@ -92,14 +91,15 @@ public class Size_of_fire extends BaseModel {
         this.created_at = created_at;
     }
 
-    public static Size_of_fire getRandomType(){
+    public static Size_of_fire getRandomType() {
 
         List<Size_of_fire> house = SQLite.select().from(Size_of_fire.class).queryList();
 
 
         return house.get(0);
     }
-    public static Size_of_fire getByName(String name){
+
+    public static Size_of_fire getByName(String name) {
 
         Size_of_fire spreading_smoke = SQLite.select().from(Size_of_fire.class).where(Size_of_fire_Table.name.is(name)).querySingle();
 
