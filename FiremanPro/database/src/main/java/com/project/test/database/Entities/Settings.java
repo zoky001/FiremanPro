@@ -121,7 +121,7 @@ public class Settings extends BaseModel {
 
         if (settings.size() < 1) {
 
-            Settings settings1 = new Settings(1, "DVD Križovljan Cestica", "zoky001@gmail.com", CurrentDate, "http://fireman-pro.ddns.net/FiremanPro-laravel/", CurrentDate, CurrentDate);
+            Settings settings1 = new Settings(1, "DVD Križovljan Cestica", "airreports0@gmail.com", CurrentDate, "http://fireman-pro.ddns.net/FiremanPro-laravel/", CurrentDate, CurrentDate);
             settings1.save();
             return settings1;
         } else {
