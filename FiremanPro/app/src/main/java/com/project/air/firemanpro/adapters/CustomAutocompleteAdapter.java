@@ -35,10 +35,6 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
         this.mDepartments_Suggestion = new ArrayList<>();
     }
 
-
-
-
-
     public int getCount() {
         return mDepartments.size();
     }
@@ -84,7 +80,6 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
         return normalizedString.toString().replaceAll("[^\\p{ASCII}]", "");
     }
 
-
         @Override
     public Filter getFilter() {
         return new Filter() {
@@ -116,9 +111,7 @@ public class CustomAutocompleteAdapter extends ArrayAdapter<String> {
                                     }
                                 }
                             }
-
                         }
-
 
                         FilterResults filterResults = new FilterResults();
                         filterResults.values = mDepartments_Suggestion;

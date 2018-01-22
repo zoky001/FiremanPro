@@ -17,7 +17,9 @@ import java.sql.Time;
 import java.util.List;
 
 /**
- * Created by Nikol on 23.10.2017..
+ * Adapter koji se koristi kod pretraživanja, za prikaz odgovarajući rezultata pretrage.
+ * @author Nikolina Bukovec
+ * @version  22.10.2017.
  */
 
 public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> {
@@ -26,13 +28,11 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
 
     public SearchingAdapter(List<House> houseItem) {
         this.houseItem = houseItem;
-
         System.out.println("SEarchConstrAdapter - Construktor: ");
     }
 
     @Override
     public SearchingViewHolder onCreateViewHolder(ViewGroup vg, int i) {
-
         View houseView = LayoutInflater.from(vg.getContext()).inflate(R.layout.result_item, vg, false);
         System.out.println("SearchingViewHolder onCreateViewHolder: ");
         return new SearchingViewHolder(houseView);
@@ -55,17 +55,14 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.place.setText(h.getPlaceName());
         holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
-
         Long P = System.currentTimeMillis();
-System.out.println("PRIJE prikaza: "+ P);
-
+        System.out.println("PRIJE prikaza: "+ P);
         holder.housePicture.setImageBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()));
-//proba
+
         Picasso.with(holder.housePicture.getContext())
                 .load(h.getProfilPhotos().getUrl())
                 .into(holder.housePicture);
 
- //proba
         holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
         Long PO = System.currentTimeMillis();
