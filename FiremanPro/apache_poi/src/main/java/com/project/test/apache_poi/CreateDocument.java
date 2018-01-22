@@ -169,28 +169,28 @@ private void replaceValuesInTable3(XWPFDocument document, List<String>values){
                             System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
 
 
-                            cell.setColor("575757");
+                            cell.setColor("685d18");
                         }
                         if (text != null && text.contains(values.get(2))) {
                             System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
 
-                            cell.setColor("575757");
+                            cell.setColor("685d18");
                         }
                         if (text != null && text.contains(values.get(3))) {
                             System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
 
-                            cell.setColor("575757");
+                            cell.setColor("685d18");
                         }
 
                         if (text != null && text.contains(values.get(4))) {
                             System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
 
-                            cell.setColor("575757");
+                            cell.setColor("685d18");
                         }
                         if (text != null && text.contains(values.get(5))) {
                             System.out.println(" BROJ TABLICE TUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU dasdasd");
 
-                            cell.setColor("575757");
+                            cell.setColor("685d18");
                         }
 
 
