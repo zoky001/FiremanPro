@@ -50,9 +50,13 @@ import com.project.test.database.Entities.Post;
 import com.project.test.database.Entities.Settings;
 import com.project.test.database.Entities.fireman_patrol.Costs;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.FirebasePatrolController;
 import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
+import com.project.test.database.firebaseEntities.Fireman;
+import com.project.test.database.firebaseEntities.Fireman_patrol;
+import com.project.test.database.firebaseEntities.Truck;
 import com.project.test.database.firebaseEntities.User;
 import com.project.test.database.helper.MockData;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -113,7 +117,7 @@ mockData.printAll();
 
         //crash END
         ButterKnife.bind(this);
-firebase();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
 
@@ -385,78 +389,11 @@ firebase();
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
 
        startActivity(Intent);*/
-        firebase();
-        fireStore();
+       // firebase();
+        FirebasePatrolController.fireStore();
     }
 
-    private void fireStore() {
-        final String TAG = "FIRESTORE:";
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
-// Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-
-
-        // Create a new user with a first, middle, and last name
-        user.put("first", "Alan");
-        user.put("middle", "Mathison");
-        user.put("last", "Turing");
-        user.put("born", 1912);
-
-// Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-
-
-
-    }
 
     @Override
     protected void onStart() {
