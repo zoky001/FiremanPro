@@ -2,6 +2,7 @@ package com.project.air.firemanpro;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
@@ -13,32 +14,60 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.FirebaseAnalyticsEvent;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.profil.ProfilNewActivity;
+import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
+import com.project.test.database.Entities.Post;
 import com.project.test.database.Entities.Settings;
 import com.project.test.database.Entities.fireman_patrol.Costs;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
+import com.project.test.database.firebaseEntities.User;
 import com.project.test.database.helper.MockData;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 
 
 /**
@@ -50,6 +79,7 @@ import butterknife.OnClick;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private FirebaseAnalytics firebaseAnalytics;
 MockData mockData;
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
@@ -59,11 +89,31 @@ MockData mockData;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //DBflow connect to database
+
         FlowManager.init(new FlowConfig.Builder(this).build());
         mockData= new MockData();
 mockData.printAll();
-        ButterKnife.bind(this);
+///crah test
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Crashlytics.log("Rušenje app tst");
+        Button crashButton = new Button(this);
+        crashButton.setText("Crash!");
+        crashButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                Crashlytics.getInstance().crash(); // Force a crash
+            }
+        });
+        addContentView(crashButton,
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
+        //crash END
+        ButterKnife.bind(this);
+firebase();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain_new);
         setSupportActionBar(toolbar);
 
@@ -209,6 +259,66 @@ mockData.printAll();
 
     }
 
+    private void firebase() {
+        Crashlytics.log("Rušenje app tst");
+        final DatabaseReference mDatabase;
+// ...
+         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // Write a message to the database
+       final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+        myRef.setValue("Hello, World!");
+
+
+        Log.d("BAZA:","upis");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("BAZA","Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("BAZA", "Failed to read value.", error.toException());
+            }
+        });
+
+
+        DatabaseReference users = database.getReference("users");
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+
+                Log.d("BAZA","Value is: " + dataSnapshot.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("BAZA", "Failed to read value.", error.toException());
+            }
+        });
+
+
+
+        java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
+        User user = new User(1,"Marko", "Kralj");
+
+        mDatabase.child("users").child("1").setValue(user);
+
+       // mDatabase.child("users").child("1").child("username").setValue("Zoran");
+
+    }
+
     private void checkIfExistUnfinishedIntervention() {
         InterventionController interventionController = new InterventionController();
 
@@ -269,12 +379,82 @@ mockData.printAll();
 
     @OnClick(R.id.buttonSearching)
     public void buttonSearchingClicked(View view) {
-
+/*
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
 
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
 
-       startActivity(Intent);
+       startActivity(Intent);*/
+        firebase();
+        fireStore();
+    }
+
+    private void fireStore() {
+        final String TAG = "FIRESTORE:";
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a new user with a first and last name
+        Map<String, Object> user = new HashMap<>();
+        user.put("first", "Ada");
+        user.put("last", "Lovelace");
+        user.put("born", 1815);
+
+// Add a new document with a generated ID
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+
+
+        // Create a new user with a first, middle, and last name
+        user.put("first", "Alan");
+        user.put("middle", "Mathison");
+        user.put("last", "Turing");
+        user.put("born", 1912);
+
+// Add a new document with a generated ID
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+
+
 
     }
 

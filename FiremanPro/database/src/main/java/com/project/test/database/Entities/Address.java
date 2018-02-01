@@ -56,7 +56,6 @@ public class Address extends BaseModel {
     @ForeignKey(saveForeignKeyModel = true) //on update cascade
             Post post;
 
-
     public Address() {
     }
 
