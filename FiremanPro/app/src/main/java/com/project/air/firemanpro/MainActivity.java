@@ -391,6 +391,9 @@ mockData.printAll();
        startActivity(Intent);*/
        // firebase();
         FirebasePatrolController.fireStore();
+        FirebasePatrolController.saveOtherType();
+        FirebasePatrolController.saveAllHouse();
+
     }
 
 

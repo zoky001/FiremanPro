@@ -20,7 +20,7 @@ public class Fireman_patrol {
 
     public String Type;
     public String Name;
-    public Cost cost;
+    private Cost cost;
    // public Integer id;
 
     public Fireman_patrol() {

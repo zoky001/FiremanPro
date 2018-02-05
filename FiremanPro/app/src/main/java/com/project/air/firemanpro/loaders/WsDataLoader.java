@@ -31,6 +31,7 @@ import com.project.test.database.Entities.fireman_patrol.Type_of_truck;
 import com.project.test.database.Entities.fireman_patrol.Type_of_unit;
 import com.project.test.database.Entities.report.Sort_of_intervention;
 import com.project.test.database.Entities.report.Sort_of_intervention_Table;
+import com.project.test.database.FirebasePatrolController;
 import com.project.test.database.controllers.AddressController;
 import com.project.test.database.controllers.FiremanPatrolController;
 import com.project.test.database.controllers.HouseController;
@@ -348,6 +349,7 @@ public class WsDataLoader extends DataLoader implements AirWebServiceHandler {
 
             Sort_of_intervention sort_of_intervention = new Sort_of_intervention(s.getId(), s.getName(), "", CurrentDate, CurrentDate);
             sort_of_intervention.save();
+            FirebasePatrolController.saveFireInterventionType(sort_of_intervention);
 
         }
     }
