@@ -363,7 +363,7 @@ public class WsDataLoader extends DataLoader implements AirWebServiceHandler {
     private void saveHouses(List<HousesW> housesWs) {
 
         AddressController addressController = new AddressController();
-        HouseController houseController = new HouseController();
+        final HouseController houseController = new HouseController();
         Address address;
         House house;
 
@@ -407,8 +407,17 @@ public class WsDataLoader extends DataLoader implements AirWebServiceHandler {
 
 
             if (housesW.getProfilPocture() != null) {
+
+
+/*
+               = SaveResourceImage.sha256(housesW.getProfilPocture().getUrl());
+                FirebaseStorageController.storeProfilPicFromURI(housesW.getProfilPocture().getUrl(),name,t);
+             */
+
                 String name = SaveResourceImage.sha256(housesW.getProfilPocture().getUrl());
                 houseController.AddProfilPicToHouse(name, housesW.getProfilPocture().getUrl(), house);
+
+
             }
             if (housesW.getSlikePlanova() != null)
                 for (SlikePlanova slika :

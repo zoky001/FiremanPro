@@ -29,6 +29,10 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -40,5 +44,5 @@ dependencies {
     })
     //compile 'com.android.support:multidex:1.0.1'
     //enable multi-dex
-   // compile files('libs/poishadow-all.jar')
+    // compile files('libs/poishadow-all.jar')
 }

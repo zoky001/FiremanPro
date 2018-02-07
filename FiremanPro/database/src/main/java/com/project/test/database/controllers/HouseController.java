@@ -2,8 +2,14 @@ package com.project.test.database.controllers;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
 
@@ -11,12 +17,16 @@ import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_Table;
 import com.project.test.database.Entities.Address_Table;
 
+import com.project.test.database.Entities.Post;
+import com.project.test.database.Entities.firebase.Firestore;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Kontrolira dodavanje nove kuće u bazu, te sve aktivnosti vezane za objekt {@link House}
@@ -28,7 +38,8 @@ import java.util.List;
  * @author Zoran Hrnčić
  */
 
-public class HouseController {
+public class HouseController extends Firestore {
+    public static final String TAG = "HouseController";
     java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
     House_photosController house_photosController = new House_photosController();
 
@@ -169,6 +180,37 @@ public class HouseController {
 
         return house;
     }
+
+  /*  public static List<com.project.test.database.firebaseEntities.House> getAllHouseRecordsCloud() {
+
+        house_collection
+              // .whereEqualTo("capital", true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        List<com.project.test.database.firebaseEntities.House> houses;
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                House house = document.toObject(House.class);
+
+                                com.project.test.database.firebaseEntities.Address  address = com.project.test.database.firebaseEntities.Address.class.cast(document.get("address"));
+
+
+
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
+*/
+
 
 
     /**

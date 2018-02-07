@@ -60,6 +60,7 @@ public class Photos extends BaseModel {
 
     public void setUrl(String url) {
         this.url = url;
+        this.save();
     }
 
     public void setID(int ID) {

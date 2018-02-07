@@ -2,7 +2,6 @@ package com.project.air.firemanpro;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -22,92 +22,82 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.FirebaseAnalyticsEvent;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.profil.ProfilNewActivity;
-import com.project.test.database.Entities.Address;
 import com.project.test.database.Entities.House;
-import com.project.test.database.Entities.Post;
-import com.project.test.database.Entities.Settings;
-import com.project.test.database.Entities.fireman_patrol.Costs;
 import com.project.test.database.Entities.report.Intervention_track;
-import com.project.test.database.FirebasePatrolController;
-import com.project.test.database.controllers.FiremanPatrolController;
+import com.project.test.database.FirebaseStorageController;
+import com.project.test.database.RxJava.RxJavaTest;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
-import com.project.test.database.firebaseEntities.Fireman;
-import com.project.test.database.firebaseEntities.Fireman_patrol;
-import com.project.test.database.firebaseEntities.Truck;
+import com.project.test.database.firebaseEntities.Post;
 import com.project.test.database.firebaseEntities.User;
 import com.project.test.database.helper.MockData;
+import com.project.test.database.interfaces.IPost;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;;
+;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.fabric.sdk.android.Fabric;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
  * Glavna aktivnost koja se prva pokreće po pokretanu aplikacije. Sadrži navigation drawer, toolbar, te textbox i button.
- *
+ * <p>
  * Omogućuje pretraživanje pohranjenih kuća.
- *
- *
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAnalytics firebaseAnalytics;
-MockData mockData;
+    MockData mockData;
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
-
+    CompositeDisposable disposable = new CompositeDisposable();
+    Button crashButton;// = new Button(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CheckExtrasForNotificationData(getIntent());
         //DBflow connect to database
 
         FlowManager.init(new FlowConfig.Builder(this).build());
-        mockData= new MockData();
-mockData.printAll();
+        mockData = new MockData();
+        mockData.printAll();
 ///crah test
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Crashlytics.log("Rušenje app tst");
-        Button crashButton = new Button(this);
+        crashButton = new Button(this);
         crashButton.setText("Crash!");
         crashButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
-                Crashlytics.getInstance().crash(); // Force a crash
+                FirebaseStorageController.updateDatabaseWithPhoto();
+                //Crashlytics.getInstance().crash(); // Force a crash
             }
         });
         addContentView(crashButton,
@@ -123,7 +113,7 @@ mockData.printAll();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, com.kizo.report.R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+                this, drawer, toolbar, com.kizo.report.R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
 
 
@@ -171,17 +161,17 @@ mockData.printAll();
                 autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
             }
 
-            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " +allHouses.get(i).getAddress().getPlaceNameIfExist()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPlaceNameIfExist() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
 
-            if (allHouses.get(i).getAddress().getPlaceNameIfExist()!=""&& allHouses.get(i).getAddress().getStreetNameIfExist()!="" &&!autocompleteListOfStrings.contains(FullAddress)) {
+            if (allHouses.get(i).getAddress().getPlaceNameIfExist() != "" && allHouses.get(i).getAddress().getStreetNameIfExist() != "" && !autocompleteListOfStrings.contains(FullAddress)) {
                 autocompleteListOfStrings.add(FullAddress);
             }
-            if(allHouses.get(i).getAddress().getPlaceNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutPlace)){
+            if (allHouses.get(i).getAddress().getPlaceNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutPlace)) {
                 autocompleteListOfStrings.add(AddressWithoutPlace);
             }
-            if(allHouses.get(i).getAddress().getStreetNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutStreet)){
+            if (allHouses.get(i).getAddress().getStreetNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutStreet)) {
                 autocompleteListOfStrings.add(AddressWithoutStreet);
             }
 
@@ -245,14 +235,13 @@ mockData.printAll();
                     }, 50);
 
 
-
-                }else if (s.length()< 3){
+                } else if (s.length() < 3) {
                     autoCompleteTextView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
 
-                                inputLayout.setError(null); // hide error
-                            
+                            inputLayout.setError(null); // hide error
+
 
                         }
                     }, 50);
@@ -267,15 +256,15 @@ mockData.printAll();
         Crashlytics.log("Rušenje app tst");
         final DatabaseReference mDatabase;
 // ...
-         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Write a message to the database
-       final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
         myRef.setValue("Hello, World!");
 
 
-        Log.d("BAZA:","upis");
+        Log.d("BAZA:", "upis");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -283,7 +272,7 @@ mockData.printAll();
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value = dataSnapshot.getValue(String.class);
-                Log.d("BAZA","Value is: " + value);
+                Log.d("BAZA", "Value is: " + value);
             }
 
             @Override
@@ -302,7 +291,7 @@ mockData.printAll();
                 // whenever data at this location is updated.
 
 
-                Log.d("BAZA","Value is: " + dataSnapshot.toString());
+                Log.d("BAZA", "Value is: " + dataSnapshot.toString());
             }
 
             @Override
@@ -313,13 +302,12 @@ mockData.printAll();
         });
 
 
-
         java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
-        User user = new User(1,"Marko", "Kralj");
+        User user = new User(1, "Marko", "Kralj");
 
         mDatabase.child("users").child("1").setValue(user);
 
-       // mDatabase.child("users").child("1").child("username").setValue("Zoran");
+        // mDatabase.child("users").child("1").child("username").setValue("Zoran");
 
     }
 
@@ -327,8 +315,7 @@ mockData.printAll();
         InterventionController interventionController = new InterventionController();
 
 
-        if (InterventionController.getUnfinishedIntervention().size() > 0)
-        {
+        if (InterventionController.getUnfinishedIntervention().size() > 0) {
             final Intervention_track unfinshed = InterventionController.getInterventionByID(InterventionController.getUnfinishedIntervention().get(0).getId_intervention_track());
 
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -343,9 +330,8 @@ mockData.printAll();
 
                             System.out.println("clikcOnItem()r: ");
                             Intent intent = new Intent(getBaseContext(), ProfilNewActivity.class);
-                            intent.putExtra("EXTRA_SESSION_ID",String.valueOf(unfinshed.getHouse().getId_house())); // umjesto 01 prosljediš ID kuće
+                            intent.putExtra("EXTRA_SESSION_ID", String.valueOf(unfinshed.getHouse().getId_house())); // umjesto 01 prosljediš ID kuće
                             getBaseContext().startActivity(intent);
-
 
 
                             dialog.cancel();
@@ -369,13 +355,7 @@ mockData.printAll();
             alert11.show();
 
 
-
-
         }
-
-
-
-
 
 
     }
@@ -383,19 +363,120 @@ mockData.printAll();
 
     @OnClick(R.id.buttonSearching)
     public void buttonSearchingClicked(View view) {
-/*
+        // FirebasePatrolController.fireStore();
+        // FirebasePatrolController.saveOtherType();
+
+
+        /*
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
 
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
 
-       startActivity(Intent);*/
-       // firebase();
-        FirebasePatrolController.fireStore();
-        FirebasePatrolController.saveOtherType();
-        FirebasePatrolController.saveAllHouse();
+        startActivity(Intent);
+        */
+
+
+        // firebase();
+
+        RxJava();
+
+
+        IPost iPost = new IPost() {
+            @Override
+            public void onPostArrived(com.project.test.database.firebaseEntities.Post post) {
+                String s = String.valueOf(post.getPostal_code());
+                Log.d("POŠTA: ", post.getName() + "__" + s);
+            }
+        };
+        com.project.test.database.firebaseEntities.Post.getPostById("42208", iPost);
+
 
     }
 
+    private void RxJava() {
+
+        Disposable subscribe = RxJavaTest.serverDownload_Observable().
+
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribeOn(Schedulers.io()).
+                subscribe(post -> {
+                    updateTheUserInterface(post); // this methods updates the ui
+
+                });
+        disposable.add(subscribe);
+
+
+
+
+         Disposable subscribe1 = RxJavaTest.serverDownlaod_single()
+                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                 .subscribeWith(new DisposableSingleObserver<Post>() {
+
+                     @Override
+                     public void onSuccess(Post todos) {
+                         // work with the resulting todos
+                         updateTheUserInterface(todos);
+                     }
+
+                     @Override
+                     public void onError(Throwable e) {
+                         // handle the error case
+                     }
+                 });
+         /*
+                .subscribe(post -> {
+                    updateTheUserInterface(post); // this methods updates the ui
+
+                });*/
+
+        disposable.add(subscribe1);
+
+    }
+
+    private void updateTheUserInterface(com.project.test.database.firebaseEntities.Post integer) {
+        Log.d("RXJAVA", integer.getName());
+
+        autoCompleteTextView.setText(integer.getName() + "_" );
+
+    }
+
+    //firebase message
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        CheckExtrasForNotificationData(intent);
+    }
+
+    private void CheckExtrasForNotificationData(Intent i) {
+        Bundle data = i.getExtras();
+
+        if (data != null) {
+            String b = data.containsKey("body") ? data.getString("body") : "";
+            if (!b.isEmpty()) {
+                showMyDialog("Message", b);
+            }
+        }
+    }
+
+    private void showMyDialog(String t, String b) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.notification_dialog, null);
+
+        dialog.setView(dialogView);
+
+        dialog.setTitle(t);
+        TextView tv = (TextView) dialogView.findViewById(R.id.message);
+        tv.setText(b);
+        dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    //firebase message end
 
 
     @Override
@@ -415,17 +496,17 @@ mockData.printAll();
                 autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
             }
 
-            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " +allHouses.get(i).getAddress().getPlaceNameIfExist()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist()+" "+ allHouses.get(i).getAddress().getStreetNumber()+", "+allHouses.get(i).getAddress().getPost().getPostal_code()+" "+allHouses.get(i).getAddress().getPost().getName();
+            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPlaceNameIfExist() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
+            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
 
-            if (allHouses.get(i).getAddress().getPlaceNameIfExist()!=""&& allHouses.get(i).getAddress().getStreetNameIfExist()!="" &&!autocompleteListOfStrings.contains(FullAddress)) {
+            if (allHouses.get(i).getAddress().getPlaceNameIfExist() != "" && allHouses.get(i).getAddress().getStreetNameIfExist() != "" && !autocompleteListOfStrings.contains(FullAddress)) {
                 autocompleteListOfStrings.add(FullAddress);
             }
-            if(allHouses.get(i).getAddress().getPlaceNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutPlace)){
+            if (allHouses.get(i).getAddress().getPlaceNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutPlace)) {
                 autocompleteListOfStrings.add(AddressWithoutPlace);
             }
-            if(allHouses.get(i).getAddress().getStreetNameIfExist()=="" && !autocompleteListOfStrings.contains(AddressWithoutStreet)){
+            if (allHouses.get(i).getAddress().getStreetNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutStreet)) {
                 autocompleteListOfStrings.add(AddressWithoutStreet);
             }
 
@@ -453,7 +534,7 @@ mockData.printAll();
         System.out.println("item selected");
 
 
-       if (id == R.id.nav_app_report) {
+        if (id == R.id.nav_app_report) {
 
             Intent Intent = new Intent(this, com.kizo.report.ReportActivity.class);
 

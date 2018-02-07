@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt' //ButterKnife
+//apply plugin: 'android-apt' //ButterKnife
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.2"
     defaultConfig {
+
         applicationId "com.project.air.firemanpro"
         minSdkVersion 21
         targetSdkVersion 25
@@ -17,37 +18,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
     // Optional -- Mockito framework
     testCompile 'org.mockito:mockito-core:1.10.19'
-
     // Set this dependency if you want to use Hamcrest matching
     testCompile 'org.hamcrest:hamcrest-library:1.3'
-
-
-
-
-    compile project(':database')
-    compile project(':ground_plan')
-    compile project(':web_services')
-
+    implementation project(':database')
+    implementation project(':ground_plan')
+    implementation project(':web_services')
     //  compile project (':core')
-    compile project(':core_module')
-    compile project(':report')
-
+    implementation project(':core_module')
+    implementation project(':report')
     //serching results list
-
-
-
     compile 'com.google.maps.android:android-maps-utils:0.4+'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -59,8 +54,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.8.0'
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile project(':apache_poi')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation project(':apache_poi')
 }
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'

@@ -5,13 +5,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.project.test.database.Entities.Post;
-import com.project.test.database.MainDatabase;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -25,14 +18,19 @@ import java.util.Map;
 public class Address {
 
 
-    public String place;
-    public String streetName;
-    public String streetNumber;
-    public double longitude;
-    public double latitude;
+    private String place;
+    private String streetName;
+    private String streetNumber;
+    private double longitude;
+    private double latitude;
     private int postalCode;
+    private com.project.test.database.firebaseEntities.Post post;
+    private String postRef;
+    private String ID;
 
     public Address() {
+
+
     }
 
 
@@ -43,6 +41,58 @@ public class Address {
         this.longitude = longitude;
         this.latitude = latitude;
         this.postalCode = postalCode;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public int getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getPostRef() {
+        return postRef;
+    }
+
+    public void setPostRef(String postRef) {
+        this.postRef = postRef;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     @Exclude
@@ -61,4 +111,42 @@ public class Address {
         return result;
 
     }
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+
+    public String getStreetNameIfExist() {
+      return streetName;
+    }
+
+    public String getPlaceNameIfExist() {
+return place;
+    }
+
+    public void setStreetName(String streetName) {
+
+
+        this.streetName = streetName;
+    }
+
+    public void setPlaceName(String placeName) {
+
+        this.place = placeName;
+    }
+
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
+    }
+
+
 }
