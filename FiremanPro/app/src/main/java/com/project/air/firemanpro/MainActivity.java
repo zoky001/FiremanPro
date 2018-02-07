@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -45,7 +44,6 @@ import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.firebaseEntities.Post;
 import com.project.test.database.firebaseEntities.User;
 import com.project.test.database.helper.MockData;
-import com.project.test.database.interfaces.IPost;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -367,28 +365,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // FirebasePatrolController.saveOtherType();
 
 
-        /*
+
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
 
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
 
         startActivity(Intent);
-        */
+
 
 
         // firebase();
 
-        RxJava();
+        //RxJava();
 
-
-        IPost iPost = new IPost() {
-            @Override
-            public void onPostArrived(com.project.test.database.firebaseEntities.Post post) {
-                String s = String.valueOf(post.getPostal_code());
-                Log.d("POŠTA: ", post.getName() + "__" + s);
-            }
-        };
-        com.project.test.database.firebaseEntities.Post.getPostById("42208", iPost);
 
 
     }
@@ -424,13 +413,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                          // handle the error case
                      }
                  });
+        disposable.add(subscribe1);
+        Disposable subscribe2 = HouseController.getAllHouseRecordsCloud()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<com.project.test.database.firebaseEntities.House>>() {
+
+                    @Override
+                    public void onSuccess(List<com.project.test.database.firebaseEntities.House> houses) {
+                        // work with the resulting todos
+                        printHouses(houses);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // handle the error case
+                    }
+                });
+        disposable.add(subscribe2);
+
          /*
                 .subscribe(post -> {
                     updateTheUserInterface(post); // this methods updates the ui
 
                 });*/
 
-        disposable.add(subscribe1);
+
+
+    }
+
+    private void printHouses(List<com.project.test.database.firebaseEntities.House> houses) {
+        for (com.project.test.database.firebaseEntities.House h:
+              houses
+             ) {
+
+            Log.d("HOUSES:",h.getAddressStreet());
+
+
+        }
+
 
     }
 

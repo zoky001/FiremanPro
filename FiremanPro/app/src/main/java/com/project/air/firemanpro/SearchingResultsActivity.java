@@ -5,19 +5,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.project.air.firemanpro.adapters.SearchingAdapter;
 import com.project.test.database.Entities.House;
+import com.project.test.database.RxJava.RxJavaTest;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.firebaseEntities.Post;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class SearchingResultsActivity extends AppCompatActivity {
-
+    private String TAG ="SearchingResultsActivity";
+    RecyclerView rv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +58,39 @@ public class SearchingResultsActivity extends AppCompatActivity {
         }
 
         //Getting List of Houses
-        final List<House> houses = HouseController.serachByNameAndSurnameQuery(retrievedAutoCompleteTextString);
+      //  final List<House> houses = HouseController.serachByNameAndSurnameQuery(retrievedAutoCompleteTextString);
 
+        Disposable subscribe1 = HouseController.getAllHouseRecordsCloud()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<com.project.test.database.firebaseEntities.House>>() {
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.rv_results);
+                    @Override
+                    public void onSuccess(List<com.project.test.database.firebaseEntities.House> todos) {
+                        // work with the resulting todos
+                        updateTheUserInterface(todos);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // handle the error case
+                    }
+                });
+
+         rv = (RecyclerView) findViewById(R.id.rv_results);
 
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-System.out.println("PRIJE ADAPTERA: " + houses.size());
+
+    }
+
+    private void updateTheUserInterface(List<com.project.test.database.firebaseEntities.House> houses) {
+
+        Log.d(TAG,"prije adaptera");
         rv.setAdapter(new SearchingAdapter(houses));
+
     }
 
     @Override

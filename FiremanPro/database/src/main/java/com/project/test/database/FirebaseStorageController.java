@@ -1,35 +1,30 @@
 package com.project.test.database;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.StateSet;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.project.test.database.Entities.House;
-import com.project.test.database.Entities.Post;
 import com.project.test.database.controllers.HouseController;
-import com.project.test.database.imageSaver.ImageSaver;
-import com.project.test.database.imageSaver.SaveResourceImage;
-import com.project.test.database.interfaces.IPhoto;
+import com.project.test.database.firebaseEntities.Post;
 
 import java.io.ByteArrayOutputStream;
 
+import io.reactivex.Single;
+
 import static java.lang.Math.abs;
-import static java.lang.Math.pow;
-import static java.lang.Math.random;
 import static java.lang.Math.round;
 import static java.util.Collections.min;
 
@@ -210,8 +205,8 @@ public class FirebaseStorageController {
     private static void returnUrl(Uri url) {
         savedUrl = url;
     }
-
-    public static void getImageBitmapFromCloudStorage(String urlCloud, final IPhoto iPhoto) {
+/*
+    public static void getImageBitmapFromCloudStorage(String urlCloud) {
         // Create a reference to a file from a Google Cloud Storage URI
         StorageReference gsReference = storage.getReferenceFromUrl(urlCloud);
 
@@ -231,6 +226,37 @@ public class FirebaseStorageController {
             }
         });
 
+    }*/
+    public static Single<Bitmap> getImageBitmapFromCloudStorage(String urlCloud) {
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+                try {
+                    StorageReference gsReference = storage.getReferenceFromUrl(urlCloud);
+
+
+                    final long ONE_MEGABYTE = 1024 * 1024 * 5;
+                    gsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            // Data for "images/island.jpg" is returns, use this as needed
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                         emitter.onSuccess(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                            emitter.onError(exception);
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+        });
     }
 
 

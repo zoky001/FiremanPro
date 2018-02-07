@@ -1,20 +1,12 @@
 package com.project.test.database.firebaseEntities;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.project.test.database.Entities.firebase.Firestore;
 import com.project.test.database.FirebaseStorageController;
-import com.project.test.database.MainDatabase;
-import com.project.test.database.imageSaver.ImageSaver;
-import com.project.test.database.interfaces.IPhoto;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.util.Date;
+import io.reactivex.Single;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -77,8 +69,10 @@ public class Photos extends Firestore {
     }
 
 
-    public void getImageBitmapFromCloudStorage(IPhoto iPhoto) {
-        FirebaseStorageController.getImageBitmapFromCloudStorage(getStorageLocation(),iPhoto);
+
+
+    public Single<Bitmap> getImageBitmapFromCloudStorage() {
+        return FirebaseStorageController.getImageBitmapFromCloudStorage(getStorageLocation());
     }
 
 

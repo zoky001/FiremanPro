@@ -24,9 +24,9 @@ import java.util.List;
 
 public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> {
 
-    List<House> houseItem;
+    List<com.project.test.database.firebaseEntities.House> houseItem;
 
-    public SearchingAdapter(List<House> houseItem) {
+    public SearchingAdapter(List<com.project.test.database.firebaseEntities.House> houseItem) {
         this.houseItem = houseItem;
         System.out.println("SEarchConstrAdapter - Construktor: ");
     }
@@ -40,7 +40,7 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
 
     @Override
     public void onBindViewHolder(SearchingViewHolder holder, int position) {
-        House h = houseItem.get(position);
+        com.project.test.database.firebaseEntities.House h = houseItem.get(position);
         if((h.getName_owner().length() + h.getSurname_owner().length()) < 16) {
             holder.name.setText(h.getName_owner() + " " + h.getSurname_owner());
             if(holder.surname.length() == 0) holder.surname.setHeight(0);
@@ -53,17 +53,17 @@ public class SearchingAdapter extends RecyclerView.Adapter<SearchingViewHolder> 
         holder.address.setText(h.getAddressStreet()+" "+h.getAddress().getStreetNumber());
         holder.ID.setText(String.valueOf(h.getId_house()));
         holder.place.setText(h.getPlaceName());
-        holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
+//        holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
         Long P = System.currentTimeMillis();
         System.out.println("PRIJE prikaza: "+ P);
-        holder.housePicture.setImageBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()));
+        //holder.housePicture.setImageBitmap(h.getProfilImageBitmapbyContext(holder.housePicture.getContext()));
 
         Picasso.with(holder.housePicture.getContext())
-                .load(h.getProfilPhotos().getUrl())
+                .load(h.getProfilPhotos())
                 .into(holder.housePicture);
 
-        holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
+       // holder.grad.setText(h.getAddress().getPost().getPostal_code()+ " "+ h.getAddress().getPost().getName());
 
         Long PO = System.currentTimeMillis();
         System.out.println("POSLJE prikaza: "+PO);

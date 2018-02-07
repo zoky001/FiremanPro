@@ -25,7 +25,7 @@ public class Address {
     private double latitude;
     private int postalCode;
     private com.project.test.database.firebaseEntities.Post post;
-    private String postRef;
+    private DocumentReference postRef;
     private String ID;
 
     public Address() {
@@ -79,11 +79,11 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public String getPostRef() {
+    public DocumentReference getPostRef() {
         return postRef;
     }
 
-    public void setPostRef(String postRef) {
+    public void setPostRef(DocumentReference postRef) {
         this.postRef = postRef;
     }
 

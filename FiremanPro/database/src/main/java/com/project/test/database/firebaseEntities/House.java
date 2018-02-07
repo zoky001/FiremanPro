@@ -1,32 +1,17 @@
 package com.project.test.database.firebaseEntities;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.project.test.database.Entities.Address;
-import com.project.test.database.Entities.House_photos;
-import com.project.test.database.Entities.House_photos_Table;
-import com.project.test.database.Entities.Photos;
-import com.project.test.database.MainDatabase;
-import com.project.test.database.imageSaver.ImageSaver;
-import com.project.test.database.interfaces.IPhoto;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.OneToMany;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.Single;
 
 /**
  * Created by Zoran on 23.10.2017..
@@ -63,7 +48,7 @@ public class House {
     private String profilPicUrl;
     private String profilPicStorageLocation;
     private String id;
-    private List<com.project.test.database.firebaseEntities.Photos> gndPhoto;
+    private List<com.project.test.database.firebaseEntities.Photos> gndPhoto = new ArrayList<Photos>();
 
     public House() {
     }
@@ -445,9 +430,9 @@ public class House {
         }*/
 
 
-    public void getProfilImageBitmapFromCloudStorage(IPhoto iPhoto) {
+    public Single<Bitmap> getProfilImageBitmapFromCloudStorage() {
         com.project.test.database.firebaseEntities.Photos photos = new com.project.test.database.firebaseEntities.Photos(profilPicStorageLocation,"",profilPicUrl);
-        photos.getImageBitmapFromCloudStorage(iPhoto);
+       return photos.getImageBitmapFromCloudStorage();
     }
 
     public com.project.test.database.firebaseEntities.Address getAddress() {
@@ -457,6 +442,10 @@ public class House {
     public String getAddressStreet() {
         return getAddress().getStreetNameIfExist();
     }
+public void addGndPhoto(Photos photos){
+        gndPhoto.add(photos);
+
+}
 
     public boolean isGas_bottle() {
         if (number_of_gas_bottle > 0) {

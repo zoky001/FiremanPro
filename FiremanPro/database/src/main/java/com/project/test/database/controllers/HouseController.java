@@ -7,7 +7,10 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.test.database.Entities.Address;
@@ -19,12 +22,24 @@ import com.project.test.database.Entities.Address_Table;
 
 import com.project.test.database.Entities.Post;
 import com.project.test.database.Entities.firebase.Firestore;
+import com.project.test.database.firebaseEntities.Photos;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
@@ -181,37 +196,161 @@ public class HouseController extends Firestore {
         return house;
     }
 
-  /*  public static List<com.project.test.database.firebaseEntities.House> getAllHouseRecordsCloud() {
+    /*  public static List<com.project.test.database.firebaseEntities.House> getAllHouseRecordsCloud() {
 
-        house_collection
-              // .whereEqualTo("capital", true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+          house_collection
+                  // .whereEqualTo("capital", true)
+                  .get()
+                  .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                      @Override
+                      public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                        List<com.project.test.database.firebaseEntities.House> houses;
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                House house = document.toObject(House.class);
+                          List<com.project.test.database.firebaseEntities.House> houses;
+                          if (task.isSuccessful()) {
+                              for (DocumentSnapshot document : task.getResult()) {
+                                  Log.d(TAG, document.getId() + " => " + document.getData());
+                                  House house = document.toObject(House.class);
 
-                                com.project.test.database.firebaseEntities.Address  address = com.project.test.database.firebaseEntities.Address.class.cast(document.get("address"));
-
-
+                                  com.project.test.database.firebaseEntities.Address  address = com.project.test.database.firebaseEntities.Address.class.cast(document.get("address"));
 
 
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
+
+
+                              }
+                          } else {
+                              Log.d(TAG, "Error getting documents: ", task.getException());
+                          }
+                      }
+                  });
+
+      }*/
+    public static Single<List<com.project.test.database.firebaseEntities.House>> getAllHouseRecordsCloud() {
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+                try {
+                    house_collection
+                            // .whereEqualTo("capital", true)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                    List<com.project.test.database.firebaseEntities.House> houses = new ArrayList<com.project.test.database.firebaseEntities.House>();
+                                    if (task.isSuccessful()) {
+
+                                        Disposable subscribe2 = getAllHouse_Observable(task.getResult().getDocuments())
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribeWith(new DisposableSingleObserver<List<com.project.test.database.firebaseEntities.House>>() {
+
+                                                    @Override
+                                                    public void onSuccess(List<com.project.test.database.firebaseEntities.House> houses) {
+
+                                                        emitter.onSuccess(houses);
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        // handle the error case
+                                                        emitter.onError(e);
+                                                    }
+                                                });
+
+
+                                    } else {
+                                        emitter.onError(new NullPointerException());
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
+
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+        });
+    }
+
+    private static Single<List<com.project.test.database.firebaseEntities.House>> getAllHouse_Observable(List<DocumentSnapshot> documentSnapshotList) {
+
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+                try {
+                    List<com.project.test.database.firebaseEntities.House> houses = new ArrayList<com.project.test.database.firebaseEntities.House>();
+
+                    for (DocumentSnapshot doc :
+                            documentSnapshotList) {
+                        com.project.test.database.firebaseEntities.House house = doc.toObject(com.project.test.database.firebaseEntities.House.class);
+                        house.setId(doc.getId());
+
+
+                        Disposable subscribe2 = getGndPhotos(doc.getReference(), house)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(new DisposableSingleObserver<com.project.test.database.firebaseEntities.House>() {
+
+                                    @Override
+                                    public void onSuccess(com.project.test.database.firebaseEntities.House house) {
+                                        // work with the resulting todos
+                                        houses.add(house);
+
+                                        if (houses.size() == documentSnapshotList.size()) {
+                                            emitter.onSuccess(houses);
+                                            //subscribe2.dispose();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        // handle the error case
+                                        emitter.onError(e);
+                                    }
+                                });
+
+
                     }
-                });
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+        });
+    }
+
+    private static Single<com.project.test.database.firebaseEntities.House> getGndPhotos(DocumentReference documentReference, com.project.test.database.firebaseEntities.House house) {
+        return Single.create(emitter -> {
+
+
+            documentReference
+                    .collection("ground_plan_pictures")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                List<Photos> photos = new ArrayList<Photos>();
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    Photos photo = document.toObject(Photos.class);
+                                    photos.add(photo);
+                                }
+                                house.setGndPhoto(photos);
+                                emitter.onSuccess(house);
+
+                            } else {
+                                emitter.onError(new NullPointerException());
+                            }
+
+
+                        }
+                    });
+
+
+        });
+
 
     }
-*/
-
-
 
     /**
      * Traženje kuće prema imenu  i prezimenu vlasnika
