@@ -23,6 +23,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.CompletionHandler;
+import com.algolia.search.saas.Index;
+import com.algolia.search.saas.Query;
 import com.crashlytics.android.Crashlytics;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -48,6 +53,9 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,13 +76,15 @@ import io.reactivex.schedulers.Schedulers;
  * Omogućuje pretraživanje pohranjenih kuća.
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    private String TAG = "MainActivityTEXT";
     private FirebaseAnalytics firebaseAnalytics;
     MockData mockData;
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
     CompositeDisposable disposable = new CompositeDisposable();
     Button crashButton;// = new Button(this);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,62 +135,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageLoader.getInstance().init(config);
 
 
-        if (SQLite.select().from(House.class).queryList().isEmpty()) {
+        manageAutocomplete();
 
-            autoCompleteTextView.setSingleLine();
-            autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        Intent Intent = new Intent(MainActivity.this, SearchingResultsActivity.class);
-                        Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
-                        startActivity(Intent);
-                    }
-                    return false;
+    }
+
+
+    private void manageAutocomplete() {
+
+        autoCompleteTextView.setSingleLine();
+        autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Intent Intent = new Intent(MainActivity.this, SearchingResultsActivity.class);
+                    Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
+                    startActivity(Intent);
                 }
-            });
-
-
-        }
-
-
-        //Saving items in list needed for autoComplete control
-        List<String> autocompleteListOfStrings = new ArrayList<String>();
-        List<House> allHouses = HouseController.getAllHouseRecords();
-        for (int i = 0; i < allHouses.size(); i++) {
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
+                return false;
             }
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getSurname_owner())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
-            }
+        });
 
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
-            }
-
-            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPlaceNameIfExist() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
-
-            if (allHouses.get(i).getAddress().getPlaceNameIfExist() != "" && allHouses.get(i).getAddress().getStreetNameIfExist() != "" && !autocompleteListOfStrings.contains(FullAddress)) {
-                autocompleteListOfStrings.add(FullAddress);
-            }
-            if (allHouses.get(i).getAddress().getPlaceNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutPlace)) {
-                autocompleteListOfStrings.add(AddressWithoutPlace);
-            }
-            if (allHouses.get(i).getAddress().getStreetNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutStreet)) {
-                autocompleteListOfStrings.add(AddressWithoutStreet);
-            }
-
-
-        }
-        //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
-        final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
-        List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
-        CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
-        autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(1);
 
 
         //Delayed method for inputLayout set error method after item is selected from autoCompleteTextView
@@ -216,7 +190,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 2) {
+                if (s.length() > 3) {
+
+                    Log.d(TAG, "PROMJENA TEXTA: " + s);
+                   // Log.d(TAG, "START: " + start);
+                  //  Log.d(TAG, "BEFORE: " + before);
+                    fillAutoCompleteList(s);
+
 
                     autoCompleteTextView.postDelayed(new Runnable() {
                         @Override
@@ -246,7 +226,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         };
+
         autoCompleteTextView.addTextChangedListener(watcher);
+
+    }
+
+    private void fillAutoCompleteList(CharSequence s) {
+
+        Disposable subscribe2 = HouseController.getHouseAutoCompleteList(s)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<String>>() {
+
+
+                    @Override
+                    public void onSuccess(List<String> strings) {
+                        fillAutoCompleteListbyArray(strings);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        disposable.add(subscribe2);
+
+    }
+
+    private void fillAutoCompleteListbyArray(List<String> autocompleteListOfStrings) {
+        //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
+        final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
+        List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
+        CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
 
     }
 
@@ -365,7 +379,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // FirebasePatrolController.saveOtherType();
 
 
-
         Intent Intent = new Intent(view.getContext(), SearchingResultsActivity.class);
 
         Intent.putExtra("valueFromAutoCompleteTextView", autoCompleteTextView.getText().toString());
@@ -373,11 +386,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(Intent);
 
 
-
         // firebase();
 
         //RxJava();
-
 
 
     }
@@ -395,24 +406,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         disposable.add(subscribe);
 
 
-
-
-         Disposable subscribe1 = RxJavaTest.serverDownlaod_single()
-                 .subscribeOn(Schedulers.io())
+        Disposable subscribe1 = RxJavaTest.serverDownlaod_single()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                 .subscribeWith(new DisposableSingleObserver<Post>() {
+                .subscribeWith(new DisposableSingleObserver<Post>() {
 
-                     @Override
-                     public void onSuccess(Post todos) {
-                         // work with the resulting todos
-                         updateTheUserInterface(todos);
-                     }
+                    @Override
+                    public void onSuccess(Post todos) {
+                        // work with the resulting todos
+                        updateTheUserInterface(todos);
+                    }
 
-                     @Override
-                     public void onError(Throwable e) {
-                         // handle the error case
-                     }
-                 });
+                    @Override
+                    public void onError(Throwable e) {
+                        // handle the error case
+                    }
+                });
         disposable.add(subscribe1);
         Disposable subscribe2 = HouseController.getAllHouseRecordsCloud()
                 .subscribeOn(Schedulers.io())
@@ -439,15 +448,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });*/
 
 
-
     }
 
     private void printHouses(List<com.project.test.database.firebaseEntities.House> houses) {
-        for (com.project.test.database.firebaseEntities.House h:
-              houses
-             ) {
+        for (com.project.test.database.firebaseEntities.House h :
+                houses
+                ) {
 
-            Log.d("HOUSES:",h.getAddressStreet());
+            Log.d("HOUSES:", h.getAddressStreet());
 
 
         }
@@ -458,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateTheUserInterface(com.project.test.database.firebaseEntities.Post integer) {
         Log.d("RXJAVA", integer.getName());
 
-        autoCompleteTextView.setText(integer.getName() + "_" );
+        autoCompleteTextView.setText(integer.getName() + "_");
 
     }
 
@@ -503,42 +511,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        List<String> autocompleteListOfStrings = new ArrayList<String>();
-        List<House> allHouses = HouseController.getAllHouseRecords();
-        for (int i = 0; i < allHouses.size(); i++) {
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getName_owner());
-            }
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getSurname_owner())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getSurname_owner());
-            }
 
-            if (!autocompleteListOfStrings.contains(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner())) {
-                autocompleteListOfStrings.add(allHouses.get(i).getName_owner() + " " + allHouses.get(i).getSurname_owner());
-            }
-
-            String FullAddress = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPlaceNameIfExist() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutPlace = allHouses.get(i).getAddress().getStreetNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
-            String AddressWithoutStreet = allHouses.get(i).getAddress().getPlaceNameIfExist() + " " + allHouses.get(i).getAddress().getStreetNumber() + ", " + allHouses.get(i).getAddress().getPost().getPostal_code() + " " + allHouses.get(i).getAddress().getPost().getName();
-
-            if (allHouses.get(i).getAddress().getPlaceNameIfExist() != "" && allHouses.get(i).getAddress().getStreetNameIfExist() != "" && !autocompleteListOfStrings.contains(FullAddress)) {
-                autocompleteListOfStrings.add(FullAddress);
-            }
-            if (allHouses.get(i).getAddress().getPlaceNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutPlace)) {
-                autocompleteListOfStrings.add(AddressWithoutPlace);
-            }
-            if (allHouses.get(i).getAddress().getStreetNameIfExist() == "" && !autocompleteListOfStrings.contains(AddressWithoutStreet)) {
-                autocompleteListOfStrings.add(AddressWithoutStreet);
-            }
-
-
-        }
-        //ArrayAdapter for autoCompleteTextView and its merging with layout autocompleteTextView item
-        final String[] autoCompleteStrings = autocompleteListOfStrings.toArray(new String[autocompleteListOfStrings.size()]);
-        List<String> listAutoCompleteStrings = Arrays.asList(autoCompleteStrings);
-        CustomAutocompleteAdapter adapter = new CustomAutocompleteAdapter(this, android.R.layout.simple_dropdown_item_1line, listAutoCompleteStrings);
-        autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(1);
     }
 
 
@@ -578,5 +551,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         checkIfExistUnfinishedIntervention();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disposable.dispose();
     }
 }

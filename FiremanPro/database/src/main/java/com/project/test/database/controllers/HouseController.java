@@ -6,6 +6,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.CompletionHandler;
+import com.algolia.search.saas.Index;
+import com.algolia.search.saas.Query;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +31,8 @@ import com.project.test.database.firebaseEntities.Photos;
 import com.project.test.database.imageSaver.ImageSaver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
@@ -57,6 +64,10 @@ public class HouseController extends Firestore {
     public static final String TAG = "HouseController";
     java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());
     House_photosController house_photosController = new House_photosController();
+
+    //algolia
+    private static Client algolia_client = new Client("JF44JER6T0", "14e3e9612c0810ef684f48852c64f968");
+    private static Index house_index = algolia_client.getIndex("houses");
 
     public HouseController() {
     }
@@ -273,6 +284,65 @@ public class HouseController extends Firestore {
         });
     }
 
+    private static Single<com.project.test.database.firebaseEntities.House> getHouseByID(String id) {
+
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+                try {
+                    house_collection.document(id)
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document != null) {
+                                    Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+
+                                    com.project.test.database.firebaseEntities.House house1 = document.toObject(com.project.test.database.firebaseEntities.House.class);
+                                    house1.setId(document.getId());
+
+                                    Disposable subscribe2 = getGndPhotos(document.getReference(), house1)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribeWith(new DisposableSingleObserver<com.project.test.database.firebaseEntities.House>() {
+
+                                                @Override
+                                                public void onSuccess(com.project.test.database.firebaseEntities.House house) {
+
+                                                    emitter.onSuccess(house);
+                                                    //subscribe2.dispose();
+
+                                                }
+
+                                                @Override
+                                                public void onError(Throwable e) {
+                                                    // handle the error case
+                                                    emitter.onError(e);
+                                                }
+                                            });
+
+
+                                } else {
+
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+        });
+    }
+
+
     private static Single<List<com.project.test.database.firebaseEntities.House>> getAllHouse_Observable(List<DocumentSnapshot> documentSnapshotList) {
 
         return Single.create(emitter -> {
@@ -352,102 +422,165 @@ public class HouseController extends Firestore {
 
     }
 
-    /**
-     * Traženje kuće prema imenu  i prezimenu vlasnika
-     *
-     * @param text ime i prezime vlasnika kuće
-     * @return lista kuća čiji se vlasnici podudaraju sa traženim unosom
-     */
-    public static List<House> serachByNameAndSurnameQuery(String text) {
+    public static Single<List<com.project.test.database.firebaseEntities.House>> getMatchingHouses(List<String> housesID) {
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+            try {
+                List<com.project.test.database.firebaseEntities.House> houseList = new ArrayList<com.project.test.database.firebaseEntities.House>();
+                for (String id : housesID) {
+                    Disposable subscribe3 =
+                            getHouseByID(id)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeWith(new DisposableSingleObserver<com.project.test.database.firebaseEntities.House>() {
 
-        //Fetching all houses from database and empty list (type house)
-        List<House> allHouses = SQLite.select().from(House.class).queryList();
-        List<House> house = new ArrayList<>(allHouses);
-        house.removeAll(allHouses);
 
-        //Checking if string doesn't contain space (single word search)
-        if (!text.contains(" ")) {
+                                        @Override
+                                        public void onSuccess(com.project.test.database.firebaseEntities.House house) {
+                                            houseList.add(house);
 
-            for (int i = 0; i < allHouses.size(); i++) {
+                                            if (houseList.size() == housesID.size()) {
+                                                emitter.onSuccess(houseList);
+                                            }
 
-                String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() + " " + allHouses.get(i).getSurname_owner().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() +
-                        " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase() + " " + allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase() + " " + allHouses.get(i).getAddress().getPost().getName().toLowerCase();
 
-                //Checking if specific house is already inside houses list and if not, then adding it to list
-                if (stringAddressWithName.contains(text.toLowerCase()) && !house.contains(allHouses.get(i))) {
-                    house.add(allHouses.get(i));
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            // handle the error case
+                                            emitter.onError(e);
+                                        }
+                                    });
 
                 }
+
+
+            } catch (Exception e) {
+                emitter.onError(e);
             }
-        }
-        //Checking if string contains space for split (for searching by name and surname and/or address without needing to type commas)
-        if (text.contains(" ")) {
-
-            for (int i = 0; i < allHouses.size(); i++) {
-
-                String stringAddressWithName = allHouses.get(i).getName_owner().toLowerCase() + " " + allHouses.get(i).getSurname_owner().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() +
-                        " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase() + " " + allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()).toLowerCase() + " " + allHouses.get(i).getAddress().getPost().getName().toLowerCase();
-                List<String> splittedText = Arrays.asList(text.split(" "));
-
-                boolean contains = true;
-                for (String string : splittedText
-                        ) {
-                    if (!stringAddressWithName.contains((string.toLowerCase()))) {
-                        contains = false;
-                        break;
-                    }
-                }
-                //Checking if specific house is already inside houses list and if not, then adding it to list
-                if (contains && !house.contains(allHouses.get(i))) {
-                    house.add(allHouses.get(i));
-                }
-            }
-        }
-        //If text contains commas
-        if (text.contains(",")) {
-
-            List<String> splitedStrings = Arrays.asList(text.split(", "));
-            if (splitedStrings.size() == 3) {
-
-                for (int i = 0; i < allHouses.size(); i++) {
-
-                    if (splitedStrings.get(0).toLowerCase().contains(allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase())
-                            && splitedStrings.get(1).toLowerCase().contains(allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase())
-                            && splitedStrings.get(2).toLowerCase().contains((Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()) + " " + allHouses.get(i).getAddress().getPost().getName()).toLowerCase())) {
-
-                        //Checking if specific house is already inside houses list and if not, then adding it to list
-                        if (!house.contains(allHouses.get(i))) {
-                            house.add(allHouses.get(i));
-                        }
-                    }
-                }
-            }
-
-            if (splitedStrings.size() == 2) {
-
-                for (int i = 0; i < allHouses.size(); i++) {
-                    if (allHouses.get(i).getAddress().getPlaceNameIfExist() == "" && splitedStrings.get(0).toLowerCase().contains(allHouses.get(i).getAddress().getStreetNameIfExist().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase())
-                            && splitedStrings.get(1).toLowerCase().contains((Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()) + " " + allHouses.get(i).getAddress().getPost().getName()).toLowerCase())
-                            ) {
-                        //Checking if specific house is already inside houses list and if not, then adding it to list
-                        if (!house.contains(allHouses.get(i))) {
-                            house.add(allHouses.get(i));
-                        }
-                    }
-                    if (allHouses.get(i).getAddress().getStreetNameIfExist() == "" && splitedStrings.get(0).toLowerCase().contains(allHouses.get(i).getAddress().getPlaceNameIfExist().toLowerCase() + " " + allHouses.get(i).getAddress().getStreetNumber().toLowerCase())
-                            && splitedStrings.get(1).toLowerCase().contains((Integer.toString(allHouses.get(i).getAddress().getPost().getPostal_code()) + " " + allHouses.get(i).getAddress().getPost().getName()).toLowerCase())) {
-                        //Checking if specific house is already inside houses list and if not, then adding it to list
-                        if (!house.contains(allHouses.get(i))) {
-                            house.add(allHouses.get(i));
-                        }
-                    }
-                }
-
-            }
-
-        }
-        return house;
+            });
+            thread.start();
+        });
     }
+
+    public static Single<List<String>> getMatchingHouseId(CharSequence s) {
+        house_index.enableSearchCache(300, 20);
+
+        return Single.create(emitter -> {
+
+            Thread thread = new Thread(() -> {
+                try {
+                    //Index index = client.getIndex("contacts");
+                    Query query = new Query(s.toString())
+                            .setAttributesToRetrieve("objectID")
+                            .setHitsPerPage(50);
+                    house_index.searchAsync(query, new CompletionHandler() {
+                        @Override
+                        public void requestCompleted(JSONObject content, AlgoliaException error) {
+
+                            Log.d(TAG, "requestCompleted: " + content);
+
+                            //Saving items in list needed for autoComplete control
+                            List<String> autocompleteListOfStrings = new ArrayList<String>();
+
+                            try {
+
+                                for (int i = 0; i < content.getJSONArray("hits").length(); i++) {
+
+                                    Log.d(TAG, content.getJSONArray("hits").getJSONObject(i).getString("objectID"));
+
+                                    autocompleteListOfStrings.add(
+                                            content.getJSONArray("hits").getJSONObject(i).getString("objectID")
+
+                                    );
+
+                                }
+
+                                emitter.onSuccess(autocompleteListOfStrings);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                emitter.onError(e);
+                            }
+
+
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+
+        });
+
+
+    }
+
+
+    public static Single<List<String>> getHouseAutoCompleteList(CharSequence s) {
+        house_index.enableSearchCache(300, 20);
+
+        return Single.create(emitter -> {
+
+            Thread thread = new Thread(() -> {
+                try {
+                    //Index index = client.getIndex("contacts");
+                    Query query = new Query(s.toString())
+                            .setAttributesToRetrieve("surname_owner", "name_owner", "place", "streetName", "streetNumber")
+                            .setHitsPerPage(50);
+                    house_index.searchAsync(query, new CompletionHandler() {
+                        @Override
+                        public void requestCompleted(JSONObject content, AlgoliaException error) {
+
+                            Log.d(TAG, "requestCompleted: " + content);
+
+                            //Saving items in list needed for autoComplete control
+                            List<String> autocompleteListOfStrings = new ArrayList<String>();
+
+                            try {
+
+                                for (int i = 0; i < content.getJSONArray("hits").length(); i++) {
+
+                                    Log.d(TAG, content.getJSONArray("hits").getJSONObject(i).getString("name_owner"));
+
+                                    autocompleteListOfStrings.add(
+                                            content.getJSONArray("hits").getJSONObject(i).getString("name_owner") + " " +
+                                                    content.getJSONArray("hits").getJSONObject(i).getString("surname_owner") + " " +
+                                                    content.getJSONArray("hits").getJSONObject(i).getString("place") + " " +
+                                                    content.getJSONArray("hits").getJSONObject(i).getString("streetName") + " " +
+                                                    content.getJSONArray("hits").getJSONObject(i).getString("streetNumber")
+
+                                    );
+
+                                }
+
+                                emitter.onSuccess(autocompleteListOfStrings);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                emitter.onError(e);
+                            }
+
+
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+
+        });
+
+
+    }
+
 
     /**
      * @return svi zapisi iz tablice House

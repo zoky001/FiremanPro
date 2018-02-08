@@ -18,14 +18,20 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
 public class SearchingResultsActivity extends AppCompatActivity {
-    private String TAG ="SearchingResultsActivity";
+    private String TAG = "SearchingResultsActivity_TEXT";
     RecyclerView rv;
+
+    //Retrieving string that user has entered in autoCompleteTextView bar
+    String retrievedAutoCompleteTextString;
+    CompositeDisposable disposable = new CompositeDisposable();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +50,6 @@ public class SearchingResultsActivity extends AppCompatActivity {
         } //toolbar
 
 
-        //Retrieving string that user has entered in autoCompleteTextView bar
-        String retrievedAutoCompleteTextString;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
@@ -57,10 +61,44 @@ public class SearchingResultsActivity extends AppCompatActivity {
             retrievedAutoCompleteTextString = (String) savedInstanceState.getSerializable("valueFromAutoCompleteTextView");
         }
 
-        //Getting List of Houses
-      //  final List<House> houses = HouseController.serachByNameAndSurnameQuery(retrievedAutoCompleteTextString);
 
-        Disposable subscribe1 = HouseController.getAllHouseRecordsCloud()
+        //Getting List of Houses
+        //  final List<House> houses = HouseController.serachByNameAndSurnameQuery(retrievedAutoCompleteTextString);
+
+        Disposable subscribe2 = HouseController.getMatchingHouseId(retrievedAutoCompleteTextString)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<String>>() {
+
+                    @Override
+                    public void onSuccess(List<String> todos) {
+                        // work with the resulting todos
+                        Log.d("MAGARAC", todos.toString());
+
+                        fetchHousesbyID(todos);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // handle the error case
+                    }
+                });
+        disposable.add(subscribe2);
+
+
+        rv = (RecyclerView) findViewById(R.id.rv_results);
+
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+
+    }
+
+    private void fetchHousesbyID(List<String> todos) {
+
+        Disposable subscribe1 = HouseController.getMatchingHouses(todos)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<com.project.test.database.firebaseEntities.House>>() {
@@ -76,19 +114,13 @@ public class SearchingResultsActivity extends AppCompatActivity {
                         // handle the error case
                     }
                 });
-
-         rv = (RecyclerView) findViewById(R.id.rv_results);
-
-        rv.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
+        disposable.add(subscribe1);
 
     }
 
     private void updateTheUserInterface(List<com.project.test.database.firebaseEntities.House> houses) {
 
-        Log.d(TAG,"prije adaptera");
+        Log.d(TAG, "prije adaptera");
         rv.setAdapter(new SearchingAdapter(houses));
 
     }
@@ -100,7 +132,7 @@ public class SearchingResultsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setTitleOnToolbar(String title){
+    private void setTitleOnToolbar(String title) {
         //set title (owner name )on toolbar
         getSupportActionBar().setTitle(title); //set title on toolbar
         if (getSupportActionBar() != null) {
@@ -109,5 +141,9 @@ public class SearchingResultsActivity extends AppCompatActivity {
         } //toolbar
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disposable.dispose();
+    }
 }

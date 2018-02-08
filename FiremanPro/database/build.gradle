@@ -67,6 +67,11 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'com.squareup.okhttp:okhttp:2.7.2'
 
+    compile 'com.algolia:algoliasearch-android:3.+'
+    // This will automatically update to the latest v3 release when you build your project.
+
+
+
 }
 
 // ADD THIS AT THE BOTTOM
