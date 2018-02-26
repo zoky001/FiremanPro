@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.kizo.ground_plan.R;
 import com.project.test.database.Entities.House_photos;
+import com.project.test.database.Entities.Photos;
 
 import java.util.List;
 
@@ -22,14 +23,14 @@ import java.util.List;
 
 public class PlanRecyclerAdapter extends RecyclerView.Adapter<PlanViewHolder> {
 
-    List<House_photos> house_photoses;
+    List<com.project.test.database.firebaseEntities.Photos> house_photoses;
 
     /**
      * pohranjuje listu fotografija u lokalnu varijablu house_photoses
      *
      * @param parentList lista fotografija (zapisa iz baze) tlocrta kuće
      */
-    public PlanRecyclerAdapter(List<House_photos> parentList) {
+    public PlanRecyclerAdapter(List<com.project.test.database.firebaseEntities.Photos> parentList) {
         this.house_photoses = parentList;
     }
 

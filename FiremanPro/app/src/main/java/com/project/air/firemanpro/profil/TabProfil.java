@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.kizo.core_module.tab_profile.ITabFragment;
@@ -40,10 +44,19 @@ import com.project.test.database.Entities.report.Outdoor_type;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
 import com.project.test.database.helper.MockData;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -88,9 +101,12 @@ public class TabProfil extends TabFragment {
     @BindView(R.id.btn_new_report)
     Button btnNewReport;
 
-    House house;
+
+    ImageView imageView;
 
     private InterventionController interventionController = new InterventionController();
+
+    LinearLayout relativelayout;
 
     /**
      * Prilikom kriranja View-a se iz argumenata/Bundle dohvaća ID odabrane kuće.
@@ -98,48 +114,61 @@ public class TabProfil extends TabFragment {
      *
      * @author Zoran Hrnčić
      */
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.tab_profil, container, false);
         ButterKnife.bind(this, rootView);
 
-        try {
-            String s = getArguments().getString("IDkuce");
-            System.out.println("SESSION FRAGMENT_idkuce: " + s);
-            int a = Integer.parseInt(getArguments().getString("IDkuce"));
-            house = HouseController.getHouse(a);
+        relativelayout = (LinearLayout) rootView.findViewById(R.id.tab1);
+        relativelayout.setVisibility(View.INVISIBLE);
 
-            //set profil image
-            profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
+        imageView = (ImageView) rootView.findViewById(R.id.waitScreen);
+        imageView.setImageResource(R.drawable.wait);
+        imageView.setVisibility(View.VISIBLE);
+        relativelayout.setVisibility(View.INVISIBLE);
 
-            //set owner data
-            txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
-            txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
-            txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
-            txtPlace.setText(house.getPlaceName());
-            txtMobitel.setText(house.getMobNumber());
-            txtTel.setText(house.getTelNumber());
-
-        } catch (Exception e) {
-            System.out.println("EXCEPTON: " + e.getMessage());
-        }
 
         return rootView;
+    }
+
+
+    @Override
+    public void onHouseLoaded(com.project.test.database.firebaseEntities.House house) {
+        super.onHouseLoaded(house);
+
+        setLayoutData(house);
+        setMapFragment(house);
+
+        relativelayout.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.INVISIBLE);
+
+    }
+
+    private void setLayoutData(com.project.test.database.firebaseEntities.House house) {
+        //set profil image
+        //  profil.setImageBitmap(Bitmap.createScaledBitmap(house.getProfilImageBitmapbyContext(profil.getContext()), 400, 300, false));
+
+        Picasso.with(getActivity())
+                .load(house.getProfilPicUrl())
+                .into(profil);
+
+        //set owner data
+        txtNameSurname.setText(house.getSurname_owner() + " " + house.getName_owner());
+
+        // txtPost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
+
+
+        txtAdress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
+        txtPlace.setText(house.getPlaceName());
+        txtMobitel.setText(house.getMobNumber());
+        txtTel.setText(house.getTelNumber());
 
 
     }
 
-
-    /**
-     * Nakon kriranja View-a se ID kuće stavlja u Bundel.
-     * U fragment frame se učitava Map fragment koji prikazije put do kuče od trenutne lokacije.
-     *
-     * @author Zoran Hrnčić
-     */
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void setMapFragment(com.project.test.database.firebaseEntities.House house) {
 
         try {
             Bundle bundle = new Bundle();
@@ -151,28 +180,18 @@ public class TabProfil extends TabFragment {
                     .beginTransaction()
                     .replace(R.id.map_container, mapFragment)
                     .commit();
+            //  loadMapFragment(IDHouse);
+
+
         } catch (Exception e) {
             System.out.println("EXCEPTON: " + e.getMessage());
 
         }
 
-        try {
-            String IDHouse = "" + house.getId_house();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("IDkuce", IDHouse);
-            Fragment mapFragment = new MapFragment();
-            mapFragment.setArguments(bundle);
-
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.map_container, mapFragment)
-                    .commit();
-        } catch (Exception e) {
-            System.out.println("EXCEPTION: " + e.getMessage());
-        }
 
 
+
+/*  temp commented
         Intervention_track intervencija;
         boolean nekaj = interventionController.checkIfExistUnfinishedInterventionAtHouse(house);
         if (nekaj) {
@@ -196,6 +215,59 @@ public class TabProfil extends TabFragment {
         } else {
             btnNewReport.setText("Poziv zaprimljen");
         }
+
+
+        */
+    }
+
+
+    /**
+     * Nakon kriranja View-a se ID kuće stavlja u Bundel.
+     * U fragment frame se učitava Map fragment koji prikazije put do kuče od trenutne lokacije.
+     *
+     * @author Zoran Hrnčić
+     */
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void loadMapFragment(String idHouse) {
+        Disposable subscribe2 = cachedSingleHouse
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<com.project.test.database.firebaseEntities.House>() {
+
+                    @Override
+                    public void onSuccess(com.project.test.database.firebaseEntities.House todos) {
+                        // work with the resulting todos
+                        Log.d("MAGARAC", todos.toString());
+                        loadMap(todos);
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // handle the error case
+                    }
+                });
+        disposable.add(subscribe2);
+
+
+    }
+
+    private void loadMap(com.project.test.database.firebaseEntities.House todos) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("IDkuce", todos.getId());
+        Fragment mapFragment = new MapFragment();
+        mapFragment.setArguments(bundle);
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.map_container, mapFragment)
+                .commit();
 
     }
 
@@ -227,7 +299,7 @@ public class TabProfil extends TabFragment {
 
     @OnClick(R.id.btn_new_report)
     public void newReport(View view) {
-
+/*  temp commented
         String buttonText = btnNewReport.getText().toString();
 
         String callRecievedText = "Poziv zaprimljen";
@@ -281,6 +353,8 @@ public class TabProfil extends TabFragment {
 
         }
 
+
+        */
     }
 
     /**

@@ -2,6 +2,7 @@ package com.project.air.firemanpro.profil;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,12 @@ import com.project.test.database.controllers.HouseController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Tab koji se učitava u obliku fragmenta unutar ProfilNewActivity
@@ -117,8 +124,6 @@ public class TabPodaci extends TabFragment {
     @BindView(R.id.data_house_mobNumber)
     TextView txtHouseMOB;
 
-    House house;
-
     /**
      * Prilikom kriranja View-a se iz argumenata/Bundle dohvaća ID odabrane kuće.
      * Pomoću navedenog ID-a se dohvaća kuća iu baze podataka, te pohranjuje u varijablu "house" za daljnje korištenje.
@@ -128,34 +133,32 @@ public class TabPodaci extends TabFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
         System.out.println("Tabpodaci");
         View rootView = inflater.inflate(R.layout.tab_podaci_, container, false);
         ButterKnife.bind(this, rootView);
 
-        try {
-            int a = Integer.parseInt(getArguments().getString("IDkuce"));
-            house = HouseController.getHouse(a);
-
-            //set contetn of table
-            fillTableWithContent();
-
-        } catch (Exception e) {
-            System.out.println("EXCEPTON: " + e.getMessage());
-        }
 
         return rootView;
+    }
+
+    @Override
+    public void onHouseLoaded(com.project.test.database.firebaseEntities.House house) {
+        super.onHouseLoaded(house);
+        fillTableWithContent(house);
     }
 
     /**
      * popounjavanje tablice sa podatcima iz baze podataka.
      */
-    private void fillTableWithContent() {
+    private void fillTableWithContent(com.project.test.database.firebaseEntities.House house) {
+        this.house = house;
         try {
             //set contetn of table
             txtHouseOwnerName.setText(house.getSurname_owner() + " " + house.getName_owner());
 
-            txtHousePost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
+          //  txtHousePost.setText(house.getAddress().getPost().getPostal_code() + " " + house.getAddress().getPost().getName());
 
             txtHouseAddress.setText(house.getAddress().getStreetNameIfExist() + " " + house.getAddress().getStreetNumber());
 
@@ -224,4 +227,6 @@ public class TabPodaci extends TabFragment {
         super.loadFrag(iTabFragment);
         iTabFragment.getFragment(this);
     }
+
+
 }

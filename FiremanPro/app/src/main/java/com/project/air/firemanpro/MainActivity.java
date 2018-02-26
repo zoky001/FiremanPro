@@ -36,13 +36,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
 import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.report.Intervention_track;
+import com.project.test.database.FirebasePatrolController;
 import com.project.test.database.FirebaseStorageController;
+import com.project.test.database.InterventionTrackController;
 import com.project.test.database.RxJava.RxJavaTest;
 import com.project.test.database.controllers.HouseController;
 import com.project.test.database.controllers.report.InterventionController;
@@ -96,6 +99,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mockData = new MockData();
         mockData.printAll();
 ///crah test
+
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        FirebasePatrolController.saveNotificationID_Mock_Cestica(refreshedToken);
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -484,6 +492,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String b = data.containsKey("body") ? data.getString("body") : "";
             if (!b.isEmpty()) {
                 showMyDialog("Message", b);
+                InterventionTrackController.sendRecievedCallEvent(b);
             }
         }
     }

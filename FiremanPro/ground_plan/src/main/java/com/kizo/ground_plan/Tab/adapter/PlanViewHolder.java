@@ -8,6 +8,9 @@ import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
 import com.kizo.ground_plan.R;
 import com.kizo.ground_plan.Tab.FullScreenActivity;
 import com.project.test.database.Entities.House_photos;
+import com.project.test.database.Entities.Photos;
+import com.squareup.picasso.Picasso;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -49,11 +52,15 @@ public class PlanViewHolder extends ParentViewHolder {
      * @param house_photos zapis o fotografiji (podatci o lokaciji pohranjene fotografjie u memoriji) iz baze podatake
      * @param position
      */
-    public void bind(House_photos house_photos, int position) {
+    public void bind(com.project.test.database.firebaseEntities.Photos house_photos, int position) {
         this.position = position;
-        mImageName.setText(house_photos.getPhoto().getImageName());
+        mImageName.setText(house_photos.getName());
         mImageDescription.setText("opis");
-        mGroundPlanImage.setImageBitmap(house_photos.getPhoto().getImageBitmapbyContext(itemView.getContext()));
+      //  mGroundPlanImage.setImageBitmap(house_photos.getPhoto().getImageBitmapbyContext(itemView.getContext()));
+
+        Picasso.with(mGroundPlanImage.getContext())
+                .load(house_photos.getUrl())
+                .into(mGroundPlanImage);
     }
 
 

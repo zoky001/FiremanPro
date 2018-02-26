@@ -284,7 +284,7 @@ public class HouseController extends Firestore {
         });
     }
 
-    private static Single<com.project.test.database.firebaseEntities.House> getHouseByID(String id) {
+    public static Single<com.project.test.database.firebaseEntities.House> getHouseByID(String id) {
 
         return Single.create(emitter -> {
             Thread thread = new Thread(() -> {

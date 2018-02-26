@@ -3,6 +3,7 @@ package com.project.test.database.controllers.report;
 
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.Reports;
+import com.project.test.database.Entities.firebase.Firestore;
 import com.project.test.database.Entities.report.Intervention_track;
 import com.project.test.database.Entities.report.Intervention_track_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  * @author Zoran Hrnčić
  */
-public class InterventionController {
+public class InterventionController extends Firestore{
 
 
     java.util.Date CurrentDate = new java.util.Date(System.currentTimeMillis());

@@ -47,11 +47,11 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         imageDisplay = (TouchImageView) viewLayout.findViewById(R.id.full_image);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        image_list.get(position).getImgBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+      //  ByteArrayOutputStream stream = new ByteArrayOutputStream();
+      //  image_list.get(position).getImgBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
 
         Glide.with(context)
-                .load(stream.toByteArray())
+                .load(image_list.get(position).getUrl())
                 .asBitmap()
                 .placeholder(R.drawable.wait)
                 .into(imageDisplay);

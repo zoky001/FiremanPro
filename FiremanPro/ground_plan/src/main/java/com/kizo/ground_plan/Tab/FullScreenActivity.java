@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import com.kizo.ground_plan.R;
 import com.kizo.ground_plan.Tab.adapter.ViewPagerAdapter;
 import com.kizo.ground_plan.Tab.model.ImageBean;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 
@@ -39,14 +42,28 @@ public class FullScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-
-
+        //imageloader
+        // Create global configuration and initialize ImageLoader with this config
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
         Intent intent = getIntent();
         int position = intent.getIntExtra("EXTRA_SESSION_ID", 1);
 
+        fetchAllBitmap(position);
+
+
+        //
+
+        //
+
+    }
+
+    private void fetchAllBitmap(int position) {
+
         for (int i = 0; i < TabTlocrt.gnd_images.size(); i++) {
+
             imageBean = new ImageBean();
-            imageBean.setImgBitmap(TabTlocrt.gnd_images.get(i));
+            imageBean.setUrl(TabTlocrt.gnd_images.get(i).getUrl());
             image_list.add(imageBean);
         }
 
@@ -55,6 +72,8 @@ public class FullScreenActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(position);
     }
+
+
 
 
     @Override

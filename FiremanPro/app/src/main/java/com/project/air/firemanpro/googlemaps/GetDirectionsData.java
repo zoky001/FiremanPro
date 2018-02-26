@@ -2,11 +2,13 @@ package com.project.air.firemanpro.googlemaps;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.firestore.Exclude;
 import com.google.maps.android.PolyUtil;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ import butterknife.OnClick;
  * Created by Matea on 11/13/2017.
  */
 
-public class GetDirectionsData extends AsyncTask<Object,String,String> {
+public class GetDirectionsData extends AsyncTask<Object, String, String> {
 
 
     GoogleMap mMap;
@@ -29,16 +31,16 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
     /**
      * Metoda kod omogućuje downlodanje url-a
      *
-     * @param  objects - - poslali smko 3 jer nam oni trebaju ( a to su naša karta, url koji je  LINK na stranicu na kojoj je u jsonu ispisan put,
-     *                 odnosno podaci za sasstavljanje polyline kako bi class Download url mogao downloadati put,
-     *                 latlng koji nam treba kod dodavanja markera u displayDirection
+     * @param objects - - poslali smko 3 jer nam oni trebaju ( a to su naša karta, url koji je  LINK na stranicu na kojoj je u jsonu ispisan put,
+     *                odnosno podaci za sasstavljanje polyline kako bi class Download url mogao downloadati put,
+     *                latlng koji nam treba kod dodavanja markera u displayDirection
      */
 
     @Override
     protected String doInBackground(Object... objects) {
-        mMap = (GoogleMap)objects[0];
-        url = (String)objects[1];
-        latLng = (LatLng)objects[2];
+        mMap = (GoogleMap) objects[0];
+        url = (String) objects[1];
+        latLng = (LatLng) objects[2];
 
         DownloadUrl downloadUrl = new DownloadUrl();
 
@@ -65,21 +67,29 @@ public class GetDirectionsData extends AsyncTask<Object,String,String> {
      * @param directionsList string[] koja dodaje markere i polylin tako da prikazu put(polyline)
      */
 
-    public void displayDirection(String[] directionsList)
-    {
-        int count = directionsList.length;
-        for(int i = 0;i<count;i++)
-        {
-            PolylineOptions options = new PolylineOptions();
-            options.color(Color.RED);
-            options.width(10);
-            options.addAll(PolyUtil.decode(directionsList[i]));
+    public void displayDirection(String[] directionsList) {
+        try {
+            if (directionsList != null) {
+                int count = directionsList.length;
+                for (int i = 0; i < count; i++) {
+                    PolylineOptions options = new PolylineOptions();
+                    options.color(Color.RED);
+                    options.width(10);
+                    options.addAll(PolyUtil.decode(directionsList[i]));
 
-            mMap.addPolyline(options);
+                    mMap.addPolyline(options);
 
-            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)));
 
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            Log.d("MAP", e.getMessage());
         }
+
     }
 }
 

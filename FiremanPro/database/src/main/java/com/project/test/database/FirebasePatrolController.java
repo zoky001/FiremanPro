@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.Entities.Hydrants;
 import com.project.test.database.Entities.Photos;
@@ -64,6 +65,17 @@ public class FirebasePatrolController {
     private static CollectionReference hydrants_collection = db.collection("hydrants");
 
 
+    public static void saveNotificationID_Mock_Cestica(String id){
+
+        // Update one field, creating the document if it does not already exist.
+        Map<String, Object> data = new HashMap<>();
+        data.put("notification_key", id);
+        fireman_Patrol_collection
+                .document("AXF2UL4CHuOW92irERgF") // id of cestica
+                .set(data, SetOptions.merge());
+
+
+    }
     public static void saveFireInterventionType(Sort_of_intervention s) {
 
         com.project.test.database.firebaseEntities.Sort_of_intervention n = new com.project.test.database.firebaseEntities.Sort_of_intervention(s.getDescription(), s.getName());

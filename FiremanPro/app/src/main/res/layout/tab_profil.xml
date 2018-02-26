@@ -1,272 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.project.air.firemanpro.profil.CustomScrollView
-    android:id="@+id/scrollView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.project.air.firemanpro.profil.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/tab1"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="16dp"
-        >
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/waitScreen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/close" />
+
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            >
+            android:id="@+id/tab1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_new_report"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorButtonReport"
-                android:text="Poziv zaprimljen" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageViewProfilHouse"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher"
-                android:layout_margin="16dp" />
+                <Button
+                    android:id="@+id/btn_new_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorButtonReport"
+                    android:text="Poziv zaprimljen" />
+
+                <ImageView
+                    android:id="@+id/imageViewProfilHouse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher" />
                 // android:paddingRight="8dp"
 
-        </LinearLayout>
+            </LinearLayout>
 
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- 2 columns -->
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                >
-
-                <TextView
-                    android:id="@+id/textViewNameOwnerlbl"
-                    android:text="@string/ime_lbl"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    style="@style/text"
-                    />
-
-                <TextView
-                    android:id="@+id/textViewNameOwner"
-                    android:text="Mladen"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    />
-            </TableRow>
-
-            <!-- just draw a red line
-đ                            <View
-            android:layout_height="2dip"
-            android:background= "@color/colorMain"
-                android:paddingLeft="10dp"
-            />
-
-            just draw a red line -->
-
-
-
-            <!-- just draw a red line
-đ                            <View
-         android:layout_height="2dip"
-         android:background= "@color/colorMain"
-             android:paddingLeft="10dp"
-         />
-
-         just draw a red line -->
-
-            <TableRow
-                android:id="@+id/tableRow3"
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-                <TextView
-                    android:id="@+id/textViewaddresslbl"
-                    android:text="@string/adresa_lbl"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    />
-                <TextView
-                    android:id="@+id/textView1Address"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    android:layout_width="3dp"
-                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                    />
-
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-                <TextView
-
-                    android:text="@string/selo"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    />
-                <TextView
-                    android:id="@+id/textViewPlace"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    android:layout_width="3dp"
-                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                    />
-
-
-            </TableRow>
-
-
-
-
-
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-
-                <TextView
-                    android:id="@+id/textViewPlacelbl"
-                    android:text="@string/mjesto_lbl"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    />
-
-                <TextView
-                    android:id="@+id/textViewPost"
-                    android:text="Mladen"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    />
-
-            </TableRow>
-            <!-- just draw a red line
-đ                            <View
-          android:layout_height="2dip"
-          android:background= "@color/colorMain"
-              android:paddingLeft="10dp"
-          />
-
-          just draw a red line -->
-
-            <TableRow
-                android:id="@+id/tableRow4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-                <TextView
-                    android:id="@+id/textViewTellbl"
-                    android:text="@string/telefon"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    />
-
-                <TextView
-                    android:id="@+id/textViewTel"
-                    android:text="Mladen"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    />
-            </TableRow>
-
-            <!-- just draw a red line
-đ                            <View
-          android:layout_height="2dip"
-          android:background= "@color/colorMain"
-              android:paddingLeft="10dp"
-          />
-
-          just draw a red line -->
-
-            <TableRow
-                android:id="@+id/tableRow5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-                <TextView
-                    android:id="@+id/textViewMobbl"
-                    android:text="@string/mobitel"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/text"
-                    android:layout_marginBottom="0dp"
-                    />
-
-                <TextView
-                    android:id="@+id/textViewMobitel"
-                    android:text="Mladen"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    style="@style/textPodaci"
-                    android:layout_marginBottom="0dp"
-                    />
-            </TableRow>
-
-            <!-- just draw a red line
-đ                            <View
-           android:layout_height="2dip"
-           android:background= "@color/colorMain"
-               android:paddingLeft="10dp"
-           />
-
-           just draw a red line -->
-
-        </TableLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="50dp"
-            android:orientation="horizontal"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp">
-
-
-            <FrameLayout
-                android:id="@+id/map_container"
-                android:layout_width="fill_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/buttonMax"
-                    android:layout_width="90dp"
-                    android:layout_height="40dp"
-                    android:text="Povećaj"
-                    android:clickable="true"/>
-                <Button
-                    android:id="@+id/leadMeButton"
-                    android:layout_width="90dp"
-                    android:layout_height="40dp"
-                    android:text="Vodi me"
-                    android:clickable="true"
-                    android:layout_marginLeft="90dp"
-                    />
+                <!-- 2 columns -->
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
 
-            </FrameLayout>
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/textViewNameOwnerlbl"
+                        style="@style/text"
+                        android:text="@string/ime_lbl" />
+
+                    <TextView
+                        android:id="@+id/textViewNameOwner"
+                        style="@style/textPodaci"
+                        android:text="Mladen"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </TableRow>
+
+                <!-- just draw a red line
+    đ                            <View
+                android:layout_height="2dip"
+                android:background= "@color/colorMain"
+                    android:paddingLeft="10dp"
+                />
+
+                just draw a red line -->
+
+
+                <!-- just draw a red line
+    đ                            <View
+             android:layout_height="2dip"
+             android:background= "@color/colorMain"
+                 android:paddingLeft="10dp"
+             />
+
+             just draw a red line -->
+
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewaddresslbl"
+                        style="@style/text"
+                        android:text="@string/adresa_lbl"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textView1Address"
+                        style="@style/textPodaci"
+                        android:layout_width="3dp"
+                        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+
+                        style="@style/text"
+                        android:text="@string/selo"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textViewPlace"
+                        style="@style/textPodaci"
+                        android:layout_width="3dp"
+                        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/textViewPlacelbl"
+                        style="@style/text"
+                        android:text="@string/mjesto_lbl"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textViewPost"
+                        style="@style/textPodaci"
+                        android:text="Mladen"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                </TableRow>
+                <!-- just draw a red line
+    đ                            <View
+              android:layout_height="2dip"
+              android:background= "@color/colorMain"
+                  android:paddingLeft="10dp"
+              />
+
+              just draw a red line -->
+
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewTellbl"
+                        style="@style/text"
+                        android:text="@string/telefon"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textViewTel"
+                        style="@style/textPodaci"
+                        android:text="Mladen"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </TableRow>
+
+                <!-- just draw a red line
+    đ                            <View
+              android:layout_height="2dip"
+              android:background= "@color/colorMain"
+                  android:paddingLeft="10dp"
+              />
+
+              just draw a red line -->
+
+                <TableRow
+                    android:id="@+id/tableRow5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewMobbl"
+                        style="@style/text"
+                        android:layout_marginBottom="0dp"
+                        android:text="@string/mobitel"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textViewMobitel"
+                        style="@style/textPodaci"
+                        android:layout_marginBottom="0dp"
+                        android:text="Mladen"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </TableRow>
+
+                <!-- just draw a red line
+    đ                            <View
+               android:layout_height="2dip"
+               android:background= "@color/colorMain"
+                   android:paddingLeft="10dp"
+               />
+
+               just draw a red line -->
+
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+
+                <FrameLayout
+                    android:id="@+id/map_container"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/buttonMax"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:clickable="true"
+                        android:text="Povećaj" />
+
+                    <Button
+                        android:id="@+id/leadMeButton"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="90dp"
+                        android:clickable="true"
+                        android:text="Vodi me" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
-
-
-    </LinearLayout>
+    </RelativeLayout>
 </com.project.air.firemanpro.profil.CustomScrollView>

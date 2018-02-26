@@ -2,8 +2,10 @@ package com.kizo.ground_plan.Tab;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,18 @@ import com.kizo.ground_plan.Tab.adapter.PlanRecyclerAdapter;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.House_photos;
 import com.project.test.database.controllers.HouseController;
+import com.project.test.database.firebaseEntities.Photos;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Kreira se fragment koji je jedan Tab.
@@ -34,9 +45,16 @@ import butterknife.ButterKnife;
  */
 public class TabTlocrt extends TabFragment {
 
-    House house;
+    //House house;
 
-    public static ArrayList<Bitmap> gnd_images = new ArrayList<Bitmap>();
+    com.project.test.database.firebaseEntities.House house;
+
+    CompositeDisposable disposable = new CompositeDisposable();
+
+    Single<com.project.test.database.firebaseEntities.House> cachedSingleHouse;
+
+    public static List<Photos> gnd_images = new ArrayList<Photos>();
+    View rootView;
 
     /**
      * Nakon kreiranja View-a dohvaća se kuća i sprema u objke House  prema prosljeđenom ID-u.
@@ -49,34 +67,39 @@ public class TabTlocrt extends TabFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.tab_tlocrt, container, false);
+        rootView = inflater.inflate(R.layout.tab_tlocrt, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        try {
-            int a = Integer.parseInt(getArguments().getString("IDkuce"));
 
-            house = HouseController.getHouse(a);
+        return rootView;
+    }
 
-        } catch (Exception e) {
-            System.out.println("EXCEPTION: " + e.getMessage());
-        }
+    @Override
+    public void onHouseLoaded(com.project.test.database.firebaseEntities.House house) {
+        super.onHouseLoaded(house);
+        setLayoutData(house);
+    }
 
+    private void setLayoutData(com.project.test.database.firebaseEntities.House house) {
 
-        final List<House_photos> gndPlans = house.getGroundPlanPhotos();
+    /*    Picasso.with(getActivity())
+                .load(house.getProfilPicUrl())
+                .into(profil);
+*/
+
+        final List<Photos> gndPlans = house.getGroundPlanPhotos();
+        this.gnd_images = gndPlans;
 
         /*
         * popunjavanje liste sa fotografijama tlocrta odabrane kuće
         *
         */
 
-        gnd_images.clear();
-        for (House_photos house_photos : gndPlans) {
-            Bitmap gnd;
-            gnd = house_photos.getPhoto().getImageBitmapbyContext(getActivity());
-            gnd_images.add(gnd);
-        }
+       // gnd_images.clear();
+
 
         // popounjavanje recycle view adaptera sa listom fotografija
 
@@ -88,7 +111,11 @@ public class TabTlocrt extends TabFragment {
                 mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
             }
         }
-        return rootView;
+
+
+
+
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.project.air.firemanpro.profil;
 
 import android.content.DialogInterface;
+import android.nfc.Tag;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +23,21 @@ import com.project.air.firemanpro.R;
 import com.project.test.database.Entities.House;
 import com.project.test.database.controllers.HouseController;
 
+import com.project.test.database.firebaseEntities.Photos;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 
 import com.project.test.database.controllers.report.InterventionController;
+
+import java.util.List;
+
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -40,7 +51,11 @@ import com.project.test.database.controllers.report.InterventionController;
  */
 public class ProfilNewActivity extends AppCompatActivity {
 
-    House house;
+    String TAG = "ProfilNewActivityLog";
+
+   // House house;
+
+    com.project.test.database.firebaseEntities.House house;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -56,35 +71,72 @@ public class ProfilNewActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private TabLayout tabLayout;
+    private Toolbar toolbar;
+
+    CompositeDisposable disposable = new CompositeDisposable();
+    Single<com.project.test.database.firebaseEntities.House> cachedSingleHouse;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_new);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar =(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        // Create the adapter that will return a currrentDisplayedFragment for each of the three
+        // primary sections of the activity.
+
         try {
-            int a = Integer.parseInt(getIntent().getStringExtra("EXTRA_SESSION_ID"));
-            house = HouseController.getHouse(a);
-            //set title (owner name )on toolbar
-            setTitleOnToolbar(house.getSurname_owner() + " " + house.getName_owner() + " - " + house.getPlaceName());
-
-
-            // Create the adapter that will return a currrentDisplayedFragment for each of the three
-            // primary sections of the activity.
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-            // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.container);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
-
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(mViewPager);
+            String a = getIntent().getStringExtra("EXTRA_SESSION_ID");
+            cachedSingleHouse = HouseController.getHouseByID(a).cache();
+            loadHouse(cachedSingleHouse);
+            System.out.println("SESSION FRAGMENT_idkuce: " + a);
 
         } catch (Exception e) {
-            System.out.println("EXCEPTION: " + e.getMessage());
+            Log.d(TAG,"EXCEPTION: " + e.getMessage());
         }
+
+    }
+
+    private void loadHouse(Single<com.project.test.database.firebaseEntities.House> cachedSingleHouse) {
+        Disposable subscribe2 = cachedSingleHouse
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<com.project.test.database.firebaseEntities.House>() {
+
+                    @Override
+                    public void onSuccess(com.project.test.database.firebaseEntities.House todos) {
+                        // work with the resulting todos
+                        Log.d(TAG, todos.toString());
+
+                        setLayoutData(todos);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // handle the error case
+                    }
+                });
+        disposable.add(subscribe2);
+
+    }
+
+    private void setLayoutData(com.project.test.database.firebaseEntities.House house) {
+        this.house = house;
+
+        setTitleOnToolbar(house.getSurname_owner() + " " + house.getName_owner() + " - " + house.getPlaceName());
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        tabLayout.setupWithViewPager(mViewPager);
+
 
     }
 
@@ -97,8 +149,77 @@ public class ProfilNewActivity extends AppCompatActivity {
 
 
     /**
-     * A placeholder currrentDisplayedFragment containing a simple view.
+     * postavljanje naslova na toolbar
+     *
+     * @param title naziv koji se postavlja na toolbar
      */
+    private void setTitleOnToolbar(String title) {
+        //set title (owner name )on toolbar
+        getSupportActionBar().setTitle(title); //set title on toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        } //toolbar
+    }
+
+
+    private boolean close = true;
+    private boolean postavljeno = false;
+
+    @Override
+    public void onBackPressed() {
+        onBackPressed();
+      /*
+        final InterventionController in = new InterventionController();
+
+        if (!postavljeno && in.checkIfExistUnfinishedInterventionAtHouse(house)) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Jeste li sigurni da želite obrisati zapisnik intervencije? ");
+            builder1.setCancelable(false);
+
+
+            builder1.setPositiveButton(
+                    "Da",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            InterventionController.deleteInterventionWithID(in.getUnfinishedInterventionAtHouse(house).getId_intervention_track());
+                            close = true;
+                            postavljeno = true;
+                          //  onBackPressed();
+                            dialog.cancel();
+
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "Ne",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            close = true;
+                            postavljeno = true;
+                            onBackPressed();
+                            dialog.cancel();
+
+                        }
+                    });
+
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        } else {
+            postavljeno = false;
+            if (close)
+                super.onBackPressed();
+
+        }
+*/
+        Log.d(TAG, "onBackPressed: ");
+
+    }
+
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a currrentDisplayedFragment corresponding to
@@ -139,7 +260,7 @@ public class ProfilNewActivity extends AppCompatActivity {
                     break;
 
                 case 2:
-                    tabFragment = new TabTlocrt();
+                    tabFragment = new TabTlocrt();//
                     tabFragment.setArguments(bundle);
                     break;
 
@@ -190,76 +311,6 @@ public class ProfilNewActivity extends AppCompatActivity {
         public void getFragment(Fragment f) {
             currrentDisplayedFragment = f;
         }
-    }
-
-    /**
-     * postavljanje naslova na toolbar
-     *
-     * @param title naziv koji se postavlja na toolbar
-     */
-    private void setTitleOnToolbar(String title) {
-        //set title (owner name )on toolbar
-        getSupportActionBar().setTitle(title); //set title on toolbar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        } //toolbar
-    }
-
-
-    private boolean close = true;
-    private boolean postavljeno = false;
-
-    @Override
-    public void onBackPressed() {
-
-        final InterventionController in = new InterventionController();
-
-        if (!postavljeno && in.checkIfExistUnfinishedInterventionAtHouse(house)) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("Jeste li sigurni da želite obrisati zapisnik intervencije? ");
-            builder1.setCancelable(false);
-
-
-            builder1.setPositiveButton(
-                    "Da",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            InterventionController.deleteInterventionWithID(in.getUnfinishedInterventionAtHouse(house).getId_intervention_track());
-                            close = true;
-                            postavljeno=true;
-                            onBackPressed();
-                            dialog.cancel();
-
-                        }
-                    });
-
-            builder1.setNegativeButton(
-                    "Ne",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            close = true;
-                            postavljeno=true;
-                            onBackPressed();
-                            dialog.cancel();
-
-                        }
-                    });
-
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-        }else {
-            postavljeno = false;
-            if (close)
-                super.onBackPressed();
-
-        }
-
-        Log.d("KLIK:", "onBackPressed: ");
-
     }
 
 
