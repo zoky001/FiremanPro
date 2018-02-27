@@ -61,21 +61,35 @@ public class InterventionTrackController {
 
     private static CollectionReference intervention_track_collection = db.collection("intervention_track");
 
-    public static void sendRecievedCallEvent(String intervention_id){
+    public static void sendRecievedCallEvent_fireman(String intervention_id, String fireman_id){
 
 
         // Update one field, creating the document if it does not already exist.
         Map<String, Object> data = new HashMap<>();
-        data.put("patrol_id", "AXF2UL4CHuOW92irERgF");
+        data.put("fireman_id", fireman_id);
+        data.put("status","call_recieved");
         data.put("longitude", "46.368074");
         data.put("latitude", "16.124794");
         intervention_track_collection
                 .document(intervention_id)
-               // .collection("fireman_patrol")
-               // .add(data);// id of cestica
-                .set(data, SetOptions.merge());
+              .collection("firemans").document(fireman_id).set(data);
+              //  .add(data);// id of cestica
+              //  .set(data, SetOptions.merge());
+    }
+    public static void sendComingEvent_fireman(String intervention_id, String fireman_id){
 
 
+        // Update one field, creating the document if it does not already exist.
+        Map<String, Object> data = new HashMap<>();
+        data.put("fireman_id", fireman_id);
+        data.put("status","coming");
+        data.put("longitude", "46.36744");
+        data.put("latitude", "16.12652");
+        intervention_track_collection
+                .document(intervention_id)
+                .collection("firemans").document(fireman_id).set(data);
+        //  .add(data);// id of cestica
+        //  .set(data, SetOptions.merge());
     }
     public static void saveFireInterventionType(Sort_of_intervention s) {
 

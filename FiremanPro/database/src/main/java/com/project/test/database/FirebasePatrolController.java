@@ -63,15 +63,15 @@ public class FirebasePatrolController {
     private static CollectionReference post_collection = db.collection("posts");
     private static CollectionReference house_collection = db.collection("houses");
     private static CollectionReference hydrants_collection = db.collection("hydrants");
+    private static CollectionReference firemans_collection = db.collection("firemans");
 
-
-    public static void saveNotificationID_Mock_Cestica(String id){
+    public static void saveNotificationID_Mock_Cestica(String userID, String id){
 
         // Update one field, creating the document if it does not already exist.
         Map<String, Object> data = new HashMap<>();
-        data.put("notification_key", id);
-        fireman_Patrol_collection
-                .document("AXF2UL4CHuOW92irERgF") // id of cestica
+        data.put("Notification_key", id);
+        firemans_collection
+                .document(userID) // id of cestica
                 .set(data, SetOptions.merge());
 
 

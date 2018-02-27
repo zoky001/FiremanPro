@@ -2,7 +2,9 @@ package com.project.air.firemanpro;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,13 +17,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -30,7 +35,18 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.crashlytics.android.Crashlytics;
 
+import com.github.aakira.expandablelayout.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,10 +78,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 ;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -86,12 +104,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     AutoCompleteTextView autoCompleteTextView;
     CompositeDisposable disposable = new CompositeDisposable();
     Button crashButton;// = new Button(this);
+    private static final int RC_SIGN_IN = 123;
+    private String phoneNumber = "";
+    private String password = "";
+    private boolean sendCode = false;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    private boolean mVerificationInProgress = false;
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
+    private FirebaseUser user;
+    private EditText mPhoneNumberField;
+    private EditText mVerificationField;
+
+    private String mVerificationId;
+    private PhoneAuthProvider.ForceResendingToken mResendToken;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         CheckExtrasForNotificationData(getIntent());
         //DBflow connect to database
 
@@ -103,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-        FirebasePatrolController.saveNotificationID_Mock_Cestica(refreshedToken);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+        FirebasePatrolController.saveNotificationID_Mock_Cestica(FirebaseAuth.getInstance().getCurrentUser().getUid(),refreshedToken);
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -147,7 +182,265 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void auth() {
+        // [START initialize_auth]
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+        // Initialize phone auth callbacks
+        // Initialize phone auth callbacks
+        // [START phone_auth_callbacks]
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                // This callback will be invoked in two situations:
+                // 1 - Instant verification. In some cases the phone number can be instantly
+                //     verified without needing to send or enter a verification code.
+                // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                //     detect the incoming verification SMS and perform verification without
+                //     user action.
+                Log.d(TAG, "onVerificationCompleted:" + credential);
+                // [START_EXCLUDE silent]
+                mVerificationInProgress = false;
+                // [END_EXCLUDE]
+
+                // [START_EXCLUDE silent]
+                // Update the UI and attempt sign in with the phone credential
+               // updateUI(STATE_VERIFY_SUCCESS, credential);
+                // [END_EXCLUDE]
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                // This callback is invoked in an invalid request for verification is made,
+                // for instance if the the phone number format is not valid.
+                Log.w(TAG, "onVerificationFailed", e);
+                // [START_EXCLUDE silent]
+                mVerificationInProgress = false;
+                // [END_EXCLUDE]
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    // Invalid request
+                    // [START_EXCLUDE]
+                    mPhoneNumberField.setError("Invalid phone number.");
+                    // [END_EXCLUDE]
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+                    // [START_EXCLUDE]
+                    Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
+                            Snackbar.LENGTH_SHORT).show();
+                    // [END_EXCLUDE]
+                }
+
+                // Show a message and update the UI
+                // [START_EXCLUDE]
+               // updateUI(STATE_VERIFY_FAILED);
+                // [END_EXCLUDE]
+            }
+
+            @Override
+            public void onCodeSent(String verificationId,
+                                   PhoneAuthProvider.ForceResendingToken token) {
+                // The SMS verification code has been sent to the provided phone number, we
+                // now need to ask the user to enter the code and then construct a credential
+                // by combining the code with a verification ID.
+                Log.d(TAG, "onCodeSent:" + verificationId);
+
+                // Save verification ID and resending token so we can use them later
+                mVerificationId = verificationId;
+                mResendToken = token;
+
+                // [START_EXCLUDE]
+                // Update UI
+             //   updateUI(STATE_CODE_SENT);
+                // [END_EXCLUDE]
+            }
+        };
+
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                @Override
+                public void onVerificationCompleted(PhoneAuthCredential credential) {
+                    // This callback will be invoked in two situations:
+                    // 1 - Instant verification. In some cases the phone number can be instantly
+                    //     verified without needing to send or enter a verification code.
+                    // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                    //     detect the incoming verification SMS and perform verification without
+                    //     user action.
+                    Log.d(TAG, "onVerificationCompleted:" + credential);
+
+                    // signInWithPhoneAuthCredential(credential);
+                }
+
+                @Override
+                public void onVerificationFailed(FirebaseException e) {
+                    // This callback is invoked in an invalid request for verification is made,
+                    // for instance if the the phone number format is not valid.
+                    Log.w(TAG, "onVerificationFailed", e);
+
+                    if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                        // Invalid request
+                        // ...
+                    } else if (e instanceof FirebaseTooManyRequestsException) {
+                        // The SMS quota for the project has been exceeded
+                        // ...
+                    }
+
+                    // Show a message and update the UI
+                    // ...
+                }
+
+                @Override
+                public void onCodeSent(String verificationId,
+                                       PhoneAuthProvider.ForceResendingToken token) {
+                    // The SMS verification code has been sent to the provided phone number, we
+                    // now need to ask the user to enter the code and then construct a credential
+                    // by combining the code with a verification ID.
+                    Log.d(TAG, "onCodeSent:" + verificationId);
+
+                    // Save verification ID and resending token so we can use them later
+                    //   mVerificationId = verificationId;
+                    //   mResendToken = token;
+
+                    // ...
+                }
+            };
+
+            LayoutInflater li = LayoutInflater.from(this);
+            View prompt = li.inflate(R.layout.login_dialog, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setView(prompt);
+            mPhoneNumberField = (EditText) prompt.findViewById(R.id.login_name);
+            mVerificationField = (EditText) prompt.findViewById(R.id.login_password);
+            mPhoneNumberField.setText(phoneNumber);
+            mVerificationField.setText(password);
+
+            if (sendCode) {
+                mVerificationField.setVisibility(View.VISIBLE);
+            } else {
+                mVerificationField.setVisibility(View.VISIBLE);
+            }
+
+            //user.setText(Login_USER); //login_USER and PASS are loaded from previous session (optional)
+            //pass.setText(Login_PASS);
+            alertDialogBuilder.setTitle("My Site LOGIN");
+            alertDialogBuilder.setCancelable(false)
+                    .setPositiveButton("Prijava", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            password = mVerificationField.getText().toString();
+                            phoneNumber = mPhoneNumberField.getText().toString();
+                            try {
+                                if (phoneNumber.length() < 8) {
+                                    Toast.makeText(MainActivity.this, "Morate upisati mobilni broj", Toast.LENGTH_LONG).show();
+                                    auth();
+                                } else if (phoneNumber.length() >= 8 && password.length() > 5) {
+
+
+                                    //startPhoneNumberVerification(phoneNumber);
+                                    signWithPassword(phoneNumber,password);
+                                    mVerificationField.setVisibility(View.VISIBLE);
+                                    Toast.makeText(MainActivity.this, "Poslan je kod", Toast.LENGTH_LONG).show();
+                                  //  auth();
+                                }  else {
+                                    auth();
+                                }
+                            } catch (Exception e) {
+                                auth();
+                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+
+
+            alertDialogBuilder.show();
+            if (phoneNumber.length() > 1) //if we have the username saved then focus on password field, be user friendly :-)
+                mVerificationField.requestFocus();
+
+
+        }
+
+
+    }
+
+    private void signWithPassword(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            user = mAuth.getCurrentUser();
+                            Toast.makeText(MainActivity.this, "Uspješna prijava!!",
+                                    Toast.LENGTH_SHORT).show();
+                           // updateUI(user);
+                        } else {
+                            auth();
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Neuspješna prijava!!",
+                                    Toast.LENGTH_SHORT).show();
+                           // updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+
+
+    }
+
+    private void startPhoneNumberVerification(String phoneNumber) {
+        // [START start_phone_auth]
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallbacks);        // OnVerificationStateChangedCallbacks
+        // [END start_phone_auth]
+
+        mVerificationInProgress = true;
+    }
+
+    // [START sign_in_with_phone]
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+
+                            FirebaseUser user = task.getResult().getUser();
+                            // [START_EXCLUDE]
+                            //  updateUI(STATE_SIGNIN_SUCCESS, user);
+                            // [END_EXCLUDE]
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                                // [START_EXCLUDE silent]
+                                mVerificationField.setError("Invalid code.");
+                                // [END_EXCLUDE]
+                            }
+                            // [START_EXCLUDE silent]
+                            // Update UI
+                            // updateUI(STATE_SIGNIN_FAILED);
+                            // [END_EXCLUDE]
+                        }
+                    }
+                });
+    }
+
+    // [END sign_in_with_phone]
     private void manageAutocomplete() {
 
         autoCompleteTextView.setSingleLine();
@@ -162,7 +455,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
-
 
 
         //Delayed method for inputLayout set error method after item is selected from autoCompleteTextView
@@ -201,8 +493,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (s.length() > 3) {
 
                     Log.d(TAG, "PROMJENA TEXTA: " + s);
-                   // Log.d(TAG, "START: " + start);
-                  //  Log.d(TAG, "BEFORE: " + before);
+                    // Log.d(TAG, "START: " + start);
+                    //  Log.d(TAG, "BEFORE: " + before);
                     fillAutoCompleteList(s);
 
 
@@ -492,7 +784,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String b = data.containsKey("body") ? data.getString("body") : "";
             if (!b.isEmpty()) {
                 showMyDialog("Message", b);
-                InterventionTrackController.sendRecievedCallEvent(b);
+                InterventionTrackController.sendRecievedCallEvent_fireman(b,FirebaseAuth.getInstance().getUid());
             }
         }
     }
@@ -509,6 +801,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                InterventionTrackController.sendComingEvent_fireman(b,FirebaseAuth.getInstance().getUid());
                 dialog.dismiss();
             }
         });
@@ -520,6 +814,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
+        auth();
 
     }
 
