@@ -5,6 +5,7 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
