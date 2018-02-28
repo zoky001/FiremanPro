@@ -39,6 +39,7 @@ dependencies {
     implementation project(':database')
     implementation project(':ground_plan')
     implementation project(':web_services')
+    implementation project(':google_map')
     //  compile project (':core')
     implementation project(':core_module')
     implementation project(':report')

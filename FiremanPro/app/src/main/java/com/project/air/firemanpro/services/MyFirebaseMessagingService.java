@@ -69,7 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(messageBody.getNotification().getTitle())
                 .setContentText(messageBody.getNotification().getBody())
-                .setAutoCancel(false)
+                .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 

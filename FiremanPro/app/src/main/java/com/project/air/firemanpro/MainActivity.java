@@ -2,6 +2,7 @@ package com.project.air.firemanpro;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -53,6 +54,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.kizo.goolge_map.GoogleLocation;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
-        FirebasePatrolController.saveNotificationID_Mock_Cestica(FirebaseAuth.getInstance().getCurrentUser().getUid(),refreshedToken);
+            FirebasePatrolController.saveNotificationID_Mock_Cestica(FirebaseAuth.getInstance().getCurrentUser().getUid(), refreshedToken);
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -206,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 // [START_EXCLUDE silent]
                 // Update the UI and attempt sign in with the phone credential
-               // updateUI(STATE_VERIFY_SUCCESS, credential);
+                // updateUI(STATE_VERIFY_SUCCESS, credential);
                 // [END_EXCLUDE]
                 signInWithPhoneAuthCredential(credential);
             }
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 // Show a message and update the UI
                 // [START_EXCLUDE]
-               // updateUI(STATE_VERIFY_FAILED);
+                // updateUI(STATE_VERIFY_FAILED);
                 // [END_EXCLUDE]
             }
 
@@ -253,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 // [START_EXCLUDE]
                 // Update UI
-             //   updateUI(STATE_CODE_SENT);
+                //   updateUI(STATE_CODE_SENT);
                 // [END_EXCLUDE]
             }
         };
@@ -341,11 +343,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                                     //startPhoneNumberVerification(phoneNumber);
-                                    signWithPassword(phoneNumber,password);
+                                    signWithPassword(phoneNumber, password);
                                     mVerificationField.setVisibility(View.VISIBLE);
                                     Toast.makeText(MainActivity.this, "Poslan je kod", Toast.LENGTH_LONG).show();
-                                  //  auth();
-                                }  else {
+                                    //  auth();
+                                } else {
                                     auth();
                                 }
                             } catch (Exception e) {
@@ -354,7 +356,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         }
                     });
-
 
 
             alertDialogBuilder.show();
@@ -367,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void signWithPassword(String email, String password){
+    private void signWithPassword(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -378,14 +379,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             user = mAuth.getCurrentUser();
                             Toast.makeText(MainActivity.this, "Uspješna prijava!!",
                                     Toast.LENGTH_SHORT).show();
-                           // updateUI(user);
+                            // updateUI(user);
                         } else {
                             auth();
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Neuspješna prijava!!",
                                     Toast.LENGTH_SHORT).show();
-                           // updateUI(null);
+                            // updateUI(null);
                         }
 
                         // ...
@@ -779,14 +780,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void CheckExtrasForNotificationData(Intent i) {
         Bundle data = i.getExtras();
-
         if (data != null) {
             String b = data.containsKey("body") ? data.getString("body") : "";
             if (!b.isEmpty()) {
                 showMyDialog("Message", b);
-                InterventionTrackController.sendRecievedCallEvent_fireman(b,FirebaseAuth.getInstance().getUid());
+
+
+                Disposable subscribe2 = GoogleLocation.getGoogleApiClient(this)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<Location>() {
+
+                            @Override
+                            public void onSuccess(Location location) {
+                                Log.d(TAG, "success + " + location.toString());
+                                // work with the resulting todos
+                                InterventionTrackController.sendRecievedCallEvent_fireman(b, FirebaseAuth.getInstance().getUid(),location);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // handle the error case
+                                Log.d(TAG, "error + " + e.getMessage());
+
+                            }
+                        });
+
+                disposable.add(subscribe2);
+
+
+
+
             }
         }
+
+
+
+
+
     }
 
     private void showMyDialog(String t, String b) {
@@ -802,8 +833,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                InterventionTrackController.sendComingEvent_fireman(b,FirebaseAuth.getInstance().getUid());
-                dialog.dismiss();
+
+                Disposable subscribe2 = GoogleLocation.getGoogleApiClient(getBaseContext())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<Location>() {
+
+                            @Override
+                            public void onSuccess(Location location) {
+                                Log.d(TAG, "success + " + location.toString());
+                                // work with the resulting todos
+                                InterventionTrackController.sendComingEvent_fireman(b, FirebaseAuth.getInstance().getUid(),location);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // handle the error case
+                                Log.d(TAG, "error + " + e.getMessage());
+
+                            }
+                        });
+
+                disposable.add(subscribe2);
+
+
+
             }
         });
         dialog.show();

@@ -1,5 +1,6 @@
 package com.project.test.database;
 
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -61,30 +62,30 @@ public class InterventionTrackController {
 
     private static CollectionReference intervention_track_collection = db.collection("intervention_track");
 
-    public static void sendRecievedCallEvent_fireman(String intervention_id, String fireman_id){
+    public static void sendRecievedCallEvent_fireman(String intervention_id, String fireman_id, Location location){
 
 
         // Update one field, creating the document if it does not already exist.
         Map<String, Object> data = new HashMap<>();
         data.put("fireman_id", fireman_id);
         data.put("status","call_recieved");
-        data.put("longitude", "46.368074");
-        data.put("latitude", "16.124794");
+        data.put("longitude", location.getLongitude());
+        data.put("latitude", location.getLatitude());
         intervention_track_collection
                 .document(intervention_id)
               .collection("firemans").document(fireman_id).set(data);
               //  .add(data);// id of cestica
               //  .set(data, SetOptions.merge());
     }
-    public static void sendComingEvent_fireman(String intervention_id, String fireman_id){
+    public static void sendComingEvent_fireman(String intervention_id, String fireman_id, Location location){
 
 
         // Update one field, creating the document if it does not already exist.
         Map<String, Object> data = new HashMap<>();
         data.put("fireman_id", fireman_id);
         data.put("status","coming");
-        data.put("longitude", "46.36744");
-        data.put("latitude", "16.12652");
+        data.put("longitude", location.getLongitude());
+        data.put("latitude", location.getLatitude());
         intervention_track_collection
                 .document(intervention_id)
                 .collection("firemans").document(fireman_id).set(data);
