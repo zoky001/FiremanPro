@@ -45,7 +45,7 @@
             android:layout_marginStart="0dp"
             android:textIsSelectable="false"
             tools:text="This store sells everything you need!"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info" />
+        />
 
     </LinearLayout>
 

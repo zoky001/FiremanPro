@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'android-apt' //ButterKnife
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
         multiDexEnabled true
         applicationId "com.project.air.firemanpro"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

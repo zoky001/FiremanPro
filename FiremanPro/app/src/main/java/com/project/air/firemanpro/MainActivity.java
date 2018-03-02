@@ -58,6 +58,7 @@ import com.kizo.goolge_map.GoogleLocation;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.air.firemanpro.adapters.CustomAutocompleteAdapter;
+import com.project.air.firemanpro.newIntervention.NewInterventionActivity;
 import com.project.air.firemanpro.profil.ProfilNewActivity;
 import com.project.test.database.Entities.House;
 import com.project.test.database.Entities.report.Intervention_track;
@@ -129,7 +130,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         CheckExtrasForNotificationData(getIntent());
+        CheckIfExistNewIntervention(getIntent());
         //DBflow connect to database
+
+
+
 
         FlowManager.init(new FlowConfig.Builder(this).build());
         mockData = new MockData();
@@ -181,6 +186,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         manageAutocomplete();
+
+    }
+
+    private void CheckIfExistNewIntervention(Intent intent) {
+        String message = intent.getStringExtra("message");
+
+        String intervention_id = intent.getStringExtra("intervention_id");
+        if (message != null && intervention_id != null) {
+            try {
+
+                Log.d(TAG, "EXCEPTION: " + "SESSION FRAGMENT_idkuce: " + message);
+
+                showMyDialog("Message", message,intervention_id, intent );
+
+
+                Disposable subscribe2 = GoogleLocation.getGoogleApiClient(this)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<Location>() {
+
+                            @Override
+                            public void onSuccess(Location location) {
+                                Log.d(TAG, "success + " + location.toString());
+                                // work with the resulting todos
+                                InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), location);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // handle the error case
+                                Log.d(TAG, "error + " + e.getMessage());
+
+                            }
+                        });
+
+                disposable.add(subscribe2);
+
+
+            } catch (Exception e) {
+                Log.d(TAG, "EXCEPTION: " + e.getMessage());
+            }
+
+        }
 
     }
 
@@ -783,7 +831,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (data != null) {
             String b = data.containsKey("body") ? data.getString("body") : "";
             if (!b.isEmpty()) {
-                showMyDialog("Message", b);
+              //  showMyDialog("Message", b);
 
 
                 Disposable subscribe2 = GoogleLocation.getGoogleApiClient(this)
@@ -820,7 +868,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void showMyDialog(String t, String b) {
+    private void showMyDialog(String t, String b, String Intervention_id, Intent intent) {
+
+        String houses_id = intent.getStringExtra("houses_id");
+
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.notification_dialog, null);
 
@@ -841,9 +892,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             @Override
                             public void onSuccess(Location location) {
+                                if (houses_id != null){
+                                    Intent intent = new Intent(getBaseContext(), NewInterventionActivity.class);
+                                    intent.putExtra("EXTRA_SESSION_ID", houses_id);
+                                    getBaseContext().startActivity(intent);
+
+                                }
+
                                 Log.d(TAG, "success + " + location.toString());
                                 // work with the resulting todos
-                                InterventionTrackController.sendComingEvent_fireman(b, FirebaseAuth.getInstance().getUid(),location);
+                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),location);
                                 dialog.dismiss();
                             }
 

@@ -139,7 +139,7 @@ public class TabProfil extends TabFragment {
         super.onHouseLoaded(house);
 
         setLayoutData(house);
-        setMapFragment(house);
+      // setMapFragment(house);
 
         relativelayout.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.INVISIBLE);

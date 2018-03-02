@@ -62,7 +62,6 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
             android:textIsSelectable="false"
             tools:text="This store sells everything you need!" />
 
