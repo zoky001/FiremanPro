@@ -69,8 +69,15 @@ public class InterventionTrackController {
         Map<String, Object> data = new HashMap<>();
         data.put("fireman_id", fireman_id);
         data.put("status","call_recieved");
-        data.put("longitude", location.getLongitude());
-        data.put("latitude", location.getLatitude());
+
+        if(location != null) {
+            data.put("longitude", location.getLongitude());
+            data.put("latitude", location.getLatitude());
+        }
+        else {
+            data.put("longitude", null);
+            data.put("latitude", null);
+        }
         intervention_track_collection
                 .document(intervention_id)
               .collection("firemans").document(fireman_id).set(data);
@@ -84,8 +91,14 @@ public class InterventionTrackController {
         Map<String, Object> data = new HashMap<>();
         data.put("fireman_id", fireman_id);
         data.put("status","coming");
-        data.put("longitude", location.getLongitude());
-        data.put("latitude", location.getLatitude());
+        if(location != null) {
+            data.put("longitude", location.getLongitude());
+            data.put("latitude", location.getLatitude());
+        }
+        else {
+            data.put("longitude", null);
+            data.put("latitude", null);
+        }
         intervention_track_collection
                 .document(intervention_id)
                 .collection("firemans").document(fireman_id).set(data);

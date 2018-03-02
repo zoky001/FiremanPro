@@ -894,6 +894,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onSuccess(Location location) {
                                 if (houses_id != null){
                                     Intent intent = new Intent(getBaseContext(), NewInterventionActivity.class);
+                                    // Set the Activity to start in a new, empty task
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.putExtra("EXTRA_SESSION_ID", houses_id);
                                     getBaseContext().startActivity(intent);
 

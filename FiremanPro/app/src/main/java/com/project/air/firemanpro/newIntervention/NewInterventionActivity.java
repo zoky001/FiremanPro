@@ -1,10 +1,17 @@
 package com.project.air.firemanpro.newIntervention;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,11 +24,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
 import com.kizo.goolge_map.GoogleLocation;
 import com.kizo.ground_plan.Tab.TabTlocrt;
+import com.project.air.firemanpro.BuildConfig;
 import com.project.air.firemanpro.R;
 import com.project.air.firemanpro.profil.TabPodaci;
 import com.project.air.firemanpro.profil.TabProfil;
@@ -70,6 +80,17 @@ public class NewInterventionActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private Toolbar toolbar;
 
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    /**
+     * Provides the entry point to the Fused Location Provider API.
+     */
+    private FusedLocationProviderClient mFusedLocationClient;
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
     CompositeDisposable disposable = new CompositeDisposable();
     Single<com.project.test.database.firebaseEntities.House> cachedSingleHouse;
 
@@ -81,6 +102,15 @@ public class NewInterventionActivity extends AppCompatActivity {
         toolbar =(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        setLocationSettings();
+
+
+
+
+
+
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -88,7 +118,6 @@ public class NewInterventionActivity extends AppCompatActivity {
         // Create the adapter that will return a currrentDisplayedFragment for each of the three
         // primary sections of the activity.
 
-        CheckIfExistNewIntervention(getIntent());
 
         try {
             String a = getIntent().getStringExtra("EXTRA_SESSION_ID");
@@ -98,6 +127,16 @@ public class NewInterventionActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.d(TAG,"EXCEPTION: " + e.getMessage());
+        }
+
+    }
+
+    private void setLocationSettings() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            checkIfExistNewIntervention();
         }
 
     }
@@ -172,7 +211,7 @@ public class NewInterventionActivity extends AppCompatActivity {
                 showMyDialog("Message", message,intervention_id, intent );
 
 
-                Disposable subscribe2 = GoogleLocation.getGoogleApiClient(this)
+                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient,this)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Location>() {
@@ -188,6 +227,8 @@ public class NewInterventionActivity extends AppCompatActivity {
                             public void onError(Throwable e) {
                                 // handle the error case
                                 Log.d(TAG, "error + " + e.getMessage());
+                                InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), null);
+
 
                             }
                         });
@@ -205,7 +246,6 @@ public class NewInterventionActivity extends AppCompatActivity {
 
     private void showMyDialog(String t, String b, String Intervention_id, Intent intent) {
 
-        String houses_id = intent.getStringExtra("houses_id");
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.notification_dialog, null);
@@ -220,19 +260,13 @@ public class NewInterventionActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
 
-                Disposable subscribe2 = GoogleLocation.getGoogleApiClient(getBaseContext())
+                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient,getBaseContext())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Location>() {
 
                             @Override
                             public void onSuccess(Location location) {
-                                if (houses_id != null){
-                                    Intent intent = new Intent(getBaseContext(), NewInterventionActivity.class);
-                                    intent.putExtra("EXTRA_SESSION_ID", houses_id);
-                                    getBaseContext().startActivity(intent);
-
-                                }
 
                                 Log.d(TAG, "success + " + location.toString());
                                 // work with the resulting todos
@@ -244,6 +278,10 @@ public class NewInterventionActivity extends AppCompatActivity {
                             public void onError(Throwable e) {
                                 // handle the error case
                                 Log.d(TAG, "error + " + e.getMessage());
+                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),null);
+
+                                // InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),new Location(""));
+
 
                             }
                         });
@@ -256,6 +294,130 @@ public class NewInterventionActivity extends AppCompatActivity {
         });
         dialog.show();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+    //START location permission
+    @SuppressWarnings("MissingPermission")
+    private void checkIfExistNewIntervention() {
+        CheckIfExistNewIntervention(getIntent());
+
+    }
+    /**
+     * Shows a {@link Snackbar} using {@code text}.
+     *
+     * @param text The Snackbar text.
+     */
+    private void showSnackbar(final String text) {
+        View container = findViewById(R.id.appbar);
+        if (container != null) {
+            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Shows a {@link Snackbar}.
+     *
+     * @param mainTextStringId The id for the string resource for the Snackbar text.
+     * @param actionStringId   The text of the action item.
+     * @param listener         The listener associated with the Snackbar action.
+     */
+    private void showSnackbar(final int mainTextStringId, final int actionStringId,
+                              View.OnClickListener listener) {
+        Snackbar.make(findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+    private boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+    private void startLocationPermissionRequest() {
+        ActivityCompat.requestPermissions(NewInterventionActivity.this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
+    private void requestPermissions() {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        // Provide an additional rationale to the user. This would happen if the user denied the
+        // request previously, but didn't check the "Don't ask again" checkbox.
+        if (shouldProvideRationale) {
+            Log.i(TAG, "Displaying permission rationale to provide additional context.");
+
+            showSnackbar(R.string.permission_rationale, android.R.string.ok,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Request permission
+                            startLocationPermissionRequest();
+                        }
+                    });
+
+        } else {
+            Log.i(TAG, "Requesting permission");
+            // Request permission. It's possible this can be auto answered if device policy
+            // sets the permission in a given state or the user denied the permission
+            // previously and checked "Never ask again".
+            startLocationPermissionRequest();
+        }
+    }
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                Log.i(TAG, "User interaction was cancelled.");
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                checkIfExistNewIntervention();
+            } else {
+                checkIfExistNewIntervention();
+                // Permission denied.
+
+                // Notify the user via a SnackBar that they have rejected a core permission for the
+                // app, which makes the Activity useless. In a real app, core permissions would
+                // typically be best requested during a welcome-screen flow.
+
+                // Additionally, it is important to remember that a permission might have been
+                // rejected without asking the user for permission (device policy or "Never ask
+                // again" prompts). Therefore, a user interface affordance is typically implemented
+                // when permissions are denied. Otherwise, your app could appear unresponsive to
+                // touches or interactions which have required permissions.
+                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Build intent that displays the App settings screen.
+                                Intent intent = new Intent();
+                                intent.setAction(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package",
+                                        BuildConfig.APPLICATION_ID, null);
+                                intent.setData(uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+            }
+        }
+    }
+    //END location permission
+
 
     private boolean close = true;
     private boolean postavljeno = false;
