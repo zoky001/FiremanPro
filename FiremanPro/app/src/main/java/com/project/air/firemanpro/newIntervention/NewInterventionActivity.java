@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,14 @@ import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
@@ -55,11 +64,13 @@ import io.reactivex.schedulers.Schedulers;
  *
  * @author Zoran Hrnčić
  */
-public class NewInterventionActivity extends AppCompatActivity {
+public class NewInterventionActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     String TAG = "ProfilNewActivityLog";
 
-   // House house;
+    private GoogleMap mMap;
+
+    // House house;
 
     com.project.test.database.firebaseEntities.House house;
 
@@ -98,17 +109,12 @@ public class NewInterventionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profil_new);
-        toolbar =(Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_new_intervention);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         setLocationSettings();
-
-
-
-
-
 
 
         // Set up the ViewPager with the sections adapter.
@@ -126,8 +132,9 @@ public class NewInterventionActivity extends AppCompatActivity {
             System.out.println("SESSION FRAGMENT_idkuce: " + a);
 
         } catch (Exception e) {
-            Log.d(TAG,"EXCEPTION: " + e.getMessage());
+            Log.d(TAG, "EXCEPTION: " + e.getMessage());
         }
+
 
     }
 
@@ -175,6 +182,11 @@ public class NewInterventionActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
     }
 
     @Override
@@ -208,10 +220,10 @@ public class NewInterventionActivity extends AppCompatActivity {
 
                 Log.d(TAG, "EXCEPTION: " + "SESSION FRAGMENT_idkuce: " + message);
 
-                showMyDialog("Message", message,intervention_id, intent );
+                showMyDialog("Message", message, intervention_id, intent);
 
 
-                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient,this)
+                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient, this)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Location>() {
@@ -260,7 +272,7 @@ public class NewInterventionActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
 
-                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient,getBaseContext())
+                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient, getBaseContext())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Location>() {
@@ -270,7 +282,7 @@ public class NewInterventionActivity extends AppCompatActivity {
 
                                 Log.d(TAG, "success + " + location.toString());
                                 // work with the resulting todos
-                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),location);
+                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), location);
                                 dialog.dismiss();
                             }
 
@@ -278,7 +290,7 @@ public class NewInterventionActivity extends AppCompatActivity {
                             public void onError(Throwable e) {
                                 // handle the error case
                                 Log.d(TAG, "error + " + e.getMessage());
-                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),null);
+                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), null);
 
                                 // InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),new Location(""));
 
@@ -287,7 +299,6 @@ public class NewInterventionActivity extends AppCompatActivity {
                         });
 
                 disposable.add(subscribe2);
-
 
 
             }
@@ -300,12 +311,14 @@ public class NewInterventionActivity extends AppCompatActivity {
         super.onStart();
 
     }
+
     //START location permission
     @SuppressWarnings("MissingPermission")
     private void checkIfExistNewIntervention() {
         CheckIfExistNewIntervention(getIntent());
 
     }
+
     /**
      * Shows a {@link Snackbar} using {@code text}.
      *
@@ -332,16 +345,19 @@ public class NewInterventionActivity extends AppCompatActivity {
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(actionStringId), listener).show();
     }
+
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
+
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(NewInterventionActivity.this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
+
     private void requestPermissions() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -424,7 +440,7 @@ public class NewInterventionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-      //  onBackPressed();
+        //  onBackPressed();
       /*
         final InterventionController in = new InterventionController();
 
@@ -475,6 +491,24 @@ public class NewInterventionActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+
+        mMap = googleMap;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+
+        }
+
+
+        // Add a marker in Sydney, Australia, and move the camera.
+        LatLng sydney = new LatLng(house.getAddress().getLatitude(), house.getAddress().getLongitude());
+        mMap.addMarker(new MarkerOptions().position(sydney).title(house.getAddressStreet() + " " + house.getAddress().getStreetNumber()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14));
+
+
+    }
 
 
     /**
