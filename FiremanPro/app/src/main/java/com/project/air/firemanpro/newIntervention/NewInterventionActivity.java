@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,9 +39,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kizo.core_module.tab_profile.ITabFragment;
 import com.kizo.core_module.tab_profile.TabFragment;
+import com.kizo.goolge_map.GPSTracker;
 import com.kizo.goolge_map.GoogleLocation;
 import com.kizo.ground_plan.Tab.TabTlocrt;
 import com.project.air.firemanpro.BuildConfig;
+import com.project.air.firemanpro.MainActivity;
 import com.project.air.firemanpro.R;
 import com.project.air.firemanpro.profil.TabPodaci;
 import com.project.air.firemanpro.profil.TabProfil;
@@ -91,6 +94,17 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
     private TabLayout tabLayout;
     private Toolbar toolbar;
 
+    /**
+     * Provides the entry point to the Fused Location Provider API.
+     */
+
+    /**
+     * Represents a geographical location.
+     */
+    CompositeDisposable disposable = new CompositeDisposable();
+    Single<com.project.test.database.firebaseEntities.House> cachedSingleHouse;
+    private GPSTracker gps;
+
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     /**
@@ -102,8 +116,11 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
      * Represents a geographical location.
      */
     protected Location mLastLocation;
-    CompositeDisposable disposable = new CompositeDisposable();
-    Single<com.project.test.database.firebaseEntities.House> cachedSingleHouse;
+
+    private String mLatitudeLabel;
+    private String mLongitudeLabel;
+    private TextView mLatitudeText;
+    private TextView mLongitudeText;
 
 
     @Override
@@ -140,11 +157,16 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
 
     private void setLocationSettings() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
         if (!checkPermissions()) {
             requestPermissions();
+
         } else {
-            checkIfExistNewIntervention();
+            checkIfExistNewIntervention(true);
+
         }
+
 
     }
 
@@ -211,7 +233,7 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
         } //toolbar
     }
 
-    private void CheckIfExistNewIntervention(Intent intent) {
+    private void CheckIfExistNewIntervention(Intent intent, boolean locationPermission) {
         String message = intent.getStringExtra("message");
 
         String intervention_id = intent.getStringExtra("intervention_id");
@@ -220,32 +242,38 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
 
                 Log.d(TAG, "EXCEPTION: " + "SESSION FRAGMENT_idkuce: " + message);
 
-                showMyDialog("Message", message, intervention_id, intent);
+                showMyDialog("Message", message, intervention_id, intent, locationPermission);
+
+                if (locationPermission) {
+                    Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient, this)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<Location>() {
+
+                                @Override
+                                public void onSuccess(Location location) {
+                                    Log.d(TAG, "success + " + location.toString());
+                                    // work with the resulting todos
+                                    InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), location);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    // handle the error case
+                                    Log.d(TAG, "error + " + e.getMessage());
+                                    InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), null);
 
 
-                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient, this)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableSingleObserver<Location>() {
+                                }
+                            });
 
-                            @Override
-                            public void onSuccess(Location location) {
-                                Log.d(TAG, "success + " + location.toString());
-                                // work with the resulting todos
-                                InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), location);
-                            }
+                    disposable.add(subscribe2);
 
-                            @Override
-                            public void onError(Throwable e) {
-                                // handle the error case
-                                Log.d(TAG, "error + " + e.getMessage());
-                                InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), null);
+                } else {
+                    InterventionTrackController.sendRecievedCallEvent_fireman(intervention_id, FirebaseAuth.getInstance().getUid(), null);
 
 
-                            }
-                        });
-
-                disposable.add(subscribe2);
+                }
 
 
             } catch (Exception e) {
@@ -256,7 +284,7 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
 
     }
 
-    private void showMyDialog(String t, String b, String Intervention_id, Intent intent) {
+    private void showMyDialog(String t, String b, String Intervention_id, Intent intent, boolean locationPermission) {
 
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -267,38 +295,46 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
         dialog.setTitle(t);
         TextView tv = (TextView) dialogView.findViewById(R.id.message);
         tv.setText(b);
-        dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("Dolazim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                if (locationPermission){
+                    Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient, getBaseContext())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<Location>() {
 
-                Disposable subscribe2 = GoogleLocation.getLastLocation(mFusedLocationClient, getBaseContext())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableSingleObserver<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
 
-                            @Override
-                            public void onSuccess(Location location) {
+                                    Log.d(TAG, "success + " + location.toString());
+                                    // work with the resulting todos
+                                    InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), location);
+                                    dialog.dismiss();
+                                }
 
-                                Log.d(TAG, "success + " + location.toString());
-                                // work with the resulting todos
-                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), location);
-                                dialog.dismiss();
-                            }
+                                @Override
+                                public void onError(Throwable e) {
+                                    // handle the error case
+                                    Log.d(TAG, "error + " + e.getMessage());
+                                    InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), null);
 
-                            @Override
-                            public void onError(Throwable e) {
-                                // handle the error case
-                                Log.d(TAG, "error + " + e.getMessage());
-                                InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), null);
-
-                                // InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),new Location(""));
+                                    // InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(),new Location(""));
 
 
-                            }
-                        });
+                                }
+                            });
 
-                disposable.add(subscribe2);
+                    disposable.add(subscribe2);
+                }else {
+
+                    InterventionTrackController.sendComingEvent_fireman(Intervention_id, FirebaseAuth.getInstance().getUid(), null);
+
+                }
+
+
+
 
 
             }
@@ -314,8 +350,8 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
 
     //START location permission
     @SuppressWarnings("MissingPermission")
-    private void checkIfExistNewIntervention() {
-        CheckIfExistNewIntervention(getIntent());
+    private void checkIfExistNewIntervention(boolean location) {
+        CheckIfExistNewIntervention(getIntent(), location);
 
     }
 
@@ -400,9 +436,9 @@ public class NewInterventionActivity extends AppCompatActivity implements OnMapR
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
-                checkIfExistNewIntervention();
+                checkIfExistNewIntervention(true);
             } else {
-                checkIfExistNewIntervention();
+                checkIfExistNewIntervention(false);
                 // Permission denied.
 
                 // Notify the user via a SnackBar that they have rejected a core permission for the

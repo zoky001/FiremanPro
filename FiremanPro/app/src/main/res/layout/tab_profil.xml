@@ -227,7 +227,7 @@
                 android:layout_marginRight="16dp"
                 android:orientation="horizontal">
 
-
+<!--
                 <FrameLayout
                     android:id="@+id/map_container"
                     android:layout_width="fill_parent"
@@ -249,7 +249,7 @@
                         android:text="Vodi me" />
 
                 </FrameLayout>
-
+-->
             </LinearLayout>
 
 

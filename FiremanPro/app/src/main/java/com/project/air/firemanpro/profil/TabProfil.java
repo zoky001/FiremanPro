@@ -169,7 +169,7 @@ public class TabProfil extends TabFragment {
     }
 
     private void setMapFragment(com.project.test.database.firebaseEntities.House house) {
-
+/*
         try {
             Bundle bundle = new Bundle();
             String IDHouse = "" + house.getId_house();
@@ -187,7 +187,7 @@ public class TabProfil extends TabFragment {
             System.out.println("EXCEPTON: " + e.getMessage());
 
         }
-
+*/
 
 
 
@@ -258,7 +258,7 @@ public class TabProfil extends TabFragment {
     }
 
     private void loadMap(com.project.test.database.firebaseEntities.House todos) {
-
+/*
         Bundle bundle = new Bundle();
         bundle.putString("IDkuce", todos.getId());
         Fragment mapFragment = new MapFragment();
@@ -268,13 +268,11 @@ public class TabProfil extends TabFragment {
                 .beginTransaction()
                 .replace(R.id.map_container, mapFragment)
                 .commit();
-
+*/
     }
 
+/*
 
-    /**
-     * @param view Zoran Grđan
-     */
     @OnClick(R.id.buttonMax)
     public void buttonMaxClicked(View view) {
         String IDHouse = "" + house.getId_house();
@@ -283,9 +281,7 @@ public class TabProfil extends TabFragment {
         startActivity(intent);
     }
 
-    /**
-     * @param view Zoran Grđan
-     */
+
     @OnClick(R.id.leadMeButton)
     public void leadMeButton(View view) {
         double latitude, longitude;
@@ -296,7 +292,7 @@ public class TabProfil extends TabFragment {
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
-
+*/
     @OnClick(R.id.btn_new_report)
     public void newReport(View view) {
 /*  temp commented

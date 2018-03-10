@@ -89,4 +89,5 @@
     <string name="lastSync">Posljednje uspješno sinkroniziranje</string>
     <string name="web_service_address">Adresa web servisa</string>
     <string name="emailToSend">Email na koji se šalje izvještaj</string>
+    <string name="default_notification_channel_id">9999</string>
 </resources>
